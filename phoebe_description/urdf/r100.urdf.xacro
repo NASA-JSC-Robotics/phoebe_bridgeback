@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:arg name="namespace" default="" />
+    <xacro:arg name="is_sim" default="false" />
+
+    <!-- Includes -->
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
+    <xacro:include filename="$(find clearpath_platform_description)/urdf/r100/r100.urdf.xacro" />
+
+    <xacro:r100 />
+</robot>
