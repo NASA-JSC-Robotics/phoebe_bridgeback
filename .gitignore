@@ -1,0 +1,15 @@
+.vscode
+build
+install
+log
+VERSION
+phoebe_description/.vscode
+phoebe_description/build
+phoebe_description/install
+phoebe_description/log
+phoebe_description/VERSION
+phoebe_deploy/.vscode
+phoebe_deploy/build
+phoebe_deploy/install
+phoebe_deploy/log
+phoebe_deploy/VERSION
