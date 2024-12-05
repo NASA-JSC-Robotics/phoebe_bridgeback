@@ -1,3 +1,4 @@
+import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
@@ -36,7 +37,7 @@ def generate_launch_description():
     tf_prefix = LaunchConfiguration("tf_prefix")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     headless_mode = LaunchConfiguration("headless_mode")
-
+    
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -56,30 +57,32 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
- #   rviz_config_file = PathJoinSubstitution([FindPackageShare("clr_description"), "rviz", "view_robot.rviz"])
+    rviz_config_file = PathJoinSubstitution([FindPackageShare("phoebe_description"), "rviz", "view_robot.rviz"])
 
-    joint_state_publisher_node = Node(
+    joint_state_broadcaster = Node(
         package="joint_state_publisher_gui",
         executable="joint_state_publisher_gui",
     )
-    robot_state_publisher_node = Node(
+    
+
+    robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="both",
         parameters=[robot_description],
     )
-#    rviz_node = Node(
-#        package="rviz2",
-#        executable="rviz2",
-#        name="rviz2",
-#        output="log",
-#        arguments=["-d", rviz_config_file],
-#    )
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="log",
+        arguments=["-d", rviz_config_file],
+    )
 
     nodes_to_start = [
-        joint_state_publisher_node,
-        robot_state_publisher_node,
-#        rviz_node,
+        joint_state_broadcaster,
+        robot_state_publisher,
+        rviz_node,
     ]
 
     return LaunchDescription(declared_arguments + nodes_to_start)
