@@ -24,7 +24,7 @@ def generate_launch_description():
     )
     arg_use_fake_hardware = DeclareLaunchArgument(
         "use_fake_hardware",
-        default_value="false",
+        default_value="true",
         description="Start robot with fake hardware mirroring command to its states.",
     )
     arg_headless_mode = DeclareLaunchArgument(
@@ -64,38 +64,25 @@ def generate_launch_description():
     )
 
     
+    joint_state_publisher_gui = Node(
+        package="joint_state_publisher_gui",
+        executable="joint_state_publisher_gui",
+    )
     
+
     joint_state_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
         name="joint_state_broadcaster_control",
         parameters=[robot_controllers],
-        arguments=[ 
+        arguments=[
             "joint_state_broadcaster",
+            "--controller-manager-timeout",
+            "300",
             "--controller-manager",
-            "/controller_manager"],
+            "/controller_manager",
+        ],
     )
-#    
-#    joint_state_broadcaster = Node(
-#        package="controller_manager",
-#        executable="spawner",
-#        name="joint_state_broadcaster_control",
-#        parameters=[control_config],
-#        arguments=[
-#            "joint_state_broadcaster",
-#            "--controller-manager-timeout",
-#            "300",
-##            "--controller-manager",
-##            "/controller_manager",
-#        ],
-#    )
-    drive_controller = Node(
-            package='controller_manager',
-            executable='spawner',
-            name='platform_velocity_controller',
-            arguments=["platform_velocity_controller", "--param-file", robot_controllers],
-            output='screen'
-        )
 
     # Clock bridge
     clock_bridge = Node(package='ros_gz_bridge',
@@ -127,10 +114,11 @@ def generate_launch_description():
         arg_tf_prefix,
         arg_use_fake_hardware,
         arg_headless_mode,
-        control_node,
-        joint_state_broadcaster,
-        drive_controller,
+#        control_node,
         start_world,
         spawn_robot,
+#        joint_state_broadcaster,
+#        joint_state_publisher_gui,
+#        drive_controller,
         clock_bridge
     ])

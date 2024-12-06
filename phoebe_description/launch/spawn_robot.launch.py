@@ -13,9 +13,9 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     
     arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time',
+        'use_fake_hardware',
         default_value="true",
-        description='use sim time'
+        description='use_fake_hardware'
     )
     arg_tf_prefix = DeclareLaunchArgument(
         'tf_prefix',
@@ -23,7 +23,7 @@ def generate_launch_description():
         description='tf_prefix'
     )
 
-    use_sim_time = LaunchConfiguration('use_sim_time')
+    use_fake_hardware = LaunchConfiguration('use_fake_hardware')
     tf_prefix = LaunchConfiguration('tf_prefix')
 
     robot_description_content = Command(
@@ -36,12 +36,13 @@ def generate_launch_description():
 #            tf_prefix,
             " ",
             "is_sim:=",
-            use_sim_time,
+            use_fake_hardware,
 #            " ",
 #            "headless_mode:=",
 #            headless_mode,
         ]
     )
+    print(robot_description_content)
     robot_description = {"robot_description": robot_description_content}
 
     
