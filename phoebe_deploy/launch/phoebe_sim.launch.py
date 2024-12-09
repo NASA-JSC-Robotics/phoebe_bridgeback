@@ -55,13 +55,13 @@ def generate_launch_description():
     urdf_model_path = os.path.join(pkg_description, 'urdf/phoebe.urdf.xacro')
     
     
-    control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[urdf_model_path, robot_controllers],
-        output="both",
+#    control_node = Node(
+#        package="controller_manager",
+#        executable="ros2_control_node",
+#        parameters=[urdf_model_path, robot_controllers],
+#        output="both",
 #        namespace=namespace
-    )
+#    )
 
     
     joint_state_publisher_gui = Node(
@@ -70,19 +70,19 @@ def generate_launch_description():
     )
     
 
-    joint_state_broadcaster = Node(
-        package="controller_manager",
-        executable="spawner",
-        name="joint_state_broadcaster_control",
-        parameters=[robot_controllers],
-        arguments=[
-            "joint_state_broadcaster",
-            "--controller-manager-timeout",
-            "300",
-            "--controller-manager",
-            "/controller_manager",
-        ],
-    )
+#    joint_state_broadcaster = Node(
+#        package="controller_manager",
+#        executable="spawner",
+#        name="joint_state_broadcaster_control",
+#        parameters=[urdf_model_path, robot_controllers],
+#        arguments=[
+#            "joint_state_broadcaster",
+#            "--controller-manager-timeout",
+#            "300",
+#            "--controller-manager",
+#            "/controller_manager",
+#        ],
+#    )
 
     # Clock bridge
     clock_bridge = Node(package='ros_gz_bridge',
@@ -109,16 +109,59 @@ def generate_launch_description():
 #            'namespace' : namespace
         }.items()
     )
+    
+    node_cmd_vel_bridge = Node(
+        name='cmd_vel_bridge',
+        executable='parameter_bridge',
+        package='ros_gz_bridge',
+        namespace='phoebe',
+        output='screen',
+        arguments=
+            ['phoebe/cmd_vel@geometry_msgs/msg/Twist[ignition.msgs.Twist',
+             '/model/phoebe/robot/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist',
+            ],
+        remappings=
+            [
+                ('phoebe/cmd_vel', '/cmd_vel' ) ,
+                ( '/model/phoebe/robot/cmd_vel', '/platform/cmd_vel_unstamped'),
+            ],
+        parameters=
+            [
+                {'use_sim_time': True,},
+            ],
+    )
+    
+    node_odom_base_tf_bridge = Node(
+        name='odom_base_tf_bridge',
+        executable='parameter_bridge',
+        package='ros_gz_bridge',
+        namespace='phoebe',
+        output='screen',
+        arguments=
+            ['/model/phoebe/robot/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V',],
+        remappings=
+            [
+                ('/model/phoebe/robot/tf','/tf'),
+            ],
+        parameters=
+            [
+                {'use_sim_time': True,},
+            ],
+    )
+
+
 
     return LaunchDescription([
         arg_tf_prefix,
         arg_use_fake_hardware,
         arg_headless_mode,
+        node_cmd_vel_bridge,
+        node_odom_base_tf_bridge,
 #        control_node,
         start_world,
         spawn_robot,
 #        joint_state_broadcaster,
-#        joint_state_publisher_gui,
+        joint_state_publisher_gui,
 #        drive_controller,
         clock_bridge
     ])
