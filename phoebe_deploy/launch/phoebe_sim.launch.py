@@ -32,6 +32,15 @@ def generate_launch_description():
         default_value="false",
         description="Enable headless mode for robot control",
     )
+    pkg_deploy = get_package_share_directory('phoebe_deploy')
+    
+    bridge_config = PathJoinSubstitution(
+        [
+            FindPackageShare("phoebe_deploy"),
+            "config",
+            "bridge.yaml",
+        ]
+    )
     
     # Initialize Arguments
     tf_prefix = LaunchConfiguration("tf_prefix")
@@ -45,24 +54,6 @@ def generate_launch_description():
     pkg_deploy = get_package_share_directory('phoebe_deploy')
     pkg_description = get_package_share_directory('phoebe_description')
     
-    robot_controllers = PathJoinSubstitution(
-        [
-            FindPackageShare("phoebe_deploy"),
-            "config",
-            "control.yaml",
-        ]
-    )
-    urdf_model_path = os.path.join(pkg_description, 'urdf/phoebe.urdf.xacro')
-    
-    
-#    control_node = Node(
-#        package="controller_manager",
-#        executable="ros2_control_node",
-#        parameters=[urdf_model_path, robot_controllers],
-#        output="both",
-#        namespace=namespace
-#    )
-
     
     joint_state_publisher_gui = Node(
         package="joint_state_publisher_gui",
@@ -70,19 +61,6 @@ def generate_launch_description():
     )
     
 
-#    joint_state_broadcaster = Node(
-#        package="controller_manager",
-#        executable="spawner",
-#        name="joint_state_broadcaster_control",
-#        parameters=[urdf_model_path, robot_controllers],
-#        arguments=[
-#            "joint_state_broadcaster",
-#            "--controller-manager-timeout",
-#            "300",
-#            "--controller-manager",
-#            "/controller_manager",
-#        ],
-#    )
 
     # Clock bridge
     clock_bridge = Node(package='ros_gz_bridge',
@@ -110,32 +88,31 @@ def generate_launch_description():
         }.items()
     )
     
-    node_cmd_vel_bridge = Node(
-        name='cmd_vel_bridge',
-        executable='parameter_bridge',
-        package='ros_gz_bridge',
-        namespace='phoebe',
-        output='screen',
-        arguments=
-            ['phoebe/cmd_vel@geometry_msgs/msg/Twist[ignition.msgs.Twist',
-             '/model/phoebe/robot/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist',
-            ],
-        remappings=
-            [
-                ('phoebe/cmd_vel', '/cmd_vel' ) ,
-                ( '/model/phoebe/robot/cmd_vel', '/platform/cmd_vel_unstamped'),
-            ],
-        parameters=
-            [
-                {'use_sim_time': True,},
-            ],
-    )
+#    node_cmd_vel_bridge = Node(
+#        name='cmd_vel_bridge',
+#        executable='parameter_bridge',
+#        package='ros_gz_bridge',
+#        output='screen',
+#        arguments=[bridge_config],
+#        arguments=
+#            ['cmd_vel@geometry_msgs/msg/Twist[ignition.msgs.Twist', 
+#             '/model/phoebe/robot/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist',
+#            ],
+#        remappings=
+#            [
+#                ('phoebe/cmd_vel', '/cmd_vel' ) ,
+#                ('/model/phoebe/robot/cmd_vel', '/platform/cmd_vel_unstamped'),
+#            ],
+#        parameters=
+#            [
+#                {'use_sim_time': True,},
+#            ],
+#    )
     
     node_odom_base_tf_bridge = Node(
         name='odom_base_tf_bridge',
         executable='parameter_bridge',
         package='ros_gz_bridge',
-        namespace='phoebe',
         output='screen',
         arguments=
             ['/model/phoebe/robot/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V',],
@@ -149,19 +126,18 @@ def generate_launch_description():
             ],
     )
 
+ # Configs
+
 
 
     return LaunchDescription([
         arg_tf_prefix,
         arg_use_fake_hardware,
         arg_headless_mode,
-        node_cmd_vel_bridge,
-        node_odom_base_tf_bridge,
-#        control_node,
+#        node_cmd_vel_bridge,
+#        node_odom_base_tf_bridge,
         start_world,
         spawn_robot,
-#        joint_state_broadcaster,
         joint_state_publisher_gui,
-#        drive_controller,
-        clock_bridge
+#        clock_bridge,
     ])

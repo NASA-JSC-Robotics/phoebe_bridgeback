@@ -58,16 +58,13 @@ def generate_launch_description():
         package="ros_gz_sim",
         executable="create",
         arguments=[
-            "-name",
-            "phoebe",
-            "-topic",
-            "/robot_description",
-            "-x",
-            "0",
-            "-y",
-            "0",
-            "-z",
-            "1.4",
+            "-entity", "phoebe",
+            "-name", "phoebe",
+            "-topic", "/robot_description",
+            "-x", "0",
+            "-y", "0",
+            "-z", "1.4",
+            "-controller_manager", "controller_manager"
         ],
         output="screen",
     )

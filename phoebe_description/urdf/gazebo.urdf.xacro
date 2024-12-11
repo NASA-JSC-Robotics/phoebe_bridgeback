@@ -2,8 +2,10 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:if value="$(arg is_sim)">
     <gazebo>
-      <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <plugin filename="libign_ros2_control-system.so"
+        name="ign_ros2_control::IgnitionROS2ControlPlugin">
         <parameters>$(arg gazebo_controllers)</parameters>
+        <controller_manager_name>controller_manager</controller_manager_name>
         <ros>
           <remapping>~/odom:=platform/odom</remapping>
           <remapping>~/cmd_vel_unstamped:=platform/cmd_vel_unstamped</remapping>
@@ -20,7 +22,8 @@
     </gazebo>
 
     <gazebo>
-      <plugin filename="libignition-gazebo-pose-publisher-system.so" name="ignition::gazebo::systems::PosePublisher">
+      <plugin filename="libignition-gazebo-pose-publisher-system.so"
+        name="ignition::gazebo::systems::PosePublisher">
         <publish_link_pose>true</publish_link_pose>
         <publish_nested_model_pose>true</publish_nested_model_pose>
         <use_pose_vector_msg>true</use_pose_vector_msg>
