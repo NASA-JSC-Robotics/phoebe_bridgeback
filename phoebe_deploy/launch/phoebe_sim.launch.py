@@ -54,12 +54,6 @@ def generate_launch_description():
     pkg_deploy = get_package_share_directory('phoebe_deploy')
     pkg_description = get_package_share_directory('phoebe_description')
     
-    #start the joint state publisher
-    joint_state_publisher_gui = Node(
-        package="joint_state_publisher_gui",
-        executable="joint_state_publisher_gui",
-    )
-
     # Start gazebo with the selected World
     start_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -110,7 +104,6 @@ def generate_launch_description():
         arg_headless_mode,
         start_world,
         spawn_robot,
-        joint_state_publisher_gui,
         joint_state_broadcaster,
         velocity_controller
     ])
