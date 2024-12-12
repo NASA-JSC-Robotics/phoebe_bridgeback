@@ -12,11 +12,4 @@ install(
 
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 
-ament_python_install_package(${PROJECT_NAME})
-
-#install(PROGRAMS
-#  phoebe_description/scripts/spawn_phoebe.py
-#  DESTINATION lib/${PROJECT_NAME}
-#)
-
 ament_package()
