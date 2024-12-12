@@ -66,6 +66,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(pkg_description, 'launch', 'spawn_robot.launch.py')),
         launch_arguments = {
             'use_sim_time' : use_fake_hardware,
+            'tf_prefix' : tf_prefix,
 #            'namespace' : namespace
         }.items()
     )

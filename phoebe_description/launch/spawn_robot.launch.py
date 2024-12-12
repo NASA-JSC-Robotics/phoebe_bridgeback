@@ -12,18 +12,18 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     
-    arg_use_sim_time = DeclareLaunchArgument(
+    arg_is_sim = DeclareLaunchArgument(
         'use_fake_hardware',
         default_value="true",
         description='use_fake_hardware'
     )
     arg_tf_prefix = DeclareLaunchArgument(
         'tf_prefix',
-        default_value='/',
+        default_value="/",
         description='tf_prefix'
     )
 
-    use_fake_hardware = LaunchConfiguration('use_fake_hardware')
+    is_sim = LaunchConfiguration('use_fake_hardware')
     tf_prefix = LaunchConfiguration('tf_prefix')
 
     robot_description_content = Command(
@@ -31,12 +31,12 @@ def generate_launch_description():
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
             PathJoinSubstitution([FindPackageShare("phoebe_description"), "urdf", "phoebe.urdf.xacro"]),
-#            " ",
-#            "tf_prefix:=",
-#            tf_prefix,
+            " ",
+            "tf_prefix:=",
+            "phoebe_",
             " ",
             "is_sim:=",
-            use_fake_hardware,
+            is_sim,
 #            " ",
 #            "headless_mode:=",
 #            headless_mode,
@@ -72,7 +72,7 @@ def generate_launch_description():
     # Launch!
     return LaunchDescription(
         [
-            arg_use_sim_time,
+            arg_is_sim,
             arg_tf_prefix,
             robot_state_publisher,
             spawn_entity,

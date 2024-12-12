@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:arg name="namespace" default="" />
-    <xacro:arg name="is_sim" default="false" />
     <xacro:arg name="gazebo_controllers"
         default="$(find phoebe_deploy)/config/control.yaml" />
 
@@ -12,7 +10,10 @@
     <xacro:include filename="$(find phoebe_description)/urdf/rocker.urdf.xacro" />
 
     <!-- R100 Platform Macro -->
-    <xacro:macro name="r100" params="wheel:='default'">
+    <xacro:macro name="r100"
+        params="wheel:='default'
+                tf_prefix:=''
+                is_sim:=false">
         <!-- Variables -->
         <xacro:property name="wheel_radius" value="0.0759" />
         <xacro:property name="wheel_width" value="0.0790" />
@@ -37,15 +38,15 @@
         <xacro:property name="dummy_inertia" value="1e-09" />
 
         <!-- Chassis -->
-        <link name="base_link"></link>
+        <link name="${tf_prefix}base_link"></link>
 
-        <joint name="base_link_joint" type="fixed">
+        <joint name="${tf_prefix}base_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <parent link="base_link" />
-            <child link="chassis_link" />
+            <parent link="${tf_prefix}base_link" />
+            <child link="${tf_prefix}chassis_link" />
         </joint>
 
-        <link name="chassis_link">
+        <link name="${tf_prefix}chassis_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
@@ -70,18 +71,18 @@
         </link>
 
         <!-- Covers -->
-        <joint name="right_side_cover_link_joint" type="fixed">
+        <joint name="${tf_prefix}right_side_cover_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="right_side_cover_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}right_side_cover_link" />
         </joint>
-        <joint name="left_side_cover_link_joint" type="fixed">
+        <joint name="${tf_prefix}left_side_cover_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="left_side_cover_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}left_side_cover_link" />
         </joint>
 
-        <link name="left_side_cover_link">
+        <link name="${tf_prefix}left_side_cover_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
                 <geometry>
@@ -90,7 +91,7 @@
                 <material name="clearpath_yellow" />
             </visual>
         </link>
-        <link name="right_side_cover_link">
+        <link name="${tf_prefix}right_side_cover_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
@@ -100,13 +101,13 @@
             </visual>
         </link>
 
-        <joint name="front_cover_link_joint" type="fixed">
+        <joint name="${tf_prefix}front_cover_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="front_cover_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}front_cover_link" />
         </joint>
 
-        <link name="front_cover_link">
+        <link name="${tf_prefix}front_cover_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
@@ -116,13 +117,13 @@
             </visual>
         </link>
 
-        <joint name="rear_cover_link_joint" type="fixed">
+        <joint name="${tf_prefix}rear_cover_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="rear_cover_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}rear_cover_link" />
         </joint>
 
-        <link name="rear_cover_link">
+        <link name="${tf_prefix}rear_cover_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
                 <geometry>
@@ -133,18 +134,18 @@
         </link>
 
         <!-- Lights -->
-        <joint name="front_lights_link_joint" type="fixed">
+        <joint name="${tf_prefix}front_lights_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="front_lights_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}front_lights_link" />
         </joint>
-        <joint name="rear_lights_link_joint" type="fixed">
+        <joint name="${tf_prefix}rear_lights_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="rear_lights_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}rear_lights_link" />
         </joint>
 
-        <link name="front_lights_link">
+        <link name="${tf_prefix}front_lights_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
@@ -153,7 +154,7 @@
                 <material name="clearpath_white" />
             </visual>
         </link>
-        <link name="rear_lights_link">
+        <link name="${tf_prefix}rear_lights_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 ${math.pi}" />
                 <geometry>
@@ -164,13 +165,13 @@
         </link>
 
         <!-- Axle -->
-        <joint name="axle_joint" type="fixed">
+        <joint name="${tf_prefix}axle_joint" type="fixed">
             <origin xyz="0 0 ${axle_offset}" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="axle_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}axle_link" />
         </joint>
 
-        <link name="axle_link">
+        <link name="${tf_prefix}axle_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 ${math.pi/2} 0" />
                 <geometry>
@@ -181,12 +182,12 @@
         </link>
 
         <!-- Riser -->
-        <joint name="riser_link_joint" type="fixed">
+        <joint name="${tf_prefix}riser_link_joint" type="fixed">
             <origin xyz="0 0 ${0.225 - deck_thickness}" rpy="0 0 0" />
-            <parent link="chassis_link" />
-            <child link="riser_link" />
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}riser_link" />
         </joint>
-        <link name="riser_link">
+        <link name="${tf_prefix}riser_link">
             <visual>
                 <origin xyz="0 0 ${riser_height/2}" rpy="0 0 ${pi/4}" />
                 <geometry>
@@ -203,13 +204,13 @@
         </link>
 
         <!-- Top Plate -->
-        <joint name="top_link_joint" type="fixed">
+        <joint name="${tf_prefix}top_link_joint" type="fixed">
             <origin xyz="0 0 ${riser_height-deck_height+deck_thickness}" rpy="0 0 0" />
-            <parent link="riser_link" />
-            <child link="top_link" />
+            <parent link="${tf_prefix}riser_link" />
+            <child link="${tf_prefix}top_link" />
         </joint>
 
-        <link name="top_link">
+        <link name="${tf_prefix}top_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
@@ -226,36 +227,36 @@
         </link>
 
         <!-- Rocker -->
-        <xacro:r100_rocker prefix="front" joint_type="fixed" location="1">
+        <xacro:r100_rocker prefix="front" joint_type="fixed" location="1" tf_prefix="${tf_prefix}">
             <limit lower="-0.08726" upper="0.08726" effort="0" velocity="0" />
         </xacro:r100_rocker>
 
-        <xacro:r100_rocker prefix="rear" joint_type="fixed" location="-1">
+        <xacro:r100_rocker prefix="rear" joint_type="fixed" location="-1" tf_prefix="${tf_prefix}">
             <limit effort="0" velocity="0" />
         </xacro:r100_rocker>
 
         <gazebo>
             <plugin filename="libignition-gazebo-wheel-slip-system.so"
                 name="ignition::gazebo::systems::WheelSlip">
-                <wheel link_name="front_left_wheel_link">
+                <wheel link_name="${tf_prefix}front_left_wheel_link">
                     <slip_compliance_lateral>1.0</slip_compliance_lateral>
                     <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
                     <wheel_normal_force>200</wheel_normal_force>
                     <wheel_radius>${wheel_radius}</wheel_radius>
                 </wheel>
-                <wheel link_name="front_right_wheel_link">
+                <wheel link_name="${tf_prefix}front_right_wheel_link">
                     <slip_compliance_lateral>1.0</slip_compliance_lateral>
                     <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
                     <wheel_normal_force>200</wheel_normal_force>
                     <wheel_radius>${wheel_radius}</wheel_radius>
                 </wheel>
-                <wheel link_name="rear_left_wheel_link">
+                <wheel link_name="${tf_prefix}rear_left_wheel_link">
                     <slip_compliance_lateral>1.0</slip_compliance_lateral>
                     <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
                     <wheel_normal_force>200</wheel_normal_force>
                     <wheel_radius>${wheel_radius}</wheel_radius>
                 </wheel>
-                <wheel link_name="rear_right_wheel_link">
+                <wheel link_name="${tf_prefix}rear_right_wheel_link">
                     <slip_compliance_lateral>1.0</slip_compliance_lateral>
                     <slip_compliance_longitudinal>1.0</slip_compliance_longitudinal>
                     <wheel_normal_force>200</wheel_normal_force>
@@ -265,7 +266,7 @@
         </gazebo>
 
         <!-- Internal IMU -->
-        <link name="imu_0_link">
+        <link name="${tf_prefix}imu_0_link">
             <inertial>
                 <mass value="0.001" />
                 <origin xyz="0 0 0" rpy="0 0 0" />
@@ -273,13 +274,13 @@
                     izz="${dummy_inertia}" />
             </inertial>
         </link>
-        <joint name="imu_0_joint" type="fixed">
-            <parent link="chassis_link" />
-            <child link="imu_0_link" />
+        <joint name="${tf_prefix}imu_0_joint" type="fixed">
+            <parent link="${tf_prefix}chassis_link" />
+            <child link="${tf_prefix}imu_0_link" />
             <origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="0 0 0" />
         </joint>
 
-        <gazebo reference="imu_0_link">
+        <gazebo reference="${tf_prefix}imu_0_link">
             <sensor type="imu" name="imu_0">
                 <always_on>true</always_on>
                 <update_rate>50</update_rate>
@@ -289,10 +290,10 @@
         </gazebo>
 
         <!-- Mounting Hardpoints -->
-        <link name="default_mount" />
-        <joint name="default_mount_joint" type="fixed">
-            <parent link="riser_link" />
-            <child link="default_mount" />
+        <link name="${tf_prefix}default_mount" />
+        <joint name="${tf_prefix}default_mount_joint" type="fixed">
+            <parent link="${tf_prefix}riser_link" />
+            <child link="${tf_prefix}default_mount" />
             <origin xyz="0 0 ${riser_height + deck_thickness}" rpy="0 0 0" />
         </joint>
 
@@ -309,22 +310,22 @@
                     <plugin>clearpath_platform/PumaHardware</plugin>
                 </xacro:unless>
             </hardware>
-            <joint name="front_left_wheel_joint">
+            <joint name="${tf_prefix}front_left_wheel_joint">
                 <command_interface name="velocity" />
                 <state_interface name="position" />
                 <state_interface name="velocity" />
             </joint>
-            <joint name="front_right_wheel_joint">
+            <joint name="${tf_prefix}front_right_wheel_joint">
                 <command_interface name="velocity" />
                 <state_interface name="position" />
                 <state_interface name="velocity" />
             </joint>
-            <joint name="rear_left_wheel_joint">
+            <joint name="${tf_prefix}rear_left_wheel_joint">
                 <command_interface name="velocity" />
                 <state_interface name="position" />
                 <state_interface name="velocity" />
             </joint>
-            <joint name="rear_right_wheel_joint">
+            <joint name="${tf_prefix}rear_right_wheel_joint">
                 <command_interface name="velocity" />
                 <state_interface name="position" />
                 <state_interface name="velocity" />

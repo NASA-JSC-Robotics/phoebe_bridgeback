@@ -3,10 +3,15 @@
 
     <xacro:arg name="namespace" default="" />
     <xacro:arg name="is_sim" default="true" />
+    <xacro:arg name="tf_prefix" default="''" />
+    <xacro:arg name="parent" default="world" />
 
     <!-- Includes -->
     <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
     <xacro:include filename="$(find phoebe_description)/urdf/r100.urdf.xacro" />
 
-    <xacro:r100 />
+    <xacro:r100
+        tf_prefix="$(arg tf_prefix)"
+        is_sim="$(arg is_sim)"
+    />
 </robot>
