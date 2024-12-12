@@ -13,5 +13,6 @@
     <xacro:r100
         tf_prefix="$(arg tf_prefix)"
         is_sim="$(arg is_sim)"
+        namespace="$(arg namespace)"
     />
 </robot>

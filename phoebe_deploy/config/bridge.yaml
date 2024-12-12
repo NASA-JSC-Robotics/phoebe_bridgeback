@@ -24,7 +24,7 @@
   ros_type_name: "tf2_msgs/msg/TFMessage"
   gz_type_name: "gz.msgs.Pose_V"
   direction: GZ_TO_ROS
-- ros_topic_name: "/platform/cmd_vel_unstamped"
+- ros_topic_name: "cmd_vel_unstamped"
   gz_topic_name: "/phoebe/cmd_vel"
   ros_type_name: "geometry_msgs/msg/Twist"
   gz_type_name: "ignition.msgs.Twist"

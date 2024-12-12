@@ -14,19 +14,26 @@ def generate_launch_description():
 
     is_sim = LaunchConfiguration('use_fake_hardware')
     tf_prefix = LaunchConfiguration('tf_prefix')
+    namespace = LaunchConfiguration('ns')
     
-    arg_is_sim = DeclareLaunchArgument(
+    arguments = []
+    
+    arguments.append(DeclareLaunchArgument(
         'use_fake_hardware',
         default_value="true",
         description='use_fake_hardware'
-    )
-    arg_tf_prefix = DeclareLaunchArgument(
+    ))
+    arguments.append(DeclareLaunchArgument(
         'tf_prefix',
         default_value="",
         description="tf_prefix of the joint names, useful for \
         multi-robot setup. If changed, also joint names in the controllers' configuration \
         have to be updated.",
-    )
+    ))
+    arguments.append(DeclareLaunchArgument(
+        'ns',
+        default_value="/",
+    ))
 
 
     robot_description_content = Command(
@@ -40,6 +47,9 @@ def generate_launch_description():
             " ",
             "is_sim:=",
             is_sim,
+            " ",
+            "namespace:=",
+            namespace
 #            " ",
 #            "headless_mode:=",
 #            headless_mode,
@@ -51,6 +61,7 @@ def generate_launch_description():
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
+        namespace=namespace,
         output="screen",
         parameters=[robot_description],
     )
@@ -59,10 +70,11 @@ def generate_launch_description():
     spawn_entity = Node(
         package="ros_gz_sim",
         executable="create",
+        namespace=namespace,
         arguments=[
             "-entity", "phoebe",
             "-name", "phoebe",
-            "-topic", "/robot_description",
+            "-topic", "robot_description",
             "-x", "0",
             "-y", "0",
             "-z", "1.4",
@@ -71,19 +83,6 @@ def generate_launch_description():
         output="screen",
     )
 
-    # Launch!
-    return LaunchDescription(
-        [
-            arg_is_sim,
-            arg_tf_prefix,
-            robot_state_publisher,
-            spawn_entity,
-        ]
-    )
-
-
-#    nodes = [
-#            robot_state_publisher,
-#            spawn_entity,
-#    ]
-#return LaunchDescription(arguments + nodes)
+    nodes = [robot_state_publisher, spawn_entity]
+ 
+    return LaunchDescription(arguments + nodes)

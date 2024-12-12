@@ -13,6 +13,9 @@ from launch.actions import ExecuteProcess
 
 def generate_launch_description():
     
+    
+    namespace = LaunchConfiguration("ns")
+    
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     pkg_deploy = get_package_share_directory('phoebe_deploy')
     pkg_description = get_package_share_directory('phoebe_description')
@@ -44,6 +47,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable='parameter_bridge',
             name='sim_comm_bridge',
+            namespace=namespace,
             parameters=[{
                 'config_file': os.path.join(pkg_deploy, 'config', 'bridge.yaml'),
                 'qos_overrides./tf_static.publisher.durability': 'transient_local',

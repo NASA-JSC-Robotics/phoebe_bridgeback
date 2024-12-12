@@ -10,7 +10,8 @@
     <xacro:macro name="r100"
         params="wheel:='default'
                 tf_prefix
-                is_sim:=false">
+                is_sim:=false
+                namespace:='/'">
 
         <xacro:arg name="gazebo_controllers"
             default="$(find phoebe_deploy)/config/${tf_prefix}control.yaml" />
@@ -300,7 +301,8 @@
         </joint>
 
         <!-- Gazebo Controller -->
-        <xacro:include filename="$(find phoebe_description)/urdf/gazebo.urdf.xacro" />
+        <xacro:include filename="$(find phoebe_description)/urdf/gazebo.urdf.xacro"
+            ns="${namespace}" />
 
         <!-- ROS2 controls -->
         <ros2_control name="r100_hardware" type="system">
