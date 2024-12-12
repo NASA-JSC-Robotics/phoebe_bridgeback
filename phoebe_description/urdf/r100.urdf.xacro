@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:arg name="gazebo_controllers"
-        default="$(find phoebe_deploy)/config/control.yaml" />
-
     <!-- Includes -->
     <xacro:include
         filename="$(find phoebe_description)/urdf/wheels/wheel.urdf.xacro" />
@@ -12,8 +9,12 @@
     <!-- R100 Platform Macro -->
     <xacro:macro name="r100"
         params="wheel:='default'
-                tf_prefix:=''
+                tf_prefix
                 is_sim:=false">
+
+        <xacro:arg name="gazebo_controllers"
+            default="$(find phoebe_deploy)/config/${tf_prefix}control.yaml" />
+
         <!-- Variables -->
         <xacro:property name="wheel_radius" value="0.0759" />
         <xacro:property name="wheel_width" value="0.0790" />
@@ -36,6 +37,7 @@
         <xacro:property name="imu_offset_z" value="0.1681" />
 
         <xacro:property name="dummy_inertia" value="1e-09" />
+
 
         <!-- Chassis -->
         <link name="${tf_prefix}base_link"></link>

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:arg name="tf_prefix" default="" />
 
     <xacro:arg name="namespace" default="" />
     <xacro:arg name="is_sim" default="true" />
-    <xacro:arg name="tf_prefix" default="''" />
     <xacro:arg name="parent" default="world" />
 
     <!-- Includes -->

@@ -11,6 +11,9 @@ import launch_ros.descriptions
 from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
+
+    is_sim = LaunchConfiguration('use_fake_hardware')
+    tf_prefix = LaunchConfiguration('tf_prefix')
     
     arg_is_sim = DeclareLaunchArgument(
         'use_fake_hardware',
@@ -19,12 +22,12 @@ def generate_launch_description():
     )
     arg_tf_prefix = DeclareLaunchArgument(
         'tf_prefix',
-        default_value="/",
-        description='tf_prefix'
+        default_value="",
+        description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
     )
 
-    is_sim = LaunchConfiguration('use_fake_hardware')
-    tf_prefix = LaunchConfiguration('tf_prefix')
 
     robot_description_content = Command(
         [
@@ -33,7 +36,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindPackageShare("phoebe_description"), "urdf", "phoebe.urdf.xacro"]),
             " ",
             "tf_prefix:=",
-            "phoebe_",
+            tf_prefix,
             " ",
             "is_sim:=",
             is_sim,
@@ -42,7 +45,6 @@ def generate_launch_description():
 #            headless_mode,
         ]
     )
-    print(robot_description_content)
     robot_description = {"robot_description": robot_description_content}
 
     
@@ -80,3 +82,8 @@ def generate_launch_description():
     )
 
 
+#    nodes = [
+#            robot_state_publisher,
+#            spawn_entity,
+#    ]
+#return LaunchDescription(arguments + nodes)

@@ -15,6 +15,12 @@ def generate_launch_description():
     
     controller_manager_name = '/controller_manager'
     
+    # Initialize Arguments
+    tf_prefix = LaunchConfiguration("tf_prefix")
+    use_fake_hardware = LaunchConfiguration("use_fake_hardware")
+    headless_mode = LaunchConfiguration("headless_mode")
+    namespace = LaunchConfiguration("namespace")
+    
     arg_tf_prefix = DeclareLaunchArgument(
         "tf_prefix",
         default_value='""',
@@ -36,23 +42,6 @@ def generate_launch_description():
     pkg_deploy = get_package_share_directory('phoebe_deploy')
     pkg_description = get_package_share_directory('phoebe_description')
     
-    robot_controllers = PathJoinSubstitution(
-        [
-            FindPackageShare("phoebe_deploy"),
-            "config",
-            "config.yaml",
-        ]
-    )
-    urdf_model_path = os.path.join(pkg_description, 'urdf/phoebe.urdf.xacro')
-    
-    # Initialize Arguments
-    tf_prefix = LaunchConfiguration("tf_prefix")
-    use_fake_hardware = LaunchConfiguration("use_fake_hardware")
-    headless_mode = LaunchConfiguration("headless_mode")
-    namespace = LaunchConfiguration("namespace")
-
-    pkg_deploy = get_package_share_directory('phoebe_deploy')
-    pkg_description = get_package_share_directory('phoebe_description')
     
     # Start gazebo with the selected World
     start_world = IncludeLaunchDescription(
@@ -74,7 +63,6 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner",
         name="joint_state_broadcaster_control",
-        parameters=[urdf_model_path, robot_controllers],
         arguments=[
             'joint_state_broadcaster',
             '--controller-manager-timeout',
@@ -89,6 +77,7 @@ def generate_launch_description():
     velocity_controller = Node(
         package='controller_manager',
         executable='spawner',
+        name='platform_velocity_controller',
         arguments=['platform_velocity_controller', 
                    '--controller-manager-timeout', '300',
                    '-c',
