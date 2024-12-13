@@ -74,8 +74,7 @@ def launch_setup(context):
                     {'publish_stamped_twist': False,
                      'use_sim_time': True,
                      }],
-#        remappings={('/cmd_vel', launch.substitutions.LaunchConfiguration('joy_vel'))},
-        remappings={('cmd_vel', 'cmd_vel_unstamped')},
+        remappings={('cmd_vel', launch.substitutions.LaunchConfiguration('joy_vel'))},
         )
     
     nodes = (
