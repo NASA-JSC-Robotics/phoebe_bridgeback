@@ -8,15 +8,15 @@
         <parameters>$(arg gazebo_controllers)</parameters>
         <controller_manager_name>controller_manager</controller_manager_name>
         <ros>
-          <remapping>~/odom:=platform/odom</remapping>
-          <remapping>~/cmd_vel_unstamped:=platform/cmd_vel_unstamped</remapping>
+          <remapping>~/odom:=odom</remapping>
+          <remapping>~/cmd_vel_unstamped:=cmd_vel_unstamped</remapping>
           <remapping>/tf:=tf</remapping>
           <remapping>/tf_static:=tf_static</remapping>
           <remapping>/diagnostics:=diagnostics</remapping>
-          <remapping>/dynamic_joint_states:=platform/dynamic_joint_states</remapping>
-          <remapping>joint_states:=platform/joint_states</remapping>
-          <remapping>~/reference:=platform/cmd_vel</remapping>
-          <remapping>~/odometry:=platform/odom</remapping>
+          <remapping>/dynamic_joint_states:=dynamic_joint_states</remapping>
+          <remapping>joint_states:=joint_states</remapping>
+          <remapping>~/reference:=cmd_vel</remapping>
+          <remapping>~/odometry:=odom</remapping>
           <namespace>$(arg namespace)</namespace>
         </ros>
       </plugin>

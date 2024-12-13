@@ -16,7 +16,7 @@ def generate_launch_description():
     publish_stamped_twist = launch.substitutions.LaunchConfiguration('publish_stamped_twist')
     config_filepath = launch.substitutions.LaunchConfiguration('config_filepath')
 
-    arg_joy_vel = DeclareLaunchArgument('joy_vel', default_value='/platform/cmd_vel_unstamped')
+    arg_joy_vel = DeclareLaunchArgument('joy_vel', default_value='cmd_vel_unstamped')
     arg_joy_config = DeclareLaunchArgument('joy_config', default_value='joy_config')
     arg_joy_dev = DeclareLaunchArgument('joy_dev', default_value='0')
     arg_joy_publish_stamped_twist = DeclareLaunchArgument('publish_stamped_twist', default_value='false')
