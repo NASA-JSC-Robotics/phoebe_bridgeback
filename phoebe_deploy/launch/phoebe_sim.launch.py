@@ -67,8 +67,6 @@ def generate_launch_description():
             'joint_state_broadcaster',
             '--controller-manager-timeout',
             '300',
-            '-c',
-            controller_manager_name,
         ],
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     )
@@ -80,8 +78,6 @@ def generate_launch_description():
         name='velocity_controller',
         arguments=['velocity_controller', 
                    '--controller-manager-timeout', '300',
-                   '-c',
-                   controller_manager_name,
                    ],
 #        remappings=REMAPPINGS,
         output='screen',
