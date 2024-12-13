@@ -14,7 +14,7 @@ def generate_launch_description():
 
     is_sim = LaunchConfiguration('use_fake_hardware')
     tf_prefix = LaunchConfiguration('tf_prefix')
-#    namespace = LaunchConfiguration('namespace')
+    namespace = LaunchConfiguration('ns')
     
     arguments = []
     
@@ -30,11 +30,8 @@ def generate_launch_description():
         multi-robot setup. If changed, also joint names in the controllers' configuration \
         have to be updated.",
     ))
-#    arguments.append(DeclareLaunchArgument(
-#        'namespace',
-#        default_value="",
-#    ))
 
+    pkg_description = get_package_share_directory('phoebe_description')
 
     robot_description_content = Command(
         [
@@ -47,6 +44,9 @@ def generate_launch_description():
             " ",
             "is_sim:=",
             is_sim,
+            " ",
+            "ns:=",
+            namespace,
             " ",
 #            " ",
 #            "headless_mode:=",
@@ -71,7 +71,6 @@ def generate_launch_description():
             "-entity", "phoebe",
             "-name", "phoebe",
             "-topic", "robot_description",
-#            "-namespace", namespace,
             "-x", "0",
             "-y", "0",
             "-z", "1.4",
@@ -79,8 +78,21 @@ def generate_launch_description():
         ],
         output="screen",
     )
+    
+    sim_comm_bridge = Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            name='sim_comm_bridge',
+            parameters=[{
+                'config_file': os.path.join(pkg_description, 'config', 'bridge.yaml'),
+                'qos_overrides./tf_static.publisher.durability': 'transient_local',
+            }],
+            output='screen'
+        )
     nodes = [robot_state_publisher,
-            spawn_entity]
+            spawn_entity,
+            sim_comm_bridge
+            ]
 
     # Launch!
     return LaunchDescription(arguments + nodes)
