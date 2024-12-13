@@ -8,23 +8,25 @@ from ament_index_python.packages import get_package_share_directory
 import launch
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
-
+from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
-    joy_config = launch.substitutions.LaunchConfiguration('joy_config')
-    joy_dev = launch.substitutions.LaunchConfiguration('joy_dev')
-    publish_stamped_twist = launch.substitutions.LaunchConfiguration('publish_stamped_twist')
-    config_filepath = launch.substitutions.LaunchConfiguration('config_filepath')
-
-    arg_joy_vel = DeclareLaunchArgument('joy_vel', default_value='cmd_vel_unstamped')
-    arg_joy_config = DeclareLaunchArgument('joy_config', default_value='joy_config')
-    arg_joy_dev = DeclareLaunchArgument('joy_dev', default_value='0')
-    arg_joy_publish_stamped_twist = DeclareLaunchArgument('publish_stamped_twist', default_value='false')
     
-    config_file_path = DeclareLaunchArgument('config_filepath', default_value=[
+    joy_config = LaunchConfiguration('joy_config')
+    joy_dev = LaunchConfiguration('joy_dev')
+    publish_stamped_twist = LaunchConfiguration('publish_stamped_twist')
+    config_filepath = LaunchConfiguration('config_filepath')
+
+    arguments = []
+    arguments.append(DeclareLaunchArgument('joy_vel', default_value='cmd_vel_unstamped'))
+    arguments.append(DeclareLaunchArgument('joy_config', default_value='joy_config'))
+    arguments.append(DeclareLaunchArgument('joy_dev', default_value='0'))
+    arguments.append(DeclareLaunchArgument('publish_stamped_twist', default_value='false'))
+    
+    arguments.append(DeclareLaunchArgument('config_filepath', default_value=[
             launch.substitutions.TextSubstitution(text=os.path.join(
                 get_package_share_directory('phoebe_deploy'), 'config', '')),
-            joy_config, launch.substitutions.TextSubstitution(text='.yaml')])
+            joy_config, launch.substitutions.TextSubstitution(text='.yaml')]))
     
     
     joy = Node(
@@ -54,12 +56,9 @@ def generate_launch_description():
         remappings={('/cmd_vel', launch.substitutions.LaunchConfiguration('joy_vel'))},
         )
     
-    ld = launch.LaunchDescription()
-    ld.add_action(arg_joy_vel)
-    ld.add_action(arg_joy_config)
-    ld.add_action(arg_joy_dev)
-    ld.add_action(arg_joy_publish_stamped_twist)
-    ld.add_action(config_file_path)
-    ld.add_action(joy)
-    ld.add_action(teleop_joy)
-    return ld
+    nodes = [
+              joy, 
+              teleop_joy
+            ]
+    
+    return(launch.LaunchDescription(arguments + nodes))
