@@ -77,8 +77,8 @@ def generate_launch_description():
     velocity_controller = Node(
         package='controller_manager',
         executable='spawner',
-        name='platform_velocity_controller',
-        arguments=['platform_velocity_controller', 
+        name='velocity_controller',
+        arguments=['velocity_controller', 
                    '--controller-manager-timeout', '300',
                    '-c',
                    controller_manager_name,

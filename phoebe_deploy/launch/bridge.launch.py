@@ -8,19 +8,7 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 
-REMAPPINGS = [
-    ('joint_states', 'platform/joint_states'),
-    ('dynamic_joint_states', 'platform/dynamic_joint_states'),
-    ('platform_velocity_controller/odom', 'platform/odom'),
-    ('platform_velocity_controller/cmd_vel_unstamped', 'platform/cmd_vel_unstamped'),
-    ('platform_velocity_controller/reference', 'platform/cmd_vel_unstamped'),
-    ('/diagnostics', 'diagnostics'),
-    ('/tf', 'tf'),
-    ('/tf_static', 'tf_static'),
-    ('~/robot_description', 'robot_description'),
-]
 
-controller_manager_name = '/controller_manager'
 
 def generate_launch_description():
     
