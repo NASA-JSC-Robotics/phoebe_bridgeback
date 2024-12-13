@@ -41,15 +41,4 @@ def generate_launch_description():
                 'on_exit_shutdown': 'True'
             }.items(),
         ))
-    sim_comm_bridge = Node(
-            package='ros_gz_bridge',
-            executable='parameter_bridge',
-            name='sim_comm_bridge',
-            parameters=[{
-                'config_file': os.path.join(pkg_deploy, 'config', 'bridge.yaml'),
-                'qos_overrides./tf_static.publisher.durability': 'transient_local',
-            }],
-            output='screen'
-        )
-    nodes = [sim_comm_bridge]
-    return(LaunchDescription(arguments + actions + nodes))
+    return(LaunchDescription(arguments + actions))

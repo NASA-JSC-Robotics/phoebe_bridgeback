@@ -16,6 +16,7 @@ def generate_launch_description():
     joy_dev = LaunchConfiguration('joy_dev')
     publish_stamped_twist = LaunchConfiguration('publish_stamped_twist')
     config_filepath = LaunchConfiguration('config_filepath')
+    namespace = LaunchConfiguration("ns")
 
     arguments = []
     arguments.append(DeclareLaunchArgument('joy_vel', default_value='cmd_vel_unstamped'))
@@ -33,6 +34,7 @@ def generate_launch_description():
         package='joy', 
         executable='joy_node', 
         name='joy_node',
+        namespace=namespace,
         parameters=[{
             'joy_dev': joy_dev,
             'deadzone': 0.3,
@@ -49,11 +51,13 @@ def generate_launch_description():
     teleop_joy = Node(
         package='teleop_twist_joy', executable='teleop_node',
         name='teleop_twist_joy_node',
+        namespace=namespace,
         parameters=[config_filepath, 
                     {'publish_stamped_twist': False,
                      'use_sim_time': True,
                      }],
-        remappings={('/cmd_vel', launch.substitutions.LaunchConfiguration('joy_vel'))},
+#        remappings={('/cmd_vel', launch.substitutions.LaunchConfiguration('joy_vel'))},
+        remappings={('cmd_vel', 'cmd_vel_unstamped')},
         )
     
     nodes = [

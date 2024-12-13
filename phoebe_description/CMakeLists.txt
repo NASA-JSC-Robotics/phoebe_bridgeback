@@ -6,7 +6,7 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 
 install(
-  DIRECTORY launch meshes rviz urdf
+  DIRECTORY launch meshes rviz urdf config
   DESTINATION share/${PROJECT_NAME}
 )
 

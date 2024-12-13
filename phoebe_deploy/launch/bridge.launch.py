@@ -12,13 +12,13 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     
-    deploy_pkg = get_package_share_directory('phoebe_deploy')
+    pkg_description = get_package_share_directory('phoebe_description')
     
     bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         parameters=[{
-            'config_file': os.path.join(deploy_pkg, 'config', 'bridge.yaml'),
+            'config_file': os.path.join(pkg_description, 'config', 'bridge.yaml'),
             'qos_overrides./tf_static.publisher.durability': 'transient_local',
         }],
         output='screen'
