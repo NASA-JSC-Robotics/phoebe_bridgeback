@@ -17,7 +17,7 @@
           <remapping>joint_states:=joint_states</remapping>
           <remapping>~/reference:=cmd_vel</remapping>
           <remapping>~/odometry:=odom</remapping>
-          <namespace>$(arg namespace)</namespace>
+          <namespace>$(arg ns)</namespace>
         </ros>
       </plugin>
     </gazebo>
