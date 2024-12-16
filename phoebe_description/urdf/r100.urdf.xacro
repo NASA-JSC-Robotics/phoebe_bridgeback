@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <!-- Includes -->
-    <xacro:include
-        filename="$(find phoebe_description)/urdf/wheels/wheel.urdf.xacro" />
-    <xacro:include filename="$(find phoebe_description)/urdf/rocker.urdf.xacro" />
 
     <!-- R100 Platform Macro -->
     <xacro:macro name="r100"
         params="wheel:='default'
                 tf_prefix
-                is_sim:=false">
+                is_sim:=false
+                ns">
+
+
+        <!-- Includes -->
+        <xacro:include
+            filename="$(find phoebe_description)/urdf/wheels/wheel.urdf.xacro" ns="$(arg ns)" />
+        <xacro:include filename="$(find phoebe_description)/urdf/rocker.urdf.xacro" />
 
         <xacro:arg name="gazebo_controllers"
             default="$(find phoebe_deploy)/config/${tf_prefix}control.yaml" />
@@ -300,7 +303,8 @@
         </joint>
 
         <!-- Gazebo Controller -->
-        <xacro:include filename="$(find phoebe_description)/urdf/gazebo.urdf.xacro" />
+        <xacro:include filename="$(find phoebe_description)/urdf/gazebo.urdf.xacro"
+            ns="$(arg ns)" />
 
         <!-- ROS2 controls -->
         <ros2_control name="r100_hardware" type="system">

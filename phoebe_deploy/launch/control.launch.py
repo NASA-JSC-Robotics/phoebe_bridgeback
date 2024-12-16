@@ -11,11 +11,11 @@ from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 
 REMAPPINGS = [
-    ('joint_states', 'platform/joint_states'),
-    ('dynamic_joint_states', 'platform/dynamic_joint_states'),
-    ('platform_velocity_controller/odom', 'platform/odom'),
-    ('platform_velocity_controller/cmd_vel_unstamped', 'platform/cmd_vel_unstamped'),
-    ('platform_velocity_controller/reference', 'platform/cmd_vel_unstamped'),
+    ('joint_states', 'joint_states'),
+    ('dynamic_joint_states', 'dynamic_joint_states'),
+    ('platform_velocity_controller/odom', 'odom'),
+    ('platform_velocity_controller/cmd_vel_unstamped', 'cmd_vel_unstamped'),
+    ('platform_velocity_controller/reference', 'cmd_vel_unstamped'),
     ('/diagnostics', 'diagnostics'),
     ('/tf', 'tf'),
     ('/tf_static', 'tf_static'),
@@ -26,13 +26,15 @@ controller_manager_name = '/controller_manager'
 
 def generate_launch_description():
     
+    namespace = LaunchConfiguration("namespace")
+    
     pkg_description = get_package_share_directory('phoebe_description')
     
     robot_controllers = PathJoinSubstitution(
         [
             FindPackageShare("phoebe_deploy"),
             "config",
-            "config.yaml",
+            "control.yaml",
         ]
     )
     urdf_model_path = os.path.join(pkg_description, 'urdf/phoebe.urdf.xacro')
@@ -46,20 +48,17 @@ def generate_launch_description():
             'joint_state_broadcaster',
             '--controller-manager-timeout',
             '300',
-            '-c',
-            controller_manager_name,
         ],
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     )
 
     # Add Platform Velocity Controller
-    platform_velocity_controller = Node(
+    velocity_controller = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['platform_velocity_controller', 
+        name="velocity_controller",
+        arguments=['velocity_controller', 
                    '--controller-manager-timeout', '300',
-                   '-c',
-                   controller_manager_name,
                    ],
 #        remappings=REMAPPINGS,
         output='screen',
@@ -68,5 +67,5 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(joint_state_broadcaster)
-    ld.add_action(platform_velocity_controller)
+    ld.add_action(velocity_controller)
     return ld

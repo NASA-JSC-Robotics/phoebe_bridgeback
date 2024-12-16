@@ -21,24 +21,26 @@ def generate_launch_description():
     headless_mode = LaunchConfiguration("headless_mode")
     namespace = LaunchConfiguration("namespace")
     
-    arg_tf_prefix = DeclareLaunchArgument(
+    arguments = []
+    
+    arguments.append(DeclareLaunchArgument(
         "tf_prefix",
         default_value='""',
         description="tf_prefix of the joint names, useful for \
         multi-robot setup. If changed, also joint names in the controllers' configuration \
         have to be updated.",
         
-    )
-    arg_use_fake_hardware = DeclareLaunchArgument(
+    ))
+    arguments.append(DeclareLaunchArgument(
         "use_fake_hardware",
         default_value="true",
         description="Start robot with fake hardware mirroring command to its states.",
-    )
-    arg_headless_mode = DeclareLaunchArgument(
+    ))
+    arguments.append(DeclareLaunchArgument(
         "headless_mode",
         default_value="false",
         description="Enable headless mode for robot control",
-    )
+    ))
     pkg_deploy = get_package_share_directory('phoebe_deploy')
     pkg_description = get_package_share_directory('phoebe_description')
     
@@ -67,8 +69,6 @@ def generate_launch_description():
             'joint_state_broadcaster',
             '--controller-manager-timeout',
             '300',
-            '-c',
-            controller_manager_name,
         ],
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     )
@@ -77,23 +77,19 @@ def generate_launch_description():
     velocity_controller = Node(
         package='controller_manager',
         executable='spawner',
-        name='platform_velocity_controller',
-        arguments=['platform_velocity_controller', 
+        name='velocity_controller',
+        arguments=['velocity_controller', 
                    '--controller-manager-timeout', '300',
-                   '-c',
-                   controller_manager_name,
                    ],
 #        remappings=REMAPPINGS,
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     )
-    
-    return LaunchDescription([
-        arg_tf_prefix,
-        arg_use_fake_hardware,
-        arg_headless_mode,
+    nodes = [
         start_world,
         spawn_robot,
         joint_state_broadcaster,
         velocity_controller
-    ])
+    ]
+    
+    return LaunchDescription(arguments + nodes)

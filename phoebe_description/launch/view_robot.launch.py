@@ -7,9 +7,9 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    declared_arguments = []
+    arguments = []
 
-    declared_arguments.append(
+    arguments.append(
         DeclareLaunchArgument(
             "tf_prefix",
             default_value='""',
@@ -18,14 +18,14 @@ def generate_launch_description():
         have to be updated.",
         )
     )
-    declared_arguments.append(
+    arguments.append(
         DeclareLaunchArgument(
             "use_fake_hardware",
             default_value="false",
             description="Start robot with fake hardware mirroring command to its states.",
         )
     )
-    declared_arguments.append(
+    arguments.append(
         DeclareLaunchArgument(
             "headless_mode",
             default_value="false",
@@ -79,10 +79,10 @@ def generate_launch_description():
         arguments=["-d", rviz_config_file],
     )
 
-    nodes_to_start = [
+    nodes = [
         joint_state_broadcaster,
         robot_state_publisher,
         rviz_node,
     ]
 
-    return LaunchDescription(declared_arguments + nodes_to_start)
+    return LaunchDescription(arguments + nodes)

@@ -21,33 +21,24 @@ def generate_launch_description():
     
     
     world = str(os.path.join(pkg_deploy, 'worlds', 'empty_world.sdf'))
-
-    return LaunchDescription([
-        DeclareLaunchArgument(
+    
+    arguments = []
+    arguments.append(DeclareLaunchArgument(
             'world',
             default_value='empty_world',
             description='World to load into Gazebo'
-        ),
-        SetLaunchConfiguration(name='world_file', 
+        ))
+    
+    actions = []
+    actions.append(SetLaunchConfiguration(name='world_file', 
                                value=[LaunchConfiguration('world'), 
-                                      TextSubstitution(text='.sdf')]),
-        SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_model_path),
-        IncludeLaunchDescription(
+                                      TextSubstitution(text='.sdf')]))
+    actions.append(SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_model_path))
+    actions.append(IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gz_launch_path),
             launch_arguments={
                 'gz_args': ['-r -v 4 ' + world], # -r to unpause the sim (required to load controls) -v verbose
                 'on_exit_shutdown': 'True'
             }.items(),
-        ),
-        #bridge communication between ros and gazebo
-        Node(
-            package='ros_gz_bridge',
-            executable='parameter_bridge',
-            name='sim_comm_bridge',
-            parameters=[{
-                'config_file': os.path.join(pkg_deploy, 'config', 'bridge.yaml'),
-                'qos_overrides./tf_static.publisher.durability': 'transient_local',
-            }],
-            output='screen'
-        ),
-    ])
+        ))
+    return(LaunchDescription(arguments + actions))

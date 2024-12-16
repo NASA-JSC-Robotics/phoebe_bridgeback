@@ -6,26 +6,49 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 import launch
-from launch.actions import DeclareLaunchArgument
-from launch_ros.actions import Node
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch_ros.actions import Node, PushRosNamespace
+from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition, UnlessCondition
 
 
-def generate_launch_description():
-    joy_config = launch.substitutions.LaunchConfiguration('joy_config')
-    joy_dev = launch.substitutions.LaunchConfiguration('joy_dev')
-    publish_stamped_twist = launch.substitutions.LaunchConfiguration('publish_stamped_twist')
-    config_filepath = launch.substitutions.LaunchConfiguration('config_filepath')
+arguments = []
+arguments.append(DeclareLaunchArgument('joy_vel', default_value='cmd_vel_unstamped'))
+arguments.append(DeclareLaunchArgument('joy_config', default_value='joy_config'))
+arguments.append(DeclareLaunchArgument('joy_dev', default_value='0'))
+arguments.append(DeclareLaunchArgument('publish_stamped_twist', default_value='false'))
+arguments.append(DeclareLaunchArgument('ns', default_value=""))
 
-    arg_joy_vel = DeclareLaunchArgument('joy_vel', default_value='/platform/cmd_vel_unstamped')
-    arg_joy_config = DeclareLaunchArgument('joy_config', default_value='joy_config')
-    arg_joy_dev = DeclareLaunchArgument('joy_dev', default_value='0')
-    arg_joy_publish_stamped_twist = DeclareLaunchArgument('publish_stamped_twist', default_value='false')
+arguments.append(DeclareLaunchArgument('config_filepath', default_value=[
+        launch.substitutions.TextSubstitution(text=os.path.join(
+            get_package_share_directory('phoebe_deploy'), 'config', '')),
+        'joy_config', launch.substitutions.TextSubstitution(text='.yaml')]))
     
-    config_file_path = DeclareLaunchArgument('config_filepath', default_value=[
-            launch.substitutions.TextSubstitution(text=os.path.join(
-                get_package_share_directory('phoebe_deploy'), 'config', '')),
-            joy_config, launch.substitutions.TextSubstitution(text='.yaml')])
+
+def launch_setup(context):
     
+    joy_config = LaunchConfiguration('joy_config')
+    joy_dev = LaunchConfiguration('joy_dev')
+    publish_stamped_twist = LaunchConfiguration('publish_stamped_twist')
+    config_filepath = LaunchConfiguration('config_filepath')
+    namespace = LaunchConfiguration("ns")
+
+    
+    namespace = LaunchConfiguration("ns").perform(context)
+    
+    if not namespace:
+        use_namespace = "False"
+    else:
+        use_namespace = "True"
+
+    if use_namespace == "True":
+        print("*************************", namespace, "**********************************") 
+    
+    
+    push_ns = PushRosNamespace(
+       condition=IfCondition([use_namespace]),
+        namespace=namespace)
     
     joy = Node(
         package='joy', 
@@ -51,15 +74,19 @@ def generate_launch_description():
                     {'publish_stamped_twist': False,
                      'use_sim_time': True,
                      }],
-        remappings={('/cmd_vel', launch.substitutions.LaunchConfiguration('joy_vel'))},
+        remappings={('cmd_vel', launch.substitutions.LaunchConfiguration('joy_vel'))},
         )
     
-    ld = launch.LaunchDescription()
-    ld.add_action(arg_joy_vel)
-    ld.add_action(arg_joy_config)
-    ld.add_action(arg_joy_dev)
-    ld.add_action(arg_joy_publish_stamped_twist)
-    ld.add_action(config_file_path)
-    ld.add_action(joy)
-    ld.add_action(teleop_joy)
+    nodes = (
+              push_ns,
+              joy, 
+              teleop_joy
+    )
+    return nodes
+    
+
+def generate_launch_description():
+    n = OpaqueFunction(function=launch_setup)
+    ld = LaunchDescription(arguments)
+    ld.add_action(n)
     return ld
