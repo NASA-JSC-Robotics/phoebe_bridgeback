@@ -15,7 +15,6 @@ from launch.conditions import IfCondition, UnlessCondition
 
 arguments = []
 arguments.append(DeclareLaunchArgument('joy_vel', default_value='cmd_vel_unstamped'))
-arguments.append(DeclareLaunchArgument('joy_config', default_value='joy_config'))
 arguments.append(DeclareLaunchArgument('joy_dev', default_value='0'))
 arguments.append(DeclareLaunchArgument('publish_stamped_twist', default_value='false'))
 arguments.append(DeclareLaunchArgument('ns', default_value=""))
@@ -28,7 +27,6 @@ arguments.append(DeclareLaunchArgument('config_filepath', default_value=[
 
 def launch_setup(context):
     
-    joy_config = LaunchConfiguration('joy_config')
     joy_dev = LaunchConfiguration('joy_dev')
     publish_stamped_twist = LaunchConfiguration('publish_stamped_twist')
     config_filepath = LaunchConfiguration('config_filepath')

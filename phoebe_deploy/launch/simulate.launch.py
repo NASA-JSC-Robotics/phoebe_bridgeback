@@ -23,9 +23,9 @@ arguments.append(DeclareLaunchArgument(
     
 ))
 arguments.append(DeclareLaunchArgument(
-    "use_fake_hardware",
+    "is_sim",
     default_value="true",
-    description="Start robot with fake hardware mirroring command to its states.",
+    description="Start robot with simulated hardware mirroring command to its states.",
 ))
 arguments.append(DeclareLaunchArgument(
     "headless_mode",
@@ -42,7 +42,7 @@ def launch_setup(context):
     
     # Initialize Arguments
     tf_prefix = LaunchConfiguration("tf_prefix")
-    use_fake_hardware = LaunchConfiguration("use_fake_hardware")
+    is_sim = LaunchConfiguration("is_sim")
     headless_mode = LaunchConfiguration("headless_mode")
     namespace = LaunchConfiguration("ns").perform(context)
     
@@ -76,7 +76,7 @@ def launch_setup(context):
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(pkg_description, 'launch', 'spawn_robot.launch.py')),
-            launch_arguments = {'use_sim_time' : use_fake_hardware,
+            launch_arguments = {'is_sim' : is_sim,
                                 'tf_prefix' : tf_prefix,
 #                                'namespace' : namespace
             }.items()
@@ -84,7 +84,7 @@ def launch_setup(context):
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(pkg_deploy, 'launch', 'control.launch.py')),
-            launch_arguments={'use_sim_time': use_fake_hardware,
+            launch_arguments={'is_sim': is_sim,
                               'tf_prefix' : tf_prefix,
                               'namespace': namespace,
             }.items()

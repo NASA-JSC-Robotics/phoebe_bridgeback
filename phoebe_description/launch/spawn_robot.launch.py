@@ -12,16 +12,16 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
 
-    is_sim = LaunchConfiguration('use_fake_hardware')
+    is_sim = LaunchConfiguration('is_sim')
     tf_prefix = LaunchConfiguration('tf_prefix')
     namespace = LaunchConfiguration('ns')
     
     arguments = []
     
     arguments.append(DeclareLaunchArgument(
-        'use_fake_hardware',
+        'is_sim',
         default_value="true",
-        description='use_fake_hardware'
+        description='spawn the robot for simulation'
     ))
     arguments.append(DeclareLaunchArgument(
         'tf_prefix',

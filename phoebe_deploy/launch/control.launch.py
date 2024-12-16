@@ -10,19 +10,6 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
 
-REMAPPINGS = [
-    ('joint_states', 'joint_states'),
-    ('dynamic_joint_states', 'dynamic_joint_states'),
-    ('platform_velocity_controller/odom', 'odom'),
-    ('platform_velocity_controller/cmd_vel_unstamped', 'cmd_vel_unstamped'),
-    ('platform_velocity_controller/reference', 'cmd_vel_unstamped'),
-    ('/diagnostics', 'diagnostics'),
-    ('/tf', 'tf'),
-    ('/tf_static', 'tf_static'),
-    ('~/robot_description', 'robot_description'),
-]
-
-controller_manager_name = '/controller_manager'
 
 def generate_launch_description():
     
@@ -60,7 +47,6 @@ def generate_launch_description():
         arguments=['velocity_controller', 
                    '--controller-manager-timeout', '300',
                    ],
-#        remappings=REMAPPINGS,
         output='screen',
         additional_env={'ROS_SUPER_CLIENT': 'True'},
     )
