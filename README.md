@@ -78,7 +78,7 @@ In the second type:
 source install/setup.bash
 ros2 launch phoebe_deploy joy_sim.launch.py
 ```
-Drive the simulation using the joystick.  You can use the teleop panel in Gazebo to drive the robot--set the cmd to /phoebe/cmd_vel and use the buttons, sliders or keyboard to drive. This doesn't support motion in the y direction.
+Drive the simulation using the joystick.  You can use the teleop panel in Gazebo to drive the robot--/cmd_vel and use the buttons, sliders or keyboard to drive. This doesn't support motion in the y direction.  If you want to namespace the teleop panel, you can change the name of the command on the panel, but you also need to change the gz_topic_name in the bridge.yaml file.
 
 ## Config files
 
@@ -105,7 +105,8 @@ In phoebe_description:
      - **`is_sim`** Sets the is_sim parameter in the xacro, so that it uses the simulated hardware. Default: `False`.
      - **`headless_mode`** Currently unused
 
-* **spawn_robot.launch.py:** shortly explain what is launched (e.g standard simulation, simulation with gdb,...)
+* **spawn_robot.launch.py:** spawns the simulated robot and the gz to ros bridge for the simulation.  Add topics to config/bridge.yaml
+when new simulated topics are added, such as cameras, imus etc.
 
      Arguments:
      - **`tf_prefix`** Prefix for all of the frame ids. Default: `""`.
@@ -121,7 +122,7 @@ In phoebe_deploy:
     Arguments:
      - **`world`** Name of the world to load. Default: `empty_world.sdf`.
 
-* **simulate.launch.py:** Launches start.world.launch.py, control.launch.py, bridge.launch.py and spawn_robot.launch.y with the correct namespace
+* **simulate.launch.py:** Launches start.world.launch.py, control.launch.py, and spawn_robot.launch.py with the correct namespace
 
      Arguments:
 
