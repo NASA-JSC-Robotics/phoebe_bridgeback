@@ -79,19 +79,21 @@ def generate_launch_description():
         output="screen",
     )
     
-    sim_comm_bridge = Node(
-            package='ros_gz_bridge',
-            executable='parameter_bridge',
-            name='sim_comm_bridge',
-            parameters=[{
-                'config_file': os.path.join(pkg_description, 'config', 'bridge.yaml'),
-                'qos_overrides./tf_static.publisher.durability': 'transient_local',
-            }],
-            output='screen'
-        )
+    sim_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='sim_bridge',
+        parameters=[{
+            'config_file': os.path.join(pkg_description, 'config', 'bridge.yaml'),
+            'qos_overrides./tf_static.publisher.durability': 'transient_local',
+        }],
+        output='screen'
+    )
+    
+    
     nodes = [robot_state_publisher,
             spawn_entity,
-            sim_comm_bridge
+            sim_bridge
             ]
 
     # Launch!
