@@ -9,23 +9,15 @@
                             # "GZ_TO_ROS" - Bridge Gz topic to ROS
                             # "ROS_TO_GZ" - Bridge ROS topic to Gz
 
-- ros_topic_name: "/clock"
-  gz_topic_name: "/clock"
-  ros_type_name: "rosgraph_msgs/msg/Clock"
-  gz_type_name: "gz.msgs.Clock"
-  direction: GZ_TO_ROS
-- ros_topic_name: "/tf"
-  gz_topic_name: "/model/diff_drive/pose"
-  ros_type_name: "tf2_msgs/msg/TFMessage"
-  gz_type_name: "gz.msgs.Pose_V"
-  direction: GZ_TO_ROS
-- ros_topic_name: "/tf_static"
-  gz_topic_name: "/model/diff_drive/pose_static"
-  ros_type_name: "tf2_msgs/msg/TFMessage"
-  gz_type_name: "gz.msgs.Pose_V"
-  direction: GZ_TO_ROS
-- ros_topic_name: "cmd_vel_unstamped"
-  gz_topic_name: "/phoebe/cmd_vel"
+#- ros_topic_name: "/clock"
+#  gz_topic_name: "/clock"
+#  ros_type_name: "rosgraph_msgs/msg/Clock"
+#  gz_type_name: "gz.msgs.Clock"
+#  direction: GZ_TO_ROS
+  
+# this is used by the telop panel in Gazebo
+- ros_topic_name: "/cmd_vel_unstamped"
+  gz_topic_name: "/bubba/cmd_vel"
   ros_type_name: "geometry_msgs/msg/Twist"
   gz_type_name: "ignition.msgs.Twist"
   direction: GZ_TO_ROS
