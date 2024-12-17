@@ -12,16 +12,16 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
 
-    is_sim = LaunchConfiguration('use_fake_hardware')
+    is_sim = LaunchConfiguration('is_sim')
     tf_prefix = LaunchConfiguration('tf_prefix')
     namespace = LaunchConfiguration('ns')
     
     arguments = []
     
     arguments.append(DeclareLaunchArgument(
-        'use_fake_hardware',
+        'is_sim',
         default_value="true",
-        description='use_fake_hardware'
+        description='spawn the robot for simulation'
     ))
     arguments.append(DeclareLaunchArgument(
         'tf_prefix',
@@ -79,19 +79,21 @@ def generate_launch_description():
         output="screen",
     )
     
-    sim_comm_bridge = Node(
-            package='ros_gz_bridge',
-            executable='parameter_bridge',
-            name='sim_comm_bridge',
-            parameters=[{
-                'config_file': os.path.join(pkg_description, 'config', 'bridge.yaml'),
-                'qos_overrides./tf_static.publisher.durability': 'transient_local',
-            }],
-            output='screen'
-        )
+    sim_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='sim_bridge',
+        parameters=[{
+            'config_file': os.path.join(pkg_description, 'config', 'bridge.yaml'),
+            'qos_overrides./tf_static.publisher.durability': 'transient_local',
+        }],
+        output='screen'
+    )
+    
+    
     nodes = [robot_state_publisher,
             spawn_entity,
-            sim_comm_bridge
+            sim_bridge
             ]
 
     # Launch!

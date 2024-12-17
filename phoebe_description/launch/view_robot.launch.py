@@ -20,9 +20,9 @@ def generate_launch_description():
     )
     arguments.append(
         DeclareLaunchArgument(
-            "use_fake_hardware",
+            "is_sim",
             default_value="false",
-            description="Start robot with fake hardware mirroring command to its states.",
+            description="Start robot with simulated hardware mirroring command to its states.",
         )
     )
     arguments.append(
@@ -35,7 +35,7 @@ def generate_launch_description():
 
     # Initialize Arguments
     tf_prefix = LaunchConfiguration("tf_prefix")
-    use_fake_hardware = LaunchConfiguration("use_fake_hardware")
+    is_sim = LaunchConfiguration("is_sim")
     headless_mode = LaunchConfiguration("headless_mode")
     
     robot_description_content = Command(
@@ -47,8 +47,8 @@ def generate_launch_description():
             "tf_prefix:=",
             tf_prefix,
             " ",
-            "use_fake_hardware:=",
-            use_fake_hardware,
+            "is_sim:=",
+            is_sim,
             " ",
             "headless_mode:=",
             headless_mode,

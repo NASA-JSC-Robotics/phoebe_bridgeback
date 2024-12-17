@@ -20,6 +20,7 @@ def generate_launch_description():
     gz_model_path = PathJoinSubstitution([pkg_description, 'urdf'])
     
     
+    
     world = str(os.path.join(pkg_deploy, 'worlds', 'empty_world.sdf'))
     
     arguments = []
@@ -41,4 +42,15 @@ def generate_launch_description():
                 'on_exit_shutdown': 'True'
             }.items(),
         ))
-    return(LaunchDescription(arguments + actions))
+    
+    clock_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='clock_bridge',
+        arguments=['/camera@rosgraph_msgs/msg/Clock[gz.msgs.Clock',],
+        output='screen'
+    )
+    nodes = []
+    nodes.append(clock_bridge)
+    
+    return(LaunchDescription(arguments + actions + nodes))
