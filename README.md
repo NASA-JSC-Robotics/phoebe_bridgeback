@@ -29,22 +29,39 @@ source install/setup.bash
 ```
 
 ## Run
+
 ```console
 ros2 launch phoebe_deploy simulate.launch.py
 ```
-
 If you have a usb joystick, in another window run:
 
 ```console
-ros2 launch phoebe_deploy joy_sim.launch
+ros2 launch phoebe_deploy joy_sim.launch.py
 ```
 
 Currently set up with Teleop enable on button 7 (larger right side trigger)
 Linear axes are on the right side thumb stick, x vertical (positive up) and y horizontal (positive left)
 Rotation is on the left side thumb stick horizontal axis, left for positive yaw.
+
+**NOTE**: On some machines (macs), ogre may have an issue with graphics acceleration.
+If you run into an error like:
+
+```console
+[ruby $(which ign) gazebo-1] terminate called after throwing an instance of 'Ogre::UnimplementedException'
+[ruby $(which ign) gazebo-1]   what():  OGRE EXCEPTION(9:UnimplementedException):  in GL3PlusTextureGpu::copyTo at /build/ogre-next-phBY09/ogre-n
+ext-2.2.5+dfsg3/RenderSystems/GL3Plus/src/OgreGL3PlusTextureGpu.cpp (line 677)
+```
+
+Then relaunch the simulation with hardware accelaration disabled:
+
+```console
+# It'll be slow but it will run
+LIBGL_ALWAYS_SOFTWARE=1 ros2 launch phoebe_deploy simulate.launch.py
+```
+
 ### Running in Docker
 
-Make sure to [install Docker](https://docs.docker.com/get-docker/) first. 
+Make sure to [install Docker](https://docs.docker.com/get-docker/) first.
 
 First, spin up a simple container:
 ```console
@@ -55,7 +72,7 @@ docker run -it --network host --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix
 
 ```
 Tip: Create a bash script with those commands
-	
+
 This will start a docker with ros2/humble installed. Type
 ```Console
 cd
@@ -132,7 +149,7 @@ In phoebe_deploy:
 
 * **joy_sim.launch.py:** starts the joystick interface
     Arguments:
-     
+
     - **`joy_vel`** output topic for commanded velocity. Default:`cmd_vel_unstamped`
     - **`joy_dev`** which joystick device to use. Default:`0`
 
