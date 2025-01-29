@@ -33,6 +33,7 @@ source install/setup.bash
 ```console
 ros2 launch phoebe_deploy simulate.launch.py
 ```
+
 If you have a usb joystick, in another window run:
 
 ```console
@@ -42,6 +43,14 @@ ros2 launch phoebe_deploy joy_sim.launch.py
 Currently set up with Teleop enable on button 7 (larger right side trigger)
 Linear axes are on the right side thumb stick, x vertical (positive up) and y horizontal (positive left)
 Rotation is on the left side thumb stick horizontal axis, left for positive yaw.
+
+If you do not have a joystick you can use the included simple keyboard joystick with:
+
+```console
+ros2 run phoebe_deploy keyboard_joy.py
+```
+
+And use the arrow keys to move forward/backwards, and rotate about z axis.
 
 **NOTE**: On some machines (macs), ogre may have an issue with graphics acceleration.
 If you run into an error like:
