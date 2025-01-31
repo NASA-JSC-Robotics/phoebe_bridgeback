@@ -61,7 +61,7 @@ If you run into an error like:
 ext-2.2.5+dfsg3/RenderSystems/GL3Plus/src/OgreGL3PlusTextureGpu.cpp (line 677)
 ```
 
-Then relaunch the simulation with hardware accelaration disabled:
+Then relaunch the simulation with hardware acceleration disabled:
 
 ```console
 # It'll be slow but it will run
