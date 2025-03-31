@@ -15,4 +15,7 @@
         is_sim="$(arg is_sim)"
         ns="$(arg ns)"
     />
+
+    <xacro:include filename="$(find phoebe_description)/urdf/jaco01_customization.urdf.xacro" />
+    <xacro:jaco01_customization/>
 </robot>
