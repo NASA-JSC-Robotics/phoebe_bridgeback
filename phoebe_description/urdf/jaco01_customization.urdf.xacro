@@ -1,0 +1,517 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+
+<!-- Mounting rails for lifts -->
+
+  <link name="lift_rails">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/lift_rails.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0.000 -0.000 0.020"/>
+      <geometry>
+        <!--<mesh filename="package://jaco01_ridgeback_description/meshes/lift_rails.STL"/>-->
+        <box size="0.220 0.730 0.040"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="lift_rails_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="lift_rails" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+<!-- Rear shelf -->
+
+  <link name="rear_shelf">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/shelf.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="-0.289 0.000 0.113"/>
+      <geometry>
+        <!--<mesh filename="package://jaco01_ridgeback_description/meshes/shelf.STL"/>-->
+        <box size="0.379 0.790 0.226"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="rear_shelf_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="rear_shelf" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+<!-- Front shelf -->
+
+  <link name="front_shelf">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/shelf.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="-0.289 0.000 0.113"/>
+      <geometry>
+        <!--<mesh filename="package://jaco01_ridgeback_description/meshes/shelf.STL"/>-->
+        <box size="0.379 0.790 0.226"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="front_shelf_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="front_shelf" />
+    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+  </joint>
+
+<!-- Monitor hinge base -->
+
+  <link name="monitor_hinge_base">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/monitor_hinge_base.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0.000 0.000 -0.003"/>
+      <geometry>
+        <box size="0.040 0.450 0.036"/>
+        <!--<mesh filename="package://jaco01_ridgeback_description/meshes/monitor_hinge_base.STL"/>-->
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="monitor_hinge_base_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="monitor_hinge_base" />
+    <origin xyz="-0.4 0 0.24635" rpy="0 0 0" />
+  </joint>
+
+<!-- Monitor hinge top -->
+
+  <link name="monitor_hinge_top">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/monitor_hinge_top.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="-0.013 0.000 0.000"/>
+      <geometry>
+        <!--<mesh filename="package://jaco01_ridgeback_description/meshes/monitor_hinge_top.STL"/>-->
+        <box size="0.055 0.450 0.040"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="monitor_hinge_top_joint" type="fixed">
+    <parent link="monitor_hinge_base" />
+    <child link="monitor_hinge_top" />
+    <origin xyz="0 0 0" rpy="0 0.74 0" />
+  </joint>
+
+<!-- Left monitor -->
+
+  <link name="left_monitor">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/monitor.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="-0.015 0.000 -0.008"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/monitor.STL"/> -->
+        <box size="0.071 0.260 0.176"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_monitor_joint" type="fixed">
+    <parent link="monitor_hinge_top" />
+    <child link="left_monitor" />
+    <origin xyz="-0.04 0.18 0.01" rpy="0 0 0" />
+  </joint>
+
+<!-- Right monitor -->
+
+  <link name="right_monitor">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/monitor.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="-0.015 0.000 -0.008"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/monitor.STL"/> -->
+        <box size="0.071 0.260 0.176"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_monitor_joint" type="fixed">
+    <parent link="monitor_hinge_top" />
+    <child link="right_monitor" />
+    <origin xyz="-0.04 -0.18 0.01" rpy="0 0 0" />
+  </joint>
+
+<!-- Rear UR Control Box -->
+
+  <link name="rear_ur_control_box">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/ur_control_box.STL"/>
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0.090 -0.107 0.098"/>
+      <geometry>
+        <box size="0.199 0.502 0.195"/>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/ur_control_box.STL"/> -->
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="rear_ur_control_box_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="rear_ur_control_box" />
+    <origin xyz="-0.44274 0.13 0" rpy="0 0 0" />
+  </joint>
+
+<!-- Front UR Control Box -->
+
+  <link name="front_ur_control_box">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/ur_control_box.STL"/>
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0.090 -0.107 0.098"/>
+      <geometry>
+        <box size="0.199 0.502 0.195"/>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/ur_control_box.STL"/> -->
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="front_ur_control_box_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="front_ur_control_box" />
+    <origin xyz="0.44274 -0.13 0" rpy="0 0 ${pi}" />
+  </joint>
+
+<!-- Rear Ewellix SCU -->
+
+  <link name="rear_scu">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/scu.STL"/>
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0.000 0.002 0.043"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/scu.STL"/> -->
+        <box size="0.140 0.365 0.087"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="rear_scu_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="rear_scu" />
+    <origin xyz="-0.18187 0 0" rpy="0 0 0" />
+  </joint>
+
+<!-- Front Ewellix SCU -->
+
+  <link name="front_scu">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/scu.STL"/>
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0.000 0.002 0.043"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/scu.STL"/> -->
+        <box size="0.140 0.365 0.087"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="front_scu_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="front_scu" />
+    <origin xyz="0.18187 0 0" rpy="0 0 ${pi}" />
+  </joint>
+
+<!-- Autec wireless e-stop MVRCAN receiver -->
+
+  <link name="autec_receiver">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/autec_receiver.STL"/>
+      </geometry>
+      <material name="yellow" />
+    </visual>
+    <collision>
+      <origin xyz="0.008 0.000 0.031"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/autec_receiver.STL"/> -->
+        <box size="0.255 0.142 0.062"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="autec_receiver_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="autec_receiver" />
+    <origin xyz="-0.26 -0.29909 0" rpy="0 0 0" />
+  </joint>
+
+<!-- Right wifi antenna -->
+
+  <link name="right_wifi_antenna">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/wifi_antenna.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="-0.003 0.000 0.089"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/wifi_antenna.STL"/> -->
+        <cylinder radius="0.033" length="0.229"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_wifi_antenna_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="right_wifi_antenna" />
+    <origin xyz="-0.086 -0.384 0.22" rpy="0 0 0" />
+  </joint>
+
+<!-- Left wifi antenna -->
+
+  <link name="left_wifi_antenna">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/wifi_antenna.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="-0.003 0.000 0.089"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/wifi_antenna.STL"/> -->
+        <cylinder radius="0.033" length="0.229"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_wifi_antenna_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="left_wifi_antenna" />
+    <origin xyz="-0.086 0.384 0.22" rpy="0 0 0" />
+  </joint>
+
+<!-- Autec wireless e-stop antenna -->
+
+  <link name="autec_antenna">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/autec_antenna.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0.002 0.000 0.049"/>
+      <geometry>
+        <!-- <mesh filename="package://jaco01_ridgeback_description/meshes/autec_antenna.STL"/> -->
+        <cylinder radius="0.037" length="0.147"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="autec_antenna_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="autec_antenna" />
+    <origin xyz="0.0845 -0.384 0.22" rpy="0 0 0" />
+  </joint>
+
+<!-- Left Ewellix mounting flange -->
+
+  <link name="left_ewellix_mount_flange_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.015"/>
+      </geometry>
+      <material name="grey"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.015"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+    </collision>
+  </link>
+
+  <joint name="left_ewellix_mount_flange_joint" type="fixed">
+    <parent link="mid_mount"/>
+    <child link="left_ewellix_mount_flange_link"/>
+    <origin xyz="0 $(optenv LEFT_LIFT_Y 0.2) 0.04" rpy="0 0 0" />
+  </joint>
+
+<!-- Right Ewellix mounting flange -->
+
+  <link name="right_ewellix_mount_flange_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.015"/>
+      </geometry>
+      <material name="grey"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.015"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+    </collision>
+  </link>
+
+  <joint name="right_ewellix_mount_flange_joint" type="fixed">
+    <parent link="mid_mount"/>
+    <child link="right_ewellix_mount_flange_link"/>
+    <origin xyz="0 -$(optenv RIGHT_LIFT_Y 0.2) 0.04" rpy="0 0 0" />
+  </joint>
+
+<!-- Ewellix lift column xacro -->
+
+  <xacro:include filename="$(find ewellix_tlt)/urdf/ewellix_lift_500mm.urdf.xacro" />
+
+  <xacro:ewellix_lift_500mm prefix="left_" parent="left_ewellix_mount_flange_link" cut_model="1">
+    <origin xyz="0.0 0.0 0.015" rpy="0 0 0" />
+  </xacro:ewellix_lift_500mm>
+
+  <xacro:ewellix_lift_500mm prefix="right_" parent="right_ewellix_mount_flange_link" cut_model="1">
+    <origin xyz="0.0 0.0 0.015" rpy="0 0 0" />
+  </xacro:ewellix_lift_500mm>
+
+<!-- Left arm mount plate -->
+
+  <link name="left_arm_mount_plate">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/arm_mount.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/arm_mount_collision.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_arm_mount_plate_joint" type="fixed">
+    <parent link="left_ewellix_lift_top_link" />
+    <child link="left_arm_mount_plate" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+<!-- Right arm mount plate -->
+
+  <link name="right_arm_mount_plate">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/arm_mount.STL"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco01_ridgeback_description/meshes/arm_mount_collision.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_arm_mount_plate_joint" type="fixed">
+    <parent link="right_ewellix_lift_top_link" />
+    <child link="right_arm_mount_plate" />
+    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+  </joint>
+
+<!-- Dual UR5e (copied from ridgeback_dual_ur5_e_description.urdf.xacro and modified) -->
+
+  <xacro:include filename="$(find ur_description)/urdf/inc/ur5e_macro.xacro" />
+
+  <link name="left_arm_mount_plate_2"> </link>
+
+  <joint name="left_arm_mount_joint" type="fixed">
+    <parent link="left_arm_mount_plate" />
+    <child link="left_arm_mount_plate_2" />
+    <origin xyz="0 0.01628 0.09117" rpy="-${pi/4} 0 0"/>
+  </joint>
+
+  <joint name="left_arm_mount_joint_2" type="fixed">
+    <parent link="left_arm_mount_plate_2" />
+    <child link="left_ur_arm_base_link" />
+    <origin xyz="$(optenv RIDGEBACK_LEFT_UR_XYZ 0 0 0)" rpy="$(optenv RIDGEBACK_LEFT_UR_RPY 0 0 0)" />
+  </joint>
+
+  <link name="right_arm_mount_plate_2"> </link>
+
+  <joint name="right_arm_mount_joint" type="fixed">
+    <parent link="right_arm_mount_plate" />
+    <child link="right_arm_mount_plate_2" />
+    <origin xyz="0 0.01628 0.09117" rpy="${pi/4} 0 ${pi}"/>
+  </joint>
+
+  <joint name="right_arm_mount_joint_2" type="fixed">
+    <parent link="right_arm_mount_plate_2" />
+    <child link="right_ur_arm_base_link" />
+    <origin xyz="$(optenv RIDGEBACK_RIGHT_UR_XYZ 0 0 0)" rpy="$(optenv RIDGEBACK_RIGHT_UR_RPY 0 0 0)" />
+  </joint>
+
+  <xacro:ur5e_robot prefix="right_ur_arm_" />
+  <xacro:ur5e_robot prefix="left_ur_arm_" />
+
+<!-- Hand-E Grippers -->
+  <xacro:include filename="$(find robotiq_hande_gripper_visualization)/urdf/robotiq_ur_hande.urdf.xacro"/>
+  <xacro:robotiq_ur_hande parent="left_ur_arm_tool0" prefix="left_gripper_">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:robotiq_ur_hande>
+
+  <xacro:robotiq_ur_hande parent="right_ur_arm_tool0" prefix="right_gripper_">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:robotiq_ur_hande>
+
+</robot>
