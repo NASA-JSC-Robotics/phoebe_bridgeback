@@ -432,23 +432,23 @@
 
   <!-- clearpath ewellix -->
   <xacro:include filename="$(find clearpath_manipulators_description)/urdf/lift/ewellix.urdf.xacro"/>
-  <xacro:ewellix name="left" parent_link="left_ewellix_mount_flange_link">
+  <xacro:ewellix name="left" parent_link="left_ewellix_mount_flange_link" add_plate="false">
     <origin xyz="0.0 0.0 0.015" rpy="0 0 0"/>
   </xacro:ewellix>
-  <xacro:ewellix name="right" parent_link="right_ewellix_mount_flange_link">
+  <xacro:ewellix name="right" parent_link="right_ewellix_mount_flange_link" add_plate="false">
     <origin xyz="0.0 0.0 0.015" rpy="0 0 0"/>
   </xacro:ewellix>
   <!-- end clearpath ewellix -->
 
   <!-- our_ewellix -->
+  <!-- use_fake_hardware="$(arg use_fake_hardware)"
+  com_port="$(arg com_port)" -->
+  <!-- base is 0.015 from clearpath description. 0.2457 is from ewellix_lift.xacro -->
 
-    <xacro:include filename="$(find ewellix_liftkit_description)/urdf/ewellix_lift.xacro"/>
-    <xacro:include filename="$(find ewellix_liftkit_description)/urdf/properties.xacro"/>
+  <!-- <xacro:include filename="$(find ewellix_liftkit_description)/urdf/ewellix_lift.xacro"/>
+  <xacro:include filename="$(find ewellix_liftkit_description)/urdf/properties.xacro"/>
 
-    <!-- use_fake_hardware="$(arg use_fake_hardware)"
-    com_port="$(arg com_port)" -->
-    <!-- base is 0.015 from clearpath description. 0.295 is from ewellix_lift.xacro -->
-    <!-- <xacro:ewellix_lift
+  <xacro:ewellix_lift
     name="left_ewellix"
     is_700="false"
     is_500="true"
@@ -457,13 +457,10 @@
     height_limit="0.5"
     omit_plates="true"
   >
-    <origin xyz="0 0 ${0.015+0.295}" rpy="0 0 0"/>
-  </xacro:ewellix_lift> -->
+    <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
+  </xacro:ewellix_lift>
 
-    <!-- use_fake_hardware="$(arg use_fake_hardware)"
-    com_port="$(arg com_port)" -->
-    <!-- base is 0.015 from clearpath description. 0.295 is from ewellix_lift.xacro -->
-    <!-- <xacro:ewellix_lift
+  <xacro:ewellix_lift
     name="right_ewellix"
     is_700="false"
     is_500="true"
@@ -472,7 +469,7 @@
     height_limit="0.5"
     omit_plates="true"
   >
-    <origin xyz="0 0 ${0.015+0.295}" rpy="0 0 0"/> 
+    <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/> 
   </xacro:ewellix_lift> -->
   <!-- end our_ewellix -->
 
@@ -614,14 +611,25 @@
     </xacro:ur_robot>
 
 <!-- Hand-E Grippers -->
-  <!-- <xacro:include filename="$(find robotiq_hande_gripper_visualization)/urdf/robotiq_ur_hande.urdf.xacro"/>
-  <xacro:robotiq_ur_hande parent="left_ur_arm_tool0" prefix="left_gripper_">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </xacro:robotiq_ur_hande>
+    <!-- com_port="${com_port_hande}"
+    use_fake_hardware="${use_fake_hardware}" -->
 
-  <xacro:robotiq_ur_hande parent="right_ur_arm_tool0" prefix="right_gripper_">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </xacro:robotiq_ur_hande> -->
+    <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
+    <xacro:dextivr_hande
+      name="right_dextivr_hande"
+      tf_prefix="right_"
+      parent="right_ur_arm_tool0"
+      finger_xacro="fngr_original">
+      <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
+    </xacro:dextivr_hande>
+
+    <xacro:dextivr_hande
+      name="left_dextivr_hande"
+      tf_prefix="left_"
+      parent="left_ur_arm_tool0"
+      finger_xacro="fngr_original">
+      <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
+    </xacro:dextivr_hande>
 
   </xacro:macro>
 </robot>
