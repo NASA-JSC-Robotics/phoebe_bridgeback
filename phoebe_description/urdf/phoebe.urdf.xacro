@@ -3,8 +3,16 @@
     <xacro:arg name="tf_prefix" default="" />
 
     <xacro:arg name="ns" default="" />
-    <xacro:arg name="is_sim" default="true" />
-    <xacro:arg name="parent" default="world" />
+    <xacro:arg name="is_sim" default="false" />
+
+    <xacro:arg name="sim_ignition" default="false" />
+    <xacro:arg name="use_fake_hardware" default="false" />
+    <xacro:arg name="left_ewellix_com_port" default="/dev/ttyUSB0" />
+    <xacro:arg name="right_ewellix_com_port" default="/dev/ttyUSB1" />
+    <xacro:arg name="left_ur_ip_addr" default="192.168.131.40" />
+    <xacro:arg name="right_ur_ip_addr" default="192.168.131.41" />
+    <xacro:arg name="left_ur_kinematics_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
+    <xacro:arg name="right_ur_kinematics_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
 
     <!-- Includes -->
     <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
@@ -17,5 +25,16 @@
     />
 
     <xacro:include filename="$(find phoebe_description)/urdf/jaco01_customization.urdf.xacro" />
-    <xacro:jaco01_customization/>
+
+    <xacro:jaco01_customization
+        tf_prefix="$(arg tf_prefix)"
+        use_fake_hardware="$(arg is_sim)"
+        sim_ignition="$(arg sim_ignition)"
+        left_ewellix_com_port="$(arg left_ewellix_com_port)"
+        right_ewellix_com_port="$(arg right_ewellix_com_port)"
+        left_ur_ip_addr="$(arg left_ur_ip_addr)"
+        right_ur_ip_addr="$(arg right_ur_ip_addr)"
+        left_ur_kinematics_file="$(arg left_ur_kinematics_file)"
+        right_ur_kinematics_file="$(arg right_ur_kinematics_file)"
+    />
 </robot>

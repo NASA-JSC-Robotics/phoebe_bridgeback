@@ -2,15 +2,29 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
   <!-- Macro for phoebe customization -->
-  <xacro:macro name="jaco01_customization">
+  <xacro:macro 
+    name="jaco01_customization"
+    params="
+      use_fake_hardware:='false'
+      sim_ignition:='false'
+      tf_prefix:=''
+      left_ewellix_com_port:='/dev/ttyUSB0'
+      right_ewellix_com_port:='/dev/ttyUSB1'
+      left_hande_com_port:='/dev/ttyUSB2'
+      right_hande_com_port:='/dev/ttyUSB3'
+      left_ur_ip_addr:='192.168.131.40'
+      right_ur_ip_addr:='192.168.131.41'
+      left_ur_kinematics_file:='$(find ur_description)/config/ur5e/default_kinematics.yaml'
+      right_ur_kinematics_file:='(find ur_description)/config/ur5e/default_kinematics.yaml'
+    "
+  >
 
   <material name="grey">
     <color rgba="0.5 0.5 0.5 1"/>
   </material>
 
-<!-- Mounting rails for lifts -->
-
-  <link name="lift_rails">
+  <!-- Mounting rails for lifts -->
+  <link name="${tf_prefix}lift_rails">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/lift_rails.STL"/>
@@ -26,15 +40,14 @@
     </collision>
   </link>
 
-  <joint name="lift_rails_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="lift_rails" />
+  <joint name="${tf_prefix}lift_rails_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}lift_rails" />
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
-<!-- Rear shelf -->
-
-  <link name="rear_shelf">
+  <!-- Rear shelf -->
+  <link name="${tf_prefix}rear_shelf">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/shelf.STL"/>
@@ -50,15 +63,14 @@
     </collision>
   </link>
 
-  <joint name="rear_shelf_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="rear_shelf" />
+  <joint name="${tf_prefix}rear_shelf_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}rear_shelf" />
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
-<!-- Front shelf -->
-
-  <link name="front_shelf">
+  <!-- Front shelf -->
+  <link name="${tf_prefix}front_shelf">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/shelf.STL"/>
@@ -74,15 +86,14 @@
     </collision>
   </link>
 
-  <joint name="front_shelf_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="front_shelf" />
+  <joint name="${tf_prefix}front_shelf_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}front_shelf" />
     <origin xyz="0 0 0" rpy="0 0 ${pi}" />
   </joint>
 
-<!-- Monitor hinge base -->
-
-  <link name="monitor_hinge_base">
+  <!-- Monitor hinge base -->
+  <link name="${tf_prefix}monitor_hinge_base">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor_hinge_base.STL"/>
@@ -98,15 +109,14 @@
     </collision>
   </link>
 
-  <joint name="monitor_hinge_base_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="monitor_hinge_base" />
+  <joint name="${tf_prefix}monitor_hinge_base_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}monitor_hinge_base" />
     <origin xyz="-0.4 0 0.24635" rpy="0 0 0" />
   </joint>
 
-<!-- Monitor hinge top -->
-
-  <link name="monitor_hinge_top">
+  <!-- Monitor hinge top -->
+  <link name="${tf_prefix}monitor_hinge_top">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor_hinge_top.STL"/>
@@ -122,15 +132,14 @@
     </collision>
   </link>
 
-  <joint name="monitor_hinge_top_joint" type="fixed">
-    <parent link="monitor_hinge_base" />
-    <child link="monitor_hinge_top" />
+  <joint name="${tf_prefix}monitor_hinge_top_joint" type="fixed">
+    <parent link="${tf_prefix}monitor_hinge_base" />
+    <child link="${tf_prefix}monitor_hinge_top" />
     <origin xyz="0 0 0" rpy="0 0.74 0" />
   </joint>
 
-<!-- Left monitor -->
-
-  <link name="left_monitor">
+  <!-- Left monitor -->
+  <link name="${tf_prefix}left_monitor">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor.STL"/>
@@ -146,15 +155,14 @@
     </collision>
   </link>
 
-  <joint name="left_monitor_joint" type="fixed">
-    <parent link="monitor_hinge_top" />
-    <child link="left_monitor" />
+  <joint name="${tf_prefix}left_monitor_joint" type="fixed">
+    <parent link="${tf_prefix}monitor_hinge_top" />
+    <child link="${tf_prefix}left_monitor" />
     <origin xyz="-0.04 0.18 0.01" rpy="0 0 0" />
   </joint>
 
-<!-- Right monitor -->
-
-  <link name="right_monitor">
+  <!-- Right monitor -->
+  <link name="${tf_prefix}right_monitor">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor.STL"/>
@@ -170,15 +178,14 @@
     </collision>
   </link>
 
-  <joint name="right_monitor_joint" type="fixed">
-    <parent link="monitor_hinge_top" />
-    <child link="right_monitor" />
+  <joint name="${tf_prefix}right_monitor_joint" type="fixed">
+    <parent link="${tf_prefix}monitor_hinge_top" />
+    <child link="${tf_prefix}right_monitor" />
     <origin xyz="-0.04 -0.18 0.01" rpy="0 0 0" />
   </joint>
 
-<!-- Rear UR Control Box -->
-
-  <link name="rear_ur_control_box">
+  <!-- Rear UR Control Box -->
+  <link name="${tf_prefix}rear_ur_control_box">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
@@ -194,15 +201,14 @@
     </collision>
   </link>
 
-  <joint name="rear_ur_control_box_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="rear_ur_control_box" />
+  <joint name="${tf_prefix}rear_ur_control_box_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}rear_ur_control_box" />
     <origin xyz="-0.44274 0.13 0" rpy="0 0 0" />
   </joint>
 
-<!-- Front UR Control Box -->
-
-  <link name="front_ur_control_box">
+  <!-- Front UR Control Box -->
+  <link name="${tf_prefix}front_ur_control_box">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
@@ -218,15 +224,14 @@
     </collision>
   </link>
 
-  <joint name="front_ur_control_box_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="front_ur_control_box" />
+  <joint name="${tf_prefix}front_ur_control_box_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}front_ur_control_box" />
     <origin xyz="0.44274 -0.13 0" rpy="0 0 ${pi}" />
   </joint>
 
-<!-- Rear Ewellix SCU -->
-
-  <link name="rear_scu">
+  <!-- Rear Ewellix SCU -->
+  <link name="${tf_prefix}rear_scu">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/scu.STL"/>
@@ -242,15 +247,14 @@
     </collision>
   </link>
 
-  <joint name="rear_scu_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="rear_scu" />
+  <joint name="${tf_prefix}rear_scu_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}rear_scu" />
     <origin xyz="-0.18187 0 0" rpy="0 0 0" />
   </joint>
 
-<!-- Front Ewellix SCU -->
-
-  <link name="front_scu">
+  <!-- Front Ewellix SCU -->
+  <link name="${tf_prefix}front_scu">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/scu.STL"/>
@@ -266,15 +270,14 @@
     </collision>
   </link>
 
-  <joint name="front_scu_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="front_scu" />
+  <joint name="${tf_prefix}front_scu_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}front_scu" />
     <origin xyz="0.18187 0 0" rpy="0 0 ${pi}" />
   </joint>
 
-<!-- Autec wireless e-stop MVRCAN receiver -->
-
-  <link name="autec_receiver">
+  <!-- Autec wireless e-stop MVRCAN receiver -->
+  <link name="${tf_prefix}autec_receiver">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/autec_receiver.STL"/>
@@ -290,15 +293,14 @@
     </collision>
   </link>
 
-  <joint name="autec_receiver_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="autec_receiver" />
+  <joint name="${tf_prefix}autec_receiver_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}autec_receiver" />
     <origin xyz="-0.26 -0.29909 0" rpy="0 0 0" />
   </joint>
 
-<!-- Right wifi antenna -->
-
-  <link name="right_wifi_antenna">
+  <!-- Right wifi antenna -->
+  <link name="${tf_prefix}right_wifi_antenna">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/wifi_antenna.STL"/>
@@ -314,15 +316,14 @@
     </collision>
   </link>
 
-  <joint name="right_wifi_antenna_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="right_wifi_antenna" />
+  <joint name="${tf_prefix}right_wifi_antenna_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}right_wifi_antenna" />
     <origin xyz="-0.086 -0.384 0.22" rpy="0 0 0" />
   </joint>
 
-<!-- Left wifi antenna -->
-
-  <link name="left_wifi_antenna">
+  <!-- Left wifi antenna -->
+  <link name="${tf_prefix}left_wifi_antenna">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/wifi_antenna.STL"/>
@@ -338,15 +339,14 @@
     </collision>
   </link>
 
-  <joint name="left_wifi_antenna_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="left_wifi_antenna" />
+  <joint name="${tf_prefix}left_wifi_antenna_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}left_wifi_antenna" />
     <origin xyz="-0.086 0.384 0.22" rpy="0 0 0" />
   </joint>
 
-<!-- Autec wireless e-stop antenna -->
-
-  <link name="autec_antenna">
+  <!-- Autec wireless e-stop antenna --> 
+  <link name="${tf_prefix}autec_antenna">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/autec_antenna.STL"/>
@@ -362,15 +362,14 @@
     </collision>
   </link>
 
-  <joint name="autec_antenna_joint" type="fixed">
-    <parent link="default_mount" />
-    <child link="autec_antenna" />
+  <joint name="${tf_prefix}autec_antenna_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount" />
+    <child link="${tf_prefix}autec_antenna" />
     <origin xyz="0.0845 -0.384 0.22" rpy="0 0 0" />
   </joint>
 
-<!-- Left Ewellix mounting flange -->
-
-  <link name="left_ewellix_mount_flange_link">
+  <!-- Left Ewellix mounting flange --> 
+  <link name="${tf_prefix}left_ewellix_mount_flange_link">
     <visual>
       <geometry>
         <box size="0.2 0.2 0.015"/>
@@ -386,15 +385,14 @@
     </collision>
   </link>
 
-  <joint name="left_ewellix_mount_flange_joint" type="fixed">
-    <parent link="default_mount"/>
-    <child link="left_ewellix_mount_flange_link"/>
+  <joint name="${tf_prefix}left_ewellix_mount_flange_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount"/>
+    <child link="${tf_prefix}left_ewellix_mount_flange_link"/>
     <origin xyz="0 $(optenv LEFT_LIFT_Y 0.2) 0.04" rpy="0 0 0" />
   </joint>
 
-<!-- Right Ewellix mounting flange -->
-
-  <link name="right_ewellix_mount_flange_link">
+  <!-- Right Ewellix mounting flange -->
+  <link name="${tf_prefix}right_ewellix_mount_flange_link">
     <visual>
       <geometry>
         <box size="0.2 0.2 0.015"/>
@@ -410,73 +408,47 @@
     </collision>
   </link>
 
-  <joint name="right_ewellix_mount_flange_joint" type="fixed">
-    <parent link="default_mount"/>
-    <child link="right_ewellix_mount_flange_link"/>
+  <joint name="${tf_prefix}right_ewellix_mount_flange_joint" type="fixed">
+    <parent link="${tf_prefix}default_mount"/>
+    <child link="${tf_prefix}right_ewellix_mount_flange_link"/>
     <origin xyz="0 -$(optenv RIGHT_LIFT_Y 0.2) 0.04" rpy="0 0 0" />
   </joint>
 
 <!-- Ewellix lift column xacro -->
-
-  <!-- OLD VERSION -->
-  <!-- <xacro:include filename="$(find ewellix_lift)/urdf/ewellix_lift_500mm.urdf.xacro" />
-
-  <xacro:ewellix_lift_500mm prefix="left_" parent="left_ewellix_mount_flange_link" cut_model="1">
-    <origin xyz="0.0 0.0 0.015" rpy="0 0 0" />
-  </xacro:ewellix_lift_500mm>
-
-  <xacro:ewellix_lift_500mm prefix="right_" parent="right_ewellix_mount_flange_link" cut_model="1">
-    <origin xyz="0.0 0.0 0.015" rpy="0 0 0" />
-  </xacro:ewellix_lift_500mm> -->
-  <!-- end OLD VERSION -->
-
-  <!-- clearpath ewellix -->
-  <xacro:include filename="$(find clearpath_manipulators_description)/urdf/lift/ewellix.urdf.xacro"/>
-  <xacro:ewellix name="left" parent_link="left_ewellix_mount_flange_link" add_plate="false">
-    <origin xyz="0.0 0.0 0.015" rpy="0 0 0"/>
-  </xacro:ewellix>
-  <xacro:ewellix name="right" parent_link="right_ewellix_mount_flange_link" add_plate="false">
-    <origin xyz="0.0 0.0 0.015" rpy="0 0 0"/>
-  </xacro:ewellix>
-  <!-- end clearpath ewellix -->
-
-  <!-- our_ewellix -->
-  <!-- use_fake_hardware="$(arg use_fake_hardware)"
-  com_port="$(arg com_port)" -->
-  <!-- base is 0.015 from clearpath description. 0.2457 is from ewellix_lift.xacro -->
-
-  <!-- <xacro:include filename="$(find ewellix_liftkit_description)/urdf/ewellix_lift.xacro"/>
+  <!-- base is 0.075 (0.015/2) from clearpath description. 0.2457 is from DRT's ewellix_lift.xacro -->
+  <xacro:include filename="$(find ewellix_liftkit_description)/urdf/ewellix_lift.xacro"/>
   <xacro:include filename="$(find ewellix_liftkit_description)/urdf/properties.xacro"/>
 
   <xacro:ewellix_lift
-    name="left_ewellix"
+    name="${tf_prefix}left_ewellix"
     is_700="false"
     is_500="true"
-    tf_prefix="left_"
-    parent="left_ewellix_mount_flange_link"
+    tf_prefix="${tf_prefix}left_"
+    parent="${tf_prefix}left_ewellix_mount_flange_link"
     height_limit="0.5"
     omit_plates="true"
+    use_fake_hardware="${use_fake_hardware}"
+    com_port="${left_ewellix_com_port}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
   </xacro:ewellix_lift>
 
   <xacro:ewellix_lift
-    name="right_ewellix"
+    name="${tf_prefix}right_ewellix"
     is_700="false"
     is_500="true"
-    tf_prefix="right_"
-    parent="right_ewellix_mount_flange_link"
+    tf_prefix="${tf_prefix}right_"
+    parent="${tf_prefix}right_ewellix_mount_flange_link"
     height_limit="0.5"
     omit_plates="true"
+    use_fake_hardware="${use_fake_hardware}"
+    com_port="${right_ewellix_com_port}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/> 
-  </xacro:ewellix_lift> -->
-  <!-- end our_ewellix -->
+  </xacro:ewellix_lift>
 
-
-<!-- Left arm mount plate -->
-
-  <link name="left_arm_mount_plate">
+  <!-- Left arm mount plate -->
+  <link name="${tf_prefix}left_arm_mount_plate">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
@@ -490,16 +462,14 @@
     </collision>
   </link>
 
-  <joint name="left_arm_mount_plate_joint" type="fixed">
-    <parent link="left_mount" />
-    <!-- <parent link="left_ewellix_lift_tip_link" /> -->
-    <child link="left_arm_mount_plate" />
+  <joint name="${tf_prefix}left_arm_mount_plate_joint" type="fixed">
+    <parent link="${tf_prefix}left_ewellix_lift_tip_link" />
+    <child link="${tf_prefix}left_arm_mount_plate" />
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
-<!-- Right arm mount plate -->
-
-  <link name="right_arm_mount_plate">
+  <!-- Right arm mount plate -->
+  <link name="${tf_prefix}right_arm_mount_plate">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
@@ -513,123 +483,90 @@
     </collision>
   </link>
 
-  <joint name="right_arm_mount_plate_joint" type="fixed">
-    <parent link="right_mount" />
-    <!-- <parent link="right_ewellix_lift_tip_link" /> -->
-    <child link="right_arm_mount_plate" />
+  <joint name="${tf_prefix}right_arm_mount_plate_joint" type="fixed">
+    <parent link="${tf_prefix}right_ewellix_lift_tip_link" />
+    <child link="${tf_prefix}right_arm_mount_plate" />
     <origin xyz="0 0 0" rpy="0 0 ${pi}" />
   </joint>
 
-<!-- Dual UR5e (copied from ridgeback_dual_ur5_e_description.urdf.xacro and modified) -->
+  <link name="${tf_prefix}left_arm_mount_plate_2"> </link>
 
-  <!-- <xacro:include filename="$(find ur_description)/urdf/inc/ur5e_macro.xacro" /> -->
-
-  <link name="left_arm_mount_plate_2"> </link>
-
-  <joint name="left_arm_mount_joint" type="fixed">
-    <parent link="left_arm_mount_plate" />
-    <child link="left_arm_mount_plate_2" />
+  <joint name="${tf_prefix}left_arm_mount_joint" type="fixed">
+    <parent link="${tf_prefix}left_arm_mount_plate" />
+    <child link="${tf_prefix}left_arm_mount_plate_2" />
     <origin xyz="0 0.01628 0.09117" rpy="-${pi/4} 0 0"/>
   </joint>
 
-  <!-- <joint name="left_arm_mount_joint_2" type="fixed">
-    <parent link="left_arm_mount_plate_2" />
-    <child link="left_ur_arm_base_link" />
-    <origin xyz="$(optenv RIDGEBACK_LEFT_UR_XYZ 0 0 0)" rpy="$(optenv RIDGEBACK_LEFT_UR_RPY 0 0 0)" />
-  </joint> -->
+  <link name="${tf_prefix}right_arm_mount_plate_2"> </link>
 
-  <link name="right_arm_mount_plate_2"> </link>
-
-  <joint name="right_arm_mount_joint" type="fixed">
-    <parent link="right_arm_mount_plate" />
-    <child link="right_arm_mount_plate_2" />
+  <joint name="${tf_prefix}right_arm_mount_joint" type="fixed">
+    <parent link="${tf_prefix}right_arm_mount_plate" />
+    <child link="${tf_prefix}right_arm_mount_plate_2" />
     <origin xyz="0 0.01628 0.09117" rpy="${pi/4} 0 ${pi}"/>
   </joint>
 
-  <!-- <joint name="right_arm_mount_joint_2" type="fixed">
-    <parent link="right_arm_mount_plate_2" />
-    <child link="right_ur_arm_base_link" />
-    <origin xyz="$(optenv RIDGEBACK_RIGHT_UR_XYZ 0 0 0)" rpy="$(optenv RIDGEBACK_RIGHT_UR_RPY 0 0 0)" />
-  </joint> -->
+  <!-- arm -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
 
-    <!-- arm -->
-      <!-- name="${ros2_control_name}"
-      transmission_hw_interface="hardware_interface/PositionJointInterface"
-      safety_limits="false"
-      safety_pos_margin="0.15"
-      safety_k_position="20"
-      use_fake_hardware="${use_fake_hardware}"
-      fake_sensor_commands="false"
-      sim_gazebo="${sim_gazebo}"
-      sim_ignition="${sim_ignition}"
-      headless_mode="${headless_mode}"
-      use_tool_communication="false"
-      tool_voltage="0"
-      tool_parity="0"
-      tool_baud_rate="115200"
-      tool_stop_bits="1"
-      tool_rx_idle_chars="1.5"
-      tool_tx_idle_chars="3.5"
-      tool_device_name="/tmp/ttyUR"
-      tool_tcp_port="54321"
-      robot_ip="${chonkur_ip}"
-      script_filename="$(find ur_client_library)/resources/external_control.urscript"
-      output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-      input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
-      reverse_ip="0.0.0.0"
-      script_command_port="50004" -->
+  <xacro:property name="initial_positions_file_left" default="$(find phoebe_description)/config/left_ur_initial_positions.yaml"/>
+  <xacro:property name="initial_positions_file_right" default="$(find phoebe_description)/config/right_ur_initial_positions.yaml"/>
 
-    <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+  <!-- TODO: need to integrate the motion on the rails. this used to be done like below -->
+  <!-- <origin xyz="$(optenv RIDGEBACK_RIGHT_UR_XYZ 0 0 0)" rpy="$(optenv RIDGEBACK_RIGHT_UR_RPY 0 0 0)" /> -->
+  <xacro:ur_robot
+    name="${tf_prefix}right_ur5e"
+    tf_prefix="${tf_prefix}right_ur_arm_"
+    parent="${tf_prefix}right_arm_mount_plate_2"
+    kinematics_parameters_file="$(find ur_description)/config/ur5e/default_kinematics.yaml"
+    joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
+    physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
+    visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
+    initial_positions="${xacro.load_yaml(initial_positions_file_right)}"
+    use_fake_hardware="${use_fake_hardware}"
+    sim_ignition="${sim_ignition}"
+    robot_ip="${right_ur_ip_addr}"
+    >
+    <origin xyz="0 0 0" rpy="0 0 0" /> 
+  </xacro:ur_robot>
 
-    <xacro:property name="initial_positions_file_left" default="$(find phoebe_description)/config/left_ur_initial_positions.yaml"/>
-    <xacro:property name="initial_positions_file_right" default="$(find phoebe_description)/config/right_ur_initial_positions.yaml"/>
+  <xacro:ur_robot
+    name="${tf_prefix}left_ur5e"
+    tf_prefix="${tf_prefix}left_ur_arm_"
+    parent="${tf_prefix}left_arm_mount_plate_2"
+    kinematics_parameters_file="$(find ur_description)/config/ur5e/default_kinematics.yaml"
+    joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
+    physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
+    visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
+    initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
+    use_fake_hardware="${use_fake_hardware}"
+    sim_ignition="${sim_ignition}"
+    robot_ip="${left_ur_ip_addr}"
+    >
+    <origin xyz="0 0 0" rpy="0 0 0" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
+  </xacro:ur_robot>
 
-    <xacro:ur_robot
-      name="left_ur5e"
-      tf_prefix="right_ur_arm_"
-      parent="right_arm_mount_plate_2"
-      kinematics_parameters_file="$(find ur_description)/config/ur5e/default_kinematics.yaml"
-      joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
-      physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
-      visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
-      initial_positions="${xacro.load_yaml(initial_positions_file_right)}"
-      >
-      <origin xyz="0 0 0" rpy="0 0 0" />          <!-- position robot in the world -->
-    </xacro:ur_robot>
+  <!-- Hand-E Grippers -->
 
-    <xacro:ur_robot
-      name="left_ur5e"
-      tf_prefix="left_ur_arm_"
-      parent="left_arm_mount_plate_2"
-      kinematics_parameters_file="$(find ur_description)/config/ur5e/default_kinematics.yaml"
-      joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
-      physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
-      visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
-      initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
-      >
-      <origin xyz="0 0 0" rpy="0 0 0" />          <!-- position robot in the world -->
-    </xacro:ur_robot>
+  <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
+  <xacro:dextivr_hande
+    com_port="${right_hande_com_port}"
+    use_fake_hardware="${use_fake_hardware}"
+    name="${tf_prefix}right_dextivr_hande"
+    tf_prefix="${tf_prefix}right_"
+    parent="${tf_prefix}right_ur_arm_tool0"
+    finger_xacro="fngr_original">
+    <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
+  </xacro:dextivr_hande>
 
-<!-- Hand-E Grippers -->
-    <!-- com_port="${com_port_hande}"
-    use_fake_hardware="${use_fake_hardware}" -->
-
-    <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
-    <xacro:dextivr_hande
-      name="right_dextivr_hande"
-      tf_prefix="right_"
-      parent="right_ur_arm_tool0"
-      finger_xacro="fngr_original">
-      <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
-    </xacro:dextivr_hande>
-
-    <xacro:dextivr_hande
-      name="left_dextivr_hande"
-      tf_prefix="left_"
-      parent="left_ur_arm_tool0"
-      finger_xacro="fngr_original">
-      <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
-    </xacro:dextivr_hande>
+  <xacro:dextivr_hande
+    com_port="${left_hande_com_port}"
+    use_fake_hardware="${use_fake_hardware}"
+    name="${tf_prefix}left_dextivr_hande"
+    tf_prefix="${tf_prefix}left_"
+    parent="${tf_prefix}left_ur_arm_tool0"
+    finger_xacro="fngr_original">
+    <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
+  </xacro:dextivr_hande>
 
   </xacro:macro>
 </robot>
