@@ -17,7 +17,7 @@
     <xacro:phoebe
         ns="$(arg ns)"
         tf_prefix="$(arg tf_prefix)"
-        use_fake_hardware="$(arg is_sim)"
+        use_fake_hardware="$(arg use_fake_hardware)"
         sim_ignition="$(arg sim_ignition)"
         left_ewellix_com_port="$(arg left_ewellix_com_port)"
         right_ewellix_com_port="$(arg right_ewellix_com_port)"

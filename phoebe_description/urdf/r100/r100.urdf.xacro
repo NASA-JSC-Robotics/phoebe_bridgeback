@@ -306,7 +306,7 @@
         <!-- Gazebo Controller -->
         <xacro:include filename="$(find phoebe_description)/urdf/r100/r100.ros2_control.xacro"/>
         <xacro:r100_ros2_control
-          name="r100_ros2_control"
+          name="r100"
           use_fake_hardware="${use_fake_hardware}"
           sim_ignition="${sim_ignition}"
           tf_prefix="${tf_prefix}"
