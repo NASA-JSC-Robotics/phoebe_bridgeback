@@ -1,0 +1,19 @@
+# Default initial positions for phoebe's ros2_control fake system
+
+initial_positions:
+  left_ewellix_lift_lower_to_higher: 0
+  left_finger_1_joint: 0
+  left_ur_arm_elbow_joint: 0
+  left_ur_arm_shoulder_lift_joint: 0
+  left_ur_arm_shoulder_pan_joint: 0
+  left_ur_arm_wrist_1_joint: 0
+  left_ur_arm_wrist_2_joint: 0
+  left_ur_arm_wrist_3_joint: 0
+  right_ewellix_lift_lower_to_higher: 0
+  right_finger_1_joint: 0
+  right_ur_arm_elbow_joint: 0
+  right_ur_arm_shoulder_lift_joint: 0
+  right_ur_arm_shoulder_pan_joint: 0
+  right_ur_arm_wrist_1_joint: 0
+  right_ur_arm_wrist_2_joint: 0
+  right_ur_arm_wrist_3_joint: 0
