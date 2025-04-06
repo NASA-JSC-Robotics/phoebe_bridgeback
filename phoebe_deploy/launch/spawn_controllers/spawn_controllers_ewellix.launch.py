@@ -32,7 +32,7 @@ def generate_launch_description():
             name=controller_name,
             arguments=[
                 "--controller-manager",
-                "controller_namager",
+                "controller_manager",
                 "--controller-manager-timeout",
                 "300",
                 "--namespace",
@@ -42,7 +42,7 @@ def generate_launch_description():
             output="screen",
         )
 
-    nodes.append(MakeControllerNode("left_position_trajectory_controller"))
-    nodes.append(MakeControllerNode("right_position_trajectory_controller"))
+    nodes.append(MakeControllerNode("left_lift_joint_trajectory_controller"))
+    nodes.append(MakeControllerNode("right_lift_joint_trajectory_controller"))
 
     return LaunchDescription(declared_arguments + nodes)

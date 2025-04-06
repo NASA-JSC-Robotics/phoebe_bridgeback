@@ -66,7 +66,7 @@ def generate_launch_description():
             name=controller_name,
             arguments=[
                 "--controller-manager",
-                "controller_namager",
+                "controller_manager",
                 "--controller-manager-timeout",
                 "300",
                 "--namespace",

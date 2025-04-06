@@ -7,11 +7,8 @@ controller_manager:
     right_force_torque_sensor_broadcaster:
       type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
 
-    right_forward_position_controller:
-      type: position_controllers/JointGroupPositionController
-
-    right_joint_trajectory_controller:
-      type: joint_trajectory_controller/JointTrajectoryController\
+    right_ur_joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
     left_io_and_status_controller:
       type: ur_controllers/GPIOController
@@ -19,20 +16,17 @@ controller_manager:
     left_force_torque_sensor_broadcaster:
       type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
 
-    left_forward_position_controller:
-      type: position_controllers/JointGroupPositionController
-
-    left_joint_trajectory_controller:
+    left_ur_joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
 # right controllers
 right_io_and_status_controller:
   ros__parameters:
-    tf_prefix: $(var tf_prefix)right_
+    tf_prefix: $(var tf_prefix)right_ur_arm_
 
 right_force_torque_sensor_broadcaster:
   ros__parameters:
-    sensor_name: $(var tf_prefix)right_tcp_fts_sensor
+    sensor_name: $(var tf_prefix)right_ur_arm_tcp_fts_sensor
     state_interface_names:
       - force.x
       - force.y
@@ -40,28 +34,18 @@ right_force_torque_sensor_broadcaster:
       - torque.x
       - torque.y
       - torque.z
-    frame_id: $(var tf_prefix)right_tool0
-    topic_name: $(var tf_prefix)right_ft_data
+    frame_id: $(var tf_prefix)right_ur_arm_tool0
+    topic_name: $(var tf_prefix)right_ur_arm_ft_data
 
-right_forward_position_controller:
+right_ur_joint_trajectory_controller:
   ros__parameters:
     joints:
-      - $(var tf_prefix)right_shoulder_pan_joint
-      - $(var tf_prefix)right_shoulder_lift_joint
-      - $(var tf_prefix)right_elbow_joint
-      - $(var tf_prefix)right_wrist_1_joint
-      - $(var tf_prefix)right_wrist_2_joint
-      - $(var tf_prefix)right_wrist_3_joint
-
-right_joint_trajectory_controller:
-  ros__parameters:
-    joints:
-      - $(var tf_prefix)right_shoulder_pan_joint
-      - $(var tf_prefix)right_shoulder_lift_joint
-      - $(var tf_prefix)right_elbow_joint
-      - $(var tf_prefix)right_wrist_1_joint
-      - $(var tf_prefix)right_wrist_2_joint
-      - $(var tf_prefix)right_wrist_3_joint
+      - $(var tf_prefix)right_ur_arm_shoulder_pan_joint
+      - $(var tf_prefix)right_ur_arm_shoulder_lift_joint
+      - $(var tf_prefix)right_ur_arm_elbow_joint
+      - $(var tf_prefix)right_ur_arm_wrist_1_joint
+      - $(var tf_prefix)right_ur_arm_wrist_2_joint
+      - $(var tf_prefix)right_ur_arm_wrist_3_joint
     command_interfaces:
       - position
     state_interfaces:
@@ -73,22 +57,21 @@ right_joint_trajectory_controller:
     constraints:
       stopped_velocity_tolerance: 0.2
       goal_time: 0.0
-      $(var tf_prefix)right_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)right_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)right_elbow_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)right_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)right_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)right_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
-
+      $(var tf_prefix)right_ur_arm_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)right_ur_arm_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)right_ur_arm_elbow_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)right_ur_arm_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)right_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)right_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
 
 # left controllers
 left_io_and_status_controller:
   ros__parameters:
-    tf_prefix: $(var tf_prefix)left_
+    tf_prefix: $(var tf_prefix)left_ur_arm_
 
 left_force_torque_sensor_broadcaster:
   ros__parameters:
-    sensor_name: $(var tf_prefix)left_tcp_fts_sensor
+    sensor_name: $(var tf_prefix)left_ur_arm_tcp_fts_sensor
     state_interface_names:
       - force.x
       - force.y
@@ -96,28 +79,18 @@ left_force_torque_sensor_broadcaster:
       - torque.x
       - torque.y
       - torque.z
-    frame_id: $(var tf_prefix)left_tool0
-    topic_name: $(var tf_prefix)left_ft_data
+    frame_id: $(var tf_prefix)left_ur_arm_tool0
+    topic_name: $(var tf_prefix)left_ur_arm_ft_data
 
-left_forward_position_controller:
+left_ur_joint_trajectory_controller:
   ros__parameters:
     joints:
-      - $(var tf_prefix)left_shoulder_pan_joint
-      - $(var tf_prefix)left_shoulder_lift_joint
-      - $(var tf_prefix)left_elbow_joint
-      - $(var tf_prefix)left_wrist_1_joint
-      - $(var tf_prefix)left_wrist_2_joint
-      - $(var tf_prefix)left_wrist_3_joint
-
-left_joint_trajectory_controller:
-  ros__parameters:
-    joints:
-      - $(var tf_prefix)left_shoulder_pan_joint
-      - $(var tf_prefix)left_shoulder_lift_joint
-      - $(var tf_prefix)left_elbow_joint
-      - $(var tf_prefix)left_wrist_1_joint
-      - $(var tf_prefix)left_wrist_2_joint
-      - $(var tf_prefix)left_wrist_3_joint
+      - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+      - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+      - $(var tf_prefix)left_ur_arm_elbow_joint
+      - $(var tf_prefix)left_ur_arm_wrist_1_joint
+      - $(var tf_prefix)left_ur_arm_wrist_2_joint
+      - $(var tf_prefix)left_ur_arm_wrist_3_joint
     command_interfaces:
       - position
     state_interfaces:
@@ -129,9 +102,9 @@ left_joint_trajectory_controller:
     constraints:
       stopped_velocity_tolerance: 0.2
       goal_time: 0.0
-      $(var tf_prefix)left_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)left_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)left_elbow_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)left_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)left_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
-      $(var tf_prefix)left_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)left_ur_arm_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)left_ur_arm_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)left_ur_arm_elbow_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)left_ur_arm_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)left_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+      $(var tf_prefix)left_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }

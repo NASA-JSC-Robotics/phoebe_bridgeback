@@ -1,13 +1,13 @@
 controller_manager:
   ros__parameters:
 
-    right_lift_position_trajectory_controller:
+    right_lift_joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-    left_position_trajectory_controller:
+    left_lift_joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-right_lift_position_trajectory_controller:
+right_lift_joint_trajectory_controller:
   ros__parameters:
     joints:
       - $(var tf_prefix)right_ewellix_lift_lower_to_higher
@@ -30,7 +30,7 @@ right_lift_position_trajectory_controller:
       goal_time: 0.0
       $(var tf_prefix)right_ewellix_lift_lower_to_higher: { trajectory: 0.2, goal: 0.1 }
 
-left_lift_position_trajectory_controller:
+left_lift_joint_trajectory_controller:
   ros__parameters:
     joints:
       - $(var tf_prefix)left_ewellix_lift_lower_to_higher
