@@ -46,7 +46,7 @@ platform_velocity_controller:
     linear.x.min_acceleration: -1.0
     linear.x.max_jerk: 0.0
     linear.x.min_jerk: 0.0
-    
+
     linear.y.has_velocity_limits: True
     linear.y.has_acceleration_limits: True
     linear.y.has_jerk_limits: False
@@ -56,7 +56,7 @@ platform_velocity_controller:
     linear.y.min_acceleration: -1.0
     linear.y.max_jerk: 0.0
     linear.y.min_jerk: 0.0
-    
+
     angular.z.has_velocity_limits: True
     angular.z.has_acceleration_limits: True
     angular.z.has_jerk_limits: False

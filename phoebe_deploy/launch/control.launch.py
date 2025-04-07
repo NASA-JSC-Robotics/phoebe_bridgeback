@@ -4,17 +4,10 @@ import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import (
-    LaunchConfiguration,
-    PathJoinSubstitution,
-    FindExecutable,
-    Command
-)
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
-from launch_ros.parameter_descriptions import ParameterFile, ParameterValue
-from launch_ros.substitutions import FindPackageShare
-
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def launch_setup(context, *args, **kwargs):
@@ -70,7 +63,7 @@ def launch_setup(context, *args, **kwargs):
         launch_args=common_launch_args,
     )
 
-     # helper function to get controllers files that we might need
+    # helper function to get controllers files that we might need
     def GetControllersFile(file_name):
         return PathJoinSubstitution(
             [
@@ -128,7 +121,7 @@ def launch_setup(context, *args, **kwargs):
             ParameterFile(controllers_hande, allow_substs=True),
         ],
         remappings=[
-            ('~/robot_description', 'robot_description'),
+            ("~/robot_description", "robot_description"),
         ],
         output="both",
     )

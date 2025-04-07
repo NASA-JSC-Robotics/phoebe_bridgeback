@@ -11,17 +11,18 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 
+
 # Simple script for converting keyboard key input to a twist message for driving the bridgeback
 class KeyboardTeleopNode(Node):
 
     def __init__(self):
-        super().__init__('phoebe_teleop')
+        super().__init__("phoebe_teleop")
 
         # Publish twist commands at 10 hz
         self.twist = Twist()
         self.last_key_time = time.time() - 0.2
         self.reset_twist()
-        self.publisher_ = self.create_publisher(Twist, '/cmd_vel_unstamped', 1)
+        self.publisher_ = self.create_publisher(Twist, "/cmd_vel_unstamped", 1)
         self.timer = self.create_timer(0.1, self.publish_twist)
         self.running = True
 
@@ -64,19 +65,19 @@ class KeyboardTeleopNode(Node):
 
             # Check for arrow key input
             key = sys.stdin.read(1)
-            if key == '\x1b':
+            if key == "\x1b":
                 self.last_key_time = time.time()
                 key = sys.stdin.read(2)
-                if key == '[A':  # Up arrow
+                if key == "[A":  # Up arrow
                     self.twist.linear.x = 1.0
                     self.twist.angular.z = 0.0
-                elif key == '[B':  # Down arrow
+                elif key == "[B":  # Down arrow
                     self.twist.linear.x = -1.0
                     self.twist.angular.z = 0.0
-                elif key == '[C':  # Right arrow
+                elif key == "[C":  # Right arrow
                     self.twist.linear.x = 0.0
                     self.twist.angular.z = -1.0
-                elif key == '[D':  # Left arrow
+                elif key == "[D":  # Left arrow
                     self.twist.linear.x = 0.0
                     self.twist.angular.z = 1.0
             else:
@@ -91,18 +92,20 @@ class KeyboardTeleopNode(Node):
 
             self.publisher_.publish(self.twist)
 
+
 def main(args=None):
     rclpy.init(args=args)
     node = KeyboardTeleopNode()
-    print('Starting down keyboard node (ctrl-c to quit)')
+    print("Starting down keyboard node (ctrl-c to quit)")
 
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        print('Shutting down keyboard joystick node...')
+        print("Shutting down keyboard joystick node...")
     finally:
         node.shutdown()
         rclpy.try_shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -161,4 +161,3 @@ In phoebe_deploy:
 
     - **`joy_vel`** output topic for commanded velocity. Default:`cmd_vel_unstamped`
     - **`joy_dev`** which joystick device to use. Default:`0`
-

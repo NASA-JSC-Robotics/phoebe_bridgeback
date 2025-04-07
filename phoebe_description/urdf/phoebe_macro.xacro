@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
   <!-- Macro for phoebe customization -->
-  <xacro:macro 
+  <xacro:macro
     name="phoebe"
     params="
       ns:=''
@@ -351,7 +351,7 @@
     <origin xyz="-0.086 0.384 0.22" rpy="0 0 0" />
   </joint>
 
-  <!-- Autec wireless e-stop antenna --> 
+  <!-- Autec wireless e-stop antenna -->
   <link name="${tf_prefix}autec_antenna">
     <visual>
       <geometry>
@@ -374,7 +374,7 @@
     <origin xyz="0.0845 -0.384 0.22" rpy="0 0 0" />
   </joint>
 
-  <!-- Left Ewellix mounting flange --> 
+  <!-- Left Ewellix mounting flange -->
   <link name="${tf_prefix}left_ewellix_mount_flange_link">
     <visual>
       <geometry>
@@ -450,7 +450,7 @@
     use_fake_hardware="${use_fake_hardware}"
     com_port="${right_ewellix_com_port}"
   >
-    <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/> 
+    <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
   </xacro:ewellix_lift>
 
   <!-- Left arm mount plate -->
@@ -532,7 +532,7 @@
     sim_ignition="${sim_ignition}"
     robot_ip="${right_ur_ip_addr}"
     >
-    <origin xyz="0 0 0" rpy="0 0 0" /> 
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:ur_robot>
 
   <xacro:ur_robot

@@ -47,5 +47,4 @@ def generate_launch_description():
     nodes.append(MakeControllerNode("left_robotiq_gripper_hande_controller"))
     # nodes.append(MakeControllerNode("left_robotiq_activation_controller"))
 
-
     return LaunchDescription(declared_arguments + nodes)
