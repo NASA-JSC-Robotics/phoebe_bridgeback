@@ -12,7 +12,7 @@
     <xacro:arg name="right_ur_kinematics_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
 
     <!-- Includes -->
-    <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.urdf.xacro" />
+    <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
 
     <xacro:phoebe
         ns="$(arg ns)"

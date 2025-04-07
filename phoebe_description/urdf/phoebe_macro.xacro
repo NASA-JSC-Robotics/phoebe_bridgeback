@@ -20,7 +20,7 @@
     "
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
-  <xacro:include filename="$(find phoebe_description)/urdf/r100/r100.urdf.xacro" />
+  <xacro:include filename="$(find phoebe_description)/urdf/r100/r100_macro.xacro" />
 
   <xacro:r100
       tf_prefix="${tf_prefix}"
