@@ -18,6 +18,7 @@ right_robotiq_gripper_hande_controller:
 
 right_robotiq_activation_controller:
   ros__parameters:
+    tf_prefix: right_
     default: true
 
 left_robotiq_gripper_hande_controller:
@@ -27,4 +28,5 @@ left_robotiq_gripper_hande_controller:
 
 left_robotiq_activation_controller:
   ros__parameters:
+    tf_prefix: left_
     default: true
