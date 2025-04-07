@@ -42,6 +42,8 @@ def generate_launch_description():
             output="screen",
         )
 
+    # need to fix name conflict by adding parameters before the activation controllers
+    # can be added back in.
     nodes.append(MakeControllerNode("right_robotiq_gripper_hande_controller"))
     # nodes.append(MakeControllerNode("right_robotiq_activation_controller"))
     nodes.append(MakeControllerNode("left_robotiq_gripper_hande_controller"))

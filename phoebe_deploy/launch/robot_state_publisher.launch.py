@@ -49,6 +49,7 @@ def generate_launch_description():
     sim_ignition = LaunchConfiguration("sim_ignition")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
 
+    # main robot description for Phoebe
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),

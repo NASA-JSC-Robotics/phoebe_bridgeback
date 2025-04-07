@@ -86,40 +86,19 @@ def launch_setup(context, *args, **kwargs):
     # controllers for the grippers
     controllers_hande = GetControllersFile("controllers_hande.yaml")
 
-    # robot_description_content = Command(
-    #     [
-    #         PathJoinSubstitution([FindExecutable(name="xacro")]),
-    #         " ",
-    #         PathJoinSubstitution([FindPackageShare("phoebe_description"), "urdf", "phoebe.urdf.xacro"]),
-    #         " ",
-    #         "ns:=",
-    #         ns,
-    #         " ",
-    #         "tf_prefix:=",
-    #         tf_prefix,
-    #         " ",
-    #         "sim_ignition:=",
-    #         sim_ignition,
-    #         " ",
-    #         "use_fake_hardware:=",
-    #         use_fake_hardware,
-    #         " ",
-    #     ]
-    # )
-    # robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}
-
     # start the controller manager node with all of the controller config files
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
+        # allow_substs allows tf_prefix to be pulled in
         parameters=[
-            # robot_description,
             ParameterFile(controllers_common, allow_substs=True),
             ParameterFile(controllers_r100, allow_substs=True),
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
         ],
+        # remap to be able to use the global robot_description
         remappings=[
             ("~/robot_description", "robot_description"),
         ],
