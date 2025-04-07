@@ -30,6 +30,9 @@
     <group name="right_hande">
         <joint name="right_finger_1_joint"/>
     </group>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="right_gripper" parent_link="right_ur_arm_tool0" group="right_hande"/>
+    <end_effector name="left_gripper" parent_link="left_ur_arm_tool0" group="left_hande"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="autec_antenna" link2="autec_receiver" reason="Adjacent"/>
     <disable_collisions link1="autec_antenna" link2="chassis_link" reason="Never"/>
