@@ -75,6 +75,7 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
+        namespace=ns,
         output="both",
         parameters=[robot_description],
     )

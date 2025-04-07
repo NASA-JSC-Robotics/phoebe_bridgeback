@@ -90,6 +90,7 @@ def launch_setup(context, *args, **kwargs):
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
+        namespace=ns,
         # allow_substs allows tf_prefix to be pulled in
         parameters=[
             ParameterFile(controllers_common, allow_substs=True),
