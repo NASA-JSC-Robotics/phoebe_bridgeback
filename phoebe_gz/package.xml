@@ -5,7 +5,7 @@
   <version>0.0.1</version>
   <description>Package to handle Gazebo integration for the Phoebe platform </description>
   <maintainer email="nathan.b.dunkelberger@nasa.gov">ndunkelb</maintainer>
-  <license>NASA-1.3</license>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

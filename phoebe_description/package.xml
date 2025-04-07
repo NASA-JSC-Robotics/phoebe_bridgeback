@@ -9,7 +9,7 @@
 
   <maintainer email="jodi.s.graf@nasa.gov">Jodi Graf</maintainer>
 
-  <license>NASA-1.3</license>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
