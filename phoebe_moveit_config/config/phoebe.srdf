@@ -21,9 +21,6 @@
     <group name="right_lift">
         <chain base_link="right_ewellix_lift_lower_link" tip_link="right_ewellix_lift_tip_link"/>
     </group>
-    <group name="ridgeback">
-        <chain base_link="base_link" tip_link="riser_link"/>
-    </group>
     <group name="left_hande">
         <joint name="left_finger_1_joint"/>
     </group>
