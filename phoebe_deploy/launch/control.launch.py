@@ -21,6 +21,7 @@ def launch_setup(context, *args, **kwargs):
     platform_string = platform.perform(context)
     sim_ignition = "true" if platform_string == "sim_ignition" else "false"
     use_fake_hardware = "true" if platform_string == "mock_hardware" else "false"
+    hardware = "true" if platform_string == "hardware" else "false"
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -104,6 +105,21 @@ def launch_setup(context, *args, **kwargs):
             ("~/robot_description", "robot_description"),
         ],
         output="both",
+    )
+
+    # start ridgeback communication nodes if running on hardware
+    IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("phoebe_deploy"),
+                "launch",
+                "ridgeback_comm.launch.py",
+            )
+        ),
+        launch_arguments={
+            "ns": ns,
+        },
+        condition=hardware,
     )
 
     return launch_files + [control_node]
