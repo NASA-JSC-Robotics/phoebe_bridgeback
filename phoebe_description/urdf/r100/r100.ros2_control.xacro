@@ -16,7 +16,7 @@
           <plugin>mock_components/GenericSystem</plugin>
         </xacro:if>
         <xacro:unless value="${sim_ignition or use_fake_hardware}">
-          <plugin>clearpath_platform/PumaHardware</plugin>
+          <plugin>clearpath_hardware_interfaces/PumaHardware</plugin>
         </xacro:unless>
       </hardware>
       <joint name="${tf_prefix}front_left_wheel_joint">

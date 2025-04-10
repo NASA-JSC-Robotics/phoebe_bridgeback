@@ -531,6 +531,9 @@
     use_fake_hardware="${use_fake_hardware}"
     sim_ignition="${sim_ignition}"
     robot_ip="${right_ur_ip_addr}"
+    use_tool_communication="true"
+    tool_device_name="${right_hande_com_port}"
+    tool_voltage="24"
     >
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:ur_robot>
@@ -547,6 +550,9 @@
     use_fake_hardware="${use_fake_hardware}"
     sim_ignition="${sim_ignition}"
     robot_ip="${left_ur_ip_addr}"
+    use_tool_communication="true"
+    tool_device_name="${right_hande_com_port}"
+    tool_voltage="24"
     >
     <origin xyz="0 0 0" rpy="0 0 0" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
   </xacro:ur_robot>
