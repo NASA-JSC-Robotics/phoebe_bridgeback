@@ -8,6 +8,7 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterFile
+from launch.conditions import IfCondition
 
 
 def launch_setup(context, *args, **kwargs):
@@ -105,21 +106,6 @@ def launch_setup(context, *args, **kwargs):
             ("~/robot_description", "robot_description"),
         ],
         output="both",
-    )
-
-    # start ridgeback communication nodes if running on hardware
-    IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                get_package_share_directory("phoebe_deploy"),
-                "launch",
-                "ridgeback_comm.launch.py",
-            )
-        ),
-        launch_arguments={
-            "ns": ns,
-        },
-        condition=hardware,
     )
 
     return launch_files + [control_node]

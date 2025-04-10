@@ -14,6 +14,7 @@ def launch_setup(context, *args, **kwargs):
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
+    pkg_clearpath_diagnostics = FindPackageShare('clearpath_diagnostics')
     pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
 
     config_imu_filter = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"])
@@ -21,7 +22,7 @@ def launch_setup(context, *args, **kwargs):
     config_localization = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"])
     config_lidar2d = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"])
     setup_path = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback"])
-    analyzer_params = PathJoinSubstitution([pkg_phoebe_deploy, "config", "diagnostics.yaml"])
+    analyzer_params = PathJoinSubstitution([pkg_clearpath_diagnostics, "config", "diagnostics.yaml"])
 
     ns_str = ns.perform(context)
     ns_w_slash = ns_str + "/" if ns_str else ""
@@ -41,7 +42,6 @@ def launch_setup(context, *args, **kwargs):
             "from_can_bus_topic": "vcan0/rx",
         }.items(),
     )
-
     launch_sender = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_sender]),
         launch_arguments={
@@ -60,7 +60,7 @@ def launch_setup(context, *args, **kwargs):
         launch_arguments={
             "parameters": config_lidar2d,
             "namespace": f"{ns_w_slash}sensors/lidar2d_0",
-        },
+        }.items(),
     )
 
     # Nodes
@@ -247,3 +247,5 @@ def generate_launch_description():
     )
 
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+
+    print("here")
