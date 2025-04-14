@@ -4,11 +4,13 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import FindExecutable, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def launch_setup(context, *args, **kwargs):
 
     ns = LaunchConfiguration("ns")
+    tf_prefix = LaunchConfiguration("tf_prefix")
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
@@ -153,7 +155,9 @@ def launch_setup(context, *args, **kwargs):
         package="puma_motor_driver",
         namespace=ns,
         output="screen",
-        parameters=[config_can],
+        parameters=[ParameterFile(config_can, allow_substs=True),],
+            
+
     )
 
     node_aggregator_node = Node(
@@ -243,6 +247,15 @@ def generate_launch_description():
             "ns",
             default_value="",
             description="Namespace for the robot.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
         )
     )
 
