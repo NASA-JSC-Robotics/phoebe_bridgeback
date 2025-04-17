@@ -38,6 +38,12 @@ def generate_launch_description():
                 "--namespace",
                 ns,
                 controller_name,
+                # The following works in rolling, but not in humble. For humble, the only way to remap
+                # topics used by a controller is to remap them for the entire controller_manager.
+                # "--controller-ros-args",
+                # "--ros-args",
+                # "--remapping",
+                # "~/cmd_vel_unstamped:=/platform/cmd_vel_unstamped",
             ],
             output="screen",
         )
