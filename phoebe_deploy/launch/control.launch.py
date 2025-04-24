@@ -110,7 +110,6 @@ def launch_setup(context, *args, **kwargs):
             ("~/robot_description", "robot_description"),
             # Necessary remap for platform velocity controller. Preferably this would be done
             # at spawn time. This is not supported in humble, but is supported in jazzy.
-            ("/platform_velocity_controller/cmd_vel_unstamped", "/platform/cmd_vel_unstamped"),
         ],
         output="both",
     )
