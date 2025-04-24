@@ -6,14 +6,15 @@
     <xacro:macro name="r100"
         params="wheel:='default'
                 tf_prefix
-                is_sim:=false
+                use_fake_hardware:=false
+                sim_ignition:=false
                 ns">
 
 
         <!-- Includes -->
         <xacro:include
-            filename="$(find phoebe_description)/urdf/wheels/wheel.urdf.xacro" ns="$(arg ns)" />
-        <xacro:include filename="$(find phoebe_description)/urdf/rocker.urdf.xacro" />
+            filename="$(find phoebe_description)/urdf/r100/wheels/wheel.urdf.xacro" ns="$(arg ns)" />
+        <xacro:include filename="$(find phoebe_description)/urdf/r100/rocker.urdf.xacro" />
 
         <xacro:arg name="gazebo_controllers"
             default="$(find phoebe_deploy)/config/${tf_prefix}control.yaml" />
@@ -303,40 +304,13 @@
         </joint>
 
         <!-- Gazebo Controller -->
-        <xacro:include filename="$(find phoebe_description)/urdf/gazebo.urdf.xacro"
-            ns="$(arg ns)" />
-
-        <!-- ROS2 controls -->
-        <ros2_control name="r100_hardware" type="system">
-            <hardware>
-                <xacro:if value="$(arg is_sim)">
-                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
-                </xacro:if>
-                <xacro:unless value="$(arg is_sim)">
-                    <plugin>clearpath_platform/PumaHardware</plugin>
-                </xacro:unless>
-            </hardware>
-            <joint name="${tf_prefix}front_left_wheel_joint">
-                <command_interface name="velocity" />
-                <state_interface name="position" />
-                <state_interface name="velocity" />
-            </joint>
-            <joint name="${tf_prefix}front_right_wheel_joint">
-                <command_interface name="velocity" />
-                <state_interface name="position" />
-                <state_interface name="velocity" />
-            </joint>
-            <joint name="${tf_prefix}rear_left_wheel_joint">
-                <command_interface name="velocity" />
-                <state_interface name="position" />
-                <state_interface name="velocity" />
-            </joint>
-            <joint name="${tf_prefix}rear_right_wheel_joint">
-                <command_interface name="velocity" />
-                <state_interface name="position" />
-                <state_interface name="velocity" />
-            </joint>
-        </ros2_control>
+        <xacro:include filename="$(find phoebe_description)/urdf/r100/r100.ros2_control.xacro"/>
+        <xacro:r100_ros2_control
+          name="r100"
+          use_fake_hardware="${use_fake_hardware}"
+          sim_ignition="${sim_ignition}"
+          tf_prefix="${tf_prefix}"
+        />
 
     </xacro:macro>
 </robot>
