@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'pb_safety_light_manager = phoebe_safety.pb_safety_light_manager:main',
             'mock_estop_publisher = phoebe_safety.mock_estop_publisher:main',
+            'arduino_test = phoebe_safety.arduino_test_pb_safety_light_manager:main'
         ],
     },
 )
