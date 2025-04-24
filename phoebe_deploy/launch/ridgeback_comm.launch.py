@@ -10,31 +10,23 @@ from launch_ros.parameter_descriptions import ParameterFile
 def launch_setup(context, *args, **kwargs):
 
     ns = LaunchConfiguration("ns")
-    tf_prefix = LaunchConfiguration("tf_prefix")
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
-    pkg_clearpath_diagnostics = FindPackageShare('clearpath_diagnostics')
-    pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
+    pkg_clearpath_diagnostics = FindPackageShare("clearpath_diagnostics")
 
-    config_imu_filter = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"])
+    # config files
     config_can = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "can_config.yaml"])
-    config_localization = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"])
-    config_lidar2d = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"])
     setup_path = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback"])
     analyzer_params = PathJoinSubstitution([pkg_clearpath_diagnostics, "config", "diagnostics.yaml"])
-
-    ns_str = ns.perform(context)
-    ns_w_slash = ns_str + "/" if ns_str else ""
 
     # Declare launch files
     launch_file_receiver = PathJoinSubstitution(
         [pkg_clearpath_ros2_socketcan_interface, "launch", "receiver.launch.py"]
     )
     launch_file_sender = PathJoinSubstitution([pkg_clearpath_ros2_socketcan_interface, "launch", "sender.launch.py"])
-    launch_file_hokuyo_ust = PathJoinSubstitution([pkg_clearpath_sensors, "launch", "hokuyo_ust.launch.py"])
 
     launch_receiver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_receiver]),
@@ -50,18 +42,6 @@ def launch_setup(context, *args, **kwargs):
             "namespace": ns,
             "interface": "vcan0",
             "to_can_bus_topic": "vcan0/tx",
-        }.items(),
-    )
-
-    # Include Packages
-    pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
-
-    # Include launch files
-    launch_hokuyo_ust = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([launch_file_hokuyo_ust]),
-        launch_arguments={
-            "parameters": config_lidar2d,
-            "namespace": f"{ns_w_slash}sensors/lidar2d_0",
         }.items(),
     )
 
@@ -106,23 +86,6 @@ def launch_setup(context, *args, **kwargs):
         ],
     )
 
-    node_imu_filter_madgwick = Node(
-        name="imu_filter_madgwick",
-        executable="imu_filter_madgwick_node",
-        package="imu_filter_madgwick",
-        namespace=ns,
-        output="screen",
-        remappings=[
-            ("imu/data_raw", "sensors/imu_0/data_raw"),
-            ("imu/mag", "sensors/imu_0/magnetic_field"),
-            ("imu/data", "sensors/imu_0/data"),
-            ("/tf", "tf"),
-        ],
-        parameters=[
-            config_imu_filter,
-        ],
-    )
-
     node_micro_ros_agent = Node(
         name="micro_ros_agent",
         executable="micro_ros_agent",
@@ -159,7 +122,7 @@ def launch_setup(context, *args, **kwargs):
             "messages",
             "platform/puma/cmd",
             "50",
-        ]
+        ],
     )
 
     node_puma_control = Node(
@@ -168,10 +131,10 @@ def launch_setup(context, *args, **kwargs):
         package="puma_motor_driver",
         namespace=ns,
         output="screen",
-        parameters=[ParameterFile(config_can, allow_substs=True),],
-        remappings=[
-            ("platform/puma/cmd", "platform/puma/cmd_throttle")
-        ]
+        parameters=[
+            ParameterFile(config_can, allow_substs=True),
+        ],
+        remappings=[("platform/puma/cmd", "platform/puma/cmd_throttle")],
     )
 
     node_aggregator_node = Node(
@@ -200,21 +163,6 @@ def launch_setup(context, *args, **kwargs):
         arguments=["-s", setup_path],
     )
 
-    node_localization = Node(
-        package="robot_localization",
-        executable="ekf_node",
-        name="ekf_node",
-        namespace=ns,
-        output="screen",
-        parameters=[config_localization],
-        remappings=[
-            ("odometry/filtered", "platform/odom/filtered"),
-            ("/diagnostics", "diagnostics"),
-            ("/tf", "tf"),
-            ("/tf_static", "tf_static"),
-        ],
-    )
-
     # Processes
     process_configure_mcu = ExecuteProcess(
         shell=True,
@@ -233,20 +181,17 @@ def launch_setup(context, *args, **kwargs):
     launches = [
         launch_receiver,
         launch_sender,
-        launch_hokuyo_ust,
     ]
     nodes = [
         node_wireless_watcher,
         node_battery_state_estimator,
         node_battery_state_control,
-        node_imu_filter_madgwick,
         node_micro_ros_agent,
         node_lighting_node,
         node_puma_throttle,
         node_puma_control,
         node_aggregator_node,
         node_diagnostics_updater,
-        node_localization,
     ]
     processes = [process_configure_mcu]
 
@@ -264,16 +209,5 @@ def generate_launch_description():
             description="Namespace for the robot.",
         )
     )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "tf_prefix",
-            default_value="",
-            description="tf_prefix of the joint names, useful for \
-        multi-robot setup. If changed, also joint names in the controllers' configuration \
-        have to be updated.",
-        )
-    )
 
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
-
-    print("here")

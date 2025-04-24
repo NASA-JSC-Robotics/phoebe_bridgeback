@@ -22,7 +22,6 @@ def launch_setup(context, *args, **kwargs):
     platform_string = platform.perform(context)
     sim_ignition = "true" if platform_string == "sim_ignition" else "false"
     use_fake_hardware = "true" if platform_string == "mock_hardware" else "false"
-    hardware = "true" if platform_string == "hardware" else "false"
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -60,7 +59,7 @@ def launch_setup(context, *args, **kwargs):
     # add controller spawners for each component
     launch_file_names.append("spawn_controllers.launch.py")
 
-    # add launch file for handling tool communication for hande through the URs
+    # add launch file for handling tool communication for gripper through the URs
     hardware_launch_file_names.append("hande_tool_comm.launch.py")
 
     # generate the launch files based on launch_file_names which has been configured
@@ -68,14 +67,6 @@ def launch_setup(context, *args, **kwargs):
         package_name="phoebe_deploy",
         launch_file_names=launch_file_names,
         launch_args=common_launch_args,
-    )
-
-    # generate the hardware only launch files based on hardware_launch_file_names
-    hardware_launch_files = AddLaunchDescriptions(
-        package_name="phoebe_deploy",
-        launch_file_names=hardware_launch_file_names,
-        launch_args=common_launch_args,
-        if_condition=hardware,
     )
 
     # helper function to get controllers files that we might need
@@ -114,13 +105,12 @@ def launch_setup(context, *args, **kwargs):
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
         ],
-        
         remappings=[
             # remap to be able to use the global robot_description
             ("~/robot_description", "robot_description"),
             # Necessary remap for platform velocity controller. Preferably this would be done
             # at spawn time. This is not supported in humble, but is supported in jazzy.
-            ("/platform_velocity_controller/cmd_vel_unstamped", "/platform/cmd_vel_unstamped")
+            ("/platform_velocity_controller/cmd_vel_unstamped", "/platform/cmd_vel_unstamped"),
         ],
         output="both",
     )
