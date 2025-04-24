@@ -149,6 +149,19 @@ def launch_setup(context, *args, **kwargs):
         ],
     )
 
+    node_puma_throttle = Node(
+        name="puma_throttle",
+        executable="throttle",
+        package="topic_tools",
+        namespace=ns,
+        output="screen",
+        arguments=[
+            "messages",
+            "platform/puma/cmd",
+            "50",
+        ]
+    )
+
     node_puma_control = Node(
         name="puma_control",
         executable="multi_puma_node",
@@ -156,8 +169,9 @@ def launch_setup(context, *args, **kwargs):
         namespace=ns,
         output="screen",
         parameters=[ParameterFile(config_can, allow_substs=True),],
-            
-
+        remappings=[
+            ("platform/puma/cmd", "platform/puma/cmd_throttle")
+        ]
     )
 
     node_aggregator_node = Node(
@@ -228,6 +242,7 @@ def launch_setup(context, *args, **kwargs):
         node_imu_filter_madgwick,
         node_micro_ros_agent,
         node_lighting_node,
+        node_puma_throttle,
         node_puma_control,
         node_aggregator_node,
         node_diagnostics_updater,
