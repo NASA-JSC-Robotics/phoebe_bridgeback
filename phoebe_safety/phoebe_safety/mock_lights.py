@@ -8,7 +8,6 @@ class MockLights(Node):
     def __init__(self):
         super().__init__("mock_lights")
 
-
         # Subscribing to /safety_status topic
         self.subscription = self.create_subscription(String, "/safety_status", self.safety_status_callback, 10)
 
@@ -21,28 +20,29 @@ class MockLights(Node):
 
         self.get_logger().info("Mock Lights on.")
 
-   # Callbacks
+    # Callbacks
     def safety_status_callback(self, msg: String):
-        self.safety_status_callback= msg.data
+        self.safety_status_callback = msg.data
         self.get_logger().info(f"Status? {self.safety_status_callback}")
 
     def timer_callback(self):
         msg = String()
-    
+
         if self.safety_status_callback == "SAFE_TO_ENTER":
             msg.data = "BLUE LIGHT"
             color = "\033[94m"  # Blue
         else:
             msg.data = "RED LIGHT"
             color = "\033[91m"  # Red
-    
+
         self.publisher.publish(msg)
-        self.get_logger().info(f"{color}{msg.data}\033[0m") 
+        self.get_logger().info(f"{color}{msg.data}\033[0m")
+
 
 def main(args=None):
     rclpy.init(args=args)
     node = MockLights()
-   
+
     # Establishing a MultiThreadedExecutor to run callbacks concurrently
     executor = MultiThreadedExecutor()
     executor.add_node(node)
@@ -52,6 +52,7 @@ def main(args=None):
     finally:
         node.destroy_node()
         rclpy.shutdown()
+
 
 if __name__ == "__main__":
     main()

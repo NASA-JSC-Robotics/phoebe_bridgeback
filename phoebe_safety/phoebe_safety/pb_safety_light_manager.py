@@ -4,28 +4,27 @@ from std_msgs.msg import Bool, String
 from rclpy.executors import MultiThreadedExecutor
 import serial
 import time
- 
- 
+
+
 class PhoebeSafetyManager(Node):
     def __init__(self):
         super().__init__("phoebe_safety_manager")
- 
+
         # Use ROS 2 parameter system for `use_mock_lights` flag
-        use_mock_lights_param = self.declare_parameter('use_mock_lights', False).get_parameter_value().bool_value
-        use_lights_param = self.declare_parameter('use_lights', True).get_parameter_value().bool_value
-        
+        use_mock_lights_param = self.declare_parameter("use_mock_lights", False).get_parameter_value().bool_value
+
         # Internal state of estop
         self.estop_active = False  # True = safe to enter, False = not safe to enter
- 
+
         # For mock lights (sim)
         self.use_mock_lights = use_mock_lights_param
- 
+
         # Serial connection to Arduino
         if self.use_mock_lights:
-            self.get_logger().info(f"Simulation only. Using mock lights, no Arduino required.")
+            self.get_logger().info("Simulation only. Using mock lights, no Arduino required.")
         else:
             try:
-                self.get_logger().info(f"Not a simulation. Using real lights. Plug in Arduino.")
+                self.get_logger().info("Not a simulation. Using real lights. Plug in Arduino.")
                 self.arduino = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
                 time.sleep(2)  # Give Arduino time to reset
                 self.get_logger().info("Connected to Arduino on /dev/ttyACM0")
@@ -33,36 +32,36 @@ class PhoebeSafetyManager(Node):
             except serial.SerialException as e:
                 self.arduino = None
                 self.get_logger().warn(f"Could not connect to Arduino: {e}")
- 
+
         # Subscribing to estop topic
         self.subscription = self.create_subscription(Bool, "/emergency_stop", self.estop_callback, 10)
- 
+
         # Publishing to "safety_status" topic
         self.publisher = self.create_publisher(String, "/safety_status", 10)
- 
+
         # Timer
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.timer_callback)
- 
+
         # Logger
         self.get_logger().info("Phoebe Safety Manager Node has started")
- 
+
     def estop_callback(self, msg: Bool):
         self.estop_active = msg.data
         self.get_logger().info(f"E-stop active? {self.estop_active}")
         self.send_light_state()
- 
+
     def timer_callback(self):
         msg = String()
- 
+
         if self.estop_active:
             msg.data = "SAFE_TO_ENTER"
         else:
             msg.data = "NOT_SAFE_TO_ENTER"
- 
+
         self.publisher.publish(msg)
         self.get_logger().info(f"Published safety status: {msg.data}")
- 
+
     def send_light_state(self):
         if self.arduino and self.arduino.is_open:
             try:
@@ -72,18 +71,18 @@ class PhoebeSafetyManager(Node):
                 self.get_logger().info(f"Sent light state {state} to Arduino")
             except serial.SerialException as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
- 
- 
+
+
 def main(args=None):
     rclpy.init(args=args)
- 
+
     # Create the node
     node = PhoebeSafetyManager()
- 
+
     # Execute the node using a multi-threaded executor
     executor = MultiThreadedExecutor()
     executor.add_node(node)
- 
+
     try:
         executor.spin()
     finally:
@@ -91,7 +90,7 @@ def main(args=None):
             node.arduino.close()
         node.destroy_node()
         rclpy.shutdown()
- 
- 
+
+
 if __name__ == "__main__":
     main()
