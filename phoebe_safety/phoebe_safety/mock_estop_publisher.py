@@ -11,7 +11,7 @@ class MockEstopPublisher(Node):
         # Publishing to the /emergency_stop topic
         self.publisher = self.create_publisher(Bool, "/emergency_stop", 10)
 
-        # Publishing a new random bool every decalred rate (Hz)
+        # Publishing a new random bool every declared rate (Hz)
         self.rate_hz = 0.5  # Chose a somewhat slower rate to be realistic
         self.timer = self.create_timer(1 / self.rate_hz, self.timer_callback)
 

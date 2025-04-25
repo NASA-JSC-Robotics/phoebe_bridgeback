@@ -16,7 +16,7 @@ class PhoebeSafetyManager(Node):
         # Subscribing to estop topic
         self.subscription = self.create_subscription(Bool, "/emergency_stop", self.estop_callback, 10)
 
-        # Publishing to "safety_status" topic which publishes a string representing the current safety state. Jodi's node will subscribe to this.
+        # Publishing to "safety_status" topic which publishes the current safety state.
         self.publisher = self.create_publisher(String, "/safety_status", 10)
 
         # Timer
