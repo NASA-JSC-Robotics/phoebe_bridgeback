@@ -2,7 +2,7 @@
 ## Info:
 This package is for the Phoebe safety manager node: pb_safety_light_manager.py. It subscribes to the estop topic and publishes the safety state based on whether the estop is active or not. (This node will be developed further to include input from controller manager and vcan status).
 
-Additionally, there is an ARDUINO LIGHT TEST version of the node which connects to Jodi's arduino device (for testing only - may integrate later to the main node), and there is a mock estop node that will act as the estop.
+There is a mock estop node that will act as the estop. Also, if you are running the "simulation" (without Arduino plugged in) - there's also a mock lights node that acts as the lights.
 
 The following is instructions to test the current rendition of the safety manager node with the mock estop.
 
@@ -15,22 +15,27 @@ colcon build
 source install/setup.bash
 ```
 
-### Run
+### Run safety light manager simulation (MOCK LIGHTS):
 
-Split the terminator into two windows.
+Split the terminator into three windows.
 
 In the first type:
 ```console
 source install/setup.bash
-ros2 run phoebe_safety pb_safety_light_manager
+ros2 run phoebe_safety pb_safety_light_manager --ros-args --param use_mock_lights:=true
 ```
 In the second type:
 ```console
 source install/setup.bash
 ros2 run phoebe_safety mock_estop_publisher
 ```
+In the third type:
+```console
+source install/setup.bash
+ros2 run phoebe_safety mock_lights
+```
 
-### Run with Jodi's Arduino NeoPixel Ring (TEST ONLY node)
+### Run with Jodi's Arduino NeoPixel Ring (LIGHTS):
 
 (First, plug in the arduino device (USB) to your Linux computer.)
 
@@ -39,7 +44,7 @@ Split the terminator into two windows.
 In the first type:
 ```console
 source install/setup.bash
-ros2 run phoebe_safety arduino_test
+ros2 run phoebe_safety pb_safety_light_manager
 ```
 In the second type:
 ```console
