@@ -12,7 +12,7 @@ class MockEstopPublisher(Node):
         self.publisher = self.create_publisher(Bool, "/emergency_stop", 10)
 
         # Publishing a new random bool every declared rate (Hz)
-        self.rate_hz = 0.5  # Chose a somewhat slower rate to be realistic
+        self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.timer_callback)
 
         self.get_logger().info("Mock Emergency Stop Publisher started.")
