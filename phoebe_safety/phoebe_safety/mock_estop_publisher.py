@@ -13,11 +13,18 @@ class MockEstopPublisher(Node):
 
         # Publishing a new random bool every declared rate (Hz)
         self.rate_hz = 5
-        self.timer = self.create_timer(1 / self.rate_hz, self.timer_callback)
+        self.timer = self.create_timer(1 / self.rate_hz, self.mock_estop_status)
 
         self.get_logger().info("Mock Emergency Stop Publisher started.")
 
-    def timer_callback(self):
+    def mock_estop_status(self):
+        """
+
+        Timer callback that updates mock estop status.
+
+        Generates random bool and publishes mock estop status to /emergency_stop topic.
+
+        """
         # Creating and publishing a random Bool message
         msg = Bool()
         msg.data = random.choice([True, False])

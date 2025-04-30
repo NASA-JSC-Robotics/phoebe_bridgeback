@@ -12,17 +12,30 @@ class MockLights(Node):
 
         # Rate
         self.rate_hz = 5
-        self.timer = self.create_timer(1 / self.rate_hz, self.timer_callback)
+        self.timer = self.create_timer(1 / self.rate_hz, self.light_message)
 
         self.get_logger().info("Mock Lights on.")
 
     # Callbacks
     def safety_status_callback(self, msg: String):
+        """
+
+        Callback for the /safety_status topic.
+ 
+        Updates safety state. 
+
+        """
         self.safety_status_callback = msg.data
         self.get_logger().info(f"Status? {self.safety_status_callback}")
 
-    def timer_callback(self):
-        
+    def light_message(self):
+        """
+
+        Timer callback that updates light color according to safety state.
+
+        Prints light color message.
+
+        """
         if self.safety_status_callback == "SAFE_TO_ENTER":
             light_message = "BLUE LIGHT"
             color = "\033[94m"  # Blue

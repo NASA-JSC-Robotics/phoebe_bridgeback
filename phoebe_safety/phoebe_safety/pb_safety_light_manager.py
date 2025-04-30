@@ -3,6 +3,7 @@ from rclpy.node import Node
 from std_msgs.msg import Bool, String
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
+# from controller_manager_msgs.srv._list_controllers import ListControllers_Response 
 import serial
 import time
  
@@ -59,19 +60,35 @@ class PhoebeSafetyManager(Node):
         self.rate_hz = 5
         self.timer = self.create_timer(
             1 / self.rate_hz,
-            self.timer_callback,
+            self.check_system_safety,
             callback_group=self.callback_group
         )
  
         # Logger
-        self.get_logger().info("Phoebe Safety Manager Node has started")
+        self.get_logger().info(f"This node has started: {self.get_name()}")
  
     def estop_callback(self, msg: Bool):
+        """
+
+        Callback for the /emergency_stop topic.
+
+        True = active. False = not active. 
+
+        Updates state of emergency stop signal.
+
+        """
         self.get_logger().info("E-stop callback triggered")
         self.estop_active = msg.data
         self.get_logger().info(f"E-stop active? {self.estop_active}")
  
-    def timer_callback(self):
+    def check_system_safety(self):
+        """
+        
+        Timer callback that evaluates system safety status.
+        
+        Publishes current safety status and updates light indicators.
+
+        """
         msg = String()
         if self.estop_active:
             msg.data = "SAFE_TO_ENTER"
@@ -82,8 +99,16 @@ class PhoebeSafetyManager(Node):
         self.get_logger().info(f"Published safety status: {msg.data}")
         self.send_light_state()
  
- 
     def send_light_state(self):
+        """
+
+        Sends a byte to the Arduino to control indicator lights.
+
+        State 1 = SAFE (blue), State 3 = NOT SAFE (red).
+
+        Only executes if a serial connection is active.
+
+        """
         if self.arduino and self.arduino.is_open:
             try:
                 state = 1 if self.estop_active else 3
@@ -92,7 +117,17 @@ class PhoebeSafetyManager(Node):
             except serial.SerialException as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
  
- 
+    # def check_controllers(self):
+    #     list_controllers = ListControllers_Response()
+    #     controller_active = False
+    #     for controller in list_controllers:
+    #         if controller.state == 'active' and len(controller.required_command_interfaces) > 0: 
+    #             controller_active = True
+    #             break
+
+    # def check_vcan_state(self):
+    #     vcan_state
+
 def main(args=None):
     rclpy.init(args=args)
  
