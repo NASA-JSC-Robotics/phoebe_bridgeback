@@ -17,7 +17,7 @@ def generate_launch_description():
         # Launch the PhoebeSafetyManager node
         Node(
             package='phoebe_safety',
-            executable='pb_safety_light_manager',
+            executable='pb_safety_light_manager.py',
             name='pb_safety_light_manager',
             output='both',  # 'both' means output to both screen and log
             parameters=[{'use_mock_lights': use_mock_lights}],  # Correctly pass the configuration here
