@@ -7,7 +7,7 @@ from std_msgs.msg import String
 class MockLights(Node):
     def __init__(self):
         super().__init__("mock_lights")
-        
+
         # Subscribing to /safety_status topic
         self.subscription = self.create_subscription(String, "/safety_status", self.safety_status_callback, 10)
 
@@ -22,8 +22,8 @@ class MockLights(Node):
         """
 
         Callback for the /safety_status topic.
- 
-        Updates safety state. 
+
+        Updates safety state.
 
         """
         self.safety_status_callback = msg.data
