@@ -2,11 +2,11 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
 from launch.conditions import IfCondition
 
@@ -114,7 +114,25 @@ def launch_setup(context, *args, **kwargs):
         output="both",
     )
 
-    return launch_files + [control_node]
+    node_puma_throttle = Node(
+        name="puma_throttle",
+        executable="throttle",
+        package="topic_tools",
+        namespace=ns,
+        output="screen",
+        arguments=[
+            "messages",
+            "platform/puma/cmd",
+            "50",
+            "ridgeback/platform/puma/cmd_throttle"
+        ],
+    )
+
+    ns_action = GroupAction(
+        actions= [PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle]
+    )
+
+    return [ns_action]
 
 
 def generate_launch_description():

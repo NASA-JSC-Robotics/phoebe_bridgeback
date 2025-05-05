@@ -1,8 +1,8 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, OpaqueFunction
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, OpaqueFunction, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import FindExecutable, PathJoinSubstitution, LaunchConfiguration
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterFile
 
@@ -10,6 +10,8 @@ from launch_ros.parameter_descriptions import ParameterFile
 def launch_setup(context, *args, **kwargs):
 
     ns = LaunchConfiguration("ns")
+    default_ns = "ridgeback"
+    tf_prefix = LaunchConfiguration("tf_prefix")
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
@@ -31,7 +33,7 @@ def launch_setup(context, *args, **kwargs):
     launch_receiver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_receiver]),
         launch_arguments={
-            "namespace": ns,
+            "namespace": default_ns,
             "interface": "vcan0",
             "from_can_bus_topic": "vcan0/rx",
         }.items(),
@@ -39,7 +41,7 @@ def launch_setup(context, *args, **kwargs):
     launch_sender = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_sender]),
         launch_arguments={
-            "namespace": ns,
+            "namespace": default_ns,
             "interface": "vcan0",
             "to_can_bus_topic": "vcan0/tx",
         }.items(),
@@ -50,7 +52,7 @@ def launch_setup(context, *args, **kwargs):
         name="wireless_watcher",
         executable="wireless_watcher",
         package="wireless_watcher",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         parameters=[
             {
@@ -66,7 +68,7 @@ def launch_setup(context, *args, **kwargs):
         name="battery_state_estimator",
         executable="battery_state_estimator",
         package="clearpath_hardware_interfaces",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         arguments=[
             "-s",
@@ -78,7 +80,7 @@ def launch_setup(context, *args, **kwargs):
         name="battery_state_control",
         executable="battery_state_control",
         package="clearpath_hardware_interfaces",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         arguments=[
             "-s",
@@ -90,7 +92,7 @@ def launch_setup(context, *args, **kwargs):
         name="micro_ros_agent",
         executable="micro_ros_agent",
         package="micro_ros_agent",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         arguments=[
             "udp4",
@@ -103,7 +105,7 @@ def launch_setup(context, *args, **kwargs):
         name="lighting_node",
         executable="lighting_node",
         package="clearpath_hardware_interfaces",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         parameters=[
             {
@@ -112,24 +114,11 @@ def launch_setup(context, *args, **kwargs):
         ],
     )
 
-    node_puma_throttle = Node(
-        name="puma_throttle",
-        executable="throttle",
-        package="topic_tools",
-        namespace=ns,
-        output="screen",
-        arguments=[
-            "messages",
-            "platform/puma/cmd",
-            "50",
-        ],
-    )
-
     node_puma_control = Node(
         name="puma_control",
         executable="multi_puma_node",
         package="puma_motor_driver",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         parameters=[
             ParameterFile(config_can, allow_substs=True),
@@ -140,7 +129,7 @@ def launch_setup(context, *args, **kwargs):
     node_aggregator_node = Node(
         package="diagnostic_aggregator",
         executable="aggregator_node",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         parameters=[analyzer_params],
         remappings=[
@@ -153,7 +142,7 @@ def launch_setup(context, *args, **kwargs):
     node_diagnostics_updater = Node(
         package="clearpath_diagnostics",
         executable="diagnostics_updater",
-        namespace=ns,
+        namespace=default_ns,
         output="screen",
         remappings=[
             ("/diagnostics", "diagnostics"),
@@ -164,6 +153,8 @@ def launch_setup(context, *args, **kwargs):
     )
 
     # Processes
+    # note this will be incorrectly namespaced if a namespace is pushed for this file
+    # this should be converted to a node so it picks up the namespace
     process_configure_mcu = ExecuteProcess(
         shell=True,
         cmd=[
@@ -173,7 +164,7 @@ def launch_setup(context, *args, **kwargs):
                 " service call platform/mcu/configure",
                 " clearpath_platform_msgs/srv/ConfigureMcu",
                 ' "{domain_id: 0,',
-                f" robot_namespace: '{ns.perform(context)}'}}\"",
+                f" robot_namespace: '{default_ns}'}}\"",
             ],
         ],
     )
@@ -188,14 +179,17 @@ def launch_setup(context, *args, **kwargs):
         node_battery_state_control,
         node_micro_ros_agent,
         node_lighting_node,
-        node_puma_throttle,
         node_puma_control,
         node_aggregator_node,
         node_diagnostics_updater,
     ]
     processes = [process_configure_mcu]
 
-    return launches + nodes + processes
+    ns_action = GroupAction(
+        actions=[PushRosNamespace(ns)] + launches + nodes + processes
+    )
+
+    return [ns_action]
 
 
 def generate_launch_description():
@@ -207,6 +201,15 @@ def generate_launch_description():
             "ns",
             default_value="",
             description="Namespace for the robot.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
         )
     )
 
