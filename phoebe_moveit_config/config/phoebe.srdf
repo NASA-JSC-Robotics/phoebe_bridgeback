@@ -54,22 +54,18 @@
     <!-- Grippers -->
     <group_state group="left_hande" name="open">
         <joint name="left_finger_1_joint" value="0.025"/>
-        <joint name="left_finger_2_joint" value="0.025"/>
     </group_state>
 
     <group_state group="left_hande" name="close">
         <joint name="left_finger_1_joint" value="0"/>
-        <joint name="left_finger_2_joint" value="0"/>
     </group_state>
 
     <group_state group="right_hande" name="open">
         <joint name="right_finger_1_joint" value="0.025"/>
-        <joint name="right_finger_2_joint" value="0.025"/>
     </group_state>
 
     <group_state group="right_hande" name="close">
         <joint name="right_finger_1_joint" value="0"/>
-        <joint name="right_finger_2_joint" value="0"/>
     </group_state>
 
     <!-- Lifts -->
