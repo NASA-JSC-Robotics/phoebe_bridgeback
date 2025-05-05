@@ -29,9 +29,17 @@ def generate_launch_description():
             description="Robot is starting using ignition",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ns",
+            default_value="",
+            description="Namespace for the robot.",
+        )
+    )
 
     rviz = LaunchConfiguration("rviz")
     sim_ignition = LaunchConfiguration("sim_ignition")
+    ns = LaunchConfiguration("ns")
 
     description_package = "phoebe_description"
     description_file = "phoebe.urdf.xacro"
@@ -55,6 +63,7 @@ def generate_launch_description():
             package="moveit_ros_move_group",
             executable="move_group",
             output="both",
+            namespace=ns,
             parameters=[
                 {"use_sim_time": sim_ignition},
                 moveit_config.to_dict(),
@@ -69,6 +78,7 @@ def generate_launch_description():
             executable="rviz2",
             name="rviz2_moveit",
             output="log",
+            namespace=ns,
             arguments=["-d", rviz_config_file],
             parameters=[
                 {"use_sim_time": sim_ignition},
