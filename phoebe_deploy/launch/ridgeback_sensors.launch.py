@@ -73,9 +73,7 @@ def launch_setup(context, *args, **kwargs):
         node_localization,
     ]
 
-    ns_action = GroupAction(
-        actions= [PushRosNamespace(ns)] + launches + nodes
-    )
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launches + nodes)
 
     return [ns_action]
 

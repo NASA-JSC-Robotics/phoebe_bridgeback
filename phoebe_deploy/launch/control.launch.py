@@ -120,17 +120,10 @@ def launch_setup(context, *args, **kwargs):
         package="topic_tools",
         namespace=ns,
         output="screen",
-        arguments=[
-            "messages",
-            "platform/puma/cmd",
-            "50",
-            "ridgeback/platform/puma/cmd_throttle"
-        ],
+        arguments=["messages", "platform/puma/cmd", "50", "ridgeback/platform/puma/cmd_throttle"],
     )
 
-    ns_action = GroupAction(
-        actions= [PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle]
-    )
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle])
 
     return [ns_action]
 

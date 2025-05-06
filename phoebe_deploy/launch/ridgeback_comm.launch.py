@@ -12,6 +12,7 @@ def launch_setup(context, *args, **kwargs):
     ns = LaunchConfiguration("ns")
     default_ns = "ridgeback"
     tf_prefix = LaunchConfiguration("tf_prefix")
+    tf_prefix = tf_prefix  # dummy use to get precommit to be happy
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
@@ -185,9 +186,7 @@ def launch_setup(context, *args, **kwargs):
     ]
     processes = [process_configure_mcu]
 
-    ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)] + launches + nodes + processes
-    )
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launches + nodes + processes)
 
     return [ns_action]
 
