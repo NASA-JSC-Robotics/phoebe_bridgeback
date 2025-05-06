@@ -2,12 +2,13 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
+from launch.conditions import IfCondition
 
 
 def launch_setup(context, *args, **kwargs):
@@ -31,7 +32,7 @@ def launch_setup(context, *args, **kwargs):
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
-    def AddLaunchDescriptions(package_name, launch_file_names, launch_args):
+    def AddLaunchDescriptions(package_name, launch_file_names, launch_args, if_condition="true"):
         launch_files_list = []
         for launch_file_name in launch_file_names:
             launch_files_list.append(
@@ -40,13 +41,15 @@ def launch_setup(context, *args, **kwargs):
                         os.path.join(get_package_share_directory(package_name), "launch", launch_file_name)
                     ),
                     launch_arguments=launch_args,
+                    condition=IfCondition(if_condition),
                 )
             )
 
         return launch_files_list
 
-    # list to keep track of launch file names to start
+    # lists to keep track of launch file names to start
     launch_file_names = []
+    hardware_launch_file_names = []
 
     # This is the "definitive" robot state publisher.
     # This should be launched on whatever machine has the most resources, which
@@ -55,6 +58,9 @@ def launch_setup(context, *args, **kwargs):
 
     # add controller spawners for each component
     launch_file_names.append("spawn_controllers.launch.py")
+
+    # add launch file for handling tool communication for gripper through the URs
+    hardware_launch_file_names.append("hande_tool_comm.launch.py")
 
     # generate the launch files based on launch_file_names which has been configured
     launch_files = AddLaunchDescriptions(
@@ -99,14 +105,27 @@ def launch_setup(context, *args, **kwargs):
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
         ],
-        # remap to be able to use the global robot_description
         remappings=[
+            # remap to be able to use the global robot_description
             ("~/robot_description", "robot_description"),
+            # Necessary remap for platform velocity controller. Preferably this would be done
+            # at spawn time. This is not supported in humble, but is supported in jazzy.
         ],
         output="both",
     )
 
-    return launch_files + [control_node]
+    node_puma_throttle = Node(
+        name="puma_throttle",
+        executable="throttle",
+        package="topic_tools",
+        namespace=ns,
+        output="screen",
+        arguments=["messages", "platform/puma/cmd", "50", "ridgeback/platform/puma/cmd_throttle"],
+    )
+
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle])
+
+    return [ns_action]
 
 
 def generate_launch_description():

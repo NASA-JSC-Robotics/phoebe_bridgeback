@@ -9,10 +9,10 @@
       tf_prefix:=''
       use_fake_hardware:='false'
       sim_ignition:='false'
-      left_ewellix_com_port:='/dev/ttyUSB0'
-      right_ewellix_com_port:='/dev/ttyUSB1'
-      left_hande_com_port:='/dev/ttyUSB2'
-      right_hande_com_port:='/dev/ttyUSB3'
+      left_ewellix_com_port:='/dev/ewellix_left'
+      right_ewellix_com_port:='/dev/ewellix_right'
+      left_hande_com_port:='/tmp/hande_left'
+      right_hande_com_port:='/tmp/hande_right'
       left_ur_ip_addr:='192.168.131.40'
       right_ur_ip_addr:='192.168.131.41'
       left_ur_kinematics_file:='$(find ur_description)/config/ur5e/default_kinematics.yaml'
@@ -531,11 +531,16 @@
     use_fake_hardware="${use_fake_hardware}"
     sim_ignition="${sim_ignition}"
     robot_ip="${right_ur_ip_addr}"
-    use_tool_communication="true"
-    tool_device_name="${right_hande_com_port}"
-    tool_voltage="24"
+    reverse_port="60001"
+    script_sender_port="60002"
+    script_command_port="60004"
+    trajectory_port="60003"
+    use_tool_communication="false"
+    script_filename="$(find ur_client_library)/resources/external_control.urscript"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     >
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 ${5*pi/4}" />
   </xacro:ur_robot>
 
   <xacro:ur_robot
@@ -550,12 +555,18 @@
     use_fake_hardware="${use_fake_hardware}"
     sim_ignition="${sim_ignition}"
     robot_ip="${left_ur_ip_addr}"
-    use_tool_communication="true"
-    tool_device_name="${right_hande_com_port}"
-    tool_voltage="24"
+    reverse_port="50001"
+    script_sender_port="50002"
+    script_command_port="50004"
+    trajectory_port="50003"
+    use_tool_communication="false"
+    script_filename="$(find ur_client_library)/resources/external_control.urscript"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     >
-    <origin xyz="0 0 0" rpy="0 0 0" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
+    <origin xyz="0 0 0" rpy="0 0 ${-pi/4}" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
   </xacro:ur_robot>
+
 
   <!-- Hand-E Grippers -->
 
@@ -567,7 +578,7 @@
     tf_prefix="${tf_prefix}right_"
     parent="${tf_prefix}right_ur_arm_tool0"
     finger_xacro="fngr_original">
-    <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
   </xacro:dextivr_hande>
 
   <xacro:dextivr_hande
@@ -577,7 +588,7 @@
     tf_prefix="${tf_prefix}left_"
     parent="${tf_prefix}left_ur_arm_tool0"
     finger_xacro="fngr_original">
-    <origin xyz="0 0 0" rpy="0 0 ${radians(-90)}"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
   </xacro:dextivr_hande>
 
   </xacro:macro>
