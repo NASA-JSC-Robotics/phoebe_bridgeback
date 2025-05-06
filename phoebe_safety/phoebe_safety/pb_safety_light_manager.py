@@ -8,6 +8,7 @@ from controller_manager_msgs.srv import ListControllers
 import serial
 import time
 
+
 class PhoebeSafetyManager(Node):
     def __init__(self):
         super().__init__("phoebe_safety_manager")
@@ -19,7 +20,7 @@ class PhoebeSafetyManager(Node):
 
         # Initial states
         self.estop_active = False  # True = safe to enter, False = not safe to enter
-        self.controller_active = True # True = not safe to enter, False = caution
+        self.controller_active = True  # True = not safe to enter, False = caution
 
         # Callback group for multithreading
         self.callback_group = ReentrantCallbackGroup()
@@ -48,10 +49,13 @@ class PhoebeSafetyManager(Node):
 
         # Create client for controller manager service
         self.controller_client = self.create_client(
-            ListControllers, "/controller_manager/list_controllers", callback_group=self.callback_group)
-         
+            ListControllers, "/controller_manager/list_controllers", callback_group=self.callback_group
+        )
+
         # Timer to check controller status at 5 Hz (every 0.2 seconds)
-        self.controller_check_timer = self.create_timer(1 / self.rate_hz, self.controllers_are_active, callback_group=self.callback_group)
+        self.controller_check_timer = self.create_timer(
+            1 / self.rate_hz, self.controllers_are_active, callback_group=self.callback_group
+        )
 
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
@@ -74,15 +78,15 @@ class PhoebeSafetyManager(Node):
         msg = String()
         if self.estop_active:
             msg.data = "SAFE_TO_ENTER"
-            light_state = 1  
+            light_state = 1
             color = "\033[94m"  # Blue
         elif self.controller_active:
             msg.data = "NOT_SAFE_TO_ENTER"
-            light_state = 3  
+            light_state = 3
             color = "\033[91m"  # Red
         else:
             msg.data = "CAUTION"
-            light_state = 2  
+            light_state = 2
             color = "\033[93m"  # Yellow
         self.publisher.publish(msg)
         self.get_logger().info(f"Published safety status: {color}{msg.data}\033[0m")
@@ -124,9 +128,11 @@ class PhoebeSafetyManager(Node):
         try:
             response = future.result()
             self.controller_active = any(
-                c.state == 'active' and len(c.required_command_interfaces) > 0
-                for c in response.controller)
-            for ctrl in response.controller:                                       # Print for troubleshooting. Making sure it's publishing states accordingly.
+                c.state == "active" and len(c.required_command_interfaces) > 0 for c in response.controller
+            )
+            for (
+                ctrl
+            ) in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
                 print(f"Controller name: {ctrl.name}")
                 print(f"Controller state: {ctrl.state}")
                 print(f"Controller's commands if any: {ctrl.required_command_interfaces}")
@@ -134,7 +140,6 @@ class PhoebeSafetyManager(Node):
         except Exception as e:
             self.get_logger().warn(f"Failed to get controller status: {e}")
             self.controller_active = False
-
 
 
 def main(args=None):
@@ -150,6 +155,6 @@ def main(args=None):
         node.destroy_node()
         rclpy.shutdown()
 
+
 if __name__ == "__main__":
     main()
- 

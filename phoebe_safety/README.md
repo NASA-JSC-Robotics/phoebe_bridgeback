@@ -3,7 +3,7 @@
 ## Info:
 This package is for the Phoebe safety manager node: pb_safety_light_manager.py. It takes info from the estop and controller manager, and publishes a safety state and light color based on the whether the estop/controllers are active. (This node will be developed further to include input from vcan status).
 
-There is a mock estop node that will act as the estop. 
+There is a mock estop node that will act as the estop.
 
 The following is instructions to test the current rendition of the safety manager node with the mock estop.
 
