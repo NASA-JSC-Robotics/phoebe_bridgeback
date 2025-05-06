@@ -1,8 +1,9 @@
-# Phoebe Bridgeback Safety Manager Simulation Test as of 4/24/2025
-## Info:
-This package is for the Phoebe safety manager node: pb_safety_light_manager.py. It subscribes to the estop topic and publishes the safety state based on whether the estop is active or not. (This node will be developed further to include input from controller manager and vcan status).
+# Phoebe Bridgeback Safety Manager Node Test
 
-There is a mock estop node that will act as the estop. Also, if you are running the "simulation" (without Arduino plugged in) - there's also a mock lights node that acts as the lights.
+## Info:
+This package is for the Phoebe safety manager node: pb_safety_light_manager.py. It takes info from the estop and controller manager, and publishes a safety state and light color based on the whether the estop/controllers are active. (This node will be developed further to include input from vcan status).
+
+There is a mock estop node that will act as the estop. 
 
 The following is instructions to test the current rendition of the safety manager node with the mock estop.
 
@@ -23,7 +24,7 @@ Split the terminator into two windows.
 In the first type:
 ```console
 source install/setup.bash
-ros2 run phoebe_safety pb_safety_light_manager.py
+ros2 launch phoebe_safety phoebe_safety_manager.launch.py
 ```
 In the second type:
 ```console
