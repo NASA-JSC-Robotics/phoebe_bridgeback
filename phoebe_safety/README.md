@@ -14,7 +14,7 @@ git checkout humble-feature/add-phoebe-safety
 colcon build
 source install/setup.bash
 ```
-### Run 
+### Run
 
 (First, if you want to try with hardware - plug in the arduino device (USB) to your Linux computer.)
 

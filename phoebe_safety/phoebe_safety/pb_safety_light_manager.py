@@ -25,7 +25,7 @@ class PhoebeSafetyManager(Node):
         self.callback_group = ReentrantCallbackGroup()
 
         # Serial connection to Arduino
-    
+
         try:
             self.arduino = serial.Serial(self.arduino_port, 9600, timeout=1)
             time.sleep(2)  # Give Arduino time to reset
@@ -75,13 +75,13 @@ class PhoebeSafetyManager(Node):
         msg = String()
         if self.estop_active:
             msg.data = "SAFE_TO_ENTER"
-            light_state = 1  
+            light_state = 1
             color = "\033[94m"  # Blue
         else:
             msg.data = "NOT_SAFE_TO_ENTER"
-            light_state = 3  
+            light_state = 3
             color = "\033[91m"  # Red
-            
+
         self.publisher.publish(msg)
         self.get_logger().info(f"Published safety status: {color}{msg.data}\033[0m")
         self.send_light_state(light_state)
@@ -102,6 +102,7 @@ class PhoebeSafetyManager(Node):
                 self.get_logger().info(f"Sent light state {state} to Arduino")
             except serial.SerialException as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
+
 
 def main(args=None):
     rclpy.init(args=args)
