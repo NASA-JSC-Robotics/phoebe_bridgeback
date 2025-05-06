@@ -13,7 +13,6 @@ install(
 install(PROGRAMS
     phoebe_safety/mock_estop_publisher.py
     phoebe_safety/pb_safety_light_manager.py
-    phoebe_safety/mock_lights.py
     DESTINATION lib/${PROJECT_NAME}
 )
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})

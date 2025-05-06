@@ -4,8 +4,6 @@ from rclpy.node import Node
 from std_msgs.msg import Bool, String
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
-
-# from controller_manager_msgs.srv._list_controllers import ListControllers_Response
 import serial
 import time
 
@@ -15,11 +13,9 @@ class PhoebeSafetyManager(Node):
         super().__init__("phoebe_safety_manager")
 
         # Use ROS 2 parameter system
-        use_mock_lights_param = self.declare_parameter("use_mock_lights", False).get_parameter_value().bool_value
         arduino_port_param = self.declare_parameter("arduino_port", "/dev/ttyACM0").get_parameter_value().string_value
 
         # Assign parameters
-        self.use_mock_lights = use_mock_lights_param
         self.arduino_port = arduino_port_param
 
         # Internal state of estop
@@ -29,19 +25,15 @@ class PhoebeSafetyManager(Node):
         self.callback_group = ReentrantCallbackGroup()
 
         # Serial connection to Arduino
-        if self.use_mock_lights:
-            self.get_logger().info("Simulation only. Using mock lights, no Arduino required.")
+    
+        try:
+            self.arduino = serial.Serial(self.arduino_port, 9600, timeout=1)
+            time.sleep(2)  # Give Arduino time to reset
+            self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
+            self.send_light_state()  # Will default to "not safe"
+        except serial.SerialException as e:
             self.arduino = None
-        else:
-            try:
-                self.get_logger().info("Not a simulation. Using real lights. Plug in Arduino.")
-                self.arduino = serial.Serial(self.arduino_port, 9600, timeout=1)
-                time.sleep(2)  # Give Arduino time to reset
-                self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
-                self.send_light_state()  # Will default to "not safe"
-            except serial.SerialException as e:
-                self.arduino = None
-                self.get_logger().warn(f"Could not connect to Arduino: {e}")
+            self.get_logger().warn(f"Could not connect to Arduino: {e}")
 
         # Subscribing to estop topic
         self.subscription = self.create_subscription(
@@ -83,14 +75,18 @@ class PhoebeSafetyManager(Node):
         msg = String()
         if self.estop_active:
             msg.data = "SAFE_TO_ENTER"
+            light_state = 1  
+            color = "\033[94m"  # Blue
         else:
             msg.data = "NOT_SAFE_TO_ENTER"
-
+            light_state = 3  
+            color = "\033[91m"  # Red
+            
         self.publisher.publish(msg)
-        self.get_logger().info(f"Published safety status: {msg.data}")
-        self.send_light_state()
+        self.get_logger().info(f"Published safety status: {color}{msg.data}\033[0m")
+        self.send_light_state(light_state)
 
-    def send_light_state(self):
+    def send_light_state(self, state: int):
         """
 
         Sends a byte to the Arduino to control indicator lights.
@@ -102,23 +98,10 @@ class PhoebeSafetyManager(Node):
         """
         if self.arduino and self.arduino.is_open:
             try:
-                state = 1 if self.estop_active else 3
                 self.arduino.write(bytes([state]))
                 self.get_logger().info(f"Sent light state {state} to Arduino")
             except serial.SerialException as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
-
-    # def check_controllers(self):
-    #     list_controllers = ListControllers_Response()
-    #     controller_active = False
-    #     for controller in list_controllers:
-    #         if controller.state == 'active' and len(controller.required_command_interfaces) > 0:
-    #             controller_active = True
-    #             break
-
-    # def check_vcan_state(self):
-    #     vcan_state
-
 
 def main(args=None):
     rclpy.init(args=args)

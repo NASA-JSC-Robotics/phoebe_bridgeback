@@ -14,42 +14,21 @@ git checkout humble-feature/add-phoebe-safety
 colcon build
 source install/setup.bash
 ```
+### Run 
 
-### Run safety light manager simulation (MOCK LIGHTS):
-
-Split the terminator into three windows.
-
-In the first type:
-```console
-source install/setup.bash
-ros2 run phoebe_safety pb_safety_light_manager --ros-args --param use_mock_lights:=true
-```
-In the second type:
-```console
-source install/setup.bash
-ros2 run phoebe_safety mock_estop_publisher
-```
-In the third type:
-```console
-source install/setup.bash
-ros2 run phoebe_safety mock_lights
-```
-
-### Run with Jodi's Arduino NeoPixel Ring (LIGHTS):
-
-(First, plug in the arduino device (USB) to your Linux computer.)
+(First, if you want to try with hardware - plug in the arduino device (USB) to your Linux computer.)
 
 Split the terminator into two windows.
 
 In the first type:
 ```console
 source install/setup.bash
-ros2 run phoebe_safety pb_safety_light_manager
+ros2 run phoebe_safety pb_safety_light_manager.py
 ```
 In the second type:
 ```console
 source install/setup.bash
-ros2 run phoebe_safety mock_estop_publisher
+ros2 run phoebe_safety mock_estop_publisher.py
 ```
 OR type one of these:
 
