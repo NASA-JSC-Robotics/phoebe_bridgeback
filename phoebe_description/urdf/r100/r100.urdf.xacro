@@ -18,9 +18,9 @@
   <xacro:include filename="$(find phoebe_description)/urdf/r100/r100_macro.xacro" />
 
   <xacro:r100
-    tf_prefix="${tf_prefix}"
-    use_fake_hardware="${use_fake_hardware}"
-    sim_ignition="${sim_ignition}"
-    ns="${ns}"
+    tf_prefix="$(arg tf_prefix)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    sim_ignition="$(arg sim_ignition)"
+    ns="$(arg ns)"
   />
 </robot>

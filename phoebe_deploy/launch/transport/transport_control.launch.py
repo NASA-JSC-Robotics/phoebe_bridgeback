@@ -14,38 +14,7 @@ from launch.conditions import IfCondition
 def launch_setup(context, *args, **kwargs):
 
     # Initialize Arguments
-    platform = LaunchConfiguration("platform")
-    tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
-
-    # convert platform type to string so that we can evaluate different options
-    platform_string = platform.perform(context)
-    sim_ignition = "true" if platform_string == "sim_ignition" else "false"
-    use_fake_hardware = "true" if platform_string == "mock_hardware" else "false"
-
-    # common launch args shared across different nodes
-    common_launch_args = {
-        "sim_ignition": sim_ignition,
-        "use_fake_hardware": use_fake_hardware,
-        "tf_prefix": tf_prefix,
-        "ns": ns,
-    }.items()
-
-    # helper function to organize launch description objects with the same launch args and package names
-    def AddLaunchDescriptions(package_name, launch_file_names, launch_args, if_condition="true"):
-        launch_files_list = []
-        for launch_file_name in launch_file_names:
-            launch_files_list.append(
-                IncludeLaunchDescription(
-                    PythonLaunchDescriptionSource(
-                        os.path.join(get_package_share_directory(package_name), "launch", launch_file_name)
-                    ),
-                    launch_arguments=launch_args,
-                    condition=IfCondition(if_condition),
-                )
-            )
-
-        return launch_files_list
 
     # helper function to make controller nodes
     def MakeControllerNode(controller_name):
@@ -64,21 +33,6 @@ def launch_setup(context, *args, **kwargs):
             ],
             output="screen",
         )
-
-    # lists to keep track of launch file names to start
-    launch_file_names = []
-
-    # This is the "definitive" robot state publisher.
-    # This should be launched on whatever machine has the most resources, which
-    # along with whichever controller manager we think should com up first.
-    launch_file_names.append("robot_state_publisher.launch.py")
-
-    # generate the launch files based on launch_file_names which has been configured
-    launch_files = AddLaunchDescriptions(
-        package_name="phoebe_deploy",
-        launch_file_names=launch_file_names,
-        launch_args=common_launch_args,
-    )
 
     # helper function to get controllers files that we might need
     def GetControllersFile(file_name):
@@ -132,7 +86,7 @@ def launch_setup(context, *args, **kwargs):
 
     nodes = [control_node, node_puma_throttle, platform_velocity_controller, joint_state_broadcaster]
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + nodes)
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + nodes)
 
     return [ns_action]
 

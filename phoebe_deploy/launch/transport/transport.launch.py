@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
-
 
 def generate_launch_description():
 
@@ -51,18 +49,14 @@ def generate_launch_description():
 
     launches = []
 
-    launch_file_transport_control = os.path.join(
-        pkg_phoebe_deploy, "launch", "transport", "transport_control.launch.py"
-    )
-    launch_file_transport_rsp = os.path.join(
-        pkg_phoebe_deploy, "launch", "transport", "transport_robot_state_publisher.launch.py"
-    )
-    launch_file_ridgeback_comm = os.path.join(pkg_phoebe_deploy, "launch", "ridgeback_comm.launch.py")
-    launch_file_teleop = os.path.join(pkg_phoebe_deploy, "launch", "teleop.launch.py")
+    launch_file_transport_control = PathJoinSubstitution([pkg_phoebe_deploy, "launch", "transport", "transport_control.launch.py"])
+    launch_file_transport_rsp = PathJoinSubstitution([pkg_phoebe_deploy, "launch", "transport", "transport_robot_state_publisher.launch.py"])
+    launch_file_ridgeback_comm = PathJoinSubstitution([pkg_phoebe_deploy, "launch", "ridgeback_comm.launch.py"])
+    launch_file_teleop = PathJoinSubstitution([pkg_phoebe_deploy, "launch", "teleop.launch.py"])
 
-    launches.append(MakeLaunchDescription(launch_file_transport_control), common_launch_args)
-    launches.append(MakeLaunchDescription(launch_file_transport_rsp), common_launch_args)
-    launches.append(MakeLaunchDescription(launch_file_teleop), common_launch_args)
-    launches.append(MakeLaunchDescription(launch_file_ridgeback_comm), common_launch_args)
+    launches.append(MakeLaunchDescription(launch_file_transport_control, common_launch_args))
+    launches.append(MakeLaunchDescription(launch_file_transport_rsp, common_launch_args))
+    launches.append(MakeLaunchDescription(launch_file_teleop, common_launch_args))
+    launches.append(MakeLaunchDescription(launch_file_ridgeback_comm, common_launch_args))
 
     return LaunchDescription(declared_arguments + launches)
