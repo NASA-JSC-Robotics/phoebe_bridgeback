@@ -7,6 +7,7 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
 import serial
 import time
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 
 class PhoebeSafetyManager(Node):
@@ -36,9 +37,12 @@ class PhoebeSafetyManager(Node):
             self.get_logger().warn(f"Could not connect to Arduino: {e}")
 
         # Subscribing to estop topic
+        qos_profile = QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, depth=10)
         self.subscription = self.create_subscription(
-            Bool, "/emergency_stop", self.estop_callback, 10, callback_group=self.callback_group
+            Bool, "/emergency_stop", self.estop_callback, qos_profile, callback_group=self.callback_group
         )
+        # ros2 run phoebe_safety pb_safety_light_manager.py --ros-args --remap /emergency_stop:=/ridgeback/platform/emergency_stop
+
 
         # Publishing to "safety_status" topic
         self.publisher = self.create_publisher(String, "/safety_status", 10, callback_group=self.callback_group)
@@ -130,12 +134,12 @@ class PhoebeSafetyManager(Node):
             self.controller_active = any(
                 c.state == "active" and len(c.required_command_interfaces) > 0 for c in response.controller
             )
-            for (
-                ctrl
-            ) in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
-                print(f"Controller name: {ctrl.name}")
-                print(f"Controller state: {ctrl.state}")
-                print(f"Controller's commands if any: {ctrl.required_command_interfaces}")
+            # for (
+            #     ctrl
+            # ) in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
+            #     print(f"Controller name: {ctrl.name}")
+            #     print(f"Controller state: {ctrl.state}")
+            #     print(f"Controller's commands if any: {ctrl.required_command_interfaces}")
             self.get_logger().info(f"Controller active? {self.controller_active}")
         except Exception as e:
             self.get_logger().warn(f"Failed to get controller status: {e}")
