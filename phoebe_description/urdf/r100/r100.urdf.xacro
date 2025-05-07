@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="tf_prefix" default="" />
+  <xacro:arg name="ns" default="" />
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="sim_ignition" default="false" />
+  <xacro:arg name="left_ewellix_com_port" default="/dev/ewellix_left" />
+  <xacro:arg name="right_ewellix_com_port" default="/dev/ewellix_right" />
+  <xacro:arg name="left_hande_com_port" default="/tmp/hande_left" />
+  <xacro:arg name="right_hande_com_port" default="/tmp/hande_right" />
+  <xacro:arg name="left_ur_ip_addr" default="192.168.131.40" />
+  <xacro:arg name="right_ur_ip_addr" default="192.168.131.41" />
+  <xacro:arg name="left_ur_kinematics_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
+  <xacro:arg name="right_ur_kinematics_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
+
+  <!-- Includes -->
+  <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
+  <xacro:include filename="$(find phoebe_description)/urdf/r100/r100_macro.xacro" />
+
+  <xacro:r100
+    tf_prefix="${tf_prefix}"
+    use_fake_hardware="${use_fake_hardware}"
+    sim_ignition="${sim_ignition}"
+    ns="${ns}"
+  />
+</robot>
