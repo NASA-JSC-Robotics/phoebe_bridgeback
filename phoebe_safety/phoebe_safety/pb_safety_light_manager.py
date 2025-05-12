@@ -37,14 +37,14 @@ class PhoebeSafetyManager(Node):
             self.arduino = serial.Serial(self.arduino_port, 9600, timeout=1)
             time.sleep(2)  # Give Arduino time to reset
             self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
-            self.send_light_state(3)  # Default to NOT SAFE
+            self.send_light_state(LightColor.RED)  # Default to NOT SAFE
         except serial.SerialException as e:
             self.arduino = None
             self.get_logger().warn(f"Could not connect to Arduino: {e}")
 
         # Subscribing to estop topic
         self.subscription = self.create_subscription(
-            Bool, "/emergency_stop", self.estop_callback, 10, callback_group=self.callback_group
+            Bool, "/ridgeback/platform/emergency_stop", self.estop_callback, 10, callback_group=self.callback_group
         )
         # Publishing to "safety_status" topic with the custom SafetyStatus message
         self.publisher = self.create_publisher(SafetyStatus, "/safety_status", 10, callback_group=self.callback_group)
@@ -149,16 +149,17 @@ class PhoebeSafetyManager(Node):
             self.controller_active = any(
                 c.state == "active" and len(c.required_command_interfaces) > 0 for c in response.controller
             )
-            for (
-                ctrl
-            ) in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
-                print(f"Controller name: {ctrl.name}")
-                print(f"Controller state: {ctrl.state}")
-                print(f"Controller's commands if any: {ctrl.required_command_interfaces}")
+
+            for ctrl in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
+                self.get_logger().debug(f"Controller name: {ctrl.name}")
+                self.get_logger().debug(f"Controller state: {ctrl.state}")
+                self.get_logger().debug(f"Controller's commands if any: {ctrl.required_command_interfaces}")
+                
             self.get_logger().info(f"Controller active? {self.controller_active}")
+
         except Exception as e:
             self.get_logger().warn(f"Failed to get controller status: {e}")
-            self.controller_active = False
+            self.controller_active = True # Not Safe
 
 def main(args=None):
     rclpy.init(args=args)
