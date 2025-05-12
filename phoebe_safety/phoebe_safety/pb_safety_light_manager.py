@@ -146,14 +146,14 @@ class PhoebeSafetyManager(Node):
         """
         try:
             response = future.result()
-            self.controller_active = any(
-                c.state == "active" and len(c.required_command_interfaces) > 0 for c in response.controller
-            )
-
+            
             for ctrl in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
                 self.get_logger().debug(f"Controller name: {ctrl.name}")
                 self.get_logger().debug(f"Controller state: {ctrl.state}")
                 self.get_logger().debug(f"Controller's commands if any: {ctrl.required_command_interfaces}")
+                if ctrl.state == "active" and len(ctrl.required_command_interfaces) > 0:
+                    self.controller_active = True
+                    break
                 
             self.get_logger().info(f"Controller active? {self.controller_active}")
 
