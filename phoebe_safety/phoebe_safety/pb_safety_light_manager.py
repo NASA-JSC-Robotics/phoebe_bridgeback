@@ -5,13 +5,20 @@ from std_msgs.msg import Bool, String
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
+from phoebe_interfaces.msg import SafetyStatus  # Import your custom message
 import serial
 import time
+from enum import IntEnum
 
+class LightColor(IntEnum):
+    BLUE = 1
+    YELLOW = 2
+    RED = 3
 
 class PhoebeSafetyManager(Node):
     def __init__(self):
         super().__init__("phoebe_safety_manager")
+
         # Use ROS 2 parameter system
         arduino_port_param = self.declare_parameter("arduino_port", "/dev/ttyACM0").get_parameter_value().string_value
 
@@ -39,11 +46,10 @@ class PhoebeSafetyManager(Node):
         self.subscription = self.create_subscription(
             Bool, "/emergency_stop", self.estop_callback, 10, callback_group=self.callback_group
         )
+        # Publishing to "safety_status" topic with the custom SafetyStatus message
+        self.publisher = self.create_publisher(SafetyStatus, "/safety_status", 10, callback_group=self.callback_group)
 
-        # Publishing to "safety_status" topic
-        self.publisher = self.create_publisher(String, "/safety_status", 10, callback_group=self.callback_group)
-
-        # Timer
+        # Timer to check system status at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.check_system_safety, callback_group=self.callback_group)
 
@@ -75,24 +81,37 @@ class PhoebeSafetyManager(Node):
         Timer callback that evaluates system safety status.
         Publishes current safety status and updates light indicators.
         """
-        msg = String()
+        msg = SafetyStatus()  # Custom SafetyStatus message
+
+        STATUS_DESCRIPTIONS = {
+            SafetyStatus.SAFE_TO_ENTER: "SAFE to enter the environment.",
+            SafetyStatus.NOT_SAFE_TO_ENTER: "NOT SAFE to enter.",
+            SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers."
+        }
+         
+        COLOR_MAP = {
+            LightColor.BLUE: "\033[94m",
+            LightColor.YELLOW: "\033[93m",
+            LightColor.RED: "\033[91m"
+        }
+
         if self.estop_active:
-            msg.data = "SAFE_TO_ENTER"
-            light_state = 1
-            color = "\033[94m"  # Blue
+            msg.status = SafetyStatus.SAFE_TO_ENTER  # Use the custom status constants
+            light_state = LightColor.BLUE
         elif self.controller_active:
-            msg.data = "NOT_SAFE_TO_ENTER"
-            light_state = 3
-            color = "\033[91m"  # Red
+            msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
+            light_state = LightColor.RED
         else:
-            msg.data = "CAUTION"
-            light_state = 2
-            color = "\033[93m"  # Yellow
+            msg.status = SafetyStatus.CAUTION
+            light_state = LightColor.YELLOW
+
+        color = COLOR_MAP[light_state]
         self.publisher.publish(msg)
-        self.get_logger().info(f"Published safety status: {color}{msg.data}\033[0m")
+        self.get_logger().info(f"Published safety status: {color}{STATUS_DESCRIPTIONS[msg.status]}\033[0m")
+        
         self.send_light_state(light_state)
 
-    def send_light_state(self, state: int):
+    def send_light_state(self, state):
         """
         Sends a byte to the Arduino to control indicator lights.
         States:
@@ -141,7 +160,6 @@ class PhoebeSafetyManager(Node):
             self.get_logger().warn(f"Failed to get controller status: {e}")
             self.controller_active = False
 
-
 def main(args=None):
     rclpy.init(args=args)
     node = PhoebeSafetyManager()
@@ -155,6 +173,6 @@ def main(args=None):
         node.destroy_node()
         rclpy.shutdown()
 
-
 if __name__ == "__main__":
     main()
+ 
