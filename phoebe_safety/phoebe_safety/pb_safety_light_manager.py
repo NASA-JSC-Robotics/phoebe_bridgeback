@@ -15,6 +15,18 @@ class LightColor(IntEnum):
     YELLOW = 2
     RED = 3
 
+status_descriptions = {
+            SafetyStatus.SAFE_TO_ENTER: "SAFE to enter the environment.",
+            SafetyStatus.NOT_SAFE_TO_ENTER: "NOT SAFE to enter.",
+            SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers."
+        }
+    
+color_map = {
+    LightColor.BLUE: "\033[94m",
+    LightColor.YELLOW: "\033[93m",
+    LightColor.RED: "\033[91m"
+}
+
 class PhoebeSafetyManager(Node):
     def __init__(self):
         super().__init__("phoebe_safety_manager")
@@ -33,8 +45,10 @@ class PhoebeSafetyManager(Node):
         self.callback_group = ReentrantCallbackGroup()
 
         # Serial connection to Arduino
+        baud_rate = 9600
+        
         try:
-            self.arduino = serial.Serial(self.arduino_port, 9600, timeout=1)
+            self.arduino = serial.Serial(self.arduino_port, baud_rate, timeout=1)
             time.sleep(2)  # Give Arduino time to reset
             self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
             self.send_light_state(LightColor.RED)  # Default to NOT SAFE
@@ -83,18 +97,6 @@ class PhoebeSafetyManager(Node):
         """
         msg = SafetyStatus()  # Custom SafetyStatus message
 
-        STATUS_DESCRIPTIONS = {
-            SafetyStatus.SAFE_TO_ENTER: "SAFE to enter the environment.",
-            SafetyStatus.NOT_SAFE_TO_ENTER: "NOT SAFE to enter.",
-            SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers."
-        }
-         
-        COLOR_MAP = {
-            LightColor.BLUE: "\033[94m",
-            LightColor.YELLOW: "\033[93m",
-            LightColor.RED: "\033[91m"
-        }
-
         if self.estop_active:
             msg.status = SafetyStatus.SAFE_TO_ENTER  # Use the custom status constants
             light_state = LightColor.BLUE
@@ -105,9 +107,9 @@ class PhoebeSafetyManager(Node):
             msg.status = SafetyStatus.CAUTION
             light_state = LightColor.YELLOW
 
-        color = COLOR_MAP[light_state]
+        color = color_map[light_state]
         self.publisher.publish(msg)
-        self.get_logger().info(f"Published safety status: {color}{STATUS_DESCRIPTIONS[msg.status]}\033[0m")
+        self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
         
         self.send_light_state(light_state)
 
@@ -115,15 +117,14 @@ class PhoebeSafetyManager(Node):
         msg = SafetyStatus()
         msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
         light_state = LightColor.RED
+        color = color_map[light_state]
         self.publisher.publish(msg)
+
+        self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
 
     def send_light_state(self, state):
         """
         Sends a byte to the Arduino to control indicator lights.
-        States:
-            1 = SAFE (blue)
-            2 = CAUTION (yellow)
-            3 = NOT SAFE (red)
         Only executes if a serial connection is active.
         """
         if self.arduino and self.arduino.is_open:
@@ -132,19 +133,22 @@ class PhoebeSafetyManager(Node):
                 self.get_logger().info(f"Sent light state {state} to Arduino")
             except serial.SerialException as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
+                self.publish_not_safe()
 
     def controllers_are_active(self):
         """
         Calls the controller manager to determine if any controllers are active.
         Uses a non-blocking async service call with a done callback.
         """
-        if self.controller_client.service_is_ready():
+        time_out = 2
+
+        if self.controller_client.wait_for_service(time_out):
             request = ListControllers.Request()
             future = self.controller_client.call_async(request)
             future.add_done_callback(self.controller_response)
         else:
             self.get_logger().warn("Controller manager service not available.")
-            # what should the state of self.controller_Active be with this and why
+            # what should the state of self.controller_Active be with this and why ?
 
     def controller_response(self, future):
         """
