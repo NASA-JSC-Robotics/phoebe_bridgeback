@@ -49,7 +49,7 @@ class PhoebeSafetyManager(Node):
         # Publishing to "safety_status" topic with the custom SafetyStatus message
         self.publisher = self.create_publisher(SafetyStatus, "/safety_status", 10, callback_group=self.callback_group)
 
-        # Timer to check system status at 5 Hz (every 0.2 seconds)
+        # Timer to check system s￼tatus at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.check_system_safety, callback_group=self.callback_group)
 
@@ -111,6 +111,12 @@ class PhoebeSafetyManager(Node):
         
         self.send_light_state(light_state)
 
+    def publish_not_safe(self):
+        msg = SafetyStatus()
+        msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
+        light_state = LightColor.RED
+        self.publisher.publish(msg)
+
     def send_light_state(self, state):
         """
         Sends a byte to the Arduino to control indicator lights.
@@ -138,6 +144,7 @@ class PhoebeSafetyManager(Node):
             future.add_done_callback(self.controller_response)
         else:
             self.get_logger().warn("Controller manager service not available.")
+            # what should the state of self.controller_Active be with this and why
 
     def controller_response(self, future):
         """
