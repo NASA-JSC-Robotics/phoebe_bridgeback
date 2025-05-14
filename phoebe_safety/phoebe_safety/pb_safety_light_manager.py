@@ -18,8 +18,8 @@ class LightColor(IntEnum):
 
 status_descriptions = {
             SafetyStatus.SAFE_TO_ENTER: "SAFE to enter the environment.",
+            SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers.",
             SafetyStatus.NOT_SAFE_TO_ENTER: "NOT SAFE to enter.",
-            SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers."
         }
     
 color_map = {
