@@ -17,6 +17,8 @@
       right_ur_ip_addr:='192.168.131.41'
       left_ur_kinematics_file:='$(find ur_description)/config/ur5e/default_kinematics.yaml'
       right_ur_kinematics_file:='(find ur_description)/config/ur5e/default_kinematics.yaml'
+      left_liftkit_calibration_file:='$(find phoebe_description)/config/left_liftkit_calibration.yaml'
+      right_liftkit_calibration_file:='$(find phoebe_description)/config/right_liftkit_calibration.yaml'
     "
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
@@ -425,6 +427,10 @@
   <xacro:include filename="$(find ewellix_liftkit_description)/urdf/ewellix_lift.xacro"/>
   <xacro:include filename="$(find ewellix_liftkit_description)/urdf/properties.xacro"/>
 
+  <!-- convert the arg into a property to be usable by the xacro -->
+  <xacro:property name="left_liftkit_calibration_file" value="$(arg left_liftkit_calibration_file)"/>
+  <xacro:property name="right_liftkit_calibration_file" value="$(arg right_liftkit_calibration_file)"/>
+
   <xacro:ewellix_lift
     name="${tf_prefix}left_ewellix"
     is_700="false"
@@ -435,6 +441,7 @@
     omit_plates="true"
     use_fake_hardware="${use_fake_hardware}"
     com_port="${left_ewellix_com_port}"
+    hw_calibration="${xacro.load_yaml(left_liftkit_calibration_file)}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
   </xacro:ewellix_lift>
@@ -449,6 +456,7 @@
     omit_plates="true"
     use_fake_hardware="${use_fake_hardware}"
     com_port="${right_ewellix_com_port}"
+    hw_calibration="${xacro.load_yaml(right_liftkit_calibration_file)}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
   </xacro:ewellix_lift>

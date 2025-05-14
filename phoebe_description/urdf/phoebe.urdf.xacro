@@ -12,6 +12,8 @@
     <xacro:arg name="right_ur_ip_addr" default="192.168.131.41" />
     <xacro:arg name="left_ur_kinematics_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
     <xacro:arg name="right_ur_kinematics_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
+    <xacro:arg name="left_liftkit_calibration_file" default="$(find phoebe_description)/config/left_liftkit_calibration.yaml" />
+    <xacro:arg name="right_liftkit_calibration_file" default="$(find phoebe_description)/config/right_liftkit_calibration.yaml" />
 
     <!-- Includes -->
     <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
@@ -29,5 +31,7 @@
         right_ur_ip_addr="$(arg right_ur_ip_addr)"
         left_ur_kinematics_file="$(arg left_ur_kinematics_file)"
         right_ur_kinematics_file="$(arg right_ur_kinematics_file)"
+        left_liftkit_calibration_file="$(arg left_liftkit_calibration_file)"
+        right_liftkit_calibration_file="$(arg right_liftkit_calibration_file)"
     />
 </robot>
