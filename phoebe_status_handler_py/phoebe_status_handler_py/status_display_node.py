@@ -132,8 +132,8 @@ class StatusDisplayNode(Node):
 
         # If we didn't get an update on battery state, can't determine battery or charging state
         if not curr.msgs["battery_status"].updated:
-            self.status_.battery_state = StatusState.BATTERY_STATE_OFF
-            self.status_.charging_state = StatusState.CHARGING_STATE_OFF
+            self.status_.battery_state = StatusState.BATTERY_STATE_NO_COMM
+            self.status_.charging_state = StatusState.CHARGING_STATE_NO_COMM
             self.status_.battery_percent = math.nan
             self.status_.battery_voltage = math.nan
             self.status_.battery_amps    = math.nan
@@ -151,11 +151,11 @@ class StatusDisplayNode(Node):
             # Check charging state. Charging is off if we are not charging or fully charged
             if curr.msgs["battery_status"].msg.power_supply_status == BatteryState.POWER_SUPPLY_STATUS_CHARGING:
                 if curr.msgs["battery_status"].msg.percentage == 1.0:
-                    self.status_.charging_state = StatusState.CHARGING_STATE_OFF
+                    self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
                 else:
                     self.status_.charging_state = StatusState.CHARGING_STATE_ACTIVE
             else:
-                self.status_.charging_state = StatusState.CHARGING_STATE_OFF
+                self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
 
             self.status_.battery_percent = int(curr.msgs["battery_status"].msg.percentage * 100)
             self.status_.battery_voltage = curr.msgs["battery_status"].msg.voltage
@@ -163,7 +163,7 @@ class StatusDisplayNode(Node):
 
         # Check EStop state
         if not curr.msgs["estop_status"].updated or not curr.msgs["stop_status"].updated:
-            self.status_.run_state = StatusState.ROBOT_STATE_OFF
+            self.status_.run_state = StatusState.ROBOT_STATE_NO_COMM
         else:
             if curr.msgs["estop_status"].msg.data:
                 self.status_.run_state = StatusState.ROBOT_STATE_ESTOPPED
@@ -173,7 +173,7 @@ class StatusDisplayNode(Node):
                 self.status_.run_state = StatusState.ROBOT_STATE_RUNNING
 
         if not curr.msgs["cmd_vel"].updated:
-            self.status_.driving_state = StatusState.DRIVING_STATE_OFF
+            self.status_.driving_state = StatusState.DRIVING_STATE_NO_COMM
         else:
             linear = curr.msgs["cmd_vel"].msg.linear
             angular = curr.msgs["cmd_vel"].msg.angular
