@@ -26,7 +26,19 @@ class StatusState(object):
     DRIVING_STATE_ON = 1
 
     def __init__(self):
-        self.estop_state = self.ROBOT_STATE_OFF
-        self.battery_state = self.BATTERY_STATE_OFF
+        self.run_state      = self.ROBOT_STATE_OFF
+        self.battery_state  = self.BATTERY_STATE_OFF
         self.charging_state = self.CHARGING_STATE_OFF
-        self.driving_state = self.DRIVING_STATE_OFF
+        self.driving_state  = self.DRIVING_STATE_OFF
+        self.battery_percent = 0
+        self.battery_voltage = 0
+        self.battery_amps    = 0
+
+    def __str__(self):
+        serialized_msg  = f"Run state: {self.run_state}\n"
+        serialized_msg += f"Battery state: {self.battery_state}\n"
+        serialized_msg += f"Battery volts: {self.battery_voltage}\n"
+        serialized_msg += f"Battery amps: {self.battery_amps}\n"
+        serialized_msg += f"Charging state: {self.charging_state}\n"
+        serialized_msg += f"Driving state: {self.driving_state}\n"
+        return serialized_msg
