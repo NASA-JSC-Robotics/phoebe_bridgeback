@@ -8,6 +8,7 @@ from controller_manager_msgs.srv import ListControllers
 from phoebe_interfaces.msg import SafetyStatus  # Import your custom message
 import serial
 import time
+import datetime
 from enum import IntEnum
 
 class LightColor(IntEnum):
@@ -56,8 +57,8 @@ class PhoebeSafetyManager(Node):
                 self.arduino_connected = True
                 self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
                 self.send_light_state(LightColor.RED)  # Default to NOT SAFE
-            except serial.SerialException as e:
-                self.get_logger().warn(f"Waiting for Arduino... Error: {e}")
+            except Exception as e:
+                self.get_logger().warn(f"No Arduino connection. Waiting for Arduino... Error: {e}")
                 time.sleep(1)
 
         # Subscribing to estop topic
@@ -80,6 +81,9 @@ class PhoebeSafetyManager(Node):
         self.controller_check_timer = self.create_timer(
             1 / self.rate_hz, self.controllers_are_active, callback_group=self.callback_group
         )
+
+        self.controller_manager_check_timer = self.create_timer(1 / self.rate_hz, self.controller_manager_check, callback_group=self.callback_group)
+        self.last_cm_stamp = None
 
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
@@ -141,10 +145,10 @@ class PhoebeSafetyManager(Node):
             self.arduino_connected = True
             self.get_logger().info(f"Reconnected to Arduino on {self.arduino_port}")
             self.send_light_state(LightColor.RED)
-        except serial.SerialException as e:
+        except Exception as e:
             self.get_logger().warn(f"Arduino connection LOST. Need to reconnect: {e}")
 
-    def send_light_state(self, state):
+    def send_light_state(self, state:LightColor):
         """
         Sends a byte to the Arduino to control indicator lights.
         Only executes if a serial connection is active.
@@ -153,11 +157,18 @@ class PhoebeSafetyManager(Node):
             try:
                 self.arduino.write(bytes([state]))
                 self.get_logger().info(f"Sent light state {state} to Arduino")
-            except serial.SerialException as e:
+            except Exception as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
                 self.arduino_connected = False
                 self.arduino = None
                 self.publish_not_safe()
+
+    def controller_manager_check(self):
+        node_names = self.get_node_names_and_namespaces()
+        for name in node_names:
+            self.get_logger().debug('name: {} '.format(name))
+            if "controller_manager" in node_names:
+                self.last_cm_stamp = datetime.datetime.now()
 
     def controllers_are_active(self):
         """
@@ -168,16 +179,24 @@ class PhoebeSafetyManager(Node):
             self.try_reconnect_arduino()
             return
         
-        time_out = 2
-
+        time_out = 1
+        
         if self.controller_client.wait_for_service(time_out):
             request = ListControllers.Request()
             future = self.controller_client.call_async(request)
             future.add_done_callback(self.controller_response)
         else:
             self.get_logger().warn("Controller manager service not available.")
-            # what should the state of self.controller_Active be with this and why ?
-
+            #what should the state of self.controller_Active be with this and why ?
+            self.controller_manager_check()
+            current_time = datetime.datetime.now()
+            if self.last_cm_stamp is None or (current_time - self.last_cm_stamp).total_seconds() > 5:
+                self.get_logger().info("Controller manager service was not found. No controllers are active.")
+                self.controller_active = False
+            else:
+                self.get_logger().info("Controller manager node was found. Possible deadlock.")
+                self.controller_active = True #something is weird is up - maybe CM is deadlocked...assume not safe
+                
     def controller_response(self, future):
         """
         Callback to process the result of the controller manager service call.
