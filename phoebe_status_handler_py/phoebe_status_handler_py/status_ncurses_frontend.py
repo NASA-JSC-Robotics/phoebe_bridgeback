@@ -236,8 +236,15 @@ class StatusNcursesFrontend(object):
         self.update_count += 1
 
         # Translate status into objects and colors
+<<<<<<< HEAD
         if state.run_state == StatusState.ROBOT_STATE_NO_COMM:
             self.update_all_stop_lighting("grey")
+=======
+        if state.run_state == StatusState.ROBOT_STATE_OFF:
+            self.update_all_stop_lighting("grey")
+        elif state.run_state == StatusState.ROBOT_STATE_NO_COMM:
+            self.update_all_stop_lighting("red")
+>>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
         elif state.run_state == StatusState.ROBOT_STATE_ESTOPPED:
             self.update_all_stop_lighting("red", is_blinking=True)
         elif state.run_state == StatusState.ROBOT_STATE_NEEDS_RESET:
@@ -264,8 +271,13 @@ class StatusNcursesFrontend(object):
 
         self.update_battery_stats(state)
 
+<<<<<<< HEAD
         if state.charging_state == StatusState.CHARGING_STATE_INACTIVE:
             self.update_charging_state("black")
+=======
+        if state.charging_state == StatusState.CHARGING_STATE_OFF:
+            self.update_charging_state("grey")
+>>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
         elif state.charging_state == StatusState.CHARGING_STATE_ACTIVE:
             self.update_charging_state("green")
         else:
@@ -273,10 +285,15 @@ class StatusNcursesFrontend(object):
 
         if state.driving_state == StatusState.DRIVING_STATE_ON:
             self.update_driving_state("green", is_blinking=True)
+<<<<<<< HEAD
         elif state.driving_state == StatusState.DRIVING_STATE_OFF:
             self.update_driving_state("black")
         else:
             self.update_driving_state("grey")
+=======
+        else:
+            self.update_driving_state("black")
+>>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
 
         self.screen_.refresh()
 
