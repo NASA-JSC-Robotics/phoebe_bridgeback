@@ -45,16 +45,20 @@ class PhoebeSafetyManager(Node):
         self.callback_group = ReentrantCallbackGroup()
 
         # Serial connection to Arduino
-        baud_rate = 9600
-        
-        try:
-            self.arduino = serial.Serial(self.arduino_port, baud_rate, timeout=1)
-            time.sleep(2)  # Give Arduino time to reset
-            self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
-            self.send_light_state(LightColor.RED)  # Default to NOT SAFE
-        except serial.SerialException as e:
-            self.arduino = None
-            self.get_logger().warn(f"Could not connect to Arduino: {e}")
+        self.baud_rate = 9600
+        self.arduino = None
+        self.arduino_connected = False
+
+        while self.arduino is None and rclpy.ok():
+            try:
+                self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
+                time.sleep(2)  # Give Arduino time to reset
+                self.arduino_connected = True
+                self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
+                self.send_light_state(LightColor.RED)  # Default to NOT SAFE
+            except serial.SerialException as e:
+                self.get_logger().warn(f"Waiting for Arduino... Error: {e}")
+                time.sleep(1)
 
         # Subscribing to estop topic
         self.subscription = self.create_subscription(
@@ -86,6 +90,10 @@ class PhoebeSafetyManager(Node):
         True = active. False = not active.
         Updates state of emergency stop signal.
         """
+        if not self.arduino_connected:
+            self.try_reconnect_arduino()
+            return
+        
         self.get_logger().info("E-stop callback triggered")
         self.estop_active = msg.data
         self.get_logger().info(f"E-stop active? {self.estop_active}")
@@ -95,6 +103,10 @@ class PhoebeSafetyManager(Node):
         Timer callback that evaluates system safety status.
         Publishes current safety status and updates light indicators.
         """
+        if not self.arduino_connected:
+            self.try_reconnect_arduino()
+            return
+    
         msg = SafetyStatus()  # Custom SafetyStatus message
 
         if self.estop_active:
@@ -122,6 +134,16 @@ class PhoebeSafetyManager(Node):
 
         self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
 
+    def try_reconnect_arduino(self):
+        try:
+            self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
+            time.sleep(2)
+            self.arduino_connected = True
+            self.get_logger().info(f"Reconnected to Arduino on {self.arduino_port}")
+            self.send_light_state(LightColor.RED)
+        except serial.SerialException as e:
+            self.get_logger().warn(f"Arduino connection LOST. Need to reconnect: {e}")
+
     def send_light_state(self, state):
         """
         Sends a byte to the Arduino to control indicator lights.
@@ -133,6 +155,8 @@ class PhoebeSafetyManager(Node):
                 self.get_logger().info(f"Sent light state {state} to Arduino")
             except serial.SerialException as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
+                self.arduino_connected = False
+                self.arduino = None
                 self.publish_not_safe()
 
     def controllers_are_active(self):
@@ -140,6 +164,10 @@ class PhoebeSafetyManager(Node):
         Calls the controller manager to determine if any controllers are active.
         Uses a non-blocking async service call with a done callback.
         """
+        if not self.arduino_connected:
+            self.try_reconnect_arduino()
+            return
+        
         time_out = 2
 
         if self.controller_client.wait_for_service(time_out):
