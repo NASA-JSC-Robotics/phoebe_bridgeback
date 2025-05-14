@@ -100,10 +100,10 @@ class StatusDisplayNode(Node):
         self.stop_status_sub_ = self.create_subscription(StopStatus, 'platform/mcu/status/stop', partial(self.update_msg_cb, "stop_status"),    qos)
         self.battery_sub_ = self.create_subscription(BatteryState, 'platform/bms/state',         partial(self.update_msg_cb, "battery_status"), qos)
         self.estop_sub_   = self.create_subscription(Bool,         'platform/emergency_stop',    partial(self.update_msg_cb, "estop_status"),   qos)
-        self.cmd_vel_sub_ = self.create_subscription(Twist,        'platform/cmd_vel_unstamped', partial(self.update_msg_cb, "cmd_vel"),        qos)
+        self.cmd_vel_sub_ = self.create_subscription(Twist,        '/platform_velocity_controller/cmd_vel_unstamped', partial(self.update_msg_cb, "cmd_vel"),        qos)
 
         # Timer used to drive the update cycle. The timing is limited by how often the subscriptions arrive
-        self.timer_ = self.create_timer(2.0, self.timer_callback)
+        self.timer_ = self.create_timer(1.1, self.timer_callback)
         if self.display_:
             self.display_.set_logger(self.get_logger())
 
@@ -171,6 +171,17 @@ class StatusDisplayNode(Node):
                 self.status_.run_state = StatusState.ROBOT_STATE_NEEDS_RESET
             else:
                 self.status_.run_state = StatusState.ROBOT_STATE_RUNNING
+
+        if not curr.msgs["cmd_vel"].updated:
+            self.status_.driving_state = StatusState.DRIVING_STATE_OFF
+        else:
+            linear = curr.msgs["cmd_vel"].msg.linear
+            angular = curr.msgs["cmd_vel"].msg.angular
+            components = [linear.x, linear.y, linear.z, angular.x, angular.y, angular.z]
+            if all([c == 0.0 for c in components]):
+                self.status_.driving_state = StatusState.DRIVING_STATE_OFF
+            else:
+                self.status_.driving_state = StatusState.DRIVING_STATE_ON
 
         # Reset update state to False for all subscriptions so we can tell if we receive
         # a message on the next cycle
