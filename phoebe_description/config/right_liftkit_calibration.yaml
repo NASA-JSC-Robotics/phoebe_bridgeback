@@ -1,3 +1,3 @@
-meters_to_ticks: 3199.0
+meters_to_ticks: 3209.0
 # this many ticks results in the connection point 50mm above the top of the first stack
 ticks_offset: 19
