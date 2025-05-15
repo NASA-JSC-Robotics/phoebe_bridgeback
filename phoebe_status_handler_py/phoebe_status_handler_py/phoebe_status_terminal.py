@@ -10,10 +10,14 @@ import rclpy.parameter
 def main(args=None):
     rclpy.init(args=args)
 
-    display = StatusNcursesFrontend()
-    # Specify None to write state to the terminal. Useful if the display is broken
-    # or as a sanity check
-    #display = None
+    parser = argparse.ArgumentParser(epilog="Note that if specifying program args and ros args, program args must come first")
+    parser.add_argument('-n', "--no-display", action='store_true', help='Print status to terminal but do not start an Ncurses display')
+    parsed_args, unknown_args = parser.parse_known_args()
+
+    if parsed_args.no_display:
+        display = None
+    else:
+        display = StatusNcursesFrontend()
     
     status_node = StatusDisplayNode(display)
     rclpy.spin(status_node)
