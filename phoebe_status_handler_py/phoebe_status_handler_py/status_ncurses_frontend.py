@@ -182,7 +182,7 @@ class StatusNcursesFrontend(object):
             status_msg (StatusState): Status message containing battery stats
         """
         self.status_objects["battery_stats"].content = f"{status_msg.battery_percent:>3.0f}% {status_msg.battery_voltage:>4.1f}V {status_msg.battery_amps:>4.1f}A"
-        self.status_objects["battery_stats"].draw(self.colors["grey"])
+        self.status_objects["battery_stats"].draw(self.colors["white"])
 
     def update_charging_state(self, color: str, is_blinking=False):
         """Update and draw charging state"""
