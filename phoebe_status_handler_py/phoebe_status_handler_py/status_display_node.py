@@ -100,17 +100,10 @@ class StatusDisplayNode(Node):
         self.stop_status_sub_ = self.create_subscription(StopStatus, 'platform/mcu/status/stop', partial(self.update_msg_cb, "stop_status"),    qos)
         self.battery_sub_ = self.create_subscription(BatteryState, 'platform/bms/state',         partial(self.update_msg_cb, "battery_status"), qos)
         self.estop_sub_   = self.create_subscription(Bool,         'platform/emergency_stop',    partial(self.update_msg_cb, "estop_status"),   qos)
-<<<<<<< HEAD
         self.cmd_vel_sub_ = self.create_subscription(Twist,        '/platform_velocity_controller/cmd_vel_unstamped', partial(self.update_msg_cb, "cmd_vel"),        qos)
 
         # Timer used to drive the update cycle. The timing is limited by how often the subscriptions arrive
         self.timer_ = self.create_timer(1.1, self.timer_callback)
-=======
-        self.cmd_vel_sub_ = self.create_subscription(Twist,        'platform/cmd_vel_unstamped', partial(self.update_msg_cb, "cmd_vel"),        qos)
-
-        # Timer used to drive the update cycle. The timing is limited by how often the subscriptions arrive
-        self.timer_ = self.create_timer(2.0, self.timer_callback)
->>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
         if self.display_:
             self.display_.set_logger(self.get_logger())
 
@@ -139,13 +132,8 @@ class StatusDisplayNode(Node):
 
         # If we didn't get an update on battery state, can't determine battery or charging state
         if not curr.msgs["battery_status"].updated:
-<<<<<<< HEAD
             self.status_.battery_state = StatusState.BATTERY_STATE_NO_COMM
             self.status_.charging_state = StatusState.CHARGING_STATE_NO_COMM
-=======
-            self.status_.battery_state = StatusState.BATTERY_STATE_OFF
-            self.status_.charging_state = StatusState.CHARGING_STATE_OFF
->>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
             self.status_.battery_percent = math.nan
             self.status_.battery_voltage = math.nan
             self.status_.battery_amps    = math.nan
@@ -163,19 +151,11 @@ class StatusDisplayNode(Node):
             # Check charging state. Charging is off if we are not charging or fully charged
             if curr.msgs["battery_status"].msg.power_supply_status == BatteryState.POWER_SUPPLY_STATUS_CHARGING:
                 if curr.msgs["battery_status"].msg.percentage == 1.0:
-<<<<<<< HEAD
                     self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
                 else:
                     self.status_.charging_state = StatusState.CHARGING_STATE_ACTIVE
             else:
                 self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
-=======
-                    self.status_.charging_state = StatusState.CHARGING_STATE_OFF
-                else:
-                    self.status_.charging_state = StatusState.CHARGING_STATE_ACTIVE
-            else:
-                self.status_.charging_state = StatusState.CHARGING_STATE_OFF
->>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
 
             self.status_.battery_percent = int(curr.msgs["battery_status"].msg.percentage * 100)
             self.status_.battery_voltage = curr.msgs["battery_status"].msg.voltage
@@ -183,11 +163,7 @@ class StatusDisplayNode(Node):
 
         # Check EStop state
         if not curr.msgs["estop_status"].updated or not curr.msgs["stop_status"].updated:
-<<<<<<< HEAD
             self.status_.run_state = StatusState.ROBOT_STATE_NO_COMM
-=======
-            self.status_.run_state = StatusState.ROBOT_STATE_OFF
->>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
         else:
             if curr.msgs["estop_status"].msg.data:
                 self.status_.run_state = StatusState.ROBOT_STATE_ESTOPPED
@@ -196,7 +172,6 @@ class StatusDisplayNode(Node):
             else:
                 self.status_.run_state = StatusState.ROBOT_STATE_RUNNING
 
-<<<<<<< HEAD
         if not curr.msgs["cmd_vel"].updated:
             self.status_.driving_state = StatusState.DRIVING_STATE_NO_COMM
         else:
@@ -208,8 +183,6 @@ class StatusDisplayNode(Node):
             else:
                 self.status_.driving_state = StatusState.DRIVING_STATE_ON
 
-=======
->>>>>>> 90bbd3004ff42b8db9ab94481526a16864005470
         # Reset update state to False for all subscriptions so we can tell if we receive
         # a message on the next cycle
         curr.reset_update()
