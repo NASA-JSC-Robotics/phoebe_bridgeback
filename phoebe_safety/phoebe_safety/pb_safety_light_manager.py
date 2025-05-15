@@ -34,7 +34,7 @@ class PhoebeSafetyManager(Node):
         super().__init__("phoebe_safety_manager")
 
         # Use ROS 2 parameter system
-        arduino_port_param = self.declare_parameter("arduino_port", "/dev/ttyACM0").get_parameter_value().string_value
+        arduino_port_param = self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
 
         # Assign parameters
         self.arduino_port = arduino_port_param
@@ -169,7 +169,7 @@ class PhoebeSafetyManager(Node):
         node_names = self.get_node_names_and_namespaces()
         for name in node_names:
             self.get_logger().debug('name: {} '.format(name))
-            if "controller_manager" in node_names:
+            if "controller_manager" in name:
                 self.last_cm_stamp = datetime.datetime.now()
 
     def controllers_are_active(self):
@@ -206,7 +206,8 @@ class PhoebeSafetyManager(Node):
         """
         try:
             response = future.result()
-            
+
+            self.controller_active = False
             for ctrl in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
                 self.get_logger().debug(f"Controller name: {ctrl.name}")
                 self.get_logger().debug(f"Controller state: {ctrl.state}")
