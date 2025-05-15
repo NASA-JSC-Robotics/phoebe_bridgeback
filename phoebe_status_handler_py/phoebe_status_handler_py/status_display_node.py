@@ -96,7 +96,6 @@ class StatusDisplayNode(Node):
         )
 
         # Data subscriptions
-        # self.status_sub_  = self.create_subscription(Status,       'platform/mcu/status',        self.status_cb,      qos)
         self.status_sub_  = self.create_subscription(Status,       'platform/mcu/status',        partial(self.update_msg_cb, "status"),         qos)
         self.power_sub_   = self.create_subscription(Power,        'platform/mcu/status/power',  partial(self.update_msg_cb, "power"),          qos)
         self.stop_status_sub_ = self.create_subscription(StopStatus, 'platform/mcu/status/stop', partial(self.update_msg_cb, "stop_status"),    qos)
@@ -185,12 +184,16 @@ class StatusDisplayNode(Node):
             else:
                 self.status_.battery_state = StatusState.BATTERY_STATE_OK
 
-            # Check charging state. Charging is off if we are not charging or are fully charged
+            # Check charging state. Charging is not happening if we are not charging or are fully 
+            # charged. However, the robot reports charging even when the battery percentage is
+            # full, even though a power meter shows little or no current draw.
+            # Perhaps, then, we just want the charging state to mean "plugged in"
             if curr.msgs["battery_status"].msg.power_supply_status == BatteryState.POWER_SUPPLY_STATUS_CHARGING:
-                if curr.msgs["battery_status"].msg.percentage == 1.0:
-                    self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
-                else:
-                    self.status_.charging_state = StatusState.CHARGING_STATE_ACTIVE
+                 self.status_.charging_state = StatusState.CHARGING_STATE_ACTIVE
+#                if curr.msgs["battery_status"].msg.percentage == 1.0:
+#                    self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
+#                else:
+#                    self.status_.charging_state = StatusState.CHARGING_STATE_ACTIVE
             else:
                 self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
 
