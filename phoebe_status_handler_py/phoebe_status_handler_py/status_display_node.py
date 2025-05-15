@@ -6,7 +6,6 @@ from geometry_msgs.msg import Twist
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from phoebe_status_handler_py.status_state import StatusState
 from functools import partial
-import copy
 import math
 
 class SavedMsg(object):
@@ -62,6 +61,9 @@ class SubscriptionSet(object):
 
 class StatusDisplayNode(Node):
     """Determines a simplified system state from a set of subscriptions"""
+
+    BATTERY_LOW_PERCENTAGE = 0.2
+    BATTERY_LOW_VOLTAGE    = 25.7
 
     def __init__(self, display=None):
         """Constructor
@@ -124,8 +126,35 @@ class StatusDisplayNode(Node):
         """
         self.current_state_.msgs[which_state].update(msg)
 
+    def derive_charge_from_voltage(self, voltage):
+        """Given the current voltage, derive a modelled battery percentage"""
+        # Thresholds from experimental data
+        thresholds = {
+            20.0: 0,
+            24.0: 10,
+            25.6: 20,
+            25.8: 30,
+            26.0: 40,
+            26.1: 50,
+            26.2: 60,
+            26.4: 70,
+            26.6: 80,
+            26.8: 90,
+            27.2: 100,
+        }
+
+        previous_percentage = 0
+        for key in thresholds.keys():
+            if key > voltage:
+                break
+            else:
+                previous_percentage = thresholds[key]
+        return previous_percentage
+
     def compute_state(self):
         """Compute current state based on the latest subscribed messages"""
+
+        derive_battery_percentage = True
 
         # Shorthand for readability
         curr = self.current_state_
@@ -138,17 +167,25 @@ class StatusDisplayNode(Node):
             self.status_.battery_voltage = math.nan
             self.status_.battery_amps    = math.nan
         else:
+            # Set battery values
+            self.status_.battery_voltage = curr.msgs["battery_status"].msg.voltage
+            self.status_.battery_amps    = curr.msgs["battery_status"].msg.current
+            if derive_battery_percentage:
+                self.status_.battery_percent = self.derive_charge_from_voltage(self.status_.battery_voltage)
+            else:
+                self.status_.battery_percent = int(curr.msgs["battery_status"].msg.percentage * 100)
+
             # Check battery state
             if curr.msgs["battery_status"].msg.power_supply_health != BatteryState.POWER_SUPPLY_HEALTH_GOOD:
                 self.status_.battery_state = StatusState.BATTERY_STATE_FAULTED
-            elif curr.msgs["battery_status"].msg.percentage < 0.2:
+            elif self.status_.battery_percent <= 20:
                 self.status_.battery_state = StatusState.BATTERY_STATE_LOW
-            elif curr.msgs["battery_status"].msg.percentage == 1.0:
+            elif self.status_.battery_percent == 100:
                 self.status_.battery_state = StatusState.BATTERY_STATE_FULL
             else:
                 self.status_.battery_state = StatusState.BATTERY_STATE_OK
 
-            # Check charging state. Charging is off if we are not charging or fully charged
+            # Check charging state. Charging is off if we are not charging or are fully charged
             if curr.msgs["battery_status"].msg.power_supply_status == BatteryState.POWER_SUPPLY_STATUS_CHARGING:
                 if curr.msgs["battery_status"].msg.percentage == 1.0:
                     self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
@@ -156,10 +193,6 @@ class StatusDisplayNode(Node):
                     self.status_.charging_state = StatusState.CHARGING_STATE_ACTIVE
             else:
                 self.status_.charging_state = StatusState.CHARGING_STATE_INACTIVE
-
-            self.status_.battery_percent = int(curr.msgs["battery_status"].msg.percentage * 100)
-            self.status_.battery_voltage = curr.msgs["battery_status"].msg.voltage
-            self.status_.battery_amps    = curr.msgs["battery_status"].msg.current
 
         # Check EStop state
         if not curr.msgs["estop_status"].updated or not curr.msgs["stop_status"].updated:

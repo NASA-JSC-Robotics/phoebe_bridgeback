@@ -38,6 +38,7 @@ class StatusState(object):
     def __str__(self):
         serialized_msg  = f"Run state: {self.run_state}\n"
         serialized_msg += f"Battery state: {self.battery_state}\n"
+        serialized_msg += f"Battery percent: {self.battery_percent}\n"
         serialized_msg += f"Battery volts: {self.battery_voltage}\n"
         serialized_msg += f"Battery amps: {self.battery_amps}\n"
         serialized_msg += f"Charging state: {self.charging_state}\n"

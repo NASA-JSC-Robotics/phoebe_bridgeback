@@ -5,7 +5,7 @@ from sensor_msgs.msg import BatteryState
 from geometry_msgs.msg import Twist
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 import rclpy
-import time
+import sys
 
 import threading
 
@@ -127,6 +127,27 @@ class StateTest(Node):
             self.battery_pub.publish(self.battery_msg)
             cycle_rate.sleep()
 
+    def test_nominal(self):
+        cycle_rate = self.create_rate(2)
+        num_cycles = 100
+        log = self.get_logger().info
+
+        log("Battery nominal, charging")
+        self.battery_msg.power_supply_health = BatteryState.POWER_SUPPLY_HEALTH_GOOD
+        self.battery_msg.percentage = 0.5
+        self.battery_msg.power_supply_status = BatteryState.POWER_SUPPLY_STATUS_CHARGING
+        self.battery_msg.voltage = 27.2
+        self.battery_msg.current = 10.10394932
+        self.estop_msg.data = False
+        self.stop_status_msg.needs_reset = False
+
+        for loop in range(0, num_cycles):
+            self.battery_pub.publish(self.battery_msg)
+            self.estop_pub.publish(self.estop_msg)
+            self.stop_status_pub.publish(self.stop_status_msg)
+            self.battery_msg.voltage -= 0.1
+            cycle_rate.sleep()
+
 
 def main():
     rclpy.init()
@@ -135,6 +156,7 @@ def main():
     thread.start()
     test_node.test_estopped()
     test_node.test_battery()
+#    test_node.test_nominal()
     rclpy.shutdown()
     thread.join()
 
