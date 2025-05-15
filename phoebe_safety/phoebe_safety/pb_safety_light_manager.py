@@ -5,14 +5,34 @@ from std_msgs.msg import Bool, String
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
+from phoebe_interfaces.msg import SafetyStatus  # Import your custom message
 import serial
 import time
 from rclpy.qos import QoSProfile, ReliabilityPolicy
+import datetime
+from enum import IntEnum
 
+class LightColor(IntEnum):
+    BLUE = 1
+    YELLOW = 2
+    RED = 3
+
+status_descriptions = {
+            SafetyStatus.SAFE_TO_ENTER: "SAFE to enter the environment.",
+            SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers.",
+            SafetyStatus.NOT_SAFE_TO_ENTER: "NOT SAFE to enter.",
+        }
+    
+color_map = {
+    LightColor.BLUE: "\033[94m",
+    LightColor.YELLOW: "\033[93m",
+    LightColor.RED: "\033[91m"
+}
 
 class PhoebeSafetyManager(Node):
     def __init__(self):
         super().__init__("phoebe_safety_manager")
+
         # Use ROS 2 parameter system
         arduino_port_param = self.declare_parameter("arduino_port", "/dev/ttyACM0").get_parameter_value().string_value
 
@@ -27,27 +47,30 @@ class PhoebeSafetyManager(Node):
         self.callback_group = ReentrantCallbackGroup()
 
         # Serial connection to Arduino
-        try:
-            self.arduino = serial.Serial(self.arduino_port, 9600, timeout=1)
-            time.sleep(2)  # Give Arduino time to reset
-            self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
-            self.send_light_state(3)  # Default to NOT SAFE
-        except serial.SerialException as e:
-            self.arduino = None
-            self.get_logger().warn(f"Could not connect to Arduino: {e}")
+        self.baud_rate = 9600
+        self.arduino = None
+        self.arduino_connected = False
+
+        while self.arduino is None and rclpy.ok():
+            try:
+                self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
+                time.sleep(2)  # Give Arduino time to reset
+                self.arduino_connected = True
+                self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
+                self.send_light_state(LightColor.RED)  # Default to NOT SAFE
+            except Exception as e:
+                self.get_logger().warn(f"No Arduino connection. Waiting for Arduino... Error: {e}")
+                time.sleep(1)
 
         # Subscribing to estop topic
         qos_profile = QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, depth=10)
         self.subscription = self.create_subscription(
-            Bool, "/emergency_stop", self.estop_callback, qos_profile, callback_group=self.callback_group
+        Bool, "/ridgeback/platform/emergency_stop", self.estop_callback, qos_profile, callback_group=self.callback_group
         )
-        # ros2 run phoebe_safety pb_safety_light_manager.py --ros-args --remap /emergency_stop:=/ridgeback/platform/emergency_stop
+        # Publishing to "safety_status" topic with the custom SafetyStatus message
+        self.publisher = self.create_publisher(SafetyStatus, "/safety_status", 10, callback_group=self.callback_group)
 
-
-        # Publishing to "safety_status" topic
-        self.publisher = self.create_publisher(String, "/safety_status", 10, callback_group=self.callback_group)
-
-        # Timer
+        # Timer to check system s￼tatus at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.check_system_safety, callback_group=self.callback_group)
 
@@ -61,6 +84,9 @@ class PhoebeSafetyManager(Node):
             1 / self.rate_hz, self.controllers_are_active, callback_group=self.callback_group
         )
 
+        self.controller_manager_check_timer = self.create_timer(1 / self.rate_hz, self.controller_manager_check, callback_group=self.callback_group)
+        self.last_cm_stamp = None
+
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
 
@@ -70,6 +96,10 @@ class PhoebeSafetyManager(Node):
         True = active. False = not active.
         Updates state of emergency stop signal.
         """
+        if not self.arduino_connected:
+            self.try_reconnect_arduino()
+            return
+        
         self.get_logger().info("E-stop callback triggered")
         self.estop_active = msg.data
         self.get_logger().info(f"E-stop active? {self.estop_active}")
@@ -79,51 +109,96 @@ class PhoebeSafetyManager(Node):
         Timer callback that evaluates system safety status.
         Publishes current safety status and updates light indicators.
         """
-        msg = String()
+        if not self.arduino_connected:
+            self.try_reconnect_arduino()
+            return
+    
+        msg = SafetyStatus()  # Custom SafetyStatus message
+
         if self.estop_active:
-            msg.data = "SAFE_TO_ENTER"
-            light_state = 1
-            color = "\033[94m"  # Blue
+            msg.status = SafetyStatus.SAFE_TO_ENTER  # Use the custom status constants
+            light_state = LightColor.BLUE
         elif self.controller_active:
-            msg.data = "NOT_SAFE_TO_ENTER"
-            light_state = 3
-            color = "\033[91m"  # Red
+            msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
+            light_state = LightColor.RED
         else:
-            msg.data = "CAUTION"
-            light_state = 2
-            color = "\033[93m"  # Yellow
+            msg.status = SafetyStatus.CAUTION
+            light_state = LightColor.YELLOW
+
+        color = color_map[light_state]
         self.publisher.publish(msg)
-        self.get_logger().info(f"Published safety status: {color}{msg.data}\033[0m")
+        self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
+        
         self.send_light_state(light_state)
 
-    def send_light_state(self, state: int):
+    def publish_not_safe(self):
+        msg = SafetyStatus()
+        msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
+        light_state = LightColor.RED
+        color = color_map[light_state]
+        self.publisher.publish(msg)
+
+        self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
+
+    def try_reconnect_arduino(self):
+        try:
+            self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
+            time.sleep(2)
+            self.arduino_connected = True
+            self.get_logger().info(f"Reconnected to Arduino on {self.arduino_port}")
+            self.send_light_state(LightColor.RED)
+        except Exception as e:
+            self.get_logger().warn(f"Arduino connection LOST. Need to reconnect: {e}")
+
+    def send_light_state(self, state:LightColor):
         """
         Sends a byte to the Arduino to control indicator lights.
-        States:
-            1 = SAFE (blue)
-            2 = CAUTION (yellow)
-            3 = NOT SAFE (red)
         Only executes if a serial connection is active.
         """
         if self.arduino and self.arduino.is_open:
             try:
                 self.arduino.write(bytes([state]))
                 self.get_logger().info(f"Sent light state {state} to Arduino")
-            except serial.SerialException as e:
+            except Exception as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
+                self.arduino_connected = False
+                self.arduino = None
+                self.publish_not_safe()
+
+    def controller_manager_check(self):
+        node_names = self.get_node_names_and_namespaces()
+        for name in node_names:
+            self.get_logger().debug('name: {} '.format(name))
+            if "controller_manager" in node_names:
+                self.last_cm_stamp = datetime.datetime.now()
 
     def controllers_are_active(self):
         """
         Calls the controller manager to determine if any controllers are active.
         Uses a non-blocking async service call with a done callback.
         """
-        if self.controller_client.service_is_ready():
+        if not self.arduino_connected:
+            self.try_reconnect_arduino()
+            return
+        
+        time_out = 1
+        
+        if self.controller_client.wait_for_service(time_out):
             request = ListControllers.Request()
             future = self.controller_client.call_async(request)
             future.add_done_callback(self.controller_response)
         else:
             self.get_logger().warn("Controller manager service not available.")
-
+            #what should the state of self.controller_Active be with this and why ?
+            self.controller_manager_check()
+            current_time = datetime.datetime.now()
+            if self.last_cm_stamp is None or (current_time - self.last_cm_stamp).total_seconds() > 5:
+                self.get_logger().info("Controller manager service was not found. No controllers are active.")
+                self.controller_active = False
+            else:
+                self.get_logger().info("Controller manager node was found. Possible deadlock.")
+                self.controller_active = True #something is weird is up - maybe CM is deadlocked...assume not safe
+                
     def controller_response(self, future):
         """
         Callback to process the result of the controller manager service call.
@@ -131,20 +206,20 @@ class PhoebeSafetyManager(Node):
         """
         try:
             response = future.result()
-            self.controller_active = any(
-                c.state == "active" and len(c.required_command_interfaces) > 0 for c in response.controller
-            )
-            # for (
-            #     ctrl
-            # ) in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
-            #     print(f"Controller name: {ctrl.name}")
-            #     print(f"Controller state: {ctrl.state}")
-            #     print(f"Controller's commands if any: {ctrl.required_command_interfaces}")
+            
+            for ctrl in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
+                self.get_logger().debug(f"Controller name: {ctrl.name}")
+                self.get_logger().debug(f"Controller state: {ctrl.state}")
+                self.get_logger().debug(f"Controller's commands if any: {ctrl.required_command_interfaces}")
+                if ctrl.state == "active" and len(ctrl.required_command_interfaces) > 0:
+                    self.controller_active = True
+                    break
+                
             self.get_logger().info(f"Controller active? {self.controller_active}")
+
         except Exception as e:
             self.get_logger().warn(f"Failed to get controller status: {e}")
-            self.controller_active = False
-
+            self.controller_active = True # Not Safe
 
 def main(args=None):
     rclpy.init(args=args)
@@ -159,6 +234,6 @@ def main(args=None):
         node.destroy_node()
         rclpy.shutdown()
 
-
 if __name__ == "__main__":
     main()
+ 
