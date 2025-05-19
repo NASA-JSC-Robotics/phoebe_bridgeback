@@ -1,0 +1,161 @@
+controllers:
+- name: right_freedrive_mode_controller
+  state: 'inactive'
+  type: 'ur_controllers/FreedriveModeController'
+  claimed_interfaces: []
+  required_command_interfaces: ['right_ur_arm_freedrive_mode/async_success', 'right_ur_arm_freedrive_mode/enable', 'right_ur_arm_freedrive_mode/abort']
+  required_state_interfaces: []
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: right_robotiq_gripper_hande_controller
+  state: 'active'
+  type: 'position_controllers/GripperActionController'
+  claimed_interfaces: ['right_finger_1_joint/position']
+  required_command_interfaces: ['right_finger_1_joint/position']
+  required_state_interfaces: ['right_finger_1_joint/position', 'right_finger_1_joint/velocity']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: left_lift_joint_trajectory_controller
+  state: 'active'
+  type: 'joint_trajectory_controller/JointTrajectoryController'
+  claimed_interfaces: ['left_ewellix_lift_lower_to_higher/position']
+  required_command_interfaces: ['left_ewellix_lift_lower_to_higher/position']
+  required_state_interfaces: ['left_ewellix_lift_lower_to_higher/position', 'left_ewellix_lift_lower_to_higher/velocity']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: left_io_and_status_controller
+  state: 'active'
+  type: 'ur_controllers/GPIOController'
+  claimed_interfaces: ['left_ur_arm_gpio/standard_digital_output_cmd_0', 'left_ur_arm_gpio/standard_digital_output_cmd_1', 'left_ur_arm_gpio/standard_digital_output_cmd_2', 'left_ur_arm_gpio/standard_digital_output_cmd_3', 'left_ur_arm_gpio/standard_digital_output_cmd_4', 'left_ur_arm_gpio/standard_digital_output_cmd_5', 'left_ur_arm_gpio/standard_digital_output_cmd_6', 'left_ur_arm_gpio/standard_digital_output_cmd_7', 'left_ur_arm_gpio/standard_digital_output_cmd_8', 'left_ur_arm_gpio/standard_digital_output_cmd_9', 'left_ur_arm_gpio/standard_digital_output_cmd_10', 'left_ur_arm_gpio/standard_digital_output_cmd_11', 'left_ur_arm_gpio/standard_digital_output_cmd_12', 'left_ur_arm_gpio/standard_digital_output_cmd_13', 'left_ur_arm_gpio/standard_digital_output_cmd_14', 'left_ur_arm_gpio/standard_digital_output_cmd_15', 'left_ur_arm_gpio/standard_digital_output_cmd_16', 'left_ur_arm_gpio/standard_digital_output_cmd_17', 'left_ur_arm_gpio/standard_analog_output_cmd_0', 'left_ur_arm_gpio/standard_analog_output_cmd_1', 'left_ur_arm_gpio/tool_voltage_cmd', 'left_ur_arm_gpio/io_async_success', 'left_ur_arm_speed_scaling/target_speed_fraction_cmd', 'left_ur_arm_speed_scaling/target_speed_fraction_async_success', 'left_ur_arm_resend_robot_program/resend_robot_program_cmd', 'left_ur_arm_resend_robot_program/resend_robot_program_async_success', 'left_ur_arm_payload/mass', 'left_ur_arm_payload/cog.x', 'left_ur_arm_payload/cog.y', 'left_ur_arm_payload/cog.z', 'left_ur_arm_payload/payload_async_success', 'left_ur_arm_zero_ftsensor/zero_ftsensor_cmd', 'left_ur_arm_zero_ftsensor/zero_ftsensor_async_success', 'left_ur_arm_hand_back_control/hand_back_control_cmd', 'left_ur_arm_hand_back_control/hand_back_control_async_success', 'left_ur_arm_gpio/analog_output_domain_cmd']
+  required_command_interfaces: ['left_ur_arm_gpio/standard_digital_output_cmd_0', 'left_ur_arm_gpio/standard_digital_output_cmd_1', 'left_ur_arm_gpio/standard_digital_output_cmd_2', 'left_ur_arm_gpio/standard_digital_output_cmd_3', 'left_ur_arm_gpio/standard_digital_output_cmd_4', 'left_ur_arm_gpio/standard_digital_output_cmd_5', 'left_ur_arm_gpio/standard_digital_output_cmd_6', 'left_ur_arm_gpio/standard_digital_output_cmd_7', 'left_ur_arm_gpio/standard_digital_output_cmd_8', 'left_ur_arm_gpio/standard_digital_output_cmd_9', 'left_ur_arm_gpio/standard_digital_output_cmd_10', 'left_ur_arm_gpio/standard_digital_output_cmd_11', 'left_ur_arm_gpio/standard_digital_output_cmd_12', 'left_ur_arm_gpio/standard_digital_output_cmd_13', 'left_ur_arm_gpio/standard_digital_output_cmd_14', 'left_ur_arm_gpio/standard_digital_output_cmd_15', 'left_ur_arm_gpio/standard_digital_output_cmd_16', 'left_ur_arm_gpio/standard_digital_output_cmd_17', 'left_ur_arm_gpio/standard_analog_output_cmd_0', 'left_ur_arm_gpio/standard_analog_output_cmd_1', 'left_ur_arm_gpio/tool_voltage_cmd', 'left_ur_arm_gpio/io_async_success', 'left_ur_arm_speed_scaling/target_speed_fraction_cmd', 'left_ur_arm_speed_scaling/target_speed_fraction_async_success', 'left_ur_arm_resend_robot_program/resend_robot_program_cmd', 'left_ur_arm_resend_robot_program/resend_robot_program_async_success', 'left_ur_arm_payload/mass', 'left_ur_arm_payload/cog.x', 'left_ur_arm_payload/cog.y', 'left_ur_arm_payload/cog.z', 'left_ur_arm_payload/payload_async_success', 'left_ur_arm_zero_ftsensor/zero_ftsensor_cmd', 'left_ur_arm_zero_ftsensor/zero_ftsensor_async_success', 'left_ur_arm_hand_back_control/hand_back_control_cmd', 'le: t_ur_arm_hand_back_control/hand_back_control_async_success', 'left_ur_arm_gpio/analog_output_domain_cmd']
+  required_state_interfaces: ['left_ur_arm_gpio/digital_output_0', 'left_ur_arm_gpio/digital_output_1', 'left_ur_arm_gpio/digital_output_2', 'left_ur_arm_gpio/digital_output_3', 'left_ur_arm_gpio/digital_output_4', 'left_ur_arm_gpio/digital_output_5', 'left_ur_arm_gpio/digital_output_6', 'left_ur_arm_gpio/digital_output_7', 'left_ur_arm_gpio/digital_output_8', 'left_ur_arm_gpio/digital_output_9', 'left_ur_arm_gpio/digital_output_10', 'left_ur_arm_gpio/digital_output_11', 'left_ur_arm_gpio/digital_output_12', 'left_ur_arm_gpio/digital_output_13', 'left_ur_arm_gpio/digital_output_14', 'left_ur_arm_gpio/digital_output_15', 'left_ur_arm_gpio/digital_output_16', 'left_ur_arm_gpio/digital_output_17', 'left_ur_arm_gpio/digital_input_0', 'left_ur_arm_gpio/digital_input_1', 'left_ur_arm_gpio/digital_input_2', 'left_ur_arm_gpio/digital_input_3', 'left_ur_arm_gpio/digital_input_4', 'left_ur_arm_gpio/digital_input_5', 'left_ur_arm_gpio/digital_input_6', 'left_ur_arm_gpio/digital_input_7', 'left_ur_arm_gpio/digital_input_8', 'left_ur_arm_gpio/digital_input_9', 'left_ur_arm_gpio/digital_input_10', 'left_ur_arm_gpio/digital_input_11', 'left_ur_arm_gpio/digital_input_12', 'left_ur_arm_gpio/digital_input_13', 'left_ur_arm_gpio/digital_input_14', 'left_ur_arm_gpio/digital_input_15', 'left_ur_arm_gpio/digital_input_16', 'left_ur_arm_gpio/digital_input_17', 'left_ur_arm_gpio/standard_analog_output_0', 'left_ur_arm_gpio/standard_analog_output_1', 'left_ur_arm_gpio/standard_analog_input_0', 'left_ur_arm_gpio/standard_analog_input_1', 'left_ur_arm_gpio/analog_io_type_0', 'left_ur_arm_gpio/analog_io_type_1', 'left_ur_arm_gpio/analog_io_type_2', 'left_ur_arm_gpio/analog_io_type_3', 'left_ur_arm_gpio/tool_mode', 'left_ur_arm_gpio/tool_output_voltage', 'left_ur_arm_gpio/tool_output_current', 'left_ur_arm_gpio/tool_temperature', 'left_ur_arm_gpio/tool_analog_input_0', 'left_ur_arm_gpio/tool_analog_input_1', 'left_ur_arm_gpio/tool_analog_input_type_0', 'left_ur_arm_gpio/tool_analog_input_type_1', 'left_ur_arm_gpio/robot_mode', 'left_ur_arm_gpio/robot_status_bit_0', 'left_ur_arm_gpio/robot_status_bit_1', 'left_ur_arm_gpio/robot_status_bit_2', 'left_ur_arm_gpio/robot_status_bit_3', 'left_ur_arm_gpio/safety_mode', 'left_ur_arm_gpio/safety_status_bit_0', 'left_ur_arm_gpio/safety_status_bit_1', 'left_ur_arm_gpio/safety_status_bit_2', 'left_ur_arm_gpio/safety_status_bit_3', 'left_ur_arm_gpio/safety_status_bit_4', 'left_ur_arm_gpio/safety_status_bit_5', 'left_ur_arm_gpio/safety_status_bit_6', 'left_ur_arm_gpio/safety_status_bit_7', 'left_ur_arm_gpio/safety_status_bit_8', 'left_ur_arm_gpio/safety_status_bit_9', 'left_ur_arm_gpio/safety_status_bit_10', 'left_ur_arm_system_interface/initialized', 'left_ur_arm_gpio/program_running']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: left_ur_joint_trajectory_controller
+  state: 'active'
+  type: 'joint_trajectory_controller/JointTrajectoryController'
+  claimed_interfaces: ['left_ur_arm_shoulder_pan_joint/position', 'left_ur_arm_shoulder_lift_joint/position', 'left_ur_arm_elbow_joint/position', 'left_ur_arm_wrist_1_joint/position', 'left_ur_arm_wrist_2_joint/position', 'left_ur_arm_wrist_3_joint/position']
+  required_command_interfaces: ['left_ur_arm_shoulder_pan_joint/position', 'left_ur_arm_shoulder_lift_joint/position', 'left_ur_arm_elbow_joint/position', 'left_ur_arm_wrist_1_joint/position', 'left_ur_arm_wrist_2_joint/position', 'left_ur_arm_wri: t_3_joint/position']
+  required_state_interfaces: ['left_ur_arm_shoulder_pan_joint/position', 'left_ur_arm_shoulder_pan_joint/velocity', 'left_ur_arm_shoulder_lift_joint/position', 'left_ur_arm_shoulder_lift_joint/velocity', 'left_ur_arm_elbow_joint/position', 'left_ur_arm_elbow_joint/velocity', 'left_ur_arm_wrist_1_joint/position', 'left_ur_arm_wrist_1_joint/velocity', 'left_ur_arm_wrist_2_joint/position', 'left_ur_arm_wrist_2_joint/velocity', 'left_ur_arm_wrist_3_joint/position', 'left_ur_arm_wrist_3_joint/velocity']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: left_freedrive_mode_controller
+  state: 'inactive'
+  type: 'ur_controllers/FreedriveModeController'
+  claimed_interfaces: []
+  required_command_interfaces: ['left_ur_arm_freedrive_mode/async_success', 'left_ur_arm_freedrive_mode/enable', 'left_ur_arm_freedrive_mode/abort']
+  required_state_interfaces: []
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- right_force_torque_sensor_broadcaster:
+  state: 'active'
+  type: 'force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster'
+  claimed_interfaces: []
+  required_command_interfaces: []
+  required_state_interfaces: ['right_ur_arm_tcp_fts_sensor/force.x', 'right_ur_arm_tcp_fts_sensor/force.y', 'right_ur_arm_tcp_fts_sensor/force.z', 'right_ur_arm_tcp_fts_sensor/torque.x', 'right_ur_arm_tcp_fts_sensor/torque.y', 'right_ur_arm_tcp_fts_sensor/torque.z']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- left_force_torque_sensor_broadcaster:
+  state: 'active'
+  type: 'force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster'
+  claimed_interfaces: []
+  required_command_interfaces: []
+  required_state_interfaces: ['left_ur_arm_tcp_fts_sensor/force.x', 'left_ur_arm_tcp_fts_sensor/force.y', 'left_ur_arm_tcp_fts_sensor/force.z', 'left_ur_arm_tcp_fts_sensor/torque.x', 'left_ur_arm_tcp_fts_sensor/torque.y', 'left_ur_arm_tcp_fts_sensor/torque.z']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: right_io_and_status_controller
+  state: 'active'
+  type: 'ur_controllers/GPIOController'
+  claimed_interfaces: ['right_ur_arm_gpio/standard_digital_output_cmd_0', 'right_ur_arm_gpio/standard_digital_output_cmd_1', 'right_ur_arm_gpio/standard_digital_output_cmd_2', 'right_ur_arm_gpio/standard_digital_output_cmd_3', 'right_ur_arm_gpio/standard_digital_output_cmd_4', 'right_ur_arm_gpio/standard_digital_output_cmd_5', 'right_ur_arm_gpio/standard_digital_output_cmd_6', 'right_ur_arm_gpio/standard_digital_output_cmd_7', 'right_ur_arm_gpio/standard_digital_output_cmd_8', 'right_ur_arm_gpio/standard_digital_output_cmd_9', 'right_ur_arm_gpio/standard_digital_output_cmd_10', 'right_ur_arm_gpio/standard_digital_output_cmd_11', 'right_ur_arm_gpio/standard_digital_output_cmd_12', 'right_ur_arm_gpio/standard_digital_output_cmd_13', 'right_ur_arm_gpio/standard_digital_output_cmd_14', 'right_ur_arm_gpio/standard_digital_output_cmd_15', 'right_ur_arm_gpio/standard_digital_output_cmd_16', 'right_ur_arm_gpio/standard_digital_output_cmd_17', 'right_ur_arm_gpio/standard_analog_output_cmd_0', 'right_ur_arm_gpio/standard_analog_output_cmd_1', 'right_ur_arm_gpio/tool_voltage_cmd', 'right_ur_arm_gpio/io_async_success', 'right_ur_arm_speed_scaling/target_speed_fraction_cmd', 'right_ur_arm_speed_scaling/target_speed_fraction_async_success', 'right_ur_arm_resend_robot_program/resend_robot_program_cmd', 'right_ur_arm_resend_robot_program/resend_robot_program_async_success', 'right_ur_arm_payload/mass', 'right_ur_arm_payload/cog.x', 'right_ur_arm_payload/cog.y', 'right_ur_arm_payload/cog.z', 'right_ur_arm_payload/payload_async_success', 'right_ur_arm_zero_ftsensor/zero_ftsensor_cmd', 'right_ur_arm_zero_ftsensor/zero_ftsensor_async_success', 'right_ur_arm_hand_back_control/hand_back_control_cmd', 'right_ur_arm_hand_back_control/hand_back_control_async_success', 'right_ur_arm_gpio/analog_output_domain_cmd']
+  required_command_interfaces: ['right_ur_arm_gpio/standard_digital_output_cmd_0', 'right_ur_arm_gpio/standard_digital_output_cmd_1', 'right_ur_arm_gpio/standard_digital_output_cmd_2', 'right_ur_arm_gpio/standard_digital_output_cmd_3', 'right_ur_arm_gpio/standard_digital_output_cmd_4', 'right_ur_arm_gpio/standard_digital_output_cmd_5', 'right_ur_arm_gpio/standard_digital_output_cmd_6', 'right_ur_arm_gpio/standard_digital_output_cmd_7', 'right_ur_arm_gpio/standard_digital_output_cmd_8', 'right_ur_arm_gpio/standard_digital_output_cmd_9', 'right_ur_arm_gpio/standard_digital_output_cmd_10', 'right_ur_arm_gpio/standard_digital_output_cmd_11', 'right_ur_arm_gpio/standard_digital_output_cmd_12', 'right_ur_arm_gpio/standard_digital_output_cmd_13', 'right_ur_arm_gpio/standard_digital_output_cmd_14', 'right_ur_arm_gpio/standard_digital_output_cmd_15', 'right_ur_arm_gpio/standard_digital_output_cmd_16', 'right_ur_arm_gpio/standard_digital_output_cmd_17', 'right_ur_arm_gpio/standard_analog_output_cmd_0', 'right_ur_arm_gpio/standard_analog_output_cmd_1', 'right_ur_arm_gpio/tool_voltage_cmd', 'right_ur_arm_gpio/io_async_success', 'right_ur_arm_speed_scaling/target_speed_fraction_cmd', 'right_ur_arm_speed_scaling/target_speed_fraction_async_success', 'right_ur_arm_resend_robot_program/resend_robot_program_cmd', 'right_ur_arm_resend_robot_program/resend_robot_program_async_success', 'right_ur_arm_payload/mass', 'right_ur_arm_payload/cog.x', 'right_ur_arm_payload/cog.y', 'right_ur_arm_payload/cog.z', 'right_ur_arm_payload/payload_async_success', 'right_ur_arm_zero_ftsensor/zero_ftsensor_cmd', 'right_ur_arm_zero_ftsensor/zero_ftsensor_async_success', 'right_ur_arm_hand_back_con: rol/hand_back_control_cmd', 'right_ur_arm_hand_back_control/hand_back_control_async_success', 'right_ur_arm_gpio/analog_output_domain_cmd']
+  required_state_interfaces: ['right_ur_arm_gpio/digital_output_0', 'right_ur_arm_gpio/digital_output_1', 'right_ur_arm_gpio/digital_output_2', 'right_ur_arm_gpio/digital_output_3', 'right_ur_arm_gpio/digital_output_4', 'right_ur_arm_gpio/digital_output_5', 'right_ur_arm_gpio/digital_output_6', 'right_ur_arm_gpio/digital_output_7', 'right_ur_arm_gpio/digital_output_8', 'right_ur_arm_gpio/digital_output_9', 'right_ur_arm_gpio/digital_output_10', 'right_ur_arm_gpio/digital_output_11', 'right_ur_arm_gpio/digital_output_12', 'right_ur_arm_gpio/digital_output_13', 'right_ur_arm_gpio/digital_output_14', 'right_ur_arm_gpio/digital_output_15', 'right_ur_arm_gpio/digital_output_16', 'right_ur_arm_gpio/digital_output_17', 'right_ur_arm_gpio/digital_input_0', 'right_ur_arm_gpio/digital_input_1', 'right_ur_arm_gpio/digital_input_2', 'right_ur_arm_gpio/digital_input_3', 'right_ur_arm_gpio/digital_input_4', 'right_ur_arm_gpio/digital_input_5', 'right_ur_arm_gpio/digital_input_6', 'right_ur_arm_gpio/digital_input_7', 'right_ur_arm_gpio/digital_input_8', 'right_ur_arm_gpio/digital_input_9', 'right_ur_arm_gpio/digital_input_10', 'right_ur_arm_gpio/digital_input_11', 'right_ur_arm_gpio/digital_input_12', 'right_ur_arm_gpio/digital_input_13', 'right_ur_arm_gpio/digital_input_14', 'right_ur_arm_gpio/digital_input_15', 'right_ur_arm_gpio/digital_input_16', 'right_ur_arm_gpio/digital_input_17', 'right_ur_arm_gpio/standard_analog_output_0', 'right_ur_arm_gpio/standard_analog_output_1', 'right_ur_arm_gpio/standard_analog_input_0', 'right_ur_arm_gpio/standard_analog_input_1', 'right_ur_arm_gpio/analog_io_type_0', 'right_ur_arm_gpio/analog_io_type_1', 'right_ur_arm_gpio/analog_io_type_2', 'right_ur_arm_gpio/analog_io_type_3', 'right_ur_arm_gpio/tool_mode', 'right_ur_arm_gpio/tool_output_voltage', 'right_ur_arm_gpio/tool_output_current', 'right_ur_arm_gpio/tool_temperature', 'right_ur_arm_gpio/tool_analog_input_0', 'right_ur_arm_gpio/tool_analog_input_1', 'right_ur_arm_gpio/tool_analog_input_type_0', 'right_ur_arm_gpio/tool_analog_input_type_1', 'right_ur_arm_gpio/robot_mode', 'right_ur_arm_gpio/robot_status_bit_0', 'right_ur_arm_gpio/robot_status_bit_1', 'right_ur_arm_gpio/robot_status_bit_2', 'right_ur_arm_gpio/robot_status_bit_3', 'right_ur_arm_gpio/safety_mode', 'right_ur_arm_gpio/safety_status_bit_0', 'right_ur_arm_gpio/safety_status_bit_1', 'right_ur_arm_gpio/safety_status_bit_2', 'right_ur_arm_gpio/safety_status_bit_3', 'right_ur_arm_gpio/safety_status_bit_4', 'right_ur_arm_gpio/safety_status_bit_5', 'right_ur_arm_gpio/safety_status_bit_6', 'right_ur_arm_gpio/safety_status_bit_7', 'right_ur_arm_gpio/safety_status_bit_8', 'right_ur_arm_gpio/safety_status_bit_9', 'right_ur_arm_gpio/safety_status_bit_10', 'right_ur_arm_system_interface/initialized', 'right_ur_arm_gpio/program_running']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: right_ur_joint_trajectory_controller
+  state: 'active'
+  type: 'joint_trajectory_controller/JointTrajectoryController'
+  claimed_interfaces: ['right_ur_arm_shoulder_pan_joint/position', 'right_ur_arm_shoulder_lift_joint/position', 'right_ur_arm_elbow_joint/position', 'right_ur_arm_wrist_1_joint/position', 'right_ur_arm_wrist_2_joint/position', 'right_ur_arm_wrist_3_joint/position']
+  required_command_interfaces: ['right_ur_arm_shoulder_pan_joint/position', 'right_ur_arm_shoulder_lift_joint/position', 'right_ur_arm_elbow_joint/position', 'right_ur_arm_wrist_1_joint/position', 'right_ur_arm_wrist_2_joint/position', 'right_ur_arm_wr: st_3_joint/position']
+  required_state_interfaces: ['right_ur_arm_shoulder_pan_joint/position', 'right_ur_arm_shoulder_pan_joint/velocity', 'right_ur_arm_shoulder_lift_joint/position', 'right_ur_arm_shoulder_lift_joint/velocity', 'right_ur_arm_elbow_joint/position', 'right_ur_arm_elbow_joint/velocity', 'right_ur_arm_wrist_1_joint/position', 'right_ur_arm_wrist_1_joint/velocity', 'right_ur_arm_wrist_2_joint/position', 'right_ur_arm_wrist_2_joint/velocity', 'right_ur_arm_wrist_3_joint/position', 'right_ur_arm_wrist_3_joint/velocity']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- joint_state_broadcaster:
+  state: 'active'
+  type: 'joint_state_broadcaster/JointStateBroadcaster'
+  claimed_interfaces: []
+  required_command_interfaces: []
+  required_state_interfaces: ['front_left_wheel_joint/position', 'front_left_wheel_joint/velocity', 'front_right_wheel_joint/position', 'front_right_wheel_joint/velocity', 'left_ewellix_lift_lower_to_higher/commanded_velocity', 'left_ewellix_lift_lower_to_higher/desired_velocity', 'left_ewellix_lift_lower_to_higher/position', 'left_ewellix_lift_lower_to_higher/robot_ready', 'left_ewellix_lift_lower_to_higher/velocity', 'left_finger_1_joint/position', 'left_finger_1_joint/velocity', 'left_ur_arm_elbow_joint/effort', 'left_ur_arm_elbow_joint/position', 'left_ur_arm_elbow_joint/velocity', 'left_ur_arm_get_robot_software_version/get_version_bugfix', 'left_ur_arm_get_robot_software_version/get_version_build', 'left_ur_arm_get_robot_software_version/get_version_major', 'left_ur_arm_get_robot_software_version/get_version_minor', 'left_ur_arm_gpio/analog_io_type_0', 'left_ur_arm_gpio/analog_io_type_1', 'left_ur_arm_gpio/analog_io_type_2', 'left_ur_arm_gpio/analog_io_type_3', 'left_ur_arm_gpio/digital_input_0', 'left_ur_arm_gpio/digital_input_1', 'left_ur_arm_gpio/digital_input_10', 'left_ur_arm_gpio/digital_input_11', 'left_ur_arm_gpio/digital_input_12', 'left_ur_arm_gpio/digital_input_13', 'left_ur_arm_gpio/digital_input_14', 'left_ur_arm_gpio/digital_input_15', 'left_ur_arm_gpio/digital_input_16', 'left_ur_arm_gpio/digital_input_17', 'left_ur_arm_gpio/digital_input_2', 'left_ur_arm_gpio/digital_input_3', 'left_ur_arm_gpio/digital_input_4', 'left_ur_arm_gpio/digital_input_5', 'left_ur_arm_gpio/digital_input_6', 'left_ur_arm_gpio/digital_input_7', 'left_ur_arm_gpio/digital_input_8', 'left_ur_arm_gpio/digital_input_9', 'left_ur_arm_gpio/digital_output_0', 'left_ur_arm_gpio/digital_output_1', 'left_ur_arm_gpio/digital_output_10', 'left_ur_arm_gpio/digital_output_11', 'left_ur_arm_gpio/digital_output_12', 'left_ur_arm_gpio/digital_output_13', 'left_ur_arm_gpio/digital_output_14', 'left_ur_arm_gpio/digital_output_15', 'left_ur_arm_gpio/digital_output_16', 'left_ur_arm_gpio/digital_output_17', 'left_ur_arm_gpio/digital_output_2', 'left_ur_arm_gpio/digital_output_3', 'left_ur_arm_gpio/digital_output_4', 'left_ur_arm_gpio/digital_output_5', 'left_ur_arm_gpio/digital_output_6', 'left_ur_arm_gpio/digital_output_7', 'left_ur_arm_gpio/digital_output_8', 'left_ur_arm_gpio/digital_output_9', 'left_ur_arm_gpio/program_running', 'left_ur_arm_gpio/robot_mode', 'left_ur_arm_gpio/robot_status_bit_0', 'left_ur_arm_gpio/robot_status_bit_1', 'left_ur_arm_gpio/robot_status_bit_2', 'left_ur_arm_gpio/robot_status_bit_3', 'left_ur_arm_gpio/safety_mode', 'left_ur_arm_gpio/safety_status_bit_0', 'left_ur_arm_gpio/safety_status_bit_1', 'left_ur_arm_gpio/safety_status_bit_10', 'left_ur_arm_gpio/safety_status_bit_2', 'left_ur_arm_gpio/safety_status_bit_3', 'left_ur_arm_gpio/safety_status_bit_4', 'left_ur_arm_gpio/safety_status_bit_5', 'left_ur_arm_gpio/safety_status_bit_6', 'left_ur_arm_gpio/safety_status_bit_7', 'left_ur_arm_gpio/safety_status_bit_8', 'left_ur_arm_gpio/safety_status_bit_9', 'left_ur_arm_gpio/standard_analog_input_0', 'left_ur_arm_gpio/standard_analog_input_1', 'left_ur_arm_gpio/standard_analog_output_0', 'left_ur_arm_gpio/standard_analog_output_1', 'left_ur_arm_gpio/tool_analog_input_0', 'left_ur_arm_gpio/tool_analog_input_1', 'left_ur_arm_gpio/tool_analog_input_type_0', 'left_ur_arm_gpio/tool_analog_input_type_1', 'left_ur_arm_gpio/tool_mode', 'left_ur_arm_gpio/tool_output_current', 'left_ur_arm_gpio/tool_output_voltage', 'left_ur_arm_gpio/tool_temperature', 'left_ur_arm_shoulder_lift_joint/effort', 'left_ur_arm_shoulder_lift_joint/position', 'left_ur_arm_shoulder_lift_joint/velocity', 'left_ur_arm_shoulder_pan_joint/effort', 'left_ur_arm_shoulder_pan_joint/position', 'left_ur_arm_shoulder_pan_joint/velocity', 'left_ur_arm_speed_scaling/speed_scaling_factor', 'left_ur_arm_system_interface/initialized', 'left_ur_arm_tcp_fts_sensor/force.x', 'left_ur_arm_tcp_fts_sensor/force.y', 'left_ur_arm_tcp_fts_sensor/force.z', 'left_ur_arm_tcp_fts_sensor/torque.x', 'left_ur_arm_tcp_fts_sensor/torque.y', 'left_ur_arm_tcp_fts_sensor/torque.z', 'left_ur_arm_tcp_pose/orientation.w', 'left_ur_arm_tcp_pose/orientation.x', 'left_ur_arm_tcp_pose/orientation.y', 'left_ur_arm_tcp_pose/orientation.z', 'left_ur_arm_tcp_pose/position.x', 'left_ur_arm_tcp_pose/position.y', 'left_ur_arm_tcp_pose/position.z', 'left_ur_arm_wrist_1_joint/effort', 'left_ur_arm_wrist_1_joint/position', 'left_ur_arm_wrist_1_joint/velocity', 'left_ur_arm_wrist_2_joint/effort', 'left_ur_arm_wrist_2_joint/position', 'left_ur_arm_wrist_2_joint/velocity', 'left_ur_arm_wrist_3_joint/effort', 'left_ur_arm_wrist_3_joint/position', 'left_ur_arm_wrist_3_joint/velocity', 'rear_left_wheel_joint/position', 'rear_left_wheel_joint/velocity', 'rear_right_wheel_joint/position', 'rear_right_wheel_joint/velocity', 'right_ewellix_lift_lower_to_higher/commanded_velocity', 'right_ewellix_lift_lower_to_higher/desired_velocity', 'right_ewellix_lift_lower_to_higher/position', 'right_ewellix_lift_lower_to_higher/robot_ready', 'right_ewellix_lift_lower_to_higher/velocity', 'right_finger_1_joint/position', 'right_finger_1_joint/velocity', 'right_ur_arm_elbow_joint/effort', 'right_ur_arm_elbow_joint/position', 'right_ur_arm_elbow_joint/velocity', 'right_ur_arm_get_robot_software_version/get_version_bugfix', 'right_ur_arm_get_robot_software_version/get_version_build', 'right_ur_arm_get_robot_software_version/get_version_major', 'right_ur_arm_get_robot_software_version/get_version_minor', 'right_ur_arm_gpio/analog_io_type_0', 'right_ur_arm_gpio/analog_io_type_1', 'right_ur_arm_gpio/analog_io_type_2', 'right_ur_arm_gpio/analog_io_type_3', 'right_ur_arm_gpio/digital_input_0', 'right_ur_arm_gpio/digital_input_1', 'right_ur_arm_gpio/digital_input_10', 'right_ur_arm_gpio/digital_input_11', 'right_ur_arm_gpio/digital_input_12', 'right_ur_arm_gpio/digital_input_13', 'right_ur_arm_gpio/digital_input_14', 'right_ur_arm_gpio/digital_input_15', 'right_ur_arm_gpio/digital_input_16', 'right_ur_arm_gpio/digital_input_17', 'right_ur_arm_gpio/digital_input_2', 'right_ur_arm_gpio/digital_input_3', 'right_ur_arm_gpio/digital_input_4', 'right_ur_arm_gpio/digital_input_5', 'right_ur_arm_gpio/digital_input_6', 'right_ur_arm_gpio/digital_input_7', 'right_ur_arm_gpio/digital_input_8', 'right_ur_arm_gpio/digital_input_9', 'right_ur_arm_gpio/digital_output_0', 'right_ur_arm_gpio/digital_output_1', 'right_ur_arm_gpio/digital_output_10', 'right_ur_arm_gpio/digital_output_11', 'right_ur_arm_gpio/digital_output_12', 'right_ur_arm_gpio/digital_output_13', 'right_ur_arm_gpio/digital_output_14', 'right_ur_arm_gpio/digital_output_15', 'right_ur_arm_gpio/digital_output_16', 'right_ur_arm_gpio/digital_output_17', 'right_ur_arm_gpio/digital_output_2', 'right_ur_arm_gpio/digital_output_3', 'right_ur_arm_gpio/digital_output_4', 'right_ur_arm_gpio/digital_output_5', 'right_ur_arm_gpio/digital_output_6', 'right_ur_arm_gpio/digital_output_7', 'right_ur_arm_gpio/digital_output_8', 'right_ur_arm_gpio/digital_output_9', 'right_ur_arm_gpio/program_running', 'right_ur_arm_gpio/robot_mode', 'right_ur_arm_gpio/robot_status_bit_0', 'right_ur_arm_gpio/robot_status_bit_1', 'right_ur_arm_gpio/robot_status_bit_2', 'right_ur_arm_gpio/robot_status_bit_3', 'right_ur_arm_gpio/safety_mode', 'right_ur_arm_gpio/safety_status_bit_0', 'right_ur_arm_gpio/safety_status_bit_1', 'right_ur_arm_gpio/safety_status_bit_10', 'right_ur_arm_gpio/safety_status_bit_2', 'right_ur_arm_gpio/safety_status_bit_3', 'right_ur_arm_gpio/safety_status_bit_4', 'right_ur_arm_gpio/safety_status_bit_5', 'right_ur_arm_gpio/safety_status_bit_6', 'right_ur_arm_gpio/safety_status_bit_7', 'right_ur_arm_gpio/safety_status_bit_8', 'right_ur_arm_gpio/safety_status_bit_9', 'right_ur_arm_gpio/standard_analog_input_0', 'right_ur_arm_gpio/standard_analog_input_1', 'right_ur_arm_gpio/standard_analog_output_0', 'right_ur_arm_gpio/standard_analog_output_1', 'right_ur_arm_gpio/tool_analog_input_0', 'right_ur_arm_gpio/tool_analog_input_1', 'right_ur_arm_gpio/tool_analog_input_type_0', 'right_ur_arm_gpio/tool_analog_input_type_1', 'right_ur_arm_gpio/tool_mode', 'right_ur_arm_gpio/tool_output_current', 'right_ur_arm_gpio/tool_output_voltage', 'right_ur_arm_gpio/tool_temperature', 'right_ur_arm_shoulder_lift_joint/effort', 'right_ur_arm_shoulder_lift_joint/position', 'right_ur_arm_shoulder_lift_joint/velocity', 'right_ur_arm_shoulder_pan_joint/effort', 'right_ur_arm_shoulder_pan_joint/position', 'right_ur_arm_shoulder_pan_joint/velocity', 'right_ur_arm_speed_scaling/speed_scaling_factor', 'right_ur_arm_system_interface/initialized', 'right_ur_arm_tcp_fts_sensor/force.x', 'right_ur_arm_tcp_fts_sensor/force.y', 'right_ur_arm_tcp_fts_sensor/force.z', 'right_ur_arm_tcp_fts_sensor/torque.x', 'right_ur_arm_tcp_fts_sensor/torque.y', 'right_ur_arm_tcp_fts_sensor/torque.z', 'right_ur_arm_tcp_pose/orientation.w', 'right_ur_arm_tcp_pose/orientation.x', 'right_ur_arm_tcp_pose/orientation.y', 'right_ur_arm_tcp_pose/orientation.z', 'right_ur_arm_tcp_pose/position.x', 'right_ur_arm_tcp_pose/position.y', 'right_ur_arm_tcp_pose/position.z', 'right_ur_arm_wrist_1_joint/effort', 'right_ur_arm_wrist_1_joint/position', 'right_ur_arm_wrist_1_joint/velocity', 'right_ur_arm_wrist_2_joint/effort', 'right_ur_arm_wrist_2_joint/position', 'right_ur_arm_wrist_2_joint/velocity', 'right_ur_arm_wrist_3_joint/effort', 'right_ur_arm_wrist_3_joint/position', 'right_ur_arm_wrist_3_joint/velocity']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: right_robotiq_activation_controller
+  state: 'active'
+  type: 'robotiq_controllers/RobotiqActivationController'
+  claimed_interfaces: ['right_reactivate_gripper/reactivate_gripper_cmd', 'right_reactivate_gripper/reactivate_gripper_response']
+  required_command_interfaces: ['right_reactivate_gripper/reactivate_gripper_cmd', 'right_reactivate_gripper/reactivate_gripper_response']
+  required_state_interfaces: []
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: left_robotiq_activation_controller
+  state: 'active'
+  type: 'robotiq_controllers/RobotiqActivationController'
+  claimed_interfaces: ['left_reactivate_gripper/reactivate_gripper_cmd', 'left_reactivate_gripper/reactivate_gripper_response']
+  required_command_interfaces: ['left_reactivate_gripper/reactivate_gripper_cmd', 'left_reactivate_gripper/reactivate_gripper_response']
+  required_state_interfaces: []
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: right_lift_joint_trajectory_controller
+  state: 'active'
+  type: 'joint_trajectory_controller/JointTrajectoryController'
+  claimed_interfaces: ['right_ewellix_lift_lower_to_higher/position']
+  required_command_interfaces: ['right_ewellix_lift_lower_to_higher/position']
+  required_state_interfaces: ['right_ewellix_lift_lower_to_higher/position', 'right_ewellix_lift_lower_to_higher/velocity']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: left_robotiq_gripper_hande_controller
+  state: 'active'
+  type: 'position_controllers/GripperActionController'
+  claimed_interfaces: ['left_finger_1_joint/position']
+  required_command_interfaces: ['left_finger_1_joint/position']
+  required_state_interfaces: ['left_finger_1_joint/position', 'left_finger_1_joint/velocity']
+  is_chainable: False
+  is_chained: False
+  reference_interfaces: []
+  chain_connections: []
+- name: platform_velocity_controller
+  state: 'active'
+  type: 'clearpath_mecanum_drive_controller/MecanumDriveController'
+  claimed_interfaces: ['front_left_wheel_joint/velocity', 'rear_left_wheel_joint/velocity', 'rear_right_wheel_joint/velocity', 'front_right_wheel_joint/velocity']
+  required_command_interfaces: ['front_left_wheel_joint/velocity', 'rear_left_wheel_joint/velocity', 'rear_right_wheel_joint/velocity', 'front_right_wheel_joint/velocity']
+  required_state_interfaces: ['front_left_wheel_joint/velocity', 'rear_left_wheel_joint/velocity', 'rear_right_wheel_joint/velocity', 'front_right_wheel_joint/velocity']
+  is_chainable: True
+  is_chained: False
+  reference_interfaces: ['linear/x/velocity', 'linear/y/velocity', 'angular/z/velocity']
+  chain_connections: []
