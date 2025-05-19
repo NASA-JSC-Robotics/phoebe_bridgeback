@@ -106,7 +106,7 @@ class PhoebeEstopManager(Node):
         # Publishing to "safety_status" topic with the custom SafetyStatus message
         self.hb_publisher = self.create_publisher(Header, "~/heartbeat", 10, callback_group=self.main_cbg)
 
-        # Timer to check system s￼tatus at 5 Hz (every 0.2 seconds)
+        # Timer to check system status at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.manager_loop, callback_group=self.main_cbg)
 
@@ -209,19 +209,21 @@ class PhoebeEstopManager(Node):
                 self.stop_controllers(save_stopped_controllers=True)
 
         else:
+            # always try to disable can and stop controllers
+            self.disable_can()
+            self.stop_controllers(save_stopped_controllers=False)
+
+            # always check for estop status, in case we were in freedrive mode
             if is_estopped:
                 self.robot_state = RobotState.ESTOP
-            # if restart is requested, restart controllers and enable can
-            elif is_restart_requested:
+
+            # if restart is requested, and we aren't estopped restart controllers and enable can
+            if is_restart_requested and not is_estopped:
                 self.restart_controllers()
                 self.enable_can()
                 self.robot_state = RobotState.RUNNING
                 # reset the status back to false,
                 self.restart_message_monitor.set_status(False)
-            # otherwise, make sure that can is still disabled and controllers are stopped
-            else:
-                self.disable_can()
-                self.stop_controllers(save_stopped_controllers=False)
 
         self.publish_hb_msg()
 
@@ -259,9 +261,15 @@ class PhoebeEstopManager(Node):
 
         # add controllers that are active and not consistent to the list to stop
         for controller in list_controllers_response.controller:
+            #if the controller is active and has a command interface, stop it
             if controller.state == "active" and len(controller.required_command_interfaces) > 0:
-                if self.freedrive_controller_name not in controller.name:
+                # if we are not in freedrive mode, add controller to stop list
+                if self.robot_state is not RobotState.FREEDRIVE:
                     controllers_to_stop.append(controller.name)
+                # if we are in freedrive mode, we need to allow freedrive controller to stay active
+                else:
+                    if self.freedrive_controller_name not in controller.name:
+                        controllers_to_stop.append(controller.name)
 
         # if there are any to stop, call switch_controllers to stop them
         if controllers_to_stop:
