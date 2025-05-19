@@ -84,6 +84,7 @@ class StatusNcursesFrontend(object):
             "grey":         (curses.color_pair(1) | curses.A_DIM),
             "white":        (curses.color_pair(1) | curses.A_BOLD),
             "green":        curses.color_pair(2),
+            "boldgreen":    (curses.color_pair(2) | curses.A_BOLD),
             "red":          curses.color_pair(3),
             "blue":         curses.color_pair(4),
             "black":        curses.color_pair(5),
@@ -272,11 +273,11 @@ class StatusNcursesFrontend(object):
             self.update_charging_state("grey")
 
         if state.driving_state == StatusState.DRIVING_STATE_ON:
-            self.update_driving_state("green", is_blinking=True)
+            self.update_driving_state("boldgreen", is_blinking=True)
         elif state.driving_state == StatusState.DRIVING_STATE_OFF:
-            self.update_driving_state("black")
+            self.update_driving_state("yellow")
         else:
-            self.update_driving_state("grey")
+            self.update_driving_state("black")
 
         self.screen_.refresh()
 
