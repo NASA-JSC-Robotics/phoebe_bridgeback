@@ -285,9 +285,20 @@ class PhoebeEstopManager(Node):
         switch_controller_request.strictness = SwitchController.Request.STRICT
         switch_controller_request.timeout.nanosec = int(0.5e9)  # 0.5s
 
+        # turn off freedrive controllers if they are started
+        list_controllers_request = ListControllers.Request()
+        list_controllers_response = self.list_controllers_client.call(list_controllers_request)
+
+        # add controllers that are active and not consistent to the list to stop
+        stop_freedrive_controllers = []
+        for controller in list_controllers_response.controller:
+            if self.freedrive_controller_name in controller.name and controller.state == "active":
+                stop_freedrive_controllers.append(controller.name)
+
         # only run this if we have logged that some controllers have been stopped
-        if self.stopped_controllers:
+        if self.stopped_controllers or stop_freedrive_controllers:
             switch_controller_request.activate_controllers = self.stopped_controllers
+            switch_controller_request.deactivate_controllers = stop_freedrive_controllers
 
             switch_controllers_response = self.switch_controllers_client.call(switch_controller_request)
             if not switch_controllers_response.ok:

@@ -11,6 +11,9 @@
       right_ur_joint_trajectory_controller:
         type: joint_trajectory_controller/JointTrajectoryController
 
+      right_freedrive_mode_controller:
+        type: ur_controllers/FreedriveModeController
+
       left_io_and_status_controller:
         type: ur_controllers/GPIOController
 
@@ -19,6 +22,9 @@
 
       left_ur_joint_trajectory_controller:
         type: joint_trajectory_controller/JointTrajectoryController
+
+      left_freedrive_mode_controller:
+        type: ur_controllers/FreedriveModeController
 
   # right controllers
   right_io_and_status_controller:
@@ -65,6 +71,10 @@
         $(var tf_prefix)right_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
         $(var tf_prefix)right_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
 
+  right_freedrive_mode_controller:
+    ros__parameters:
+      tf_prefix: $(var tf_prefix)right_ur_arm_
+
   # left controllers
   left_io_and_status_controller:
     ros__parameters:
@@ -109,3 +119,7 @@
         $(var tf_prefix)left_ur_arm_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
         $(var tf_prefix)left_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
         $(var tf_prefix)left_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
+
+  left_freedrive_mode_controller:
+    ros__parameters:
+      tf_prefix: $(var tf_prefix)left_ur_arm_
