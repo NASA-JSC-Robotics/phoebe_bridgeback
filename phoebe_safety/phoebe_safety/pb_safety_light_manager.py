@@ -30,9 +30,9 @@ color_map = {
 }
 
 class PhoebeSafetyManager(Node):
-    def __init__(self, sim_adruino=False):
+    def __init__(self, sim_arduino=False):
         super().__init__("phoebe_safety_manager")
-        self.sim_adruino = sim_adruino
+        self.sim_arduino = sim_arduino
 
         # Use ROS 2 parameter system
         arduino_port_param = self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
@@ -41,13 +41,13 @@ class PhoebeSafetyManager(Node):
         self.arduino_port = arduino_port_param
 
         # E stop subscription topic name
-        self.estop_topic = "/ridgeback/platform/emergency_stop"
+        self.estop_topic = "ridgeback/platform/emergency_stop"
 
         # Safety status publisher topic name
-        self.safety_status_topic = "/safety_status"
+        self.safety_status_topic = "safety_status"
 
         # Service for listing controllers from the controller manager
-        self.list_controllers_srv = "/controller_manager/list_controllers"
+        self.list_controllers_srv = "controller_manager/list_controllers"
 
         # Initial states
         self.estop_active = False  # True = safe to enter, False = not safe to enter
@@ -61,6 +61,9 @@ class PhoebeSafetyManager(Node):
         self.arduino = None
         self.arduino_connected = False
 
+        # Wait time for checks (Seconds)
+        self.wait_time = 5
+
         while not self.arduino_connected and rclpy.ok():
             self.try_reconnect_arduino()
 
@@ -69,6 +72,7 @@ class PhoebeSafetyManager(Node):
         self.subscription = self.create_subscription(
         Bool, self.estop_topic, self.estop_callback, qos_profile, callback_group=self.callback_group
         )
+        self.last_estop_msg_time = datetime.datetime.now()
         # Publishing to "safety_status" topic with the custom SafetyStatus message
         self.publisher = self.create_publisher(SafetyStatus, self.safety_status_topic, 10, callback_group=self.callback_group)
 
@@ -91,7 +95,8 @@ class PhoebeSafetyManager(Node):
 
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
-
+        
+        
     def estop_callback(self, msg: Bool):
         """
         Callback for the /emergency_stop topic.
@@ -104,6 +109,7 @@ class PhoebeSafetyManager(Node):
 
         self.get_logger().info("E-stop callback triggered")
         self.estop_active = msg.data
+        self.last_estop_msg_time = datetime.datetime.now()
         self.get_logger().info(f"E-stop active? {self.estop_active}")
 
     def check_system_safety(self):
@@ -114,11 +120,14 @@ class PhoebeSafetyManager(Node):
         if not self.arduino_connected:
             self.try_reconnect_arduino()
             return
-
+        current_time = datetime.datetime.now()
+        if (current_time - self.last_estop_msg_time).total_seconds() > self.wait_time:
+            self.get_logger().warn("No estop message received recently. Assuming NOT safe.")
+            self.estop_active = False
         msg = SafetyStatus()  # Custom SafetyStatus message
 
         if self.estop_active:
-            msg.status = SafetyStatus.SAFE_TO_ENTER  # Use the custom status constants
+            msg.status = SafetyStatus.SAFE_TO_ENTER 
             light_state = LightColor.BLUE
         elif self.controller_active:
             msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
@@ -143,7 +152,7 @@ class PhoebeSafetyManager(Node):
         self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
 
     def try_reconnect_arduino(self):
-        if self.sim_adruino:
+        if self.sim_arduino:
             self.arduino_connected = True
             return
 
@@ -195,15 +204,14 @@ class PhoebeSafetyManager(Node):
             future.add_done_callback(self.controller_response)
         else:
             self.get_logger().warn("Controller manager service not available.")
-            #what should the state of self.controller_Active be with this and why ?
             self.controller_manager_check()
             current_time = datetime.datetime.now()
-            if self.last_cm_stamp is None or (current_time - self.last_cm_stamp).total_seconds() > 5:
+            if self.last_cm_stamp is None or (current_time - self.last_cm_stamp).total_seconds() > self.wait_time:
                 self.get_logger().info("Controller manager service was not found. No controllers are active.")
                 self.controller_active = False
             else:
-                self.get_logger().info("Controller manager node was found. Possible deadlock.")
-                self.controller_active = True #something is weird is up - maybe CM is deadlocked...assume not safe
+                self.get_logger().info("Unresponsive Controller manager found")
+                self.controller_active = True #Something weird. Assume not safe.
 
     def controller_response(self, future):
         """
@@ -214,7 +222,7 @@ class PhoebeSafetyManager(Node):
             response = future.result()
 
             self.controller_active = False
-            for ctrl in response.controller:  # Print for troubleshooting. Making sure it's publishing states accordingly.
+            for ctrl in response.controller:  
                 self.get_logger().debug(f"Controller name: {ctrl.name}")
                 self.get_logger().debug(f"Controller state: {ctrl.state}")
                 self.get_logger().debug(f"Controller's commands if any: {ctrl.required_command_interfaces}")
@@ -226,7 +234,7 @@ class PhoebeSafetyManager(Node):
 
         except Exception as e:
             self.get_logger().warn(f"Failed to get controller status: {e}")
-            self.controller_active = True # Not Safe
+            self.controller_active = True #Not safe.
 
 def main(args=None):
     rclpy.init(args=args)

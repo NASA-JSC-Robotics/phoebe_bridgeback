@@ -23,7 +23,7 @@ class PhoebeSafetyLightManagerTest(unittest.TestCase):
         rclpy.try_shutdown()
 
     def setUp(self):
-        self.node = pb_safety_light_manager.PhoebeSafetyManager(sim_adruino=True)
+        self.node = pb_safety_light_manager.PhoebeSafetyManager(sim_arduino=True)
         self.status_msg = None
 
         self.executor = rclpy.executors.MultiThreadedExecutor()
@@ -102,3 +102,6 @@ class PhoebeSafetyLightManagerTest(unittest.TestCase):
         assert self.node.last_cm_stamp
 
         # TODO: More?
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
