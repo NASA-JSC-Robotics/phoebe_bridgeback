@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Bool, String
+from std_msgs.msg import Bool
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
@@ -22,7 +22,7 @@ status_descriptions = {
             SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers.",
             SafetyStatus.NOT_SAFE_TO_ENTER: "NOT SAFE to enter.",
         }
-    
+
 color_map = {
     LightColor.BLUE: "\033[94m",
     LightColor.YELLOW: "\033[93m",
@@ -30,14 +30,21 @@ color_map = {
 }
 
 class PhoebeSafetyManager(Node):
-    def __init__(self):
+    def __init__(self, sim_adruino=False):
         super().__init__("phoebe_safety_manager")
+        self.sim_adruino = sim_adruino
 
         # Use ROS 2 parameter system
         arduino_port_param = self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
 
         # Assign parameters
         self.arduino_port = arduino_port_param
+
+        # E stop subscription topic name
+        self.estop_topic = "/ridgeback/platform/emergency_stop"
+
+        # Safety status publisher topic name
+        self.safety_status_topic = "/safety_status"
 
         # Initial states
         self.estop_active = False  # True = safe to enter, False = not safe to enter
@@ -51,24 +58,16 @@ class PhoebeSafetyManager(Node):
         self.arduino = None
         self.arduino_connected = False
 
-        while self.arduino is None and rclpy.ok():
-            try:
-                self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
-                time.sleep(2)  # Give Arduino time to reset
-                self.arduino_connected = True
-                self.get_logger().info(f"Connected to Arduino on {self.arduino_port}")
-                self.send_light_state(LightColor.RED)  # Default to NOT SAFE
-            except Exception as e:
-                self.get_logger().warn(f"No Arduino connection. Waiting for Arduino... Error: {e}")
-                time.sleep(1)
+        while not self.arduino_connected and rclpy.ok():
+            self.try_reconnect_arduino()
 
         # Subscribing to estop topic
         qos_profile = QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, depth=10)
         self.subscription = self.create_subscription(
-        Bool, "/ridgeback/platform/emergency_stop", self.estop_callback, qos_profile, callback_group=self.callback_group
+        Bool, self.estop_topic, self.estop_callback, qos_profile, callback_group=self.callback_group
         )
         # Publishing to "safety_status" topic with the custom SafetyStatus message
-        self.publisher = self.create_publisher(SafetyStatus, "/safety_status", 10, callback_group=self.callback_group)
+        self.publisher = self.create_publisher(SafetyStatus, self.safety_status_topic, 10, callback_group=self.callback_group)
 
         # Timer to check system s￼tatus at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
@@ -99,7 +98,7 @@ class PhoebeSafetyManager(Node):
         if not self.arduino_connected:
             self.try_reconnect_arduino()
             return
-        
+
         self.get_logger().info("E-stop callback triggered")
         self.estop_active = msg.data
         self.get_logger().info(f"E-stop active? {self.estop_active}")
@@ -112,7 +111,7 @@ class PhoebeSafetyManager(Node):
         if not self.arduino_connected:
             self.try_reconnect_arduino()
             return
-    
+
         msg = SafetyStatus()  # Custom SafetyStatus message
 
         if self.estop_active:
@@ -128,7 +127,7 @@ class PhoebeSafetyManager(Node):
         color = color_map[light_state]
         self.publisher.publish(msg)
         self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
-        
+
         self.send_light_state(light_state)
 
     def publish_not_safe(self):
@@ -141,6 +140,10 @@ class PhoebeSafetyManager(Node):
         self.get_logger().info(f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m")
 
     def try_reconnect_arduino(self):
+        if self.sim_adruino:
+            self.arduino_connected = True
+            return
+
         try:
             self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
             time.sleep(2)
@@ -180,9 +183,9 @@ class PhoebeSafetyManager(Node):
         if not self.arduino_connected:
             self.try_reconnect_arduino()
             return
-        
+
         time_out = 1
-        
+
         if self.controller_client.wait_for_service(time_out):
             request = ListControllers.Request()
             future = self.controller_client.call_async(request)
@@ -198,7 +201,7 @@ class PhoebeSafetyManager(Node):
             else:
                 self.get_logger().info("Controller manager node was found. Possible deadlock.")
                 self.controller_active = True #something is weird is up - maybe CM is deadlocked...assume not safe
-                
+
     def controller_response(self, future):
         """
         Callback to process the result of the controller manager service call.
@@ -215,7 +218,7 @@ class PhoebeSafetyManager(Node):
                 if ctrl.state == "active" and len(ctrl.required_command_interfaces) > 0:
                     self.controller_active = True
                     break
-                
+
             self.get_logger().info(f"Controller active? {self.controller_active}")
 
         except Exception as e:
@@ -237,4 +240,3 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
- 
