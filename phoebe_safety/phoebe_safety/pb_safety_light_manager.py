@@ -46,6 +46,9 @@ class PhoebeSafetyManager(Node):
         # Safety status publisher topic name
         self.safety_status_topic = "/safety_status"
 
+        # Service for listing controllers from the controller manager
+        self.list_controllers_srv = "/controller_manager/list_controllers"
+
         # Initial states
         self.estop_active = False  # True = safe to enter, False = not safe to enter
         self.controller_active = True  # True = not safe to enter, False = caution
@@ -75,7 +78,7 @@ class PhoebeSafetyManager(Node):
 
         # Create client for controller manager service
         self.controller_client = self.create_client(
-            ListControllers, "/controller_manager/list_controllers", callback_group=self.callback_group
+            ListControllers, self.list_controllers_srv, callback_group=self.callback_group
         )
 
         # Timer to check controller status at 5 Hz (every 0.2 seconds)

@@ -4,6 +4,7 @@ import threading
 import unittest
 import time
 
+from controller_manager_msgs.srv import ListControllers
 from phoebe_safety import pb_safety_light_manager
 from phoebe_interfaces.msg import SafetyStatus
 from std_msgs.msg import Bool
@@ -78,5 +79,26 @@ class PhoebeSafetyLightManagerTest(unittest.TestCase):
         while not self.status_msg and not time.time() - start > self.TIMEOUT:
             time.sleep(0.1)
 
-        # Very the correct status message
+        # Verify the correct status message
         assert self.status_msg.status == SafetyStatus.SAFE_TO_ENTER
+
+    def test_controller_manager(self):
+
+        assert not self.node.last_cm_stamp
+
+        # Create and add a node to the ROS env
+        test_node = rclpy.create_node("controller_manager")
+        tmp_executor = rclpy.executors.MultiThreadedExecutor()
+        tmp_executor.add_node(test_node)
+        tmp_executor_thread = threading.Thread(target=tmp_executor.spin, daemon=True)
+        tmp_executor_thread.start()
+
+        # Verify the node is detected
+        start = time.time()
+        while not self.node.last_cm_stamp and not time.time() - start > self.TIMEOUT:
+            time.sleep(0.1)
+
+        # Verify the stamp was set
+        assert self.node.last_cm_stamp
+
+        # TODO: More?
