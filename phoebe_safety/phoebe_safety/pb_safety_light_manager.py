@@ -210,7 +210,7 @@ class PhoebeSafetyManager(Node):
                 self.get_logger().info("Controller manager service was not found. No controllers are active.")
                 self.controller_active = False
             else:
-                self.get_logger().info("Unresponsive Controller manager found")
+                self.get_logger().info("Controller_manager node was seen within the last 5 seconds, but the list controllers service is unavailable.")
                 self.controller_active = True #Something weird. Assume not safe.
 
     def controller_response(self, future):
