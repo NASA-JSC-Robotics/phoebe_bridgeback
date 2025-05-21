@@ -1,45 +1,51 @@
-import pytest
+#!/usr/bin/env python3
+import rclpy
+import threading
+import unittest
+import time
+
 import rclpy
 from phoebe_safety.estop_manager import PhoebeEstopManager
+from phoebe_safety.estop_manager import RobotState
 from mock_controller_manager import MockControllerManager
 from rclpy.executors import MultiThreadedExecutor
 import threading
 
+class EstopManagerTest(unittest.TestCase):
 
-class TestMyNode:
     @classmethod
-    def setup(cls):
-        cls.running = True
-
+    def setUpClass(cls):
         rclpy.init()
-        cls.phoebe_node = PhoebeEstopManager()
-        cls.mock_cm_node = MockControllerManager()
-        cls.phoebe_executor = MultiThreadedExecutor()
-        cls.mock_cm_executor = MultiThreadedExecutor()
-        cls.phoebe_executor.add_node(cls.phoebe_node)
-        cls.mock_cm_executor.add_node(cls.mock_cm_node)
-
-        def spin_phoebe():
-            while cls.running:
-                cls.phoebe_executor.spin_once()
-        def spin_mock_cm():
-            while cls.running:
-                cls.mock_cm_executor.spin_once()
-
-        cls.phoebe_thread = threading.Thread(target=spin_phoebe)
-        cls.mock_cm_thread = threading.Thread(target=spin_mock_cm)
 
     @classmethod
-    def teardown(cls):
-        cls.phoebe_thread.join()
-        cls.mock_cm_thread.join()
+    def tearDownClass(cls):
+        rclpy.try_shutdown()
 
-        cls.node.destroy_node()
-        rclpy.shutdown()
+    def setUp(self):
+        self.estop_node = PhoebeEstopManager()
+        self.estop_executor = MultiThreadedExecutor()
+        self.estop_executor.add_node(self.estop_node)
+        self.estop_executor_thread = threading.Thread(target=self.estop_executor.spin, daemon=True)
+        self.estop_executor_thread.start()
 
+        self.mock_cm_node = MockControllerManager()
+        self.mock_cm_executor = MultiThreadedExecutor()
+        self.mock_cm_executor.add_node(self.mock_cm_node)
+        self.mock_cm_executor_thread = threading.Thread(target=self.mock_cm_executor.spin, daemon=True)
+        self.mock_cm_executor_thread.start()
 
-    def test_my_method(self):
-        # Your test logic here
-        self.setup()
-        assert True # Example assertion
-        self.teardown()
+    def tearDown(self):
+        self.estop_node.destroy_node()
+        self.estop_executor.shutdown()
+
+        self.mock_cm_node.destroy_node()
+        self.mock_cm_executor.shutdown()
+
+    def test_estop_construction(self):
+        assert self.estop_node.robot_state == RobotState.ESTOP
+
+    def test_mock_cm_load(self):
+        assert self.mock_cm_node.controllers is not None
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

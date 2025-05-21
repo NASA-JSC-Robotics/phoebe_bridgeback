@@ -2,6 +2,7 @@
 from rclpy.node import Node
 from controller_manager_msgs.srv import ListControllers, SwitchController
 from controller_manager_msgs.msg import ControllerState
+from ament_index_python.packages import get_package_share_directory
 import yaml
 
 class MockControllerManager(Node):
@@ -22,7 +23,8 @@ class MockControllerManager(Node):
         )
 
     def load_controllers(self):
-        with open('/home/er4-user/ws/src/phoebe_bridgeback/phoebe_safety/tests/mock_controllers.yaml', 'r') as f:
+        phoebe_safety_dir = get_package_share_directory("phoebe_safety")
+        with open(f"{phoebe_safety_dir}/mock_controllers.yaml", "r") as f:
             params = yaml.safe_load(f)
 
         self.controllers = []

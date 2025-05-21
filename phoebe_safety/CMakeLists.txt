@@ -31,6 +31,11 @@ if(BUILD_TESTING)
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
   endforeach()
+
+  install(
+    FILES tests/mock_controllers.yaml
+    DESTINATION share/${PROJECT_NAME}
+  )
 endif()
 
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
