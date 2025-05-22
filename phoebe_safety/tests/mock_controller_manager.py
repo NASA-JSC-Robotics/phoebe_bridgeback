@@ -5,6 +5,7 @@ from controller_manager_msgs.msg import ControllerState
 from ament_index_python.packages import get_package_share_directory
 import yaml
 
+
 class MockControllerManager(Node):
     def __init__(self):
         super().__init__("controller_manager")
@@ -13,9 +14,7 @@ class MockControllerManager(Node):
         self.load_controllers()
 
         # Create server for list controllers service
-        self.list_controllers_client = self.create_service(
-            ListControllers, "~/list_controllers", self.list_controllers
-        )
+        self.list_controllers_client = self.create_service(ListControllers, "~/list_controllers", self.list_controllers)
 
         # Create server for switch controllers service
         self.switch_controllers_client = self.create_service(
@@ -24,7 +23,7 @@ class MockControllerManager(Node):
 
     def load_controllers(self):
         phoebe_safety_dir = get_package_share_directory("phoebe_safety")
-        with open(f"{phoebe_safety_dir}/tests/mock_controllers.yaml", "r") as f:
+        with open(f"{phoebe_safety_dir}/tests/mock_controllers.yaml") as f:
             params = yaml.safe_load(f)
 
         self.controllers = []
@@ -55,14 +54,14 @@ class MockControllerManager(Node):
 
         for deactivate_controller in request.deactivate_controllers:
             if deactivate_controller not in controller_names:
-                self.get_logger().error(f"Controller {controller.name} does not exist")
+                self.get_logger().error(f"Controller {deactivate_controller.name} does not exist")
                 response.ok = False
                 return response
 
             for controller in self.controllers:
                 if deactivate_controller == controller.name:
                     if controller.state == "inactive":
-                        self.get_logger().info(f"Controller {controller.name} was already disabled")
+                        self.get_logger().info(f"Controller {deactivate_controller.name} was already disabled")
                         response.ok = False
                     else:
                         controller.state = "inactive"
@@ -101,7 +100,7 @@ class MockControllerManager(Node):
 
         return active_list
 
-    def any_controllers_with_command_interfaces_active(self, exceptions = []):
+    def any_controllers_with_command_interfaces_active(self, exceptions=[]):
         for controller in self.controllers:
             if controller.state == "active" and controller.name not in exceptions:
                 if len(controller.required_command_interfaces) > 0:

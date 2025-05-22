@@ -11,6 +11,7 @@ from rclpy.executors import MultiThreadedExecutor
 import time
 from controller_manager_msgs.srv import SwitchController
 
+
 class EstopManagerTest(unittest.TestCase):
 
     TIMEOUT = 3.0
@@ -83,7 +84,7 @@ class EstopManagerTest(unittest.TestCase):
         service_client_executor.shutdown()
         return response.success
 
-    def set_controller_states(self, activate_controllers = [], deactivate_controllers = []):
+    def set_controller_states(self, activate_controllers=[], deactivate_controllers=[]):
         test_node = rclpy.create_node("switch_controller_caller")
         service_client = test_node.create_client(SwitchController, "controller_manager/switch_controller")
 
@@ -115,7 +116,9 @@ class EstopManagerTest(unittest.TestCase):
 
         # wait for controllers to be disabled
         start = time.time()
-        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (time.time() - start) < self.TIMEOUT:
+        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (
+            time.time() - start
+        ) < self.TIMEOUT:
             time.sleep(0.1)
 
         # return true if we have successfully disabled controllers
@@ -142,7 +145,9 @@ class EstopManagerTest(unittest.TestCase):
         self.start_robot()
 
         self.wait_for_robot_state(RobotState.RUNNING, self.TIMEOUT)
-        assert self.estop_node.robot_state == RobotState.RUNNING, "Did not switch to running state after estop released at beginning"
+        assert (
+            self.estop_node.robot_state == RobotState.RUNNING
+        ), "Did not switch to running state after estop released at beginning"
 
     def test_cancel_controllers_on_estop(self):
         self.start_robot()
@@ -158,7 +163,9 @@ class EstopManagerTest(unittest.TestCase):
 
         # wait for controllers to be disabled
         start = time.time()
-        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (time.time() - start) < self.TIMEOUT:
+        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (
+            time.time() - start
+        ) < self.TIMEOUT:
             time.sleep(0.1)
 
         # make sure that required controllers are turned off
@@ -172,7 +179,9 @@ class EstopManagerTest(unittest.TestCase):
 
         # wait for controllers to be disabled
         start = time.time()
-        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (time.time() - start) < self.TIMEOUT:
+        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (
+            time.time() - start
+        ) < self.TIMEOUT:
             time.sleep(0.1)
 
         # make sure that required controllers are turned off
@@ -220,7 +229,9 @@ class EstopManagerTest(unittest.TestCase):
 
         # wait for controllers to be disabled
         start = time.time()
-        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (time.time() - start) < self.TIMEOUT:
+        while (self.mock_cm_node.any_controllers_with_command_interfaces_active()) and (
+            time.time() - start
+        ) < self.TIMEOUT:
             time.sleep(0.1)
 
         # make sure we have successfully disabled controllers
@@ -237,6 +248,7 @@ class EstopManagerTest(unittest.TestCase):
 
         # make sure that required controllers are turned off
         assert active_controllers == self.mock_cm_node.get_active_controllers()
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

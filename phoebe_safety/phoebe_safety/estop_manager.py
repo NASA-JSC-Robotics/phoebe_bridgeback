@@ -4,7 +4,7 @@ from rclpy.node import Node
 from std_msgs.msg import Header, Bool
 from std_srvs.srv import Trigger
 from rclpy.executors import MultiThreadedExecutor
-from rclpy.callback_groups import ReentrantCallbackGroup, MutuallyExclusiveCallbackGroup
+from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
 from controller_manager_msgs.srv import ListControllers, SwitchController
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from enum import Enum
@@ -124,9 +124,13 @@ class PhoebeEstopManager(Node):
         self.request_freedrive_mode_server = self.create_service(
             Trigger, "~/request_freedrive_mode", self.request_freedrive_mode, callback_group=self.freedrive_cbg
         )
-        self.request_restart_server = self.create_service(Trigger, "~/request_restart", self.request_restart, callback_group=self.restart_cbg)
+        self.request_restart_server = self.create_service(
+            Trigger, "~/request_restart", self.request_restart, callback_group=self.restart_cbg
+        )
 
-        self.controller_manager_check_timer = self.create_timer(1 / self.rate_hz, self.controller_manager_check, callback_group=self.cm_monitor_cbg)
+        self.controller_manager_check_timer = self.create_timer(
+            1 / self.rate_hz, self.controller_manager_check, callback_group=self.cm_monitor_cbg
+        )
         self.is_cm_active = False
 
         self.is_first_activate = True
@@ -210,7 +214,7 @@ class PhoebeEstopManager(Node):
                 self.stop_controllers(save_stopped_controllers=True)
 
         else:
-            # if it is our first rodeo, we don't want to have to wait for restart requested 
+            # if it is our first rodeo, we don't want to have to wait for restart requested
             # to switch to running mode
             if self.is_first_activate:
                 if not is_estopped:
@@ -275,7 +279,7 @@ class PhoebeEstopManager(Node):
 
         # add controllers that are active and not consistent to the list to stop
         for controller in list_controllers_response.controller:
-            #if the controller is active and has a command interface, stop it
+            # if the controller is active and has a command interface, stop it
             if controller.state == "active" and len(controller.required_command_interfaces) > 0:
                 # if we are not in freedrive mode, add controller to stop list
                 if self.robot_state is not RobotState.FREEDRIVE:
@@ -328,7 +332,9 @@ class PhoebeEstopManager(Node):
             switch_controller_request.deactivate_controllers = stop_freedrive_controllers
 
             if not self.switch_controllers_client.wait_for_service(0.2):
-                self.get_logger().warn("Did not restart controllers because the switch_controllers service wasn't found")
+                self.get_logger().warn(
+                    "Did not restart controllers because the switch_controllers service wasn't found"
+                )
                 return
             switch_controllers_response = self.switch_controllers_client.call(switch_controller_request)
             if not switch_controllers_response.ok:
@@ -344,7 +350,7 @@ class PhoebeEstopManager(Node):
         last_is_cm_active = self.is_cm_active
         for name in node_names:
             if "controller_manager" in name:
-                # log that we are active, and let the user know that 
+                # log that we are active, and let the user know that
                 self.is_cm_active = True
                 if not last_is_cm_active:
                     self.get_logger().info("Found the controller manager! Managing estop safety")
@@ -362,6 +368,7 @@ class PhoebeEstopManager(Node):
 
         # once we have run this one time, we are good to run the main loop
         self.ready_to_start = True
+
 
 def main(args=None):
     rclpy.init(args=args)
