@@ -34,7 +34,7 @@ if(BUILD_TESTING)
 
   install(
     FILES tests/mock_controllers.yaml
-    DESTINATION share/${PROJECT_NAME}
+    DESTINATION share/${PROJECT_NAME}/tests
   )
 endif()
 

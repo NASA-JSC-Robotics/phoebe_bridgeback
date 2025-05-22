@@ -13,3 +13,6 @@ phoebe_deploy/build
 phoebe_deploy/install
 phoebe_deploy/log
 phoebe_deploy/VERSION
+
+# Ignore python artifacts
+*.pyc

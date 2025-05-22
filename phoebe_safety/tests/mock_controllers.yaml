@@ -59,7 +59,7 @@ controllers:
   is_chained: False
   reference_interfaces: []
   chain_connections: []
-- right_force_torque_sensor_broadcaster:
+- name: right_force_torque_sensor_broadcaster
   state: 'active'
   type: 'force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster'
   claimed_interfaces: []
@@ -69,7 +69,7 @@ controllers:
   is_chained: False
   reference_interfaces: []
   chain_connections: []
-- left_force_torque_sensor_broadcaster:
+- name: left_force_torque_sensor_broadcaster
   state: 'active'
   type: 'force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster'
   claimed_interfaces: []
@@ -99,7 +99,7 @@ controllers:
   is_chained: False
   reference_interfaces: []
   chain_connections: []
-- joint_state_broadcaster:
+- name: joint_state_broadcaster
   state: 'active'
   type: 'joint_state_broadcaster/JointStateBroadcaster'
   claimed_interfaces: []

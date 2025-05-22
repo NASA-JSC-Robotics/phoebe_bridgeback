@@ -59,8 +59,9 @@ class PhoebeEstopManager(Node):
         )
 
         # Callback group for multithreading
-        self.main_cbg = ReentrantCallbackGroup()
-        self.manager_cbg = MutuallyExclusiveCallbackGroup()
+        self.main_cbg = MutuallyExclusiveCallbackGroup()
+        self.cm_srv_cbg = MutuallyExclusiveCallbackGroup()
+        self.estop_cbg = MutuallyExclusiveCallbackGroup()
         self.freedrive_cbg = MutuallyExclusiveCallbackGroup()
         self.restart_cbg = MutuallyExclusiveCallbackGroup()
         self.cm_monitor_cbg = MutuallyExclusiveCallbackGroup()
@@ -68,6 +69,8 @@ class PhoebeEstopManager(Node):
         self.rate_hz = 5
 
         self.stopped_controllers = []
+
+        self.estop_topic_name = "ridgeback/platform/emergency_stop"
 
         self.is_estopped = True
         self.estop_message_monitor = MessageMonitor(
@@ -99,10 +102,10 @@ class PhoebeEstopManager(Node):
         # Subscribing to estop topic
         qos_profile = QoSProfile(reliability=ReliabilityPolicy.BEST_EFFORT, depth=10)
         self.subscription = self.create_subscription(
-            Bool, "ridgeback/platform/emergency_stop", self.estop_callback, qos_profile, callback_group=self.manager_cbg
+            Bool, self.estop_topic_name, self.estop_callback, qos_profile, callback_group=self.estop_cbg
         )
         # Publishing to "safety_status" topic with the custom SafetyStatus message
-        self.hb_publisher = self.create_publisher(Header, "~/heartbeat", 10, callback_group=self.main_cbg)
+        self.hb_publisher = self.create_publisher(Header, "~/heartbeat", 10)
 
         # Timer to check system status at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
@@ -110,18 +113,18 @@ class PhoebeEstopManager(Node):
 
         # Create client for controller manager service
         self.list_controllers_client = self.create_client(
-            ListControllers, "controller_manager/list_controllers", callback_group=self.main_cbg
+            ListControllers, "controller_manager/list_controllers", callback_group=self.cm_srv_cbg
         )
 
         # Create client for controller manager service
         self.switch_controllers_client = self.create_client(
-            SwitchController, "controller_manager/switch_controller", callback_group=self.main_cbg
+            SwitchController, "controller_manager/switch_controller", callback_group=self.cm_srv_cbg
         )
 
         self.request_freedrive_mode_server = self.create_service(
-            Trigger, "~/request_freedrive_mode", self.request_freedrive_mode
+            Trigger, "~/request_freedrive_mode", self.request_freedrive_mode, callback_group=self.freedrive_cbg
         )
-        self.request_restart_server = self.create_service(Trigger, "~/request_restart", self.request_restart)
+        self.request_restart_server = self.create_service(Trigger, "~/request_restart", self.request_restart, callback_group=self.restart_cbg)
 
         self.controller_manager_check_timer = self.create_timer(1 / self.rate_hz, self.controller_manager_check, callback_group=self.cm_monitor_cbg)
         self.is_cm_active = False
@@ -129,9 +132,6 @@ class PhoebeEstopManager(Node):
         self.is_first_activate = True
         self.ready_to_start = False
         self.last_cm_msg_warn_time = None
-
-        # Logger
-        self.get_logger().info(f"This node has started: {self.get_name()}")
 
     def estop_callback(self, msg: Bool):
         """
@@ -145,7 +145,7 @@ class PhoebeEstopManager(Node):
     def request_freedrive_mode(self, request, response):
         self.freedrive_message_monitor.set_status(True)
 
-        timeout_seconds = 2.0
+        timeout_seconds = 5.0
         timeout = rclpy.duration.Duration(seconds=timeout_seconds)
 
         start_time = self.get_clock().now()
@@ -162,7 +162,7 @@ class PhoebeEstopManager(Node):
     def request_restart(self, request, response):
         self.restart_message_monitor.set_status(True)
 
-        timeout_seconds = 2.0
+        timeout_seconds = 5.0
         timeout = rclpy.duration.Duration(seconds=timeout_seconds)
 
         start_time = self.get_clock().now()
@@ -175,6 +175,11 @@ class PhoebeEstopManager(Node):
         response.success = False
         response.message = f"Did not switch into running mode within {timeout_seconds} seconds"
         return response
+
+    def set_robot_state(self, robot_state):
+        if self.robot_state != robot_state:
+            self.robot_state = robot_state
+            self.get_logger().info(f"Setting robot state to: {self.robot_state}")
 
     def manager_loop(self):
         """
@@ -190,14 +195,12 @@ class PhoebeEstopManager(Node):
         is_freedrive_mode_requested = self.freedrive_message_monitor.get_status()
         is_restart_requested = self.restart_message_monitor.get_status()
 
-        self.get_logger().info(f"Robot State: {self.robot_state}", throttle_duration_sec=5.0)
-
         if self.robot_state == RobotState.RUNNING:
             # if we are estopped, set the state to estop
             if is_estopped:
-                self.robot_state = RobotState.ESTOP
+                self.set_robot_state(RobotState.ESTOP)
             elif is_freedrive_mode_requested:
-                self.robot_state = RobotState.FREEDRIVE
+                self.set_robot_state(RobotState.FREEDRIVE)
                 # reset the status back to false,
                 self.freedrive_message_monitor.set_status(False)
 
@@ -212,7 +215,7 @@ class PhoebeEstopManager(Node):
             if self.is_first_activate:
                 if not is_estopped:
                     self.is_first_activate = False
-                    self.robot_state = RobotState.RUNNING
+                    self.set_robot_state(RobotState.RUNNING)
 
             # if it isn't our first rodeo, handle controllers like normal
             else:
@@ -222,13 +225,13 @@ class PhoebeEstopManager(Node):
 
                 # always check for estop status, in case we were in freedrive mode
                 if is_estopped:
-                    self.robot_state = RobotState.ESTOP
+                    self.set_robot_state(RobotState.ESTOP)
 
                 # if restart is requested, and we aren't estopped restart controllers and enable can
                 if is_restart_requested and not is_estopped:
                     self.restart_controllers()
                     self.enable_can()
-                    self.robot_state = RobotState.RUNNING
+                    self.set_robot_state(RobotState.RUNNING)
                     # reset the status back to false,
                     self.restart_message_monitor.set_status(False)
 
@@ -286,6 +289,7 @@ class PhoebeEstopManager(Node):
         if controllers_to_stop:
             switch_controller_request.deactivate_controllers = controllers_to_stop
             if not self.switch_controllers_client.wait_for_service(0.1):
+                self.get_logger().warn("Did not find switch controllers client")
                 return
             switch_controllers_response = self.switch_controllers_client.call(switch_controller_request)
             if not switch_controllers_response.ok:
@@ -304,10 +308,10 @@ class PhoebeEstopManager(Node):
 
         # set strictness to strict to show that this fails if anything went wrong
         switch_controller_request.strictness = SwitchController.Request.STRICT
-        switch_controller_request.timeout.nanosec = int(0.5e9)  # 0.5s
+        # switch_controller_request.timeout.nanosec = int(0.5e9)  # 0.5s
 
         # turn off freedrive controllers if they are started
-        if not self.list_controllers_client.wait_for_service(0.05):
+        if not self.list_controllers_client.wait_for_service(0.2):
             return
         list_controllers_request = ListControllers.Request()
         list_controllers_response = self.list_controllers_client.call(list_controllers_request)
@@ -323,7 +327,7 @@ class PhoebeEstopManager(Node):
             switch_controller_request.activate_controllers = self.stopped_controllers
             switch_controller_request.deactivate_controllers = stop_freedrive_controllers
 
-            if not self.switch_controllers_client.wait_for_service(0.1):
+            if not self.switch_controllers_client.wait_for_service(0.2):
                 self.get_logger().warn("Did not restart controllers because the switch_controllers service wasn't found")
                 return
             switch_controllers_response = self.switch_controllers_client.call(switch_controller_request)
