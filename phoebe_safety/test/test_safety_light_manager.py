@@ -4,7 +4,7 @@ import threading
 import unittest
 import time
 
-from controller_manager_msgs.srv import ListControllers
+# from controller_manager_msgs.srv import ListControllers
 from phoebe_safety import pb_safety_light_manager
 from phoebe_interfaces.msg import SafetyStatus
 from std_msgs.msg import Bool
@@ -52,9 +52,7 @@ class PhoebeSafetyLightManagerTest(unittest.TestCase):
 
         test_node = rclpy.create_node("test_publisher")
         e_stop_pub = test_node.create_publisher(Bool, self.node.estop_topic, 1)
-        test_node.create_subscription(
-            SafetyStatus, self.node.safety_status_topic, self.status_cb, 1
-        )
+        test_node.create_subscription(SafetyStatus, self.node.safety_status_topic, self.status_cb, 1)
 
         tmp_executor = rclpy.executors.MultiThreadedExecutor()
         tmp_executor.add_node(test_node)
@@ -102,6 +100,7 @@ class PhoebeSafetyLightManagerTest(unittest.TestCase):
         assert self.node.last_cm_stamp
 
         # TODO: More?
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -1,14 +1,14 @@
 #!/bin/bash
 
 function usage() {
-	 echo $0 "[active|inactive]"
+	 echo "$0" "[active|inactive]"
 	 exit 0
 }
 
-if [[ $# < 1 ]]; then
+if [[ $# -lt 1 ]]; then
 	usage
 fi
 
-for c in right_force_torque_sensor_broadcaster right_robotiq_gripper_hande_controller right_robotiq_activation_controller right_io_and_status_controller left_io_and_status_controller left_force_torque_sensor_broadcaster right_lift_joint_trajectory_controller left_lift_joint_trajectory_controller right_ur_joint_trajectory_controller left_robotiq_activation_controller joint_state_broadcaster left_robotiq_gripper_hande_controller platform_velocity_controller left_ur_joint_trajectory_controller; do 
-	ros2 control set_controller_state $c $1; 
+for c in right_force_torque_sensor_broadcaster right_robotiq_gripper_hande_controller right_robotiq_activation_controller right_io_and_status_controller left_io_and_status_controller left_force_torque_sensor_broadcaster right_lift_joint_trajectory_controller left_lift_joint_trajectory_controller right_ur_joint_trajectory_controller left_robotiq_activation_controller joint_state_broadcaster left_robotiq_gripper_hande_controller platform_velocity_controller left_ur_joint_trajectory_controller; do
+	ros2 control set_controller_state $c "$1";
 done
