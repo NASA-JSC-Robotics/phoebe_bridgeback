@@ -25,18 +25,19 @@ def generate_launch_description():
     nodes = []
 
     # helper function to make controller nodes
-    def MakeControllerNode(controller_name, active = True):
-        arguments=[
-                "--controller-manager",
-                "controller_manager",
-                "--controller-manager-timeout",
-                "300",
-                "--namespace",
-                ns,
-                controller_name,
-            ]
-        if not active: arguments.append("--inactive")
-        
+    def MakeControllerNode(controller_name, active=True):
+        arguments = [
+            "--controller-manager",
+            "controller_manager",
+            "--controller-manager-timeout",
+            "300",
+            "--namespace",
+            ns,
+            controller_name,
+        ]
+        if not active:
+            arguments.append("--inactive")
+
         return Node(
             package="controller_manager",
             executable="spawner",
@@ -48,10 +49,10 @@ def generate_launch_description():
     nodes.append(MakeControllerNode("right_io_and_status_controller"))
     nodes.append(MakeControllerNode("right_force_torque_sensor_broadcaster"))
     nodes.append(MakeControllerNode("right_ur_joint_trajectory_controller"))
-    nodes.append(MakeControllerNode("right_freedrive_mode_controller",active=False))
+    nodes.append(MakeControllerNode("right_freedrive_mode_controller", active=False))
     nodes.append(MakeControllerNode("left_io_and_status_controller"))
     nodes.append(MakeControllerNode("left_force_torque_sensor_broadcaster"))
     nodes.append(MakeControllerNode("left_ur_joint_trajectory_controller"))
-    nodes.append(MakeControllerNode("left_freedrive_mode_controller",active=False))
+    nodes.append(MakeControllerNode("left_freedrive_mode_controller", active=False))
 
     return LaunchDescription(declared_arguments + nodes)
