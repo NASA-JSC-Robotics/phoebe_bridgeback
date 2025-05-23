@@ -107,7 +107,7 @@ class PhoebeSafetyManager(Node):
         total_seconds = time_msg.sec + time_msg.nanosec / 1e9
         dt_utc = datetime.datetime.fromtimestamp(total_seconds, tz=timezone.utc)
         dt_cst = dt_utc.astimezone(ZoneInfo("America/Chicago"))
-        return dt_cst.strftime("%Y-%m-%d %I:%M:%S.%f %p %Z")
+        return dt_cst.strftime("%m-%d-%Y %I:%M:%S.%f %p %Z.")
 
     def estop_callback(self, msg: Bool):
         """

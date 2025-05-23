@@ -5,7 +5,8 @@ from sensor_msgs.msg import BatteryState
 from geometry_msgs.msg import Twist
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 import rclpy
-import sys
+
+# import sys
 
 import threading
 

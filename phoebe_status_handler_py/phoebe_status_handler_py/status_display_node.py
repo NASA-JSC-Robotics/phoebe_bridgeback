@@ -74,8 +74,10 @@ class StatusDisplayNode(Node):
         """Constructor
 
         Args:
-            display (Any, optional): May be any class with an update function that can take a StatusState message or None. If None,
-                                     the current state will be written to the terminal during display_status(). Defaults to None.
+            display (Any, optional): May be any class with an update function
+            that can take a StatusState message or None. If None,
+            the current state will be written to the terminal during display_status().
+            Defaults to None.
         """
 
         super().__init__("status_display_node")

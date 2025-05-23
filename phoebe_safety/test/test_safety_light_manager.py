@@ -44,8 +44,8 @@ class PhoebeSafetyLightManagerTest(unittest.TestCase):
 
     def test_construction(self):
         # Just verify the defaults
-        assert self.node.estop_active == False
-        assert self.node.controller_active == True
+        assert not self.node.estop_active
+        assert self.node.controller_active
 
     def test_estop_callback(self):
         # Verify that published estop messages correctly update the state and publish appropriate messages.
