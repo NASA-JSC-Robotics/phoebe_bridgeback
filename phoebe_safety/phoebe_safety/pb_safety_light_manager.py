@@ -5,7 +5,7 @@ from std_msgs.msg import Bool
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
-from phoebe_interfaces.msg import SafetyStatus 
+from phoebe_interfaces.msg import SafetyStatus
 import serial
 import time
 from rclpy.qos import QoSProfile, ReliabilityPolicy
@@ -259,7 +259,11 @@ class PhoebeSafetyManager(Node):
                 self.get_logger().debug(f"Controller name: {ctrl.name}")
                 self.get_logger().debug(f"Controller state: {ctrl.state}")
                 self.get_logger().debug(f"Controller's commands if any: {ctrl.required_command_interfaces}")
-                if ctrl.state == "active" and len(ctrl.required_command_interfaces) > 0 and ctrl.type not in self.controller_whitelist:
+                if (
+                    ctrl.state == "active"
+                    and len(ctrl.required_command_interfaces) > 0
+                    and ctrl.type not in self.controller_whitelist
+                ):
                     self.controller_active = True
                     break
 
