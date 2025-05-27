@@ -5,7 +5,7 @@ from std_msgs.msg import Bool
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
-from phoebe_interfaces.msg import SafetyStatus  # Import your custom message
+from phoebe_interfaces.msg import SafetyStatus 
 import serial
 import time
 from rclpy.qos import QoSProfile, ReliabilityPolicy
@@ -23,7 +23,7 @@ class LightColor(IntEnum):
 
 status_descriptions = {
     SafetyStatus.SAFE_TO_ENTER: "SAFE to enter the environment.",
-    SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active controllers.",
+    SafetyStatus.CAUTION: "CAUTION. Not estopped, but no active (unsafe) controllers.",
     SafetyStatus.NOT_SAFE_TO_ENTER: "NOT SAFE to enter.",
 }
 
@@ -100,6 +100,9 @@ class PhoebeSafetyManager(Node):
         )
         self.last_cm_stamp = None
 
+        # Controller Whitelist - if active, still safe
+        self.controller_whitelist = ["ur_controllers/FreedriveModeController"]  # Can add more to list if needed later
+
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
 
@@ -160,6 +163,9 @@ class PhoebeSafetyManager(Node):
         self.send_light_state(light_state)
 
     def publish_not_safe(self):
+        """
+        Publishes NOT SAFE safety status.
+        """
         msg = SafetyStatus()
         msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
         light_state = LightColor.RED
@@ -173,6 +179,9 @@ class PhoebeSafetyManager(Node):
         )
 
     def try_reconnect_arduino(self):
+        """
+        Tries to reconnect with Arduino if disconnected.
+        """
         if self.sim_arduino:
             self.arduino_connected = True
             return
@@ -250,11 +259,11 @@ class PhoebeSafetyManager(Node):
                 self.get_logger().debug(f"Controller name: {ctrl.name}")
                 self.get_logger().debug(f"Controller state: {ctrl.state}")
                 self.get_logger().debug(f"Controller's commands if any: {ctrl.required_command_interfaces}")
-                if ctrl.state == "active" and len(ctrl.required_command_interfaces) > 0:
+                if ctrl.state == "active" and len(ctrl.required_command_interfaces) > 0 and ctrl.type not in self.controller_whitelist:
                     self.controller_active = True
                     break
 
-            self.get_logger().info(f"Controller active? {self.controller_active}")
+            self.get_logger().info(f"Is there an unsafe controller active? {self.controller_active}")
 
         except Exception as e:
             self.get_logger().warn(f"Failed to get controller status: {e}")
