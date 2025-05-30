@@ -1,0 +1,6 @@
+# distance ewellix origin needs to be offset from center for the plate to align to the edge of the 8020
+left_edge_aligned_distance: 0.26
+right_edge_aligned_distance: 0.26
+# distance measured from end of 8020 to the plate in m
+left_liftkit_dist_from_edge: 0.06
+right_liftkit_dist_from_edge: 0.06

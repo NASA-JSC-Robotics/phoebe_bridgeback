@@ -14,6 +14,7 @@
     <xacro:arg name="right_ur_kinematics_file" default="$(find phoebe_description)/config/right_ur_calibration.yaml" />
     <xacro:arg name="left_liftkit_calibration_file" default="$(find phoebe_description)/config/left_liftkit_calibration.yaml" />
     <xacro:arg name="right_liftkit_calibration_file" default="$(find phoebe_description)/config/right_liftkit_calibration.yaml" />
+    <xacro:arg name="liftkit_mount_calibration_file" default="$(find phoebe_description)/config/liftkit_mount_calibration.yaml" />
 
     <!-- Includes -->
     <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
@@ -33,5 +34,6 @@
         right_ur_kinematics_file="$(arg right_ur_kinematics_file)"
         left_liftkit_calibration_file="$(arg left_liftkit_calibration_file)"
         right_liftkit_calibration_file="$(arg right_liftkit_calibration_file)"
+        liftkit_mount_calibration_file="$(arg liftkit_mount_calibration_file)"
     />
 </robot>
