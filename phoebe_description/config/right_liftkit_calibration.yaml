@@ -1,6 +1,21 @@
+<<<<<<< Updated upstream
 min_ticks_mot_1: 10
 max_ticks_mot_1: 860
 min_ticks_mot_2: 9
 max_ticks_mot_2: 800
 min_height_m: 0.0
 max_height_m: 0.5173
+=======
+<<<<<<< Updated upstream
+meters_to_ticks: 3209.0
+# this many ticks results in the connection point 50mm above the top of the first stack
+ticks_offset: 19
+=======
+min_ticks_mot_1: 9
+max_ticks_mot_1: 864
+min_ticks_mot_2: 10
+max_ticks_mot_2: 864
+min_height_m: 0.0
+max_height_m: 0.5323
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
