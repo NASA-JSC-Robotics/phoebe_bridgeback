@@ -10,8 +10,6 @@ import serial
 import time
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 import datetime
-from datetime import timezone
-from zoneinfo import ZoneInfo
 from enum import IntEnum
 
 
@@ -106,12 +104,6 @@ class PhoebeSafetyManager(Node):
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
 
-    def format_timestamp_cst(self, time_msg):
-        total_seconds = time_msg.sec + time_msg.nanosec / 1e9
-        dt_utc = datetime.datetime.fromtimestamp(total_seconds, tz=timezone.utc)
-        dt_cst = dt_utc.astimezone(ZoneInfo("America/Chicago"))
-        return dt_cst.strftime("%m-%d-%Y %I:%M:%S.%f %p %Z.")
-
     def estop_callback(self, msg: Bool):
         """
         Callback for the /emergency_stop topic.
@@ -122,10 +114,10 @@ class PhoebeSafetyManager(Node):
             self.try_reconnect_arduino()
             return
 
-        self.get_logger().info("E-stop callback triggered")
+        self.get_logger().debug("E-stop callback triggered")
         self.estop_active = msg.data
         self.last_estop_msg_time = datetime.datetime.now()
-        self.get_logger().info(f"E-stop active? {self.estop_active}")
+        self.get_logger().debug(f"E-stop active? {self.estop_active}")
 
     def check_system_safety(self):
         """
@@ -137,7 +129,7 @@ class PhoebeSafetyManager(Node):
             return
         current_time = datetime.datetime.now()
         if (current_time - self.last_estop_msg_time).total_seconds() > self.wait_time:
-            self.get_logger().warn("No estop message received recently. Assuming NOT safe.")
+            self.get_logger().debug("No estop message received recently. Assuming NOT safe.")
             self.estop_active = False
 
         msg = SafetyStatus()  # Custom SafetyStatus message
@@ -155,9 +147,8 @@ class PhoebeSafetyManager(Node):
         color = color_map[light_state]
         msg.timestamp = self.get_clock().now().to_msg()  # Added timestamp
         self.publisher.publish(msg)
-        formatted_time = self.format_timestamp_cst(msg.timestamp)
-        self.get_logger().info(
-            f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m At time {formatted_time}"
+        self.get_logger().debug(
+            f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m At time {msg.timestamp}"
         )
 
         self.send_light_state(light_state)
@@ -172,10 +163,9 @@ class PhoebeSafetyManager(Node):
         color = color_map[light_state]
         msg.timestamp = self.get_clock().now().to_msg()  # Added timestamp
         self.publisher.publish(msg)
-        formatted_time = self.format_timestamp_cst(msg.timestamp)
 
-        self.get_logger().info(
-            f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m At time {formatted_time}"
+        self.get_logger().debug(
+            f"Published safety status: {color}{status_descriptions[msg.status]}\033[0m At time {msg.timestamp}"
         )
 
     def try_reconnect_arduino(self):
@@ -190,7 +180,7 @@ class PhoebeSafetyManager(Node):
             self.arduino = serial.Serial(self.arduino_port, self.baud_rate, timeout=1)
             time.sleep(2)
             self.arduino_connected = True
-            self.get_logger().info(f"Reconnected to Arduino on {self.arduino_port}")
+            self.get_logger().debug(f"Connected to Arduino on {self.arduino_port}")
             self.send_light_state(LightColor.RED)
         except Exception as e:
             self.get_logger().warn(f"Arduino connection LOST. Need to reconnect: {e}")
@@ -203,7 +193,7 @@ class PhoebeSafetyManager(Node):
         if self.arduino and self.arduino.is_open:
             try:
                 self.arduino.write(bytes([state]))
-                self.get_logger().info(f"Sent light state {state} to Arduino")
+                self.get_logger().debug(f"Sent light state {state} to Arduino")
             except Exception as e:
                 self.get_logger().error(f"Failed to send to Arduino: {e}")
                 self.arduino_connected = False
@@ -233,14 +223,14 @@ class PhoebeSafetyManager(Node):
             future = self.controller_client.call_async(request)
             future.add_done_callback(self.controller_response)
         else:
-            self.get_logger().warn("Controller manager service not available.")
+            self.get_logger().debug("Controller manager service not available.")
             self.controller_manager_check()
             current_time = datetime.datetime.now()
             if self.last_cm_stamp is None or (current_time - self.last_cm_stamp).total_seconds() > self.wait_time:
-                self.get_logger().info("Controller manager service was not found. " "No controllers are active.")
+                self.get_logger().debug("Controller manager service was not found. No controllers are active.")
                 self.controller_active = False
             else:
-                self.get_logger().info(
+                self.get_logger().debug(
                     "Controller_manager node was seen within the last 5 seconds, "
                     "but the list controllers service is unavailable."
                 )
@@ -267,7 +257,7 @@ class PhoebeSafetyManager(Node):
                     self.controller_active = True
                     break
 
-            self.get_logger().info(f"Is there an unsafe controller active? {self.controller_active}")
+            self.get_logger().debug(f"Is there an unsafe controller active? {self.controller_active}")
 
         except Exception as e:
             self.get_logger().warn(f"Failed to get controller status: {e}")
