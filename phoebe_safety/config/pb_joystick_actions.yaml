@@ -1,0 +1,11 @@
+---
+button_actions:
+  - button: 0
+    action: toggle_controller_state
+  - button: 2
+    action: toggle_controller_state
+    
+
+axis_actions:
+  - axis: 0
+    action: print_value  

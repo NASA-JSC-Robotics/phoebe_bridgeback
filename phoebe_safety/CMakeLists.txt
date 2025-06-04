@@ -6,13 +6,14 @@ find_package(ament_cmake_python REQUIRED)
 ament_python_install_package(${PROJECT_NAME})
 
 install(
-  DIRECTORY launch
+  DIRECTORY launch config
   DESTINATION share/${PROJECT_NAME}
 )
 
 install(PROGRAMS
     phoebe_safety/mock_estop_publisher.py
     phoebe_safety/pb_safety_light_manager.py
+    phoebe_safety/pb_joystick_safing.py
     DESTINATION lib/${PROJECT_NAME}
 )
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
