@@ -10,7 +10,7 @@ class MockEstopPublisher(Node):
         super().__init__("mock_estop_publisher")
 
         # Publishing to the /emergency_stop topic
-        self.publisher = self.create_publisher(Bool, "/emergency_stop", 10)
+        self.publisher = self.create_publisher(Bool, "/ridgeback/platform/emergency_stop", 10)
 
         # Publishing a new random bool every declared rate (Hz)
         self.rate_hz = 5
