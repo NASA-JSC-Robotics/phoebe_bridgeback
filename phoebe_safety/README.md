@@ -3,16 +3,16 @@
 ## Info:
 This package is for the Phoebe safety manager node: pb_safety_light_manager.py. It takes input from the estop and controller manager, and publishes a safety state and light color based on the whether the estop/controllers are active - including edge cases.
 
-The safety states are: 
+The safety states are:
 
 SAFE = Estopped!
---> Completely safe to enter robot workspace. 
+--> Completely safe to enter robot workspace.
 
 CAUTION = Not Estopped, and NO controllers are active. (OR not Estopped, and only free drive controller is active.)
---> Can enter robot workspace - with E-stop in hand. 
+--> Can enter robot workspace - with E-stop in hand.
 
-NOT SAFE = Not Estopped, and controllers (with command interfaces) are active. 
---> Do not enter robot workspace. If you must enter, use dead-man switch. 
+NOT SAFE = Not Estopped, and controllers (with command interfaces) are active.
+--> Do not enter robot workspace. If you must enter, use dead-man switch.
 
 ### Run node
 
