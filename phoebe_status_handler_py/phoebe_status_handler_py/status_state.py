@@ -1,7 +1,7 @@
 # Holder to gather high-level state
 # This could easily be converted to a message if we desired, and
 # possibly for logging that would be nice
-class StatusState(object):
+class StatusState:
     # Robot stop state
     ROBOT_STATE_NO_COMM = 0
     ROBOT_STATE_ESTOPPED = 1
@@ -27,16 +27,16 @@ class StatusState(object):
     DRIVING_STATE_ON = 2
 
     def __init__(self):
-        self.run_state      = self.ROBOT_STATE_NO_COMM
-        self.battery_state  = self.BATTERY_STATE_NO_COMM
+        self.run_state = self.ROBOT_STATE_NO_COMM
+        self.battery_state = self.BATTERY_STATE_NO_COMM
         self.charging_state = self.CHARGING_STATE_NO_COMM
-        self.driving_state  = self.DRIVING_STATE_NO_COMM
+        self.driving_state = self.DRIVING_STATE_NO_COMM
         self.battery_percent = 0
         self.battery_voltage = 0
-        self.battery_amps    = 0
+        self.battery_amps = 0
 
     def __str__(self):
-        serialized_msg  = f"Run state: {self.run_state}\n"
+        serialized_msg = f"Run state: {self.run_state}\n"
         serialized_msg += f"Battery state: {self.battery_state}\n"
         serialized_msg += f"Battery percent: {self.battery_percent}\n"
         serialized_msg += f"Battery volts: {self.battery_voltage}\n"

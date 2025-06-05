@@ -3,6 +3,8 @@ project(phoebe_safety)
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
+find_package(phoebe_interfaces REQUIRED)
+
 ament_python_install_package(${PROJECT_NAME})
 
 install(
@@ -20,7 +22,7 @@ install(PROGRAMS
 if(BUILD_TESTING)
   find_package(ament_cmake_pytest REQUIRED)
   set(_pytest_tests
-    tests/estop_manager_test.py
+    test/estop_manager_test.py
     # Add other test files here
   )
   foreach(_test_path ${_pytest_tests})
@@ -33,9 +35,11 @@ if(BUILD_TESTING)
   endforeach()
 
   install(
-    FILES tests/mock_controllers.yaml
-    DESTINATION share/${PROJECT_NAME}/tests
+    FILES test/mock_controllers.yaml
+    DESTINATION share/${PROJECT_NAME}/test
   )
+
+  # ament_add_pytest_test(test_safety_light_manager test/test_safety_light_manager.py)
 endif()
 
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})

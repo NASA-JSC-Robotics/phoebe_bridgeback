@@ -2,7 +2,7 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction, GroupAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
@@ -11,17 +11,46 @@ from launch_ros.parameter_descriptions import ParameterFile
 from launch.conditions import IfCondition
 
 
-def launch_setup(context, *args, **kwargs):
+def generate_launch_description():
+
+    declared_arguments = []
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "sim_ignition",
+            default_value="false",
+            description="Load the robot with ignition simulation description.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_fake_hardware",
+            default_value="false",
+            description="Start robot with simulated hardware mirroring command to its states.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ns",
+            default_value="",
+            description="Namespace for the hardware robot",
+        )
+    )
 
     # Initialize Arguments
-    platform = LaunchConfiguration("platform")
+    sim_ignition = LaunchConfiguration("sim_ignition")
+    use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
-
-    # convert platform type to string so that we can evaluate different options
-    platform_string = platform.perform(context)
-    sim_ignition = "true" if platform_string == "sim_ignition" else "false"
-    use_fake_hardware = "true" if platform_string == "mock_hardware" else "false"
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -125,36 +154,4 @@ def launch_setup(context, *args, **kwargs):
 
     ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle])
 
-    return [ns_action]
-
-
-def generate_launch_description():
-
-    declared_arguments = []
-
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "platform",
-            default_value="hardware",
-            description="Whether to run the robot on hardware, mock_hardware, or sim_ignition.",
-            choices=["hardware", "mock_hardware", "sim_ignition"],
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "tf_prefix",
-            default_value="",
-            description="tf_prefix of the joint names, useful for \
-        multi-robot setup. If changed, also joint names in the controllers' configuration \
-        have to be updated.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ns",
-            default_value="",
-            description="Namespace for the hardware robot",
-        )
-    )
-
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments + [ns_action])

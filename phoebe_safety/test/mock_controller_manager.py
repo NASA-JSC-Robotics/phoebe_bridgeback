@@ -23,7 +23,7 @@ class MockControllerManager(Node):
 
     def load_controllers(self):
         phoebe_safety_dir = get_package_share_directory("phoebe_safety")
-        with open(f"{phoebe_safety_dir}/tests/mock_controllers.yaml") as f:
+        with open(f"{phoebe_safety_dir}/test/mock_controllers.yaml") as f:
             params = yaml.safe_load(f)
 
         self.controllers = []
