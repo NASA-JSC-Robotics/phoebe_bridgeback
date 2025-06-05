@@ -1,8 +1,9 @@
-# Phoebe Bridgeback Safety Manager Simulation Test as of 4/24/2025
-## Info:
-This package is for the Phoebe safety manager node: pb_safety_light_manager.py. It subscribes to the estop topic and publishes the safety state based on whether the estop is active or not. (This node will be developed further to include input from controller manager and vcan status).
+# Phoebe Bridgeback Safety Manager Node Test
 
-There is a mock estop node that will act as the estop. Also, if you are running the "simulation" (without Arduino plugged in) - there's also a mock lights node that acts as the lights.
+## Info:
+This package is for the Phoebe safety manager node: pb_safety_light_manager.py. It takes info from the estop and controller manager, and publishes a safety state and light color based on the whether the estop/controllers are active.
+
+There is a mock estop node that can act as the estop.
 
 The following is instructions to test the current rendition of the safety manager node with the mock estop.
 
@@ -14,18 +15,25 @@ git checkout humble-feature/add-phoebe-safety
 colcon build
 source install/setup.bash
 ```
-### Run
+### Run to Test
 
-(First, if you want to try with hardware - plug in the arduino device (USB) to your Linux computer.)
+(First, plug in the arduino device (USB) to your Linux computer. Can also plug in after you run the node.)
 
-Split the terminator into two windows.
+Split the terminator into three windows.
 
-In the first type:
+In the first type one of these:
+
+```console
+source install/setup.bash
+ros2 launch phoebe_safety phoebe_safety_manager.launch.py
+```
 ```console
 source install/setup.bash
 ros2 run phoebe_safety pb_safety_light_manager.py
 ```
+
 In the second type:
+
 ```console
 source install/setup.bash
 ros2 run phoebe_safety mock_estop_publisher.py
@@ -39,4 +47,27 @@ ros2 topic pub /emergency_stop std_msgs/Bool "data: true"
 ```console
 source install/setup.bash
 ros2 topic pub /emergency_stop std_msgs/Bool "data: false"
+```
+
+In the third type:
+(This is assuming you have the robot running on sim or hardware - and want to test controller active/inactive conditions of the safety light manager.)
+
+Firstly, see the existing controllers list and whether they are active/inactive and what interfaces they have.
+```console
+ros2 control list_controllers -v
+```
+Next, test the node by setting all controllers inactive/active. Type one of these:
+```console
+src/phoebe_bridgeback/phoebe_safety/scripts/set_all_controllers.sh inactive
+```
+```console
+src/phoebe_bridgeback/phoebe_safety/scripts/set_all_controllers.sh active
+```
+Now, if you have all your controllers set to inactive - try setting a controller with command interfaces to active. Safety status will indicate "not safe."
+```console
+ros2 control set_controller_state joint_trajectory_controller active
+```
+Lastly, if you have all your controller set to inactive and only set the freedrive mode controller active. Safety status will indicate still "safe" or "caution." Depending on estop.
+```console
+ros2 control set_controller_state freedrive_mode_controller inactive
 ```
