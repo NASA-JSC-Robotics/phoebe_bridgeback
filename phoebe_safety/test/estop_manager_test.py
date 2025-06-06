@@ -26,37 +26,29 @@ class EstopManagerTest(unittest.TestCase):
 
     def setUp(self):
         self.estop_node = PhoebeEstopManager()
-        self.estop_executor = MultiThreadedExecutor()
-        self.estop_executor.add_node(self.estop_node)
-        self.estop_executor_thread = threading.Thread(target=self.estop_executor.spin, daemon=True)
-        self.estop_executor_thread.start()
 
         self.mock_cm_node = MockControllerManager()
-        self.mock_cm_executor = MultiThreadedExecutor()
-        self.mock_cm_executor.add_node(self.mock_cm_node)
-        self.mock_cm_executor_thread = threading.Thread(target=self.mock_cm_executor.spin, daemon=True)
-        self.mock_cm_executor_thread.start()
 
         self.estop_pub_node = rclpy.create_node("estop_publisher")
-        self.estop_pub_executor = MultiThreadedExecutor()
-        self.estop_pub_executor.add_node(self.estop_pub_node)
-        self.estop_pub_executor_thread = threading.Thread(target=self.estop_pub_executor.spin, daemon=True)
-        self.estop_pub_executor_thread.start()
         self.estop_state = True
         self.estop_pub = self.estop_pub_node.create_publisher(Bool, self.estop_node.estop_topic_name, 1)
         self.estop_pub_timer = self.estop_pub_node.create_timer(1.0, self.pub_estop_cb)
+
+        self.executor = MultiThreadedExecutor()
+        self.executor.add_node(self.estop_node)
+        self.executor.add_node(self.mock_cm_node)
+        self.executor.add_node(self.estop_pub_node)
+        self.executor_thread = threading.Thread(target=self.executor.spin)
+        self.executor_thread.start()
 
     def tearDown(self):
         self.testDone = False
 
         self.estop_node.destroy_node()
-        self.estop_executor.shutdown()
-
         self.mock_cm_node.destroy_node()
-        self.mock_cm_executor.shutdown()
-
         self.estop_pub_node.destroy_node()
-        self.estop_pub_executor.shutdown()
+
+        self.executor.shutdown()
 
     def pub_estop_cb(self):
         # Publish the estop message - True is estopped, false is not estopped
@@ -132,12 +124,15 @@ class EstopManagerTest(unittest.TestCase):
         return self.estop_node.robot_state == state
 
     def test_estop_construction(self):
+        self.estop_node.get_logger().info("starting test_estop_construction")
         assert self.estop_node.robot_state == RobotState.ESTOP
 
     def test_mock_cm_load(self):
+        self.estop_node.get_logger().info("starting test_mock_cm_load")
         assert self.mock_cm_node.controllers is not None
 
     def test_set_to_running(self):
+        self.estop_node.get_logger().info("starting test_set_to_running")
         # should be in initially estopped state
         assert self.estop_node.robot_state == RobotState.ESTOP
 
@@ -150,6 +145,7 @@ class EstopManagerTest(unittest.TestCase):
         ), "Did not switch to running state after estop released at beginning"
 
     def test_cancel_controllers_on_estop(self):
+        self.estop_node.get_logger().info("starting test_cancel_controllers_on_estop")
         self.start_robot()
 
         self.wait_for_robot_state(RobotState.RUNNING, self.TIMEOUT)
@@ -172,6 +168,7 @@ class EstopManagerTest(unittest.TestCase):
         assert not self.mock_cm_node.any_controllers_with_command_interfaces_active()
 
     def test_controller_turned_off_after_incorrect_controller_enable(self):
+        self.estop_node.get_logger().info("starting test_controller_turned_off_after_incorrect_controller_enable")
         self.start_and_then_estop()
 
         # try to turn on a controller
@@ -188,6 +185,7 @@ class EstopManagerTest(unittest.TestCase):
         assert not self.mock_cm_node.any_controllers_with_command_interfaces_active()
 
     def test_controller_stay_off_after_only_estop_disable(self):
+        self.estop_node.get_logger().info("starting test_controller_stay_off_after_only_estop_disable")
         self.start_and_then_estop()
 
         # turn off the estop, and make sure that we don't go back to a running state or turn on controllers
@@ -203,6 +201,7 @@ class EstopManagerTest(unittest.TestCase):
         assert self.estop_node.robot_state == RobotState.ESTOP
 
     def test_controller_stay_off_after_only_safe_reset(self):
+        self.estop_node.get_logger().info("starting test_controller_stay_off_after_only_safe_reset")
         self.start_and_then_estop()
 
         # turn off the estop, and make sure that we don't go back to a running state or turn on controllers
@@ -218,6 +217,7 @@ class EstopManagerTest(unittest.TestCase):
         assert self.estop_node.robot_state == RobotState.ESTOP
 
     def test_controllers_reset_after_cleared(self):
+        self.estop_node.get_logger().info("starting test_controllers_reset_after_cleared")
         self.start_robot()
 
         self.wait_for_robot_state(RobotState.RUNNING, self.TIMEOUT)
