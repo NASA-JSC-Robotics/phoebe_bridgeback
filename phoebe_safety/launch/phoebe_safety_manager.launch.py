@@ -19,8 +19,7 @@ def generate_launch_description():
             # Start the safety manager node
             Node(
                 package="phoebe_safety",  # <-- Replace with your actual package name
-                executable="pb_safety_light_manager.py",  # Make sure this matches your installed script name
-                name="pb_safety_light_manager",
+                executable="phoebe_safety_manager.py",  # Make sure this matches your installed script name
                 output="both",
                 parameters=[
                     {"arduino_port": arduino_port},

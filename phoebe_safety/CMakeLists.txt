@@ -15,6 +15,7 @@ install(
 install(PROGRAMS
     phoebe_safety/mock_estop_publisher.py
     phoebe_safety/pb_safety_light_manager.py
+    phoebe_safety/phoebe_safety_manager.py
     phoebe_safety/estop_manager.py
     DESTINATION lib/${PROJECT_NAME}
 )
