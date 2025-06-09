@@ -4,6 +4,7 @@ from rclpy.executors import MultiThreadedExecutor
 from phoebe_safety.pb_safety_light_manager import PhoebeSafetyManager
 from phoebe_safety.estop_manager import PhoebeEstopManager
 
+
 def main(args=None):
     rclpy.init(args=args)
     estop_manager_node = PhoebeEstopManager()
@@ -18,6 +19,7 @@ def main(args=None):
         estop_manager_node.destroy_node()
         safety_manager_node.destroy_node()
         rclpy.shutdown()
+
 
 if __name__ == "__main__":
     main()

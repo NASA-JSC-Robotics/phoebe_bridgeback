@@ -68,8 +68,6 @@ class PhoebeEstopManager(Node):
 
         self.rate_hz = 5
 
-        self.stopped_controllers = []
-
         self.estop_topic_name = "ridgeback/platform/emergency_stop"
 
         self.is_estopped = True
@@ -128,14 +126,13 @@ class PhoebeEstopManager(Node):
             Trigger, "~/request_restart", self.request_restart, callback_group=self.restart_cbg
         )
 
-        self.controller_manager_check_timer = self.create_timer(
-            1 / self.rate_hz, self.controller_manager_check, callback_group=self.cm_monitor_cbg
-        )
         self.is_cm_active = False
 
+        # initial state of the manager
         self.is_first_activate = True
-        self.ready_to_start = False
-        self.last_cm_msg_warn_time = None
+        self.cm_checked_once = False
+
+        self.stopped_controllers = []
 
     def estop_callback(self, msg: Bool):
         """
@@ -191,9 +188,13 @@ class PhoebeEstopManager(Node):
         Publishes current safety status and updates light indicators.
         """
 
-        # wait until we have queried the status of the controller manager
-        while not self.ready_to_start:
-            pass
+        self.publish_hb_msg()
+
+        self.controller_manager_check()
+
+        # if controller manager is not active, we don't want to do anything
+        if not self.is_cm_active:
+            return
 
         is_estopped = self.estop_message_monitor.get_status()
         is_freedrive_mode_requested = self.freedrive_message_monitor.get_status()
@@ -238,8 +239,6 @@ class PhoebeEstopManager(Node):
                     self.set_robot_state(RobotState.RUNNING)
                     # reset the status back to false,
                     self.restart_message_monitor.set_status(False)
-
-        self.publish_hb_msg()
 
     def publish_hb_msg(self):
         hb_msg = Header()
@@ -356,18 +355,24 @@ class PhoebeEstopManager(Node):
                     self.get_logger().info("Found the controller manager! Managing estop safety")
 
                 # once we have run this one time, we are good to run the main loop
-                self.ready_to_start = True
+                self.cm_checked_once = True
                 return
 
         # if we made it all the way through without finding the cm, set it to false
         self.is_cm_active = False
 
         # let the user know that we aren't handling controllers if this is a new state
-        if not self.ready_to_start or last_is_cm_active:
+        if not self.cm_checked_once or last_is_cm_active:
             self.get_logger().warn("Can't find the controller manager. Not handling controllers for now.")
 
-        # once we have run this one time, we are good to run the main loop
-        self.ready_to_start = True
+        # After we have checked once, make sure we don't print again except at a change
+        self.cm_checked_once = True
+
+        # if we didn't find the controller manager, then we reset the manager to its state
+        # before we start managing
+        self.is_first_activate = True
+        self.stopped_controllers = []
+        self.set_robot_state(RobotState.ESTOP)
 
 
 def main(args=None):
