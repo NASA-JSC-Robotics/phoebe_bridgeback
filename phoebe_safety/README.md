@@ -18,7 +18,8 @@ NOT SAFE = Not Estopped, and controllers with command interfaces are active.
 
 ### Run node
 
-First, plug in the arduino device (USB) to your Linux computer. Can also plug in after you run the node.
+First, plug in the arduino device (USB) to your Linux computer.
+It can also plugged in after you run the node.
 
 In the terminator window, type one of these:
 
