@@ -12,7 +12,7 @@ class MockEstopPublisher(Node):
         super().__init__("mock_estop_publisher")
 
         # Publishing to the /emergency_stop topic
-        self.publisher = self.create_publisher(Bool, "/emergency_stop", 10)
+        self.publisher = self.create_publisher(Bool, "/ridgeback/platform/emergency_stop", 10)
 
         # Create a mock controller stop service that succeeds
         self.create_service(Trigger, "~/request_freedrive_mode_succeed", self.trigger_succeed)

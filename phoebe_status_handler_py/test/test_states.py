@@ -5,7 +5,8 @@ from sensor_msgs.msg import BatteryState
 from geometry_msgs.msg import Twist
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 import rclpy
-import sys
+
+# import sys
 
 import threading
 
@@ -24,19 +25,19 @@ class StateTest(Node):
             reliability=ReliabilityPolicy.BEST_EFFORT,
             durability=DurabilityPolicy.VOLATILE,
             history=HistoryPolicy.KEEP_LAST,
-            depth=10
-        )        
+            depth=10,
+        )
 
-        self.status_pub  = self.create_publisher(Status, "platform/mcu/status", qos)
-        self.power_pub   = self.create_publisher(Power, "platform/mcu/status/power", qos)
-        self.estop_pub   = self.create_publisher(Bool, "platform/emergency_stop", qos)
+        self.status_pub = self.create_publisher(Status, "platform/mcu/status", qos)
+        self.power_pub = self.create_publisher(Power, "platform/mcu/status/power", qos)
+        self.estop_pub = self.create_publisher(Bool, "platform/emergency_stop", qos)
         self.stop_status_pub = self.create_publisher(StopStatus, "platform/mcu/status/stop", qos)
         self.cmd_vel_pub = self.create_publisher(Twist, "platform/cmd_vel_unstamped", qos)
-        self.battery_pub = self.create_publisher(BatteryState, 'platform/bms/state', qos)
+        self.battery_pub = self.create_publisher(BatteryState, "platform/bms/state", qos)
 
         self.status_msg = Status()
-        self.power_msg  = Power()
-        self.estop_msg  = Bool()
+        self.power_msg = Power()
+        self.estop_msg = Bool()
         self.stop_status_msg = StopStatus()
         self.cmd_vel_msg = Twist()
         self.battery_msg = BatteryState()
@@ -152,14 +153,14 @@ class StateTest(Node):
 def main():
     rclpy.init()
     test_node = StateTest("state_test")
-    thread = threading.Thread(target=rclpy.spin, args=(test_node, ), daemon=True)
+    thread = threading.Thread(target=rclpy.spin, args=(test_node,), daemon=True)
     thread.start()
     test_node.test_estopped()
     test_node.test_battery()
-#    test_node.test_nominal()
+    #    test_node.test_nominal()
     rclpy.shutdown()
     thread.join()
 
+
 if __name__ == "__main__":
     main()
-

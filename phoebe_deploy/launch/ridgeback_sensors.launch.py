@@ -1,12 +1,22 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, OpaqueFunction, GroupAction
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.substitutions import FindPackageShare
 
 
-def launch_setup(context, *args, **kwargs):
+def generate_launch_description():
+
+    declared_arguments = []
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ns",
+            default_value="",
+            description="Namespace for the robot.",
+        )
+    )
 
     ns = LaunchConfiguration("ns")
     default_ns = "ridgeback"
@@ -75,19 +85,4 @@ def launch_setup(context, *args, **kwargs):
 
     ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launches + nodes)
 
-    return [ns_action]
-
-
-def generate_launch_description():
-
-    declared_arguments = []
-
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ns",
-            default_value="",
-            description="Namespace for the robot.",
-        )
-    )
-
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments + [ns_action])

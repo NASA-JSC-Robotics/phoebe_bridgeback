@@ -1,14 +1,33 @@
 #!/usr/bin/env python3
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction, GroupAction
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
 
 
-def launch_setup(context, *args, **kwargs):
+def generate_launch_description():
+
+    declared_arguments = []
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ns",
+            default_value="",
+            description="Namespace for the hardware robot",
+        )
+    )
 
     # Initialize Arguments
     ns = LaunchConfiguration("ns")
@@ -85,36 +104,4 @@ def launch_setup(context, *args, **kwargs):
 
     ns_action = GroupAction(actions=[PushRosNamespace(ns)] + nodes)
 
-    return [ns_action]
-
-
-def generate_launch_description():
-
-    declared_arguments = []
-
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "platform",
-            default_value="hardware",
-            description="Whether to run the robot on hardware, mock_hardware, or sim_ignition.",
-            choices=["hardware", "mock_hardware", "sim_ignition"],
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "tf_prefix",
-            default_value="",
-            description="tf_prefix of the joint names, useful for \
-        multi-robot setup. If changed, also joint names in the controllers' configuration \
-        have to be updated.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ns",
-            default_value="",
-            description="Namespace for the hardware robot",
-        )
-    )
-
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments + [ns_action])

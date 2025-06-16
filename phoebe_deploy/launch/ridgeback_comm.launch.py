@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, OpaqueFunction, GroupAction
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import FindExecutable, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace
@@ -7,8 +7,26 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterFile
 
 
-def launch_setup(context, *args, **kwargs):
+def generate_launch_description():
 
+    declared_arguments = []
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ns",
+            default_value="",
+            description="Namespace for the robot.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
+        )
+    )
     ns = LaunchConfiguration("ns")
     default_ns = "ridgeback"
     tf_prefix = LaunchConfiguration("tf_prefix")
@@ -16,6 +34,7 @@ def launch_setup(context, *args, **kwargs):
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
+    pkg_phoebe_safety = FindPackageShare("phoebe_safety")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
     pkg_clearpath_diagnostics = FindPackageShare("clearpath_diagnostics")
@@ -30,6 +49,7 @@ def launch_setup(context, *args, **kwargs):
         [pkg_clearpath_ros2_socketcan_interface, "launch", "receiver.launch.py"]
     )
     launch_file_sender = PathJoinSubstitution([pkg_clearpath_ros2_socketcan_interface, "launch", "sender.launch.py"])
+    launch_file_phoebe_safety = PathJoinSubstitution([pkg_phoebe_safety, "launch", "phoebe_safety_manager.launch.py"])
 
     launch_receiver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_receiver]),
@@ -46,6 +66,9 @@ def launch_setup(context, *args, **kwargs):
             "interface": "vcan0",
             "to_can_bus_topic": "vcan0/tx",
         }.items(),
+    )
+    launch_phoebe_safety = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([launch_file_phoebe_safety]),
     )
 
     # Nodes
@@ -173,6 +196,7 @@ def launch_setup(context, *args, **kwargs):
     launches = [
         launch_receiver,
         launch_sender,
+        launch_phoebe_safety,
     ]
     nodes = [
         node_wireless_watcher,
@@ -188,28 +212,4 @@ def launch_setup(context, *args, **kwargs):
 
     ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launches + nodes + processes)
 
-    return [ns_action]
-
-
-def generate_launch_description():
-
-    declared_arguments = []
-
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ns",
-            default_value="",
-            description="Namespace for the robot.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "tf_prefix",
-            default_value="",
-            description="tf_prefix of the joint names, useful for \
-        multi-robot setup. If changed, also joint names in the controllers' configuration \
-        have to be updated.",
-        )
-    )
-
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments + [ns_action])

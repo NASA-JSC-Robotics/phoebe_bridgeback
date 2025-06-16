@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="ee_interface" params="
+        tf_prefix
+        parent
+        *origin
+    ">
+
+    <joint name="${tf_prefix}ee_interface_base_joint" type="fixed">
+        <parent link="${parent}"/>
+        <child link="${tf_prefix}mtc_robot_side"/>
+        <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${tf_prefix}mtc_robot_side">
+        <visual>
+            <geometry>
+                <mesh filename= "package://phoebe_description/meshes/visual/mtc_robot_side.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.0184" radius="0.0525" />
+            </geometry>
+            <origin xyz="0 0 0.0092" rpy="0 0 0" />
+        </collision>
+    </link>
+
+    <joint name="${tf_prefix}mtc_robot_to_effector_side_joint" type="fixed">
+        <parent link="${tf_prefix}mtc_robot_side"/>
+        <child link="${tf_prefix}mtc_effector_side"/>
+        <origin xyz="0 0 0.009" rpy="0 0 0"/>
+    </joint>
+
+    <link name="${tf_prefix}mtc_effector_side">
+        <visual>
+            <geometry>
+                <mesh filename= "package://phoebe_description/meshes/visual/mtc_effector_side.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.0237" radius="0.0525" />
+            </geometry>
+            <origin xyz="0 0 0.01185" rpy="0 0 0" />
+        </collision>
+    </link>
+
+    </xacro:macro>
+</robot>
