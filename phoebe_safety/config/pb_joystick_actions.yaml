@@ -1,11 +1,19 @@
 ---
-button_actions:
-  - button: 0
-    action: toggle_controller_state
-  - button: 2
-    action: toggle_controller_state
-    
+# Format:
+# Root element is "actions", which is a list of actions
+# Each action has:
+#  action_type: "service" or "function"
+#  action: service name or function name as applicable
+#  input_type: "button" or "axis"
+#  input_index: which button or axis, where indices are as reported in the joystick message
+actions:
+  - action_type: service
+    action: /phoebe_estop_manager/request_freedrive_mode
+    input_type: button
+    input_index: 0
 
-axis_actions:
-  - axis: 0
-    action: print_value  
+  - action_type: service
+    action: /phoebe_estop_manager/request_restart
+    input_type: button
+    input_index: 2
+

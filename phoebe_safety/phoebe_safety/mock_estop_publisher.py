@@ -2,7 +2,9 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Bool
+from std_srvs.srv import Trigger
 import random
+import time
 
 
 class MockEstopPublisher(Node):
@@ -12,11 +14,36 @@ class MockEstopPublisher(Node):
         # Publishing to the /emergency_stop topic
         self.publisher = self.create_publisher(Bool, "/emergency_stop", 10)
 
+        # Create a mock controller stop service that succeeds
+        self.create_service(Trigger, "~/request_freedrive_mode_succeed", self.trigger_succeed)
+
+        # Create a mock controller stop service that fails
+        self.create_service(Trigger, "~/request_freedrive_mode_fail", self.trigger_fail)
+
+        # Create a mock controller stop service that succeeds
+        self.create_service(Trigger, "~/request_restart_mode_succeed", self.trigger_succeed)
+
+        # Create a mock controller stop service that fails
+        self.create_service(Trigger, "~/request_restart_mode_fail", self.trigger_fail)
+
         # Publishing a new random bool every declared rate (Hz)
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.mock_estop_status)
 
         self.get_logger().info("Mock Emergency Stop Publisher started.")
+
+    def trigger_succeed(self, request: Trigger.Request, response: Trigger.Response):
+        self.get_logger().info("Running trigger")
+        time.sleep(0.5)
+        response.success = True
+        return response
+
+    def trigger_fail(self, request, response: Trigger.Response):
+        self.get_logger().info("Running trigger")
+        time.sleep(0.5)
+        response.success = False
+        response.message = "Trigger failed"
+        return response
 
     def mock_estop_status(self):
         """

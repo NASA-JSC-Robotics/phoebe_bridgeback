@@ -1,0 +1,48 @@
+---
+actions:
+  - action_type: service
+    action: /mock_estop_publisher/request_freedrive_mode_succeed
+    input_type: button
+    input_index: 0
+
+  - action_type: service
+    action: /mock_estop_publisher/request_freedrive_mode_fail
+    input_type: button
+    input_index: 1
+
+  - action_type: service
+    action: /mock_estop_publisher/request_restart_mode_succeed
+    input_type: button
+    input_index: 2
+
+  - action_type: service
+    action: /mock_estop_publisher/request_restart_mode_fail
+    input_type: button
+    input_index: 3
+
+  - action_type: service
+    action: /some/nonexistent/service
+    input_type: button
+    input_index: 5
+
+  - action_type: function
+    action: print_value
+    input_type: axis
+    input_index: 0
+
+  - action_type: function
+    action: i_do_not_exist
+    input_type: axis
+    input_index: 1
+
+  - action_type: invalid
+    action: nothing
+    input_type: output
+    input_index: -1    
+
+  - action_type: service
+    action: nothing
+    input_type: output
+    input_index: -1        
+
+  - action_type: service
