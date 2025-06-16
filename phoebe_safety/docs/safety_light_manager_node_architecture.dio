@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" scale="1" border="0">
     <diagram id="jqvDEQhwMXL46LfzPzq0" name="Page-1">
-        <mxGraphModel dx="1178" dy="1059" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0" adaptiveColors="auto">
+        <mxGraphModel dx="2018" dy="1321" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0" adaptiveColors="auto">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -87,7 +87,7 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="9_z96lalpMeOS_LpW-jb-29" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#3399FF,#3399FF);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                <mxCell id="9_z96lalpMeOS_LpW-jb-29" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FF0000,#3399FF);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
                     <mxGeometry x="-40" y="170" width="85" height="70" as="geometry"/>
                 </mxCell>
                 <mxCell id="9_z96lalpMeOS_LpW-jb-30" value="Is the controller_manager service available?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
@@ -188,7 +188,7 @@
                 <mxCell id="9_z96lalpMeOS_LpW-jb-52" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;CAUTION&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFF66,#FFFF00);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
                     <mxGeometry x="147.5" y="640" width="85" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="9_z96lalpMeOS_LpW-jb-53" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;NOT SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FF3333,#FF3333);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                <mxCell id="9_z96lalpMeOS_LpW-jb-53" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;NOT SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#3399FF,#FF3333);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
                     <mxGeometry x="-17.5" y="640" width="85" height="70" as="geometry"/>
                 </mxCell>
                 <mxCell id="9_z96lalpMeOS_LpW-jb-54" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
@@ -276,7 +276,7 @@
                 <mxCell id="9_z96lalpMeOS_LpW-jb-76" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;CAUTION&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFF66,#FFFF00);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
                     <mxGeometry x="560" y="500" width="85" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="9_z96lalpMeOS_LpW-jb-77" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;NOT SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FF3333,#FF3333);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                <mxCell id="9_z96lalpMeOS_LpW-jb-77" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;NOT SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#3399FF,#FF3333);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
                     <mxGeometry x="395" y="500" width="85" height="70" as="geometry"/>
                 </mxCell>
             </root>
