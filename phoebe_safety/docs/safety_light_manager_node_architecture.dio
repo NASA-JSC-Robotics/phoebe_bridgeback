@@ -1,0 +1,285 @@
+<mxfile host="65bd71144e" scale="1" border="0">
+    <diagram id="jqvDEQhwMXL46LfzPzq0" name="Page-1">
+        <mxGraphModel dx="2018" dy="1321" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0" adaptiveColors="auto">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-1" value="Program starts" style="rounded=1;whiteSpace=wrap;html=1;fontColor=light-dark(#000000,#000000);fillColor=none;strokeColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="130" y="-380" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-2" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="209.5" y="-300" as="sourcePoint"/>
+                        <mxPoint x="210" y="-240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-4" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="250" y="-207" as="sourcePoint"/>
+                        <mxPoint x="310" y="-127" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-25" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-4" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-6" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="185" y="-207" as="sourcePoint"/>
+                        <mxPoint x="125" y="-127" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-24" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-6" vertex="1" connectable="0">
+                    <mxGeometry x="-0.124" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-7" value="Is the Arduino (Neopixel lights) connected?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="85" y="-240" width="250" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-11" value="Begin node" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=light-dark(#000000,#000000);fillColor=none;strokeColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="55" y="-120" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-15" value="Keep trying to&amp;nbsp;&lt;div&gt;reconnect&lt;/div&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;flipH=1;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#1A1A1A);fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="-120" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-16" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" source="9_z96lalpMeOS_LpW-jb-15" target="9_z96lalpMeOS_LpW-jb-11" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="170" y="20" as="sourcePoint"/>
+                        <mxPoint x="170" y="-70" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="190" y="-80"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-17" value="Connected&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="170" y="-72" width="80" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-19" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="94.5" y="-30" as="sourcePoint"/>
+                        <mxPoint x="95" y="50" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-20" value="E-stopped?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="50" y="58" width="80" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-21" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="75" y="88" as="sourcePoint"/>
+                        <mxPoint x="15" y="168" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-26" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-21" vertex="1" connectable="0">
+                    <mxGeometry x="-0.052" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-27" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="100" y="88" as="sourcePoint"/>
+                        <mxPoint x="160" y="168" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-28" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-27" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-29" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FF0000,#3399FF);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="-40" y="170" width="85" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-30" value="Is the controller_manager service available?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="127.5" y="170" width="260" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-31" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="205" y="200" as="sourcePoint"/>
+                        <mxPoint x="145" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-32" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-31" vertex="1" connectable="0">
+                    <mxGeometry x="-0.052" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-33" value="Are there active controllers?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="45" y="280" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-34" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="100" y="318" as="sourcePoint"/>
+                        <mxPoint x="40" y="398" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-35" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-34" vertex="1" connectable="0">
+                    <mxGeometry x="-0.052" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-36" value="Is the only active controller&amp;nbsp;&lt;div&gt;the &lt;b&gt;freedrive mode&lt;/b&gt; controller?&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="-70" y="400" width="190" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-39" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="140" y="318" as="sourcePoint"/>
+                        <mxPoint x="200" y="398" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-40" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-39" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-41" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;CAUTION&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFF66,#FFFF00);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="175" y="400" width="85" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-42" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="10" y="440" as="sourcePoint"/>
+                        <mxPoint x="-50" y="520" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-43" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-42" vertex="1" connectable="0">
+                    <mxGeometry x="-0.052" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-44" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="45" y="440" as="sourcePoint"/>
+                        <mxPoint x="105" y="520" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-45" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-44" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-46" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;CAUTION&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFF66,#FFFF00);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="-110" y="520" width="85" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-47" value="Do the active controllers&amp;nbsp;&lt;div&gt;have command interfaces?&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="25" y="520" width="170" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-48" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="95" y="560" as="sourcePoint"/>
+                        <mxPoint x="35" y="640" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-49" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-48" vertex="1" connectable="0">
+                    <mxGeometry x="-0.052" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-50" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="120" y="560" as="sourcePoint"/>
+                        <mxPoint x="180" y="640" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-51" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-50" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-52" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;CAUTION&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFF66,#FFFF00);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="147.5" y="640" width="85" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-53" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;NOT SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#3399FF,#FF3333);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="-17.5" y="640" width="85" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-54" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="327.5" y="200" as="sourcePoint"/>
+                        <mxPoint x="387.5" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-55" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-54" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-57" value="Wait for service. Available yet?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="320" y="280" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-60" value="" style="endArrow=none;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="360" as="sourcePoint"/>
+                        <mxPoint x="400" y="310" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-62" value="" style="endArrow=none;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="260" y="360" as="sourcePoint"/>
+                        <mxPoint x="400" y="360" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="320" y="360"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-66" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-62" vertex="1" connectable="0">
+                    <mxGeometry x="0.0714" y="-1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-64" value="" style="endArrow=none;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="260" y="360" as="sourcePoint"/>
+                        <mxPoint x="260" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-65" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="260" y="300" as="sourcePoint"/>
+                        <mxPoint x="220" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-67" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="450" y="310" as="sourcePoint"/>
+                        <mxPoint x="510" y="390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-68" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-67" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-69" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Is there a controller_manager node?&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="410" y="373" width="220" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-72" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="507.5" y="420" as="sourcePoint"/>
+                        <mxPoint x="447.5" y="500" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-73" value="YES" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-72" vertex="1" connectable="0">
+                    <mxGeometry x="-0.052" y="2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-74" value="" style="endArrow=classic;html=1;rounded=0;fontColor=light-dark(#000000,#000000);strokeColor=light-dark(#000000,#000000);" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="532.5" y="420" as="sourcePoint"/>
+                        <mxPoint x="592.5" y="500" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-75" value="NO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=light-dark(#000000,#000000);labelBackgroundColor=light-dark(#FFFFFF,#FFFFFF);" parent="9_z96lalpMeOS_LpW-jb-74" vertex="1" connectable="0">
+                    <mxGeometry x="-0.168" y="4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-76" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;CAUTION&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFF66,#FFFF00);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="560" y="500" width="85" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9_z96lalpMeOS_LpW-jb-77" value="&lt;b&gt;&lt;font style=&quot;&quot;&gt;NOT SAFE&lt;/font&gt;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=light-dark(#3399FF,#FF3333);strokeColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
+                    <mxGeometry x="395" y="500" width="85" height="70" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
