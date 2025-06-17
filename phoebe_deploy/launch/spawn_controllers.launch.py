@@ -6,8 +6,9 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
-    LaunchConfiguration,
+    LaunchConfiguration, PathJoinSubstitution
 )
+from launch.conditions import IfCondition, UnlessCondition
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -31,9 +32,18 @@ def generate_launch_description():
             description="Namespace for the hardware robot",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "calibration_mode",
+            default_value="false",
+            description="Whether or not we are running the calibration routine",
+            choices=["true", "false"],
+        )
+    )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
+    calibration_mode = LaunchConfiguration("calibration_mode")
 
     # common launch args passed to each of the different launch files
     common_launch_args = {
@@ -44,19 +54,12 @@ def generate_launch_description():
     launch_file_names = []
 
     # helper function to organize launch description objects with the same launch args and package names
-    def AddLaunchDescriptions(package_name, launch_file_names, launch_args):
-        launch_files_list = []
-        for launch_file_name in launch_file_names:
-            launch_files_list.append(
-                IncludeLaunchDescription(
-                    PythonLaunchDescriptionSource(
-                        os.path.join(get_package_share_directory(package_name), "launch", launch_file_name)
-                    ),
-                    launch_arguments=launch_args,
-                )
-            )
-
-        return launch_files_list
+    def MakeLaunchDescription(launch_file, launch_args, condition=IfCondition("true")):
+        return IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(launch_file),
+            launch_arguments=launch_args,
+            condition=condition,
+        )
 
     # helper function to make controller nodes
     def MakeControllerNode(controller_name):
@@ -78,14 +81,27 @@ def generate_launch_description():
 
     joint_state_broadcaster = MakeControllerNode("joint_state_broadcaster")
 
-    # add controller spawner launch files for each individual subsystem
-    launch_file_names.append("spawn_controllers/spawn_controllers_r100.launch.py")
-    launch_file_names.append("spawn_controllers/spawn_controllers_ewellix.launch.py")
-    launch_file_names.append("spawn_controllers/spawn_controllers_ur.launch.py")
-    launch_file_names.append("spawn_controllers/spawn_controllers_hande.launch.py")
+    launches = []
 
-    launch_files = AddLaunchDescriptions(
-        package_name="phoebe_deploy", launch_file_names=launch_file_names, launch_args=common_launch_args
+    pkg_phoebe_deploy = get_package_share_directory("phoebe_deploy")
+
+    # add controller spawner launch files for each individual subsystem
+    launch_file_r100_spawner = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_r100.launch.py"]
+    )
+    launch_file_ewellix_spawner = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_ewellix.launch.py"]
+    )
+    launch_file_ur_spawner = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_ur.launch.py"]
+    )
+    launch_file_hande_spawner = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_hande.launch.py"]
     )
 
-    return LaunchDescription(declared_arguments + launch_files + [joint_state_broadcaster])
+    launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
+    launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
+    launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
+    launches.append(MakeLaunchDescription(launch_file_hande_spawner, common_launch_args, condition=UnlessCondition(calibration_mode)))
+
+    return LaunchDescription(declared_arguments + launches + [joint_state_broadcaster])
