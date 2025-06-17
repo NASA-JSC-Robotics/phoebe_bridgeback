@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 
-import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import (
-    LaunchConfiguration, PathJoinSubstitution
-)
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from ament_index_python.packages import get_package_share_directory
 
@@ -50,8 +47,6 @@ def generate_launch_description():
         "tf_prefix": tf_prefix,
         "ns": ns,
     }.items()
-
-    launch_file_names = []
 
     # helper function to organize launch description objects with the same launch args and package names
     def MakeLaunchDescription(launch_file, launch_args, condition=IfCondition("true")):
@@ -102,6 +97,10 @@ def generate_launch_description():
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
     launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
-    launches.append(MakeLaunchDescription(launch_file_hande_spawner, common_launch_args, condition=UnlessCondition(calibration_mode)))
+    launches.append(
+        MakeLaunchDescription(
+            launch_file_hande_spawner, common_launch_args, condition=UnlessCondition(calibration_mode)
+        )
+    )
 
     return LaunchDescription(declared_arguments + launches + [joint_state_broadcaster])
