@@ -8,7 +8,7 @@ from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
 from controller_manager_msgs.srv import ListControllers, SwitchController
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from enum import Enum
-
+import math
 
 class RobotState(Enum):
     RUNNING = 0
@@ -251,6 +251,19 @@ class PhoebeEstopManager(Node):
     def disable_can(self):
         pass
 
+    def call_service_with_timeout(self, client, request, timeout_sec=0.1):
+        future = client.call_async(request)
+        start_time = self.get_clock().now()
+
+        sec = int(math.floor(timeout_sec))  # int seconds
+        nsec = int((timeout_sec - sec) * 1e9)  # int nanoseconds
+
+        while rclpy.ok():
+            if future.done():
+                return future.result()
+            if self.get_clock().now() - start_time > rclpy.duration.Duration(seconds=sec, nanoseconds=nsec):
+                return None
+
     def stop_controllers(self, save_stopped_controllers):
         """Deactivates all of the controllers that are not listed as consistent.
         This can be called several times without causing issues. This is useful because
@@ -268,10 +281,10 @@ class PhoebeEstopManager(Node):
         switch_controller_request.strictness = SwitchController.Request.STRICT
         switch_controller_request.timeout.nanosec = int(1.0e9)  # 0.5s
 
-        # list the controllers that are running
-        if not self.list_controllers_client.wait_for_service(0.05):
+        list_controllers_response = self.call_service_with_timeout(self.list_controllers_client,list_controllers_request)
+        if list_controllers_response is None:
+            self.get_logger().warn("Failed to call list_controllers")
             return
-        list_controllers_response = self.list_controllers_client.call(list_controllers_request)
 
         # each new time this is called, we will repopulate which controllers we are stopping
         controllers_to_stop = []
@@ -291,10 +304,12 @@ class PhoebeEstopManager(Node):
         # if there are any to stop, call switch_controllers to stop them
         if controllers_to_stop:
             switch_controller_request.deactivate_controllers = controllers_to_stop
-            if not self.switch_controllers_client.wait_for_service(0.1):
-                self.get_logger().warn("Did not find switch controllers client")
+
+            switch_controllers_response = self.call_service_with_timeout(self.switch_controllers_client,switch_controller_request)
+            if switch_controllers_response is None:
+                self.get_logger().warn("Failed to call switch_controllers")
                 return
-            switch_controllers_response = self.switch_controllers_client.call(switch_controller_request)
+
             if not switch_controllers_response.ok:
                 self.get_logger().error("Could not deactivate requested controllers")
             else:
