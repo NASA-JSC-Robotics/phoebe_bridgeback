@@ -488,7 +488,7 @@
   <joint name="${tf_prefix}left_arm_mount_plate_joint" type="fixed">
     <parent link="${tf_prefix}left_ewellix_lift_tip_link" />
     <child link="${tf_prefix}left_arm_mount_plate" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 0 0.03" rpy="0 0 0" />
   </joint>
 
   <!-- Right arm mount plate -->
@@ -509,7 +509,7 @@
   <joint name="${tf_prefix}right_arm_mount_plate_joint" type="fixed">
     <parent link="${tf_prefix}right_ewellix_lift_tip_link" />
     <child link="${tf_prefix}right_arm_mount_plate" />
-    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+    <origin xyz="0 0 0.03" rpy="0 0 ${pi}" />
   </joint>
 
   <!-- calibration links -->
@@ -518,7 +518,7 @@
   <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
     <parent link="${tf_prefix}left_arm_mount_plate" />
     <child link="${tf_prefix}left_arm_cal_link" />
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0.00807 -0.00363 0.01019" rpy="0.01529 0.01951 -0.00426"/>
   </joint>
 
   <link name="${tf_prefix}right_arm_cal_link"> </link>
@@ -526,7 +526,7 @@
   <joint name="${tf_prefix}right_arm_cal_joint" type="fixed">
     <parent link="${tf_prefix}right_arm_mount_plate" />
     <child link="${tf_prefix}right_arm_cal_link" />
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="-0.00878 -0.00039 0.00881" rpy="0.01118 -0.02966 -0.00119"/>
   </joint>
   <!-- end calibration links -->
 
