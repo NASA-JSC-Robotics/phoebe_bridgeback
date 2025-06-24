@@ -34,6 +34,7 @@ def generate_launch_description():
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
+    pkg_phoebe_safety = FindPackageShare("phoebe_safety")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
     pkg_clearpath_diagnostics = FindPackageShare("clearpath_diagnostics")
@@ -48,6 +49,7 @@ def generate_launch_description():
         [pkg_clearpath_ros2_socketcan_interface, "launch", "receiver.launch.py"]
     )
     launch_file_sender = PathJoinSubstitution([pkg_clearpath_ros2_socketcan_interface, "launch", "sender.launch.py"])
+    launch_file_phoebe_safety = PathJoinSubstitution([pkg_phoebe_safety, "launch", "phoebe_safety_manager.launch.py"])
 
     launch_receiver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_receiver]),
@@ -64,6 +66,9 @@ def generate_launch_description():
             "interface": "vcan0",
             "to_can_bus_topic": "vcan0/tx",
         }.items(),
+    )
+    launch_phoebe_safety = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([launch_file_phoebe_safety]),
     )
 
     # Nodes
@@ -191,6 +196,7 @@ def generate_launch_description():
     launches = [
         launch_receiver,
         launch_sender,
+        launch_phoebe_safety,
     ]
     nodes = [
         node_wireless_watcher,
