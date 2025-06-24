@@ -10,6 +10,7 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy
 from enum import Enum
 import math
 
+
 class RobotState(Enum):
     RUNNING = 0
     ESTOP = 1
@@ -281,7 +282,9 @@ class PhoebeEstopManager(Node):
         switch_controller_request.strictness = SwitchController.Request.STRICT
         switch_controller_request.timeout.nanosec = int(1.0e9)  # 0.5s
 
-        list_controllers_response = self.call_service_with_timeout(self.list_controllers_client,list_controllers_request)
+        list_controllers_response = self.call_service_with_timeout(
+            self.list_controllers_client, list_controllers_request
+        )
         if list_controllers_response is None:
             self.get_logger().warn("Failed to call list_controllers")
             return
@@ -305,7 +308,9 @@ class PhoebeEstopManager(Node):
         if controllers_to_stop:
             switch_controller_request.deactivate_controllers = controllers_to_stop
 
-            switch_controllers_response = self.call_service_with_timeout(self.switch_controllers_client,switch_controller_request)
+            switch_controllers_response = self.call_service_with_timeout(
+                self.switch_controllers_client, switch_controller_request
+            )
             if switch_controllers_response is None:
                 self.get_logger().warn("Failed to call switch_controllers")
                 return

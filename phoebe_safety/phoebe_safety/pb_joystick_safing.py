@@ -3,9 +3,9 @@
 # Simple node that implements system actions based on joystick state.
 # Actions and bindings are read from a configuration file, specified using the
 # parameter "actions".
-# 
+#
 # For joystick button and axis values used here, see https://github.com/ros-drivers/joystick_drivers/tree/ros2/joy
-# 
+#
 import rclpy
 from rclpy.node import Node
 from rclpy.client import Client
@@ -20,14 +20,14 @@ import math
 
 
 # Abstract parent class for actions
-class RunnableAction(object):
+class RunnableAction:
     def __init__(self):
         super().__init__()
 
     @abc.abstractmethod
     def run_action(self, button_index: int, msg: Joy) -> None:
         return
-    
+
 
 # A service action (i.e. service call with no parameters)
 class ServiceAction(RunnableAction):
@@ -40,14 +40,14 @@ class ServiceAction(RunnableAction):
             service_name (str): Name of the service to run
 
         It would be a little faster to construct the service client in the constructor, but:
-        1. The service may not exist when this node is being spun up, but may exist by the time it is 
-        triggered, and 
+        1. The service may not exist when this node is being spun up, but may exist by the time it is
+        triggered, and
         2. For a given configuration, the service may never be triggered
         So we adopt a lazy initialization approach and connect the client on first call.
         """
         super().__init__()
         self.service_name = service_name
-        self.client: Client  = node.create_client(Trigger, service_name)
+        self.client: Client = node.create_client(Trigger, service_name)
         self.request = Trigger.Request()
         self.node = node
         self.future = None
@@ -60,12 +60,12 @@ class ServiceAction(RunnableAction):
             msg (Joy): joystick input message
 
         Handling service calls in ROS2 is complex. In our case, the services are triggers, so the status will
-        be simply "succeeded" or "failed." There's not much we'd want to do here in the case of failure 
+        be simply "succeeded" or "failed." There's not much we'd want to do here in the case of failure
         beyond status that, so the approach is to keep it simple, run the service asynchronously and
         report on the result. Request ids are added in case we need to identify requests.
         """
         self.node.get_logger().info(f"Attempting to reach {self.service_name}")
-        if not self.client.wait_for_service(timeout_sec = 1):
+        if not self.client.wait_for_service(timeout_sec=1):
             self.node.get_logger().error(f"Unable to call service {self.service_name}: service is unavailable")
             return False
         self.node.get_logger().info(f"Calling service {ServiceAction.current_request_id}: {self.service_name}")
@@ -83,12 +83,13 @@ class ServiceAction(RunnableAction):
         """
         result: Trigger.Response = future.result()
         if not result.success:
-            self.node.get_logger().error(f"Service request {request_id} to service {self.service_name} failed: {result.message}")
+            self.node.get_logger().error(
+                f"Service request {request_id} to service {self.service_name} failed: {result.message}"
+            )
         else:
             self.node.get_logger().info(f"Service request {request_id} to service  {self.service_name} succeeded")
-        self.future = None  
-        
-        
+        self.future = None
+
 
 # Action to call a function. This is most likely useful for debug, since the options
 # are limited to calling functions that don't need parameters and are either
@@ -125,7 +126,7 @@ class FunctionAction(RunnableAction):
         else:
             self.node.get_logger().error(f"Unable to find function {function_name} to create action")
             return None
-        
+
     def run_action(self, input_index: int, msg: Joy):
         """Invoke the validated function
 
@@ -150,20 +151,17 @@ def create_action(action_definition: dict, node: Node) -> RunnableAction:
         RunnableAction: an action that may be executed
     """
 
-    constructors = {
-        'service': ServiceAction,
-        'function': FunctionAction
-    }
+    constructors = {"service": ServiceAction, "function": FunctionAction}
 
-    action_type_to_create = action_definition['action_type']
+    action_type_to_create = action_definition["action_type"]
     if action_type_to_create in constructors:
-        return constructors[action_type_to_create](action_definition['action'], node)
+        return constructors[action_type_to_create](action_definition["action"], node)
     else:
         raise RuntimeError(f"Invalid action_type '{action_type_to_create}' in entry:\n\t{str(action_definition)}")
 
 
 # Container class for actions
-class ActionMap(object):
+class ActionMap:
 
     def __init__(self, node: Node):
         """Constructor
@@ -181,14 +179,14 @@ class ActionMap(object):
         Args:
             yaml_action (dict): YAML dictionary containing the action definition
         """
-        required_fields = ( "input_index", "input_type", "action_type", "action")
+        required_fields = ("input_index", "input_type", "action_type", "action")
         try:
             for field in required_fields:
-                if not field in yaml_action:
+                if field not in yaml_action:
                     raise RuntimeError(f"Missing '{field}' in action definition")
 
             new_action = create_action(yaml_action, self.node)
-            self._add_action(new_action, yaml_action['input_type'], int(yaml_action['input_index']))
+            self._add_action(new_action, yaml_action["input_type"], int(yaml_action["input_index"]))
         except RuntimeError as e:
             self.node.get_logger().error(f"Error adding action: {str(e)} for entry:\n\t{str(yaml_action)}")
 
@@ -228,17 +226,21 @@ class PhoebeJoystickSafing(Node):
         self.subscription = self.create_subscription(Joy, "/joy_teleop/joy", self.joy_callback, 10)
 
         # Grab parameter values
-        self.declare_parameter('actions_file', '', ParameterDescriptor(description='Path to the actions file.'))
-        self.declare_parameter('axis_tolerance', 0.01, ParameterDescriptor(description='How much motion on an axis consitutes "movement."'))
-        self.axis_tolerance = self.get_parameter('axis_tolerance').value
+        self.declare_parameter("actions_file", "", ParameterDescriptor(description="Path to the actions file."))
+        self.declare_parameter(
+            "axis_tolerance",
+            0.01,
+            ParameterDescriptor(description='How much motion on an axis constitutes "movement."'),
+        )
+        self.axis_tolerance = self.get_parameter("axis_tolerance").value
 
         # Process the config file
-        actions_file = self.get_parameter('actions_file').value
+        actions_file = self.get_parameter("actions_file").value
         self.get_logger().info(f"Joystick Safing node running from actions in {actions_file}")
 
         self.action_map = ActionMap(self)
         self.actions = self.read_actions_from_file(actions_file)
-        self.previous_state: Joy = None         # Previous state of the joystick (used to detect changes)
+        self.previous_state: Joy = None  # Previous state of the joystick (used to detect changes)
 
     def read_actions_from_file(self, actions_file: str):
         """Read actions from a YAML file
@@ -247,13 +249,12 @@ class PhoebeJoystickSafing(Node):
             actions_file (str): name of the file
         """
 
-
         # Read the actions file and parse the actions it contains into the action map
         try:
             with open(actions_file) as actions_file_stream:
                 actions_content = yaml.safe_load(actions_file_stream)
 
-                for thing in actions_content['actions']:
+                for thing in actions_content["actions"]:
                     self.get_logger().info("Read: " + str(thing))
                     self.action_map.add_action(thing)
 
@@ -261,7 +262,7 @@ class PhoebeJoystickSafing(Node):
             self.get_logger().fatal(f"Cannot open actions config file: {actions_file}")
         except yaml.YAMLError as e:
             self.get_logger().fatal(f"Unable to parse actions file {actions_file}: {e}")
-    
+
     def print_value(self, axis_index: int, msg: Joy):
         """Test function for dumping current axis value to the screen
 
@@ -284,29 +285,34 @@ class PhoebeJoystickSafing(Node):
             return
 
         # Sanity test
-        assert(len(msg.buttons) == len(self.previous_state.buttons))
-        assert(len(msg.axes) == len(self.previous_state.axes))
+        assert len(msg.buttons) == len(self.previous_state.buttons)
+        assert len(msg.axes) == len(self.previous_state.axes)
 
-        buttons_activated = [ index for index in range(0,len(msg.buttons)) 
-                             if self.previous_state.buttons[index] == 0 and msg.buttons[index] == 1 ]
+        buttons_activated = [
+            index
+            for index in range(0, len(msg.buttons))
+            if self.previous_state.buttons[index] == 0 and msg.buttons[index] == 1
+        ]
         # Loop through the activated buttons. If there are associated actions, run them
         for button_index in buttons_activated:
-            self.action_map.run_action(msg, 'button', button_index)
+            self.action_map.run_action(msg, "button", button_index)
 
         # Check for axis changes
-        num_axes = len(msg.axes)
-        axes_activated = [ index for index in range(0,len(msg.axes)) 
-                             if math.fabs(msg.axes[index]-self.previous_state.axes[index]) > self.axis_tolerance ]
+        axes_activated = [
+            index
+            for index in range(0, len(msg.axes))
+            if math.fabs(msg.axes[index] - self.previous_state.axes[index]) > self.axis_tolerance
+        ]
         # Loop through the activated axes. If there are associated actions, run them
         for axis_index in axes_activated:
-            self.action_map.run_action(msg, 'axis', axis_index)
+            self.action_map.run_action(msg, "axis", axis_index)
 
         # Store off state for comparison with the next message
         self.previous_state = msg
 
 
 def main(args=None):
-    rclpy.init(args=args)      
+    rclpy.init(args=args)
     joystick_safing_node = PhoebeJoystickSafing()
     try:
         rclpy.spin(joystick_safing_node)
@@ -315,6 +321,7 @@ def main(args=None):
     finally:
         joystick_safing_node.destroy_node()
         rclpy.shutdown()
+
 
 if __name__ == "__main__":
     main()

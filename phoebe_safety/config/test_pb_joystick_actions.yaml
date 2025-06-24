@@ -38,11 +38,11 @@ actions:
   - action_type: invalid
     action: nothing
     input_type: output
-    input_index: -1    
+    input_index: -1
 
   - action_type: service
     action: nothing
     input_type: output
-    input_index: -1        
+    input_index: -1
 
   - action_type: service

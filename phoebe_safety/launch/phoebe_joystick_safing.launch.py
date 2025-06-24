@@ -15,17 +15,14 @@ def generate_launch_description():
             # Declare launch arguments
             DeclareLaunchArgument(
                 "actions_file",
-                default_value=PathJoinSubstitution([FindPackageShare("phoebe_safety"),
-                                                    'config',
-                                                    'pb_joystick_actions.yaml']),
+                default_value=PathJoinSubstitution(
+                    [FindPackageShare("phoebe_safety"), "config", "pb_joystick_actions.yaml"]
+                ),
                 description="Path to joystick actions file",
             ),
             DeclareLaunchArgument(
-                "axis_tolerance",
-                default_value="0.01",
-                description="How much axis movement constitutes 'movement'"
+                "axis_tolerance", default_value="0.01", description="How much axis movement constitutes 'movement'"
             ),
-
             # Start the safety manager node
             Node(
                 package="phoebe_safety",

@@ -16,4 +16,3 @@ actions:
     action: /phoebe_estop_manager/request_restart
     input_type: button
     input_index: 2
-

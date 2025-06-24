@@ -8,6 +8,7 @@ from launch_ros.substitutions import FindPackageShare
 # node with a test config file set up to support generation of successful and
 # failed service requests and functions.
 
+
 def generate_launch_description():
     # Launch configurations
     actions_file = LaunchConfiguration("actions_file")
@@ -18,17 +19,14 @@ def generate_launch_description():
             # Declare launch arguments
             DeclareLaunchArgument(
                 "actions_file",
-                default_value=PathJoinSubstitution([FindPackageShare("phoebe_safety"),
-                                                    'config',
-                                                    'test_pb_joystick_actions.yaml']),
+                default_value=PathJoinSubstitution(
+                    [FindPackageShare("phoebe_safety"), "config", "test_pb_joystick_actions.yaml"]
+                ),
                 description="Path to joystick actions file",
             ),
             DeclareLaunchArgument(
-                "axis_tolerance",
-                default_value="0.01",
-                description="How much axis movement constitutes 'movement'"
+                "axis_tolerance", default_value="0.01", description="How much axis movement constitutes 'movement'"
             ),
-
             # Start the safety manager node
             Node(
                 package="phoebe_safety",
