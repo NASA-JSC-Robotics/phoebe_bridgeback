@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- Includes -->
+    <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
+
+    <xacro:phoebe/>
+
+  <!-- <ros2_control name="MujocoSystem" type="system">
+    <hardware>
+      <plugin>mujoco_ros2_simulation/MujocoSystemInterface</plugin>
+      <param name="mujoco_model">$(find phoebe_mujoco_config)/description/scene.xml</param>
+    </hardware>
+    <joint name="vention_rail_base_to_carriage">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="ewellix_lift_lower_to_higher">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="shoulder_pan_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(147)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="shoulder_lift_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-172)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="elbow_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-55)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="wrist_1_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-40)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="wrist_2_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-87)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="wrist_3_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(121)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="finger_1_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.025</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <sensor name="wrist_fts">
+      <state_interface name="force.x"/>
+      <state_interface name="force.y"/>
+      <state_interface name="force.z"/>
+      <state_interface name="torque.x"/>
+      <state_interface name="torque.y"/>
+      <state_interface name="torque.z"/>
+      <param name="frame_id">fts_sensor</param>
+    </sensor>
+
+    <xacro:if value="${model_env}">
+      <joint name="door_to_frame_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="housing_to_latch_lock">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="housing_to_left_latch_pull">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="housing_to_right_latch_pull">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="lorge/hatch_localization_x_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="lorge/hatch_localization_y_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="lorge/hatch_outer_frame_face_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="lorge/external_rotary_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="lorge/external_rotary_handle_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="lorge/internal_rotary_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="lorge/internal_rotary_handle_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="trainer_localization_x_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="trainer_localization_y_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="bench_lid_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="cabinet_1_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="cabinet_2_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="round_latch_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="push_latch_button_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="push_latch_handle_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="cabinet_3_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="cabinet_4_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="paddle_latch_handle_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="drawer_1_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="drawer_2_joint">
+        <state_interface name="position"/>
+      </joint>
+      <joint name="recessed_latch_handle_joint">
+        <state_interface name="position"/>
+      </joint>
+    </xacro:if>
+
+  </ros2_control> -->
+</robot>
