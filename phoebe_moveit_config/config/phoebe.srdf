@@ -895,6 +895,8 @@
     <disable_collisions link1="riser_link" link2="top_link" reason="Adjacent"/>
 
     <disable_collisions link1="left_mtc_effector_side" link2="left_mtc_robot_side" reason="Adjacent"/>
+    <disable_collisions link1="left_mtc_effector_side" link2="left_ur_realsense_mount" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_effector_side" link2="right_ur_realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="left_mtc_effector_side" link2="left_robotiq_hande_cb_adapter" reason="Adjacent"/>
     <disable_collisions link1="left_mtc_robot_side" link2="left_ur_arm_wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_effector_side" link2="right_mtc_robot_side" reason="Adjacent"/>
