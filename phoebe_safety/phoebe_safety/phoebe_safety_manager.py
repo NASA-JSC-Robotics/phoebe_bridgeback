@@ -9,7 +9,7 @@ def main(args=None):
     rclpy.init(args=args)
     estop_manager_node = PhoebeEstopManager()
     # simulate the arduino until we can run it on the actual hardware
-    safety_manager_node = PhoebeSafetyManager(True)
+    safety_manager_node = PhoebeSafetyManager(False)
     executor = MultiThreadedExecutor()
     executor.add_node(estop_manager_node)
     executor.add_node(safety_manager_node)
