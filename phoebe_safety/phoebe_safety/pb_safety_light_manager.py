@@ -14,9 +14,9 @@ from enum import IntEnum
 
 
 class LightColor(IntEnum):
-    BLUE = 1
+    RED = 1
     YELLOW = 2
-    RED = 3
+    BLUE = 3
 
 
 status_descriptions = {
