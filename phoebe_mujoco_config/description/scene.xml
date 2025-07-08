@@ -1,8 +1,6 @@
 <mujoco model="ur10e scene">
 
-  <include file="clr.xml"/>
-  <include file="environment.xml"/>
-  <include file="assets/decomposed/ctb/ctb/ctb.xml"/>
+  <include file="phoebe.xml"/>
 
   <statistic center="0.4 0 0.4" extent="1"/>
 

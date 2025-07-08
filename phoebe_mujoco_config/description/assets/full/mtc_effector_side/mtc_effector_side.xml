@@ -1,0 +1,20 @@
+<mujoco model="mtc_effector_side">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="DEFAULT_MTL.002" specular="0.0" shininess="0.25" rgba="0.100000 0.100000 0.100000 1.000000"/>
+    <mesh file="mtc_effector_side.obj"/>
+  </asset>
+  <worldbody>
+    <body name="mtc_effector_side">
+      <geom material="DEFAULT_MTL.002" mesh="mtc_effector_side" class="visual"/>
+      <geom mesh="mtc_effector_side" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

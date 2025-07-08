@@ -1,0 +1,20 @@
+<mujoco model="robotiq_hande_cb_adapter">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="DEFAULT_MTL.001" specular="0.0" shininess="0.25" rgba="0.800000 0.800000 0.800000 1.000000"/>
+    <mesh file="robotiq_hande_cb_adapter.obj"/>
+  </asset>
+  <worldbody>
+    <body name="robotiq_hande_cb_adapter">
+      <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual"/>
+      <geom mesh="robotiq_hande_cb_adapter" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

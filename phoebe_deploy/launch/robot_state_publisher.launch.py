@@ -51,19 +51,36 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_description_package",
+            default_value="phoebe_description",
+            description="The package to find the robot description.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_description_file",
+            default_value="phoebe.urdf.xacro",
+            description="The name of the robot description file. "
+            "Must be in the 'urdf' folder of the description package.",
+        )
+    )
 
     ns = LaunchConfiguration("ns")
     tf_prefix = LaunchConfiguration("tf_prefix")
     sim_ignition = LaunchConfiguration("sim_ignition")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     calibration_mode = LaunchConfiguration("calibration_mode")
+    robot_description_package = LaunchConfiguration("robot_description_package")
+    robot_description_file = LaunchConfiguration("robot_description_file")
 
     # main robot description for Phoebe
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare("phoebe_description"), "urdf", "phoebe.urdf.xacro"]),
+            PathJoinSubstitution([FindPackageShare(robot_description_package), "urdf", robot_description_file]),
             " ",
             "ns:=",
             ns,

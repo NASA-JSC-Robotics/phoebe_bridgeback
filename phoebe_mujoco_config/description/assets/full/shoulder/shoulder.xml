@@ -1,0 +1,28 @@
+<mujoco model="shoulder">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="Black.001" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
+    <material name="JointGrey.001" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
+    <material name="URBlue" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <mesh file="shoulder_0.obj"/>
+    <mesh file="shoulder_1.obj"/>
+    <mesh file="shoulder_2.obj"/>
+  </asset>
+  <worldbody>
+    <body name="shoulder">
+      <geom mesh="shoulder_0" material="URBlue" class="visual"/>
+      <geom mesh="shoulder_1" material="Black.001" class="visual"/>
+      <geom mesh="shoulder_2" material="JointGrey.001" class="visual"/>
+      <geom mesh="shoulder_0" class="collision"/>
+      <geom mesh="shoulder_1" class="collision"/>
+      <geom mesh="shoulder_2" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

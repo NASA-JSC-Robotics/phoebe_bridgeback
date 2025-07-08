@@ -1,0 +1,20 @@
+<mujoco model="end-cover">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="new_mat_color.002" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <mesh file="end-cover.obj"/>
+  </asset>
+  <worldbody>
+    <body name="end-cover">
+      <geom material="new_mat_color.002" mesh="end-cover" class="visual"/>
+      <geom mesh="end-cover" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

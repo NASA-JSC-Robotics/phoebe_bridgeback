@@ -53,6 +53,21 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_description_package",
+            default_value="phoebe_description",
+            description="The package to find the robot description.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_description_file",
+            default_value="phoebe.urdf.xacro",
+            description="The name of the robot description file. "
+            "Must be in the 'urdf' folder of the description package.",
+        )
+    )
 
     # Initialize Arguments
     sim_ignition = LaunchConfiguration("sim_ignition")
@@ -60,6 +75,8 @@ def generate_launch_description():
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
+    robot_description_package = LaunchConfiguration("robot_description_package")
+    robot_description_file = LaunchConfiguration("robot_description_file")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -68,6 +85,8 @@ def generate_launch_description():
         "tf_prefix": tf_prefix,
         "ns": ns,
         "calibration_mode": calibration_mode,
+        "robot_description_package": robot_description_package,
+        "robot_description_file": robot_description_file,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

@@ -1,0 +1,20 @@
+<mujoco model="side-cover">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="new_mat_color.001" specular="0.5" shininess="0.36" rgba="0.800000 0.800000 0.000000 1.000000"/>
+    <mesh file="side-cover.obj"/>
+  </asset>
+  <worldbody>
+    <body name="side-cover">
+      <geom material="new_mat_color.001" mesh="side-cover" class="visual"/>
+      <geom mesh="side-cover" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

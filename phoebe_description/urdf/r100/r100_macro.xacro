@@ -8,12 +8,13 @@
                 tf_prefix
                 use_fake_hardware:=false
                 sim_ignition:=false
+                generate_ros2_control_tag:=true
                 ns">
 
 
         <!-- Includes -->
         <xacro:include
-            filename="$(find phoebe_description)/urdf/r100/wheels/wheel.urdf.xacro" ns="$(arg ns)" />
+            filename="$(find phoebe_description)/urdf/r100/wheels/wheel.urdf.xacro" ns="${ns}" />
         <xacro:include filename="$(find phoebe_description)/urdf/r100/rocker.urdf.xacro" />
 
         <xacro:arg name="gazebo_controllers"
@@ -304,13 +305,15 @@
         </joint>
 
         <!-- Gazebo Controller -->
-        <xacro:include filename="$(find phoebe_description)/urdf/r100/r100.ros2_control.xacro"/>
-        <xacro:r100_ros2_control
-          name="r100"
-          use_fake_hardware="${use_fake_hardware}"
-          sim_ignition="${sim_ignition}"
-          tf_prefix="${tf_prefix}"
-        />
+        <xacro:if value="${generate_ros2_control_tag}">
+            <xacro:include filename="$(find phoebe_description)/urdf/r100/r100.ros2_control.xacro"/>
+            <xacro:r100_ros2_control
+            name="r100"
+            use_fake_hardware="${use_fake_hardware}"
+            sim_ignition="${sim_ignition}"
+            tf_prefix="${tf_prefix}"
+            />
+        </xacro:if>
 
     </xacro:macro>
 </robot>

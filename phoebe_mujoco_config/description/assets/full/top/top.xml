@@ -1,0 +1,20 @@
+<mujoco model="top">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="new_mat_color.005" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <mesh file="top.obj"/>
+  </asset>
+  <worldbody>
+    <body name="top">
+      <geom material="new_mat_color.005" mesh="top" class="visual"/>
+      <geom mesh="top" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

@@ -17,10 +17,11 @@
       left_ur_ip_addr:='192.168.131.40'
       right_ur_ip_addr:='192.168.131.41'
       left_ur_kinematics_file:='$(find phoebe_description)/config/left_ur_calibration.yaml'
-      right_ur_kinematics_file:='(find phoebe_description)/config/right_ur_calibration.yaml'
+      right_ur_kinematics_file:='$(find phoebe_description)/config/right_ur_calibration.yaml'
       left_liftkit_calibration_file:='$(find phoebe_description)/config/left_liftkit_calibration.yaml'
       right_liftkit_calibration_file:='$(find phoebe_description)/config/right_liftkit_calibration.yaml'
       liftkit_mount_calibration_file:='$(find phoebe_description)/config/liftkit_mount_calibration.yaml'
+      generate_ros2_control_tag:='true'
     "
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
@@ -31,6 +32,7 @@
       use_fake_hardware="${use_fake_hardware}"
       sim_ignition="${sim_ignition}"
       ns="${ns}"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
   />
 
   <!-- Mounting rails for lifts -->
@@ -195,7 +197,7 @@
   </joint>
 
   <!-- Rear UR Control Box -->
-  <link name="${tf_prefix}rear_ur_control_box">
+  <!-- <link name="${tf_prefix}rear_ur_control_box">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
@@ -206,7 +208,6 @@
       <origin xyz="0.090 -0.107 0.098"/>
       <geometry>
         <box size="0.199 0.502 0.195"/>
-        <!-- <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/> -->
       </geometry>
     </collision>
   </link>
@@ -215,10 +216,10 @@
     <parent link="${tf_prefix}default_mount" />
     <child link="${tf_prefix}rear_ur_control_box" />
     <origin xyz="-0.44274 0.13 0" rpy="0 0 0" />
-  </joint>
+  </joint> -->
 
   <!-- Front UR Control Box -->
-  <link name="${tf_prefix}front_ur_control_box">
+  <!-- <link name="${tf_prefix}front_ur_control_box">
     <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
@@ -229,7 +230,6 @@
       <origin xyz="0.090 -0.107 0.098"/>
       <geometry>
         <box size="0.199 0.502 0.195"/>
-        <!-- <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/> -->
       </geometry>
     </collision>
   </link>
@@ -238,7 +238,7 @@
     <parent link="${tf_prefix}default_mount" />
     <child link="${tf_prefix}front_ur_control_box" />
     <origin xyz="0.44274 -0.13 0" rpy="0 0 ${pi}" />
-  </joint>
+  </joint> -->
 
   <!-- Rear Ewellix SCU -->
   <link name="${tf_prefix}rear_scu">
@@ -437,8 +437,8 @@
   <xacro:include filename="$(find ewellix_liftkit_description)/urdf/properties.xacro"/>
 
   <!-- convert the arg into a property to be usable by the xacro -->
-  <xacro:property name="left_liftkit_calibration_file" value="$(arg left_liftkit_calibration_file)"/>
-  <xacro:property name="right_liftkit_calibration_file" value="$(arg right_liftkit_calibration_file)"/>
+  <!-- <xacro:property name="left_liftkit_calibration_file" value="${left_liftkit_calibration_file}"/>
+  <xacro:property name="right_liftkit_calibration_file" value="${right_liftkit_calibration_file}"/> -->
 
   <xacro:ewellix_lift
     name="${tf_prefix}left_ewellix"
@@ -451,6 +451,7 @@
     use_fake_hardware="${use_fake_hardware}"
     com_port="${left_ewellix_com_port}"
     hw_calibration="${xacro.load_yaml(left_liftkit_calibration_file)}"
+    generate_ros2_control_tag="${generate_ros2_control_tag}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
   </xacro:ewellix_lift>
@@ -466,6 +467,7 @@
     use_fake_hardware="${use_fake_hardware}"
     com_port="${right_ewellix_com_port}"
     hw_calibration="${xacro.load_yaml(right_liftkit_calibration_file)}"
+    generate_ros2_control_tag="${generate_ros2_control_tag}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
   </xacro:ewellix_lift>
@@ -574,6 +576,7 @@
     script_filename="$(find ur_client_library)/resources/external_control.urscript"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    generate_ros2_control_tag="${generate_ros2_control_tag}"
     >
     <origin xyz="0 0 0" rpy="0 0 ${5*pi/4}" />
   </xacro:ur_robot>
@@ -598,6 +601,7 @@
     script_filename="$(find ur_client_library)/resources/external_control.urscript"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    generate_ros2_control_tag="${generate_ros2_control_tag}"
     >
     <origin xyz="0 0 0" rpy="0 0 ${-pi/4}" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
   </xacro:ur_robot>
@@ -675,7 +679,9 @@
       name="${tf_prefix}right_dextivr_hande"
       tf_prefix="${tf_prefix}right_"
       parent="${tf_prefix}right_ur_realsense_mount"
-      finger_xacro="fngr_original">
+      finger_xacro="fngr_original"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
+    >
       <origin xyz="0 0 0.008" rpy="0 0 ${pi}"/>
     </xacro:dextivr_hande>
 
@@ -685,7 +691,9 @@
       name="${tf_prefix}left_dextivr_hande"
       tf_prefix="${tf_prefix}left_"
       parent="${tf_prefix}left_ur_realsense_mount"
-      finger_xacro="fngr_original">
+      finger_xacro="fngr_original"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
+    >
       <origin xyz="0 0 0.008" rpy="0 0 ${pi}"/>
     </xacro:dextivr_hande>
   </xacro:unless>
