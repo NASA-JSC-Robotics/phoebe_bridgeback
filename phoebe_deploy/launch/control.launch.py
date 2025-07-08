@@ -4,7 +4,7 @@ import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, OrSubstitution 
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
@@ -87,6 +87,7 @@ def generate_launch_description():
         "calibration_mode": calibration_mode,
         "robot_description_package": robot_description_package,
         "robot_description_file": robot_description_file,
+        "is_sim": OrSubstitution(use_fake_hardware, sim_ignition),
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

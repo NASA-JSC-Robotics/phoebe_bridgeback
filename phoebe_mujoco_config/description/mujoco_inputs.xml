@@ -117,12 +117,12 @@
   </equality>
 
   <sensor>
-    <force name="left_wrist_force" site="left_ur_arm_ft_frame"/>
-    <torque name="left_wrist_torque" site="left_ur_arm_ft_frame"/>
+    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_ft_frame"/>
+    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_ft_frame"/>
   </sensor>
   <sensor>
-    <force name="right_wrist_force" site="right_ur_arm_ft_frame"/>
-    <torque name="right_wrist_torque" site="right_ur_arm_ft_frame"/>
+    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
+    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
   </sensor>
 
   <!-- Excluding contact checking between adjacent bodies that otherwise prevent movement. -->

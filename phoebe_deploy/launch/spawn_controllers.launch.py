@@ -37,15 +37,24 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "is_sim",
+            default_value="false",
+            description="This is some kind of simulation environment",
+        )
+    )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
+    is_sim = LaunchConfiguration("is_sim")
 
     # common launch args passed to each of the different launch files
     common_launch_args = {
         "tf_prefix": tf_prefix,
         "ns": ns,
+        "is_sim": is_sim,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

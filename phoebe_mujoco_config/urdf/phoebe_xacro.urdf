@@ -142,7 +142,7 @@
       <state_interface name="effort"/>
     </joint>
 
-    <joint name="front_left_wheel_joint">
+    <!-- <joint name="front_left_wheel_joint">
       <command_interface name="velocity" />
       <state_interface name="position" >
         <param name="initial_value">0.0</param>
@@ -173,7 +173,28 @@
       </state_interface>
       <state_interface name="velocity" />
       <state_interface name="effort" />
-    </joint>
+    </joint> -->
+
+    <sensor name="right_ur_arm_tcp_fts_sensor">
+      <param name="mujoco_type">fts</param>
+      <param name="mujoco_sensor_name">right_ur_arm_tcp_fts_sensor</param>
+      <state_interface name="force.x"/>
+      <state_interface name="force.y"/>
+      <state_interface name="force.z"/>
+      <state_interface name="torque.x"/>
+      <state_interface name="torque.y"/>
+      <state_interface name="torque.z"/>
+    </sensor>
+    <sensor name="left_ur_arm_tcp_fts_sensor">
+      <param name="mujoco_type">fts</param>
+      <param name="mujoco_sensor_name">left_ur_arm_tcp_fts_sensor</param>
+      <state_interface name="force.x"/>
+      <state_interface name="force.y"/>
+      <state_interface name="force.z"/>
+      <state_interface name="torque.x"/>
+      <state_interface name="torque.y"/>
+      <state_interface name="torque.z"/>
+    </sensor>
 
   </ros2_control>
 </robot>
