@@ -3,17 +3,27 @@
     This is a format for representing semantic information about the robot structure.
     A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
 -->
-<robot name="phoebe">
+<robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+
+    <xacro:arg name="calibration_mode" default="true" />
+
+    <xacro:if value="$(arg calibration_mode)">
+        <xacro:property name="tip_link_name" value="calibration_plate_robot_side"/>
+    </xacro:if>
+    <xacro:unless value="$(arg calibration_mode)">
+        <xacro:property name="tip_link_name" value="grasp_frame"/>
+    </xacro:unless>
+
     <group name="left_grasp">
-        <chain base_link="left_ur_arm_base_link" tip_link="left_grasp_frame"/>
+        <chain base_link="left_ur_arm_base_link" tip_link="left_${tip_link_name}"/>
     </group>
     <group name="right_grasp">
-        <chain base_link="right_ur_arm_base_link" tip_link="right_grasp_frame"/>
+        <chain base_link="right_ur_arm_base_link" tip_link="right_${tip_link_name}"/>
     </group>
     <group name="left_lift">
         <chain base_link="left_ewellix_lift_lower_link" tip_link="left_ewellix_lift_tip_link"/>
@@ -21,15 +31,19 @@
     <group name="right_lift">
         <chain base_link="right_ewellix_lift_lower_link" tip_link="right_ewellix_lift_tip_link"/>
     </group>
-    <group name="left_hande">
-        <joint name="left_finger_1_joint"/>
-    </group>
-    <group name="right_hande">
-        <joint name="right_finger_1_joint"/>
-    </group>
+    <xacro:unless value="$(arg calibration_mode)">
+        <group name="left_hande">
+            <joint name="left_finger_1_joint"/>
+        </group>
+        <group name="right_hande">
+            <joint name="right_finger_1_joint"/>
+        </group>
+    </xacro:unless>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="right_gripper" parent_link="right_ur_arm_tool0" group="right_hande"/>
-    <end_effector name="left_gripper" parent_link="left_ur_arm_tool0" group="left_hande"/>
+    <xacro:unless value="$(arg calibration_mode)">
+        <end_effector name="right_gripper" parent_link="right_ur_arm_tool0" group="right_hande"/>
+        <end_effector name="left_gripper" parent_link="left_ur_arm_tool0" group="left_hande"/>
+    </xacro:unless>
 
     <!--GROUP STATES - Purpose - Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <!-- Arms -->
@@ -52,21 +66,23 @@
     </group_state>
 
     <!-- Grippers -->
-    <group_state group="left_hande" name="open">
-        <joint name="left_finger_1_joint" value="0.025"/>
-    </group_state>
+    <xacro:unless value="$(arg calibration_mode)">
+        <group_state group="left_hande" name="open">
+            <joint name="left_finger_1_joint" value="0.025"/>
+        </group_state>
 
-    <group_state group="left_hande" name="close">
-        <joint name="left_finger_1_joint" value="0"/>
-    </group_state>
+        <group_state group="left_hande" name="close">
+            <joint name="left_finger_1_joint" value="0"/>
+        </group_state>
 
-    <group_state group="right_hande" name="open">
-        <joint name="right_finger_1_joint" value="0.025"/>
-    </group_state>
+        <group_state group="right_hande" name="open">
+            <joint name="right_finger_1_joint" value="0.025"/>
+        </group_state>
 
-    <group_state group="right_hande" name="close">
-        <joint name="right_finger_1_joint" value="0"/>
-    </group_state>
+        <group_state group="right_hande" name="close">
+            <joint name="right_finger_1_joint" value="0"/>
+        </group_state>
+    </xacro:unless>
 
     <!-- Lifts -->
     <group_state group="left_lift" name="down">
@@ -86,8 +102,10 @@
     </group_state>
 
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
-    <passive_joint name="left_finger_2_joint"/>
-    <passive_joint name="right_finger_2_joint"/>
+    <xacro:unless value="$(arg calibration_mode)">
+        <passive_joint name="left_finger_2_joint"/>
+        <passive_joint name="right_finger_2_joint"/>
+    </xacro:unless>
 
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="autec_antenna" link2="autec_receiver" reason="Adjacent"/>
@@ -877,10 +895,13 @@
     <disable_collisions link1="riser_link" link2="top_link" reason="Adjacent"/>
 
     <disable_collisions link1="left_mtc_effector_side" link2="left_mtc_robot_side" reason="Adjacent"/>
-    <disable_collisions link1="left_mtc_effector_side" link2="left_robotiq_hande_cb_adapter"/>
-    <disable_collisions link1="left_mtc_robot_side" link2="left_ur_arm_wrist_3_link"/>
-    <disable_collisions link1="right_mtc_effector_side" link2="right_mtc_robot_side"/>
-    <disable_collisions link1="right_mtc_effector_side" link2="right_robotiq_hande_cb_adapter"/>
-    <disable_collisions link1="right_mtc_robot_side" link2="right_ur_arm_wrist_3_link"/>
+    <disable_collisions link1="left_mtc_effector_side" link2="left_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="left_mtc_robot_side" link2="left_ur_arm_wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_effector_side" link2="right_mtc_robot_side" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_effector_side" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_robot_side" link2="right_ur_arm_wrist_3_link" reason="Adjacent"/>
 
+    <xacro:if value="$(arg calibration_mode)">
+        <disable_collisions link1="front_shelf" link2="calibration_plate_target_side" reason="Adjacent"/>
+    </xacro:if>
 </robot>

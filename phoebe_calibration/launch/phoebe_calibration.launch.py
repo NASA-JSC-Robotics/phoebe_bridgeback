@@ -6,23 +6,25 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     # Launch configurations
-    arduino_port = LaunchConfiguration("arduino_port", default="/dev/safety_light")
+    robot_side = LaunchConfiguration("robot_side")
 
     return LaunchDescription(
         [
             # Declare launch arguments
             DeclareLaunchArgument(
-                "arduino_port",
-                default_value="/dev/safety_light",
-                description="Serial port for Arduino (default: /dev/safety_light)",
+                "robot_side",
+                default_value="right",
+                description="Which robot arm is doing the calibration",
+                choices=["left", "right"],
             ),
             # Start the safety manager node
             Node(
-                package="phoebe_safety",  # <-- Replace with your actual package name
-                executable="phoebe_safety_manager.py",  # Make sure this matches your installed script name
+                package="phoebe_calibration",  # <-- Replace with your actual package name
+                executable="phoebe_calibration.py",  # Make sure this matches your installed script name
+                name="phoebe_calibration",
                 output="both",
                 parameters=[
-                    {"arduino_port": arduino_port},
+                    {"robot_side": robot_side},
                 ],
             ),
         ]

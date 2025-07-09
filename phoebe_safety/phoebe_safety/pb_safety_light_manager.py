@@ -14,9 +14,9 @@ from enum import IntEnum
 
 
 class LightColor(IntEnum):
-    BLUE = 1
+    RED = 1
     YELLOW = 2
-    RED = 3
+    BLUE = 3
 
 
 status_descriptions = {
@@ -136,10 +136,10 @@ class PhoebeSafetyManager(Node):
 
         if self.estop_active:
             msg.status = SafetyStatus.SAFE_TO_ENTER
-            light_state = LightColor.BLUE
+            light_state = LightColor.RED
         elif self.controller_active:
             msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
-            light_state = LightColor.RED
+            light_state = LightColor.BLUE
         else:
             msg.status = SafetyStatus.CAUTION
             light_state = LightColor.YELLOW
@@ -159,7 +159,7 @@ class PhoebeSafetyManager(Node):
         """
         msg = SafetyStatus()
         msg.status = SafetyStatus.NOT_SAFE_TO_ENTER
-        light_state = LightColor.RED
+        light_state = LightColor.BLUE
         color = color_map[light_state]
         msg.timestamp = self.get_clock().now().to_msg()  # Added timestamp
         self.publisher.publish(msg)

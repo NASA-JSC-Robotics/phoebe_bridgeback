@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="calibration_interface" params="
+        tf_prefix
+        robot_parent
+        *origin
+    ">
+
+    <xacro:property name="cal_robot_side_thickness" value="0.00635"/>
+
+    <joint name="${tf_prefix}calibration_interface" type="fixed">
+        <parent link="${robot_parent}"/>
+        <child link="${tf_prefix}calibration_plate_robot_side"/>
+        <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${tf_prefix}calibration_plate_robot_side">
+      <visual>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/calibration/calibration_plate_robot_side.stl" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+        <material name="clearpath_aluminum"/>
+      </visual>
+      <!-- collision -->
+      <collision>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/calibration/calibration_plate_robot_side.stl" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${tf_prefix}calibration_face_robot_side_joint" type="fixed">
+      <parent link="${tf_prefix}calibration_plate_robot_side"/>
+      <child link="${tf_prefix}calibration_face_robot_side"/>
+      <origin rpy="0 0 0" xyz="0 0 ${cal_robot_side_thickness}"/>
+    </joint>
+
+    <link name="${tf_prefix}calibration_face_robot_side"/>
+
+    </xacro:macro>
+</robot>

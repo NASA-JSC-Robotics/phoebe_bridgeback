@@ -9,6 +9,7 @@
       tf_prefix:=''
       use_fake_hardware:='false'
       sim_ignition:='false'
+      calibration_mode:='false'
       left_ewellix_com_port:='/dev/ewellix_left'
       right_ewellix_com_port:='/dev/ewellix_right'
       left_hande_com_port:='/tmp/hande_left'
@@ -511,10 +512,28 @@
     <origin xyz="0 0 0" rpy="0 0 ${pi}" />
   </joint>
 
+  <!-- calibration links -->
+  <link name="${tf_prefix}left_arm_cal_link"> </link>
+
+  <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
+    <parent link="${tf_prefix}left_arm_mount_plate" />
+    <child link="${tf_prefix}left_arm_cal_link" />
+    <origin xyz="0.00807 -0.00363 0.01019" rpy="0.01529 0.01951 -0.00426"/>
+  </joint>
+
+  <link name="${tf_prefix}right_arm_cal_link"> </link>
+
+  <joint name="${tf_prefix}right_arm_cal_joint" type="fixed">
+    <parent link="${tf_prefix}right_arm_mount_plate" />
+    <child link="${tf_prefix}right_arm_cal_link" />
+    <origin xyz="-0.00878 -0.00039 0.00881" rpy="0.01118 -0.02966 -0.00119"/>
+  </joint>
+  <!-- end calibration links -->
+
   <link name="${tf_prefix}left_arm_mount_plate_2"> </link>
 
   <joint name="${tf_prefix}left_arm_mount_joint" type="fixed">
-    <parent link="${tf_prefix}left_arm_mount_plate" />
+    <parent link="${tf_prefix}left_arm_cal_link" />
     <child link="${tf_prefix}left_arm_mount_plate_2" />
     <origin xyz="0 0.01628 0.09117" rpy="-${pi/4} 0 0"/>
   </joint>
@@ -522,7 +541,7 @@
   <link name="${tf_prefix}right_arm_mount_plate_2"> </link>
 
   <joint name="${tf_prefix}right_arm_mount_joint" type="fixed">
-    <parent link="${tf_prefix}right_arm_mount_plate" />
+    <parent link="${tf_prefix}right_arm_cal_link" />
     <child link="${tf_prefix}right_arm_mount_plate_2" />
     <origin xyz="0 0.01628 0.09117" rpy="${pi/4} 0 ${pi}"/>
   </joint>
@@ -597,28 +616,79 @@
     <origin xyz="0 0 0.0" rpy="0 0 ${pi}"/>
   </xacro:ee_interface>
 
+  <!-- Calibration HW -->
+
+  <xacro:if value="${calibration_mode}">
+    <xacro:include filename="$(find phoebe_description)/urdf/calibration_interface.xacro"/>
+    <xacro:calibration_interface
+      tf_prefix="${tf_prefix}left_"
+      robot_parent="${tf_prefix}left_mtc_effector_side">
+      <origin xyz="0 0 0.024" rpy="0 0 ${pi}"/>
+    </xacro:calibration_interface>
+
+    <xacro:calibration_interface
+      tf_prefix="${tf_prefix}right_"
+      robot_parent="${tf_prefix}right_mtc_effector_side">
+      <origin xyz="0 0 0.024" rpy="0 0 ${pi}"/>
+    </xacro:calibration_interface>
+
+        <!-- calibration location-->
+    <link name="${tf_prefix}calibration_plate_target_side">
+      <visual>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/calibration/calibration_plate_target_side.stl" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+        <material name="clearpath_aluminum"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/calibration/calibration_plate_target_side.stl" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${tf_prefix}calibration_plate_target_joint_side" type="fixed">
+      <parent link="${tf_prefix}default_mount"/>
+      <child link="${tf_prefix}calibration_plate_target_side"/>
+      <origin xyz="0.4 0.0 0.22635" rpy="${pi} 0 ${-pi/2}" />
+    </joint>
+
+    <xacro:property name="cal_target_side_thickness" value="0.013335"/>
+
+    <joint name="${tf_prefix}calibration_face_target_side_joint" type="fixed">
+      <parent link="${tf_prefix}calibration_plate_target_side"/>
+      <child link="${tf_prefix}calibration_face_target_side"/>
+      <origin rpy="0 0 0" xyz="0 0 ${-1.0*cal_target_side_thickness}"/>
+    </joint>
+
+    <link name="${tf_prefix}calibration_face_target_side"/>
+
+  </xacro:if>
+
   <!-- Hand-E Grippers -->
 
-  <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
-  <xacro:dextivr_hande
-    com_port="${right_hande_com_port}"
-    use_fake_hardware="${use_fake_hardware}"
-    name="${tf_prefix}right_dextivr_hande"
-    tf_prefix="${tf_prefix}right_"
-    parent="${tf_prefix}right_mtc_effector_side"
-    finger_xacro="fngr_original">
-    <origin xyz="0 0 0.024" rpy="0 0 ${pi}"/>
-  </xacro:dextivr_hande>
+  <xacro:unless value="${calibration_mode}">
+    <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
+    <xacro:dextivr_hande
+      com_port="${right_hande_com_port}"
+      use_fake_hardware="${use_fake_hardware}"
+      name="${tf_prefix}right_dextivr_hande"
+      tf_prefix="${tf_prefix}right_"
+      parent="${tf_prefix}right_mtc_effector_side"
+      finger_xacro="fngr_original">
+      <origin xyz="0 0 0.024" rpy="0 0 ${pi}"/>
+    </xacro:dextivr_hande>
 
-  <xacro:dextivr_hande
-    com_port="${left_hande_com_port}"
-    use_fake_hardware="${use_fake_hardware}"
-    name="${tf_prefix}left_dextivr_hande"
-    tf_prefix="${tf_prefix}left_"
-    parent="${tf_prefix}left_mtc_effector_side"
-    finger_xacro="fngr_original">
-    <origin xyz="0 0 0.024" rpy="0 0 ${pi}"/>
-  </xacro:dextivr_hande>
+    <xacro:dextivr_hande
+      com_port="${left_hande_com_port}"
+      use_fake_hardware="${use_fake_hardware}"
+      name="${tf_prefix}left_dextivr_hande"
+      tf_prefix="${tf_prefix}left_"
+      parent="${tf_prefix}left_mtc_effector_side"
+      finger_xacro="fngr_original">
+      <origin xyz="0 0 0.024" rpy="0 0 ${pi}"/>
+    </xacro:dextivr_hande>
+  </xacro:unless>
 
   </xacro:macro>
 </robot>

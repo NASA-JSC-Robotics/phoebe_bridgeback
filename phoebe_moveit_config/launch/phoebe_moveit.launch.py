@@ -36,20 +36,29 @@ def generate_launch_description():
             description="Namespace for the robot.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "calibration_mode",
+            default_value="false",
+            description="Whether or not we are running the calibration routine",
+            choices=["true", "false"],
+        )
+    )
 
     rviz = LaunchConfiguration("rviz")
     sim_ignition = LaunchConfiguration("sim_ignition")
     ns = LaunchConfiguration("ns")
+    calibration_mode = LaunchConfiguration("calibration_mode")
 
     description_package = "phoebe_description"
     description_file = "phoebe.urdf.xacro"
     description_full_path = os.path.join(get_package_share_directory(description_package), "urdf", description_file)
-    description_mappings = {"sim_ignition": sim_ignition}
+    description_mappings = {"sim_ignition": sim_ignition, "calibration_mode": calibration_mode}
 
     moveit_config = (
         MoveItConfigsBuilder("phoebe", package_name="phoebe_moveit_config")
         .robot_description(file_path=description_full_path, mappings=description_mappings)
-        .robot_description_semantic(file_path="config/phoebe.srdf")
+        .robot_description_semantic(file_path="config/phoebe.srdf", mappings=description_mappings)
         .robot_description_kinematics(file_path="config/kinematics.yaml")
         .joint_limits(file_path="config/joint_limits.yaml")
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
@@ -72,6 +81,8 @@ def generate_launch_description():
     )
 
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "moveit.rviz")
+    rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
+
     nodes_to_start.append(
         Node(
             package="rviz2",
@@ -79,7 +90,7 @@ def generate_launch_description():
             name="rviz2_moveit",
             output="log",
             namespace=ns,
-            arguments=["-d", rviz_config_file],
+            arguments=["-d", rviz_config_file, "--stylesheet", rviz_qss_file],
             parameters=[
                 {"use_sim_time": sim_ignition},
                 moveit_config.robot_description,

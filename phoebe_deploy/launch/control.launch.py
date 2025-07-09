@@ -45,12 +45,21 @@ def generate_launch_description():
             description="Namespace for the hardware robot",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "calibration_mode",
+            default_value="false",
+            description="Whether or not we are running the calibration routine",
+            choices=["true", "false"],
+        )
+    )
 
     # Initialize Arguments
     sim_ignition = LaunchConfiguration("sim_ignition")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
+    calibration_mode = LaunchConfiguration("calibration_mode")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -58,6 +67,7 @@ def generate_launch_description():
         "use_fake_hardware": use_fake_hardware,
         "tf_prefix": tf_prefix,
         "ns": ns,
+        "calibration_mode": calibration_mode,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

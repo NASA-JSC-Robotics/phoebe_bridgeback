@@ -21,9 +21,18 @@ def generate_launch_description():
             description="Namespace for the hardware robot",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "calibration_mode",
+            default_value="false",
+            description="Whether or not we are running the calibration routine",
+            choices=["true", "false"],
+        )
+    )
 
     # Initialize Arguments
     ns = LaunchConfiguration("ns")
+    calibration_mode = LaunchConfiguration("calibration_mode")
 
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -33,6 +42,7 @@ def generate_launch_description():
             "use_fake_hardware": "true",
             "sim_ignition": "false",
             "ns": ns,
+            "calibration_mode": calibration_mode,
         }.items(),
     )
 

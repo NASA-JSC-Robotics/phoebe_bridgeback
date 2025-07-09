@@ -27,6 +27,7 @@ def generate_launch_description():
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
+    pkg_phoebe_safety = FindPackageShare("phoebe_safety")
 
     # config files
     config_teleop_joy = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "teleop_joy.yaml"])
@@ -34,6 +35,8 @@ def generate_launch_description():
     config_teleop_interactive_markers = PathJoinSubstitution(
         [pkg_phoebe_deploy, "config", "ridgeback", "teleop_interactive_markers.yaml"]
     )
+
+    config_joystick_safing = PathJoinSubstitution([pkg_phoebe_safety, "config", "pb_joystick_actions.yaml"])
 
     node_joy = Node(
         package="joy_linux",
@@ -92,11 +95,23 @@ def generate_launch_description():
         parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
     )
 
+    node_joystick_safing = Node(
+        package="phoebe_safety",
+        executable="pb_joystick_safing.py",
+        namespace=ns,
+        output="screen",
+        name="pb_joystick_safing",
+        parameters=[
+            {"actions_file": config_joystick_safing},
+        ],
+    )
+
     nodes = [
         node_joy,
         node_teleop_twist_joy,
         node_interactive_marker_twist_server,
         node_twist_mux,
+        node_joystick_safing,
     ]
 
     return LaunchDescription(declared_arguments + nodes)

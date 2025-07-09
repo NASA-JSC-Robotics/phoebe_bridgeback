@@ -43,11 +43,20 @@ def generate_launch_description():
             description="Start robot with simulated hardware mirroring command to its states.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "calibration_mode",
+            default_value="false",
+            description="Whether or not we are running the calibration routine",
+            choices=["true", "false"],
+        )
+    )
 
     ns = LaunchConfiguration("ns")
     tf_prefix = LaunchConfiguration("tf_prefix")
     sim_ignition = LaunchConfiguration("sim_ignition")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
+    calibration_mode = LaunchConfiguration("calibration_mode")
 
     # main robot description for Phoebe
     robot_description_content = Command(
@@ -67,6 +76,9 @@ def generate_launch_description():
             " ",
             "use_fake_hardware:=",
             use_fake_hardware,
+            " ",
+            "calibration_mode:=",
+            calibration_mode,
             " ",
         ]
     )
