@@ -147,7 +147,10 @@ def generate_launch_description():
         parameters=[
             ParameterFile(config_can, allow_substs=True),
         ],
-        remappings=[("platform/puma/cmd", "platform/puma/cmd_throttle")],
+        remappings=[
+            ("platform/puma/cmd", "platform/puma/cmd_throttle"),
+            ("platform/puma/feedback", "/platform/puma/feedback"),
+        ],
     )
 
     node_aggregator_node = Node(
