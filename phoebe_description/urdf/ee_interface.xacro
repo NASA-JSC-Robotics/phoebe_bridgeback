@@ -56,7 +56,7 @@
     <link name="${tf_prefix}ur_realsense_mount">
         <visual>
             <geometry>
-                <mesh filename= "package://phoebe_description/meshes/visual/ur_realsense_short_mount_tube.stl"/>
+                <mesh filename= "package://phoebe_description/meshes/visual/ich-005_realsense_cable_mount_corr.stl" scale="0.0254 0.0254 0.0254"/>
             </geometry>
             <material name="${tf_prefix}ur_realsense_mount">
                 <color rgba="0.1 0.1 0.1 1.0"/>
@@ -64,17 +64,10 @@
         </visual>
         <collision>
             <geometry>
-                <mesh filename= "package://phoebe_description/meshes/visual/ur_realsense_short_mount_tube.stl"/>
+                <mesh filename= "package://phoebe_description/meshes/visual/ich-005_realsense_cable_mount_corr.stl" scale="0.0254 0.0254 0.0254"/>
             </geometry>
         </collision>
     </link>
-
-    <!-- Realsense camera -->
-    <xacro:property name="realsense_materials_defined" value="true" />
-    <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro"/>
-    <xacro:sensor_d435 parent="${tf_prefix}ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="true" name="${tf_prefix}wrist_mounted_camera">
-        <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/>
-    </xacro:sensor_d435>
 
     </xacro:macro>
 </robot>
