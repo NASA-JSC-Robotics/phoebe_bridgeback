@@ -182,6 +182,8 @@ def generate_launch_description():
     # Processes
     # note this will be incorrectly namespaced if a namespace is pushed for this file
     # this should be converted to a node so it picks up the namespace
+    # IMPORTANT: The ROS_DOMAIN_ID must be 0 when calling the service to match the MCU's 
+    # initial ROS_DOMAIN_ID. Temporarily override it here just for that purpose.
     process_configure_mcu = ExecuteProcess(
         shell=True,
         cmd=[
@@ -190,7 +192,7 @@ def generate_launch_description():
                 FindExecutable(name="ros2"),
                 " service call platform/mcu/configure",
                 " clearpath_platform_msgs/srv/ConfigureMcu",
-                ' "{domain_id: 0,',
+                ' "{domain_id: 23,',
                 f" robot_namespace: '{default_ns}'}}\"",
             ],
         ],
