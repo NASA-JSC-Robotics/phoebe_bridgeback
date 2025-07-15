@@ -12,8 +12,9 @@ from launch.substitutions import (
     PathJoinSubstitution,
 )
 from launch_ros.actions import Node
-from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
+from launch.event_handlers import OnProcessExit
+from launch.actions import RegisterEventHandler
 
 
 def generate_launch_description():
@@ -50,6 +51,24 @@ def generate_launch_description():
         ]
     )
 
+    post_process_mjcf = Node(
+        package='phoebe_mujoco_config',
+        executable='post_process_mjcf.py',
+        output='screen',
+    )
+
+    wheel_code_gen = Node(
+        package='phoebe_mujoco_config',
+        executable='wheel_code_gen.py',
+        output='screen',
+    )
+
+    delay_post_process = RegisterEventHandler(
+        OnProcessExit(target_action=make_mjcf_from_robot_description, on_exit=[post_process_mjcf])
+    )
+
     return LaunchDescription([
         make_mjcf_from_robot_description,
+        delay_post_process,
+        wheel_code_gen,
     ])

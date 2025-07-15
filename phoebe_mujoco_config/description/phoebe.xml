@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <mujoco model="phoebe">
   <compiler angle="radian" meshdir="assets/"/>
   <asset>
@@ -100,34 +101,7 @@
   <worldbody>
     <body name="base_link">
       <freejoint name="floating_base_joint"/>
-      <body name="front_left_wheel_link" pos="0.319 0.2755 0.05">
-        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071"/>
-        <joint name="front_left_wheel_joint" pos="0 0 0" axis="0 1 0"/>
-        <geom material="new_mat_color.007" mesh="wheel" class="visual" pos="" quat="0.707107 0.707107 0 0"/>
-        <geom mesh="wheel" class="collision" pos="" quat="0.707107 0.707107 0 0"/>
-        <site name="front_left_wheel_link" pos="0 0 0" quat="1.0 0 0 0"/>
-      </body>
-      <body name="front_right_wheel_link" pos="0.319 -0.2755 0.05">
-        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071"/>
-        <joint name="front_right_wheel_joint" pos="0 0 0" axis="0 1 0"/>
-        <geom material="new_mat_color.007" mesh="wheel" class="visual" pos="" quat="0.707107 0.707107 0 0"/>
-        <geom mesh="wheel" class="collision" pos="" quat="0.707107 0.707107 0 0"/>
-        <site name="front_right_wheel_link" pos="0 0 0" quat="1.0 0 0 0"/>
-      </body>
-      <body name="rear_left_wheel_link" pos="-0.319 0.2755 0.05">
-        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071"/>
-        <joint name="rear_left_wheel_joint" pos="0 0 0" axis="0 1 0"/>
-        <geom material="new_mat_color.007" mesh="wheel" class="visual" pos="" quat="0.707107 0.707107 0 0"/>
-        <geom mesh="wheel" class="collision" pos="" quat="0.707107 0.707107 0 0"/>
-        <site name="rear_left_wheel_link" pos="0 0 0" quat="1.0 0 0 0"/>
-      </body>
-      <body name="rear_right_wheel_link" pos="-0.319 -0.2755 0.05">
-        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071"/>
-        <joint name="rear_right_wheel_joint" pos="0 0 0" axis="0 1 0"/>
-        <geom material="new_mat_color.007" mesh="wheel" class="visual" pos="" quat="0.707107 0.707107 0 0"/>
-        <geom mesh="wheel" class="collision" pos="" quat="0.707107 0.707107 0 0"/>
-        <site name="rear_right_wheel_link" pos="0 0 0" quat="1.0 0 0 0"/>
-      </body>
+      <include file="wheels.xml"/>
       <body name="left_ewellix_lift_higher_link" pos="0 0.201 0.61">
         <inertial pos="-0.00482427 -0.148669 0.00425385" quat="0.722569 0.691108 -0.0112101 -0.0117204" mass="9.32488" diaginertia="0.405037 0.30676 0.130026"/>
         <joint name="left_ewellix_lift_lower_to_higher" pos="0 0 0" axis="0 0 1" type="slide" range="0 0.5" actuatorfrcrange="-1000 1000"/>
@@ -582,10 +556,42 @@
     <exclude body1="base_link" body2="left_ewellix_lift_middle_link"/>
     <exclude body1="base_link" body2="right_ewellix_lift_higher_link"/>
     <exclude body1="base_link" body2="right_ewellix_lift_middle_link"/>
-    <exclude body1="base_link" body2="front_left_wheel_link"/>
-    <exclude body1="base_link" body2="front_right_wheel_link"/>
     <exclude body1="base_link" body2="rear_left_wheel_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_7_link"/>
     <exclude body1="base_link" body2="rear_right_wheel_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_7_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_7_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_7_link"/>
   </contact>
   <tendon>
     <fixed name="left_split">
@@ -630,5 +636,10 @@
   <sensor>
     <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
     <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
+  </sensor>
+  <sensor>
+    <framequat name="imu_sensor_quat" objtype="site" objname="imu_0_link"/>
+    <gyro name="imu_sensor_gyro" site="imu_0_link"/>
+    <accelerometer name="imu_sensor_accel" site="imu_0_link"/>
   </sensor>
 </mujoco>

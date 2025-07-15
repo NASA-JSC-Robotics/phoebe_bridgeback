@@ -68,10 +68,46 @@
     <exclude body1="base_link" body2="left_ewellix_lift_middle_link"/>
     <exclude body1="base_link" body2="right_ewellix_lift_higher_link"/>
     <exclude body1="base_link" body2="right_ewellix_lift_middle_link"/>
-    <exclude body1="base_link" body2="front_left_wheel_link"/>
-    <exclude body1="base_link" body2="front_right_wheel_link"/>
+
     <exclude body1="base_link" body2="rear_left_wheel_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="rear_left_wheel_roller_7_link"/>
+
     <exclude body1="base_link" body2="rear_right_wheel_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="rear_right_wheel_roller_7_link"/>
+
+    <exclude body1="base_link" body2="front_left_wheel_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="front_left_wheel_roller_7_link"/>
+
+    <exclude body1="base_link" body2="front_right_wheel_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_0_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_1_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_2_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_3_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_4_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_5_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_6_link"/>
+    <exclude body1="base_link" body2="front_right_wheel_roller_7_link"/>
   </contact>
 
   <tendon>
@@ -123,6 +159,12 @@
   <sensor>
     <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
     <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
+  </sensor>
+
+  <sensor>
+    <framequat name="imu_sensor_quat" objtype="site" objname="imu_0_link" />
+    <gyro name="imu_sensor_gyro" site="imu_0_link" />
+    <accelerometer name="imu_sensor_accel" site="imu_0_link" />
   </sensor>
 
   <!-- Excluding contact checking between adjacent bodies that otherwise prevent movement. -->

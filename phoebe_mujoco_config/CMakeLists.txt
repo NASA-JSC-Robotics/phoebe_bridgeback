@@ -17,4 +17,11 @@ install(
     share/${PROJECT_NAME}
 )
 
+# Install python tools
+install(PROGRAMS
+  scripts/wheel_code_gen.py
+  scripts/post_process_mjcf.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

@@ -142,7 +142,7 @@
       <state_interface name="effort"/>
     </joint>
 
-    <!-- <joint name="front_left_wheel_joint">
+    <joint name="front_left_wheel_joint">
       <command_interface name="velocity" />
       <state_interface name="position" >
         <param name="initial_value">0.0</param>
@@ -173,7 +173,7 @@
       </state_interface>
       <state_interface name="velocity" />
       <state_interface name="effort" />
-    </joint> -->
+    </joint>
 
     <sensor name="right_ur_arm_tcp_fts_sensor">
       <param name="mujoco_type">fts</param>
