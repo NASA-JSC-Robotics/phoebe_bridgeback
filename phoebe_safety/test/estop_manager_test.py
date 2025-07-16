@@ -11,6 +11,7 @@ from rclpy.executors import MultiThreadedExecutor
 import time
 from controller_manager_msgs.srv import SwitchController
 
+
 class EstopManagerTest(unittest.TestCase):
 
     TIMEOUT = 3.0
@@ -24,11 +25,13 @@ class EstopManagerTest(unittest.TestCase):
     def setUpClass(cls):
         rclpy.init()
 
-        cls._service_node = rclpy.create_node(f"_service_node")
+        cls._service_node = rclpy.create_node("service_node")
         cls._service_executor = MultiThreadedExecutor()
 
         cls._request_restart_client = cls._service_node.create_client(Trigger, "phoebe_estop_manager/request_restart")
-        cls._switch_controller_client = cls._service_node.create_client(SwitchController, "controller_manager/switch_controller")
+        cls._switch_controller_client = cls._service_node.create_client(
+            SwitchController, "controller_manager/switch_controller"
+        )
 
         cls._service_executor.add_node(cls._service_node)
         threading.Thread(target=cls._service_executor.spin).start()
