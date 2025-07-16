@@ -11,17 +11,31 @@ from rclpy.executors import MultiThreadedExecutor
 import time
 from controller_manager_msgs.srv import SwitchController
 
-
 class EstopManagerTest(unittest.TestCase):
 
     TIMEOUT = 3.0
+
+    _service_node = None
+    _service_executor = None
+    _request_restart_client = None
+    _switch_controller_client = None
 
     @classmethod
     def setUpClass(cls):
         rclpy.init()
 
+        cls._service_node = rclpy.create_node(f"_service_node")
+        cls._service_executor = MultiThreadedExecutor()
+
+        cls._request_restart_client = cls._service_node.create_client(Trigger, "phoebe_estop_manager/request_restart")
+        cls._switch_controller_client = cls._service_node.create_client(SwitchController, "controller_manager/switch_controller")
+
+        cls._service_executor.add_node(cls._service_node)
+        threading.Thread(target=cls._service_executor.spin).start()
+
     @classmethod
     def tearDownClass(cls):
+        cls._service_executor.shutdown()
         rclpy.try_shutdown()
 
     def setUp(self):
@@ -59,41 +73,19 @@ class EstopManagerTest(unittest.TestCase):
     def set_estop_state(self, estop_state):
         self.estop_state = estop_state
 
-    def request_service(self, service_name):
-        test_node = rclpy.create_node(f"{service_name}_caller")
-        service_client = test_node.create_client(Trigger, f"phoebe_estop_manager/{service_name}")
-
-        service_client_executor = MultiThreadedExecutor()
-        service_client_executor.add_node(test_node)
-        service_client_executor_thread = threading.Thread(target=service_client_executor.spin, daemon=True)
-        service_client_executor_thread.start()
-
-        # Publish the estop message - True is estopped, false is not estopped
+    def request_service(self):
         srv = Trigger.Request()
-        response = service_client.call(srv)
-
-        test_node.destroy_node()
-        service_client_executor.shutdown()
-        return response.success
+        future = self._request_restart_client.call_async(srv)
+        rclpy.spin_until_future_complete(self._service_node, future, timeout_sec=self.TIMEOUT)
+        return future.result().success if future.result() else False
 
     def set_controller_states(self, activate_controllers=[], deactivate_controllers=[]):
-        test_node = rclpy.create_node("switch_controller_caller")
-        service_client = test_node.create_client(SwitchController, "controller_manager/switch_controller")
-
-        service_client_executor = MultiThreadedExecutor()
-        service_client_executor.add_node(test_node)
-        service_client_executor_thread = threading.Thread(target=service_client_executor.spin, daemon=True)
-        service_client_executor_thread.start()
-
         srv = SwitchController.Request()
         srv.activate_controllers = activate_controllers
         srv.deactivate_controllers = deactivate_controllers
-
-        response = service_client.call(srv)
-
-        test_node.destroy_node()
-        service_client_executor.shutdown()
-        return response.ok
+        future = self._switch_controller_client.call_async(srv)
+        rclpy.spin_until_future_complete(self._service_node, future, timeout_sec=self.TIMEOUT)
+        return future.result().ok if future.result() else False
 
     def start_robot(self):
         self.set_estop_state(False)
@@ -205,7 +197,7 @@ class EstopManagerTest(unittest.TestCase):
         self.start_and_then_estop()
 
         # turn off the estop, and make sure that we don't go back to a running state or turn on controllers
-        self.request_service("request_restart")
+        self.request_service()
 
         # wait a bit to make sure that we don't get something coming up after some time
         time.sleep(self.TIMEOUT)
@@ -239,7 +231,7 @@ class EstopManagerTest(unittest.TestCase):
 
         # turn off the estop, and request the restart
         self.set_estop_state(False)
-        assert self.request_service("request_restart")
+        assert self.request_service()
 
         # wait for controllers to be re-enabled
         start = time.time()
