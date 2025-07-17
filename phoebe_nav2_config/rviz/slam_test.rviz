@@ -7,7 +7,7 @@ Panels:
         - /TF1/Frames1
         - /Global Map1
       Splitter Ratio: 0.5
-    Tree Height: 889
+    Tree Height: 592
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -26,6 +26,8 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: LaserScan
+  - Class: nav2_rviz_plugins/Navigation 2
+    Name: Navigation 2
 Visualization Manager:
   Class: ""
   Displays:
@@ -99,16 +101,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        autec_antenna:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        autec_receiver:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         axle_link:
           Alpha: 1
           Show Axes: false
@@ -152,178 +144,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        front_scu:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_shelf:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_ur_control_box:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         imu_0_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_arm_cal_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_arm_mount_plate:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_arm_mount_plate_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_ewellix_lift_higher_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ewellix_lift_lower_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ewellix_lift_middle_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ewellix_lift_tip_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_ewellix_mount_flange_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_finger_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_finger_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_grasp_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_gripper_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_gripper_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_monitor:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_mtc_effector_side:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_mtc_robot_side:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_push_frame_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_push_frame_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_robotiq_hande_cb_adapter:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         left_side_cover_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ur_arm_base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_ur_arm_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_ur_arm_base_link_inertia:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ur_arm_flange:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_ur_arm_forearm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ur_arm_ft_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_ur_arm_shoulder_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ur_arm_tool0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_ur_arm_upper_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ur_arm_wrist_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ur_arm_wrist_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ur_arm_wrist_3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_wifi_antenna:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -332,21 +157,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        lift_rails:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        monitor_hinge_base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        monitor_hinge_top:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         rear_cover_link:
           Alpha: 1
           Show Axes: false
@@ -372,174 +182,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_scu:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        rear_shelf:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        rear_ur_control_box:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_arm_cal_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_arm_mount_plate:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_arm_mount_plate_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_ewellix_lift_higher_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ewellix_lift_lower_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ewellix_lift_middle_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ewellix_lift_tip_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_ewellix_mount_flange_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_finger_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_finger_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_grasp_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_gripper_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_gripper_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_monitor:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_mtc_effector_side:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_mtc_robot_side:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_push_frame_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_push_frame_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_robotiq_hande_cb_adapter:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         right_side_cover_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ur_arm_base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_ur_arm_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_ur_arm_base_link_inertia:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ur_arm_flange:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_ur_arm_forearm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ur_arm_ft_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_ur_arm_shoulder_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ur_arm_tool0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_ur_arm_upper_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ur_arm_wrist_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ur_arm_wrist_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_ur_arm_wrist_3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_wifi_antenna:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -567,10 +210,6 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        autec_antenna:
-          Value: false
-        autec_receiver:
-          Value: false
         axle_link:
           Value: false
         base_link:
@@ -589,90 +228,14 @@ Visualization Manager:
           Value: false
         front_rocker_link:
           Value: false
-        front_scu:
-          Value: false
-        front_shelf:
-          Value: false
-        front_ur_control_box:
-          Value: false
         imu_0_link:
-          Value: false
-        left_arm_cal_link:
-          Value: false
-        left_arm_mount_plate:
-          Value: false
-        left_arm_mount_plate_2:
-          Value: false
-        left_ewellix_lift_higher_link:
-          Value: false
-        left_ewellix_lift_lower_link:
-          Value: false
-        left_ewellix_lift_middle_link:
-          Value: false
-        left_ewellix_lift_tip_link:
-          Value: false
-        left_ewellix_mount_flange_link:
-          Value: false
-        left_finger_1_link:
-          Value: false
-        left_finger_2_link:
-          Value: false
-        left_grasp_frame:
-          Value: false
-        left_gripper_base_link:
-          Value: false
-        left_gripper_palm_link:
-          Value: false
-        left_monitor:
-          Value: false
-        left_mtc_effector_side:
-          Value: false
-        left_mtc_robot_side:
-          Value: false
-        left_push_frame_1:
-          Value: false
-        left_push_frame_2:
-          Value: false
-        left_robotiq_hande_cb_adapter:
           Value: false
         left_side_cover_link:
           Value: false
-        left_ur_arm_base:
-          Value: false
-        left_ur_arm_base_link:
-          Value: false
-        left_ur_arm_base_link_inertia:
-          Value: false
-        left_ur_arm_flange:
-          Value: false
-        left_ur_arm_forearm_link:
-          Value: false
-        left_ur_arm_ft_frame:
-          Value: false
-        left_ur_arm_shoulder_link:
-          Value: false
-        left_ur_arm_tool0:
-          Value: false
-        left_ur_arm_upper_arm_link:
-          Value: false
-        left_ur_arm_wrist_1_link:
-          Value: false
-        left_ur_arm_wrist_2_link:
-          Value: false
-        left_ur_arm_wrist_3_link:
-          Value: false
-        left_wifi_antenna:
-          Value: false
         lidar2d_0_laser:
-          Value: false
-        lift_rails:
           Value: false
         map:
           Value: true
-        monitor_hinge_base:
-          Value: false
-        monitor_hinge_top:
-          Value: false
         odom:
           Value: true
         rear_cover_link:
@@ -685,77 +248,7 @@ Visualization Manager:
           Value: false
         rear_rocker_link:
           Value: false
-        rear_scu:
-          Value: false
-        rear_shelf:
-          Value: false
-        rear_ur_control_box:
-          Value: false
-        right_arm_cal_link:
-          Value: false
-        right_arm_mount_plate:
-          Value: false
-        right_arm_mount_plate_2:
-          Value: false
-        right_ewellix_lift_higher_link:
-          Value: false
-        right_ewellix_lift_lower_link:
-          Value: false
-        right_ewellix_lift_middle_link:
-          Value: false
-        right_ewellix_lift_tip_link:
-          Value: false
-        right_ewellix_mount_flange_link:
-          Value: false
-        right_finger_1_link:
-          Value: false
-        right_finger_2_link:
-          Value: false
-        right_grasp_frame:
-          Value: false
-        right_gripper_base_link:
-          Value: false
-        right_gripper_palm_link:
-          Value: false
-        right_monitor:
-          Value: false
-        right_mtc_effector_side:
-          Value: false
-        right_mtc_robot_side:
-          Value: false
-        right_push_frame_1:
-          Value: false
-        right_push_frame_2:
-          Value: false
-        right_robotiq_hande_cb_adapter:
-          Value: false
         right_side_cover_link:
-          Value: false
-        right_ur_arm_base:
-          Value: false
-        right_ur_arm_base_link:
-          Value: false
-        right_ur_arm_base_link_inertia:
-          Value: false
-        right_ur_arm_flange:
-          Value: false
-        right_ur_arm_forearm_link:
-          Value: false
-        right_ur_arm_ft_frame:
-          Value: false
-        right_ur_arm_shoulder_link:
-          Value: false
-        right_ur_arm_tool0:
-          Value: false
-        right_ur_arm_upper_arm_link:
-          Value: false
-        right_ur_arm_wrist_1_link:
-          Value: false
-        right_ur_arm_wrist_2_link:
-          Value: false
-        right_ur_arm_wrist_3_link:
-          Value: false
-        right_wifi_antenna:
           Value: false
         riser_link:
           Value: false
@@ -800,109 +293,7 @@ Visualization Manager:
                   {}
                 riser_link:
                   default_mount:
-                    autec_antenna:
-                      {}
-                    autec_receiver:
-                      {}
-                    front_scu:
-                      {}
-                    front_shelf:
-                      {}
-                    front_ur_control_box:
-                      {}
-                    left_ewellix_mount_flange_link:
-                      left_ewellix_lift_lower_link:
-                        left_ewellix_lift_higher_link:
-                          left_ewellix_lift_middle_link:
-                            {}
-                          left_ewellix_lift_tip_link:
-                            left_arm_mount_plate:
-                              left_arm_cal_link:
-                                left_arm_mount_plate_2:
-                                  left_ur_arm_base_link:
-                                    left_ur_arm_base:
-                                      {}
-                                    left_ur_arm_base_link_inertia:
-                                      left_ur_arm_shoulder_link:
-                                        left_ur_arm_upper_arm_link:
-                                          left_ur_arm_forearm_link:
-                                            left_ur_arm_wrist_1_link:
-                                              left_ur_arm_wrist_2_link:
-                                                left_ur_arm_wrist_3_link:
-                                                  left_ur_arm_flange:
-                                                    left_ur_arm_tool0:
-                                                      left_mtc_robot_side:
-                                                        left_mtc_effector_side:
-                                                          left_robotiq_hande_cb_adapter:
-                                                            left_gripper_base_link:
-                                                              left_finger_1_link:
-                                                                left_push_frame_1:
-                                                                  {}
-                                                              left_finger_2_link:
-                                                                left_push_frame_2:
-                                                                  {}
-                                                              left_grasp_frame:
-                                                                {}
-                                                              left_gripper_palm_link:
-                                                                {}
-                                                  left_ur_arm_ft_frame:
-                                                    {}
-                    left_wifi_antenna:
-                      {}
                     lidar2d_0_laser:
-                      {}
-                    lift_rails:
-                      {}
-                    monitor_hinge_base:
-                      monitor_hinge_top:
-                        left_monitor:
-                          {}
-                        right_monitor:
-                          {}
-                    rear_scu:
-                      {}
-                    rear_shelf:
-                      {}
-                    rear_ur_control_box:
-                      {}
-                    right_ewellix_mount_flange_link:
-                      right_ewellix_lift_lower_link:
-                        right_ewellix_lift_higher_link:
-                          right_ewellix_lift_middle_link:
-                            {}
-                          right_ewellix_lift_tip_link:
-                            right_arm_mount_plate:
-                              right_arm_cal_link:
-                                right_arm_mount_plate_2:
-                                  right_ur_arm_base_link:
-                                    right_ur_arm_base:
-                                      {}
-                                    right_ur_arm_base_link_inertia:
-                                      right_ur_arm_shoulder_link:
-                                        right_ur_arm_upper_arm_link:
-                                          right_ur_arm_forearm_link:
-                                            right_ur_arm_wrist_1_link:
-                                              right_ur_arm_wrist_2_link:
-                                                right_ur_arm_wrist_3_link:
-                                                  right_ur_arm_flange:
-                                                    right_ur_arm_tool0:
-                                                      right_mtc_robot_side:
-                                                        right_mtc_effector_side:
-                                                          right_robotiq_hande_cb_adapter:
-                                                            right_gripper_base_link:
-                                                              right_finger_1_link:
-                                                                right_push_frame_1:
-                                                                  {}
-                                                              right_finger_2_link:
-                                                                right_push_frame_2:
-                                                                  {}
-                                                              right_grasp_frame:
-                                                                {}
-                                                              right_gripper_palm_link:
-                                                                {}
-                                                  right_ur_arm_ft_frame:
-                                                    {}
-                    right_wifi_antenna:
                       {}
                   top_link:
                     {}
@@ -1011,25 +402,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 10.451766967773438
+      Distance: 9.652021408081055
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.01145897712558508
-        Y: 1.3978315591812134
-        Z: -0.14148113131523132
+        X: 0.32960745692253113
+        Y: 0.349721759557724
+        Z: 0.21889184415340424
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2547965049743652
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.8853999376296997
+      Yaw: 1.5704002380371094
     Saved: ~
 Window Geometry:
   Displays:
@@ -1037,7 +428,9 @@ Window Geometry:
   Height: 1180
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000015600000402fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b00000402000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f00000306fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b00000306000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007e40000003efc0100000002fb0000000800540069006d00650100000000000007e40000025300fffffffb0000000800540069006d00650100000000000004500000000000000000000006880000040200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Navigation 2:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd00000004000000000000015600000402fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b000002d9000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018004e0061007600690067006100740069006f006e00200032010000031a000001230000011200ffffff000000010000010f00000306fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b00000306000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007e40000003efc0100000002fb0000000800540069006d00650100000000000007e40000025300fffffffb0000000800540069006d00650100000000000004500000000000000000000006880000040200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
