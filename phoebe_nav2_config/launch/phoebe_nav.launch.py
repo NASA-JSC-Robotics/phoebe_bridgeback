@@ -28,7 +28,8 @@ def generate_launch_description():
     ]
     map = LaunchConfiguration('map')
 
-
+    rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
+    rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
 
     nodes_to_start = [
         IncludeLaunchDescription(
@@ -60,7 +61,14 @@ def generate_launch_description():
             launch_arguments={
                 'params_file': os.path.join(pkg_phoebe_nav2_config, 'config/clearpath_nav2_config.yaml')
             }.items()
-        )
+        ),
+        Node(
+            package="rviz2",
+            executable="rviz2",
+            name="rviz2_nav2",
+            output="log",
+            arguments=["-d", rviz_config_file, "--stylesheet", rviz_qss_file],
+        ),
     ]
 
     return LaunchDescription(declared_arguments + nodes_to_start)
