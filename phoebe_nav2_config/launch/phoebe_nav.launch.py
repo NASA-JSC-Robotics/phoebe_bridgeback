@@ -31,14 +31,6 @@ def generate_launch_description():
 
 
     nodes_to_start = [
-        # Bring up map server and its lifecycle manager manually, since this is normally launched in bringup_launch.py --> localization_launch.py
-        # Node(
-        #     package='robot_localization',
-        #     executable='ekf_node',
-        #     name='ekf_node',
-        #     output='screen',
-        #     parameters=[os.path.join(pkg_phoebe_nav2_config, 'config/odom_smoother_config.yaml')]
-        # ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
                 PathJoinSubstitution([
@@ -48,7 +40,7 @@ def generate_launch_description():
                 ])
             ]),
             launch_arguments={
-                'slam_params_file': os.path.join(pkg_phoebe_nav2_config, 'config/slam_config.yaml')
+                'slam_params_file': os.path.join(pkg_phoebe_nav2_config, 'config/clearpath_slam_config.yaml')
             }.items()
         ),
         Node(
@@ -66,7 +58,7 @@ def generate_launch_description():
                 ])
             ]),
             launch_arguments={
-                'params_file': os.path.join(pkg_phoebe_nav2_config, 'config/nav2_config.yaml')
+                'params_file': os.path.join(pkg_phoebe_nav2_config, 'config/clearpath_nav2_config.yaml')
             }.items()
         )
     ]
