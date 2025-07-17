@@ -14,8 +14,10 @@ def generate_launch_description():
         launch_arguments={
             "camera_name": "left_wrist_mounted_camera",
             "camera_namespace": "",
-            "serial_no": "'938422070949'", # needs to be updated for actual serial number
-            "rgb_camera.profile": "1280,720,30",
+            # "serial_no": "'938422070949'", # needs to be updated for actual serial number
+            "rgb_camera.color_profile": "640,480,15",
+            "depth_module.depth_profile": "640,480,15",
+            "depth_module.infra_profile": "640,480,15",
             "initial_reset": "true",
             "pointcloud.enable": "false",
             "align_depth.enable": "true",
@@ -37,4 +39,4 @@ def generate_launch_description():
         }.items(),
     )
 
-    return LaunchDescription([wrist_camera, lift_camera])
+    return LaunchDescription([wrist_camera])

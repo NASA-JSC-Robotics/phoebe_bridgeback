@@ -628,7 +628,8 @@
 
     <!-- left camera -->
     <xacro:sensor_d435 parent="${tf_prefix}left_ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="true" name="${tf_prefix}left_wrist_mounted_camera">
-      <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/>
+      <!-- <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/> -->
+      <origin xyz="-6.3398954689359577e-02 1.0843610275642415e-03 1.0771886573701910e-02" rpy="-3.3291953701393887e-02 -1.4542171203396566e+00 3.8217188478749678e-02"/>
     </xacro:sensor_d435>
 
     <!-- Hand-E Grippers -->
