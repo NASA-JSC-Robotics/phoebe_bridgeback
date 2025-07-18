@@ -9,6 +9,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, TextSubstitution
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.conditions import IfCondition
 
 def generate_launch_description():
     pkg_phoebe_nav2_config = get_package_share_directory("phoebe_nav2_config")
@@ -27,6 +28,14 @@ def generate_launch_description():
         ),
     ]
     map = LaunchConfiguration('map')
+    declared_arguments = [
+        DeclareLaunchArgument(
+            'launch_rviz',
+            default_value="true",
+            description='Launch rviz or nah',
+        ),
+    ]
+    launch_rviz = LaunchConfiguration('launch_rviz')
 
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
     rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
@@ -44,12 +53,12 @@ def generate_launch_description():
                 'slam_params_file': os.path.join(pkg_phoebe_nav2_config, 'config/clearpath_slam_config.yaml')
             }.items()
         ),
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            arguments=['0','0','0','0','0','0','map','world'],
-            # condition=UnlessCondition(OrSubstitution(LaunchConfiguration('slam'),LaunchConfiguration('amcl'))),
-        ),
+        # Node(
+        #     package='tf2_ros',
+        #     executable='static_transform_publisher',
+        #     arguments=['0','0','0','0','0','0','map','world'],
+        #     # condition=UnlessCondition(OrSubstitution(LaunchConfiguration('slam'),LaunchConfiguration('amcl'))),
+        # ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
                 PathJoinSubstitution([
@@ -68,6 +77,7 @@ def generate_launch_description():
             name="rviz2_nav2",
             output="log",
             arguments=["-d", rviz_config_file, "--stylesheet", rviz_qss_file],
+            condition=IfCondition(launch_rviz),
         ),
     ]
 
