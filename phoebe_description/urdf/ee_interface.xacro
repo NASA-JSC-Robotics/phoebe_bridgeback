@@ -47,5 +47,27 @@
         </collision>
     </link>
 
+    <joint name="${tf_prefix}mtc_effector_side_to_realsense_mount" type="fixed">
+        <parent link="${tf_prefix}mtc_effector_side"/>
+        <child link="${tf_prefix}ur_realsense_mount"/>
+        <origin xyz="0 0 0.024" rpy="0 0 ${radians(90)}"/>
+    </joint>
+
+    <link name="${tf_prefix}ur_realsense_mount">
+        <visual>
+            <geometry>
+                <mesh filename= "package://phoebe_description/meshes/visual/ich-005_realsense_cable_mount_corr.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+            <material name="${tf_prefix}ur_realsense_mount">
+                <color rgba="0.1 0.1 0.1 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename= "package://phoebe_description/meshes/visual/ich-005_realsense_cable_mount_corr.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+        </collision>
+    </link>
+
     </xacro:macro>
 </robot>
