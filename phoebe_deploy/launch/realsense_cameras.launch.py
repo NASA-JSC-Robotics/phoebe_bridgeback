@@ -7,36 +7,38 @@ import os
 
 def generate_launch_description():
 
-    wrist_camera = IncludeLaunchDescription(
+    left_camera = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("realsense2_camera"), "launch", "rs_launch.py")
         ),
         launch_arguments={
             "camera_name": "left_wrist_mounted_camera",
             "camera_namespace": "",
-            # "serial_no": "'938422070949'", # needs to be updated for actual serial number
-            "rgb_camera.color_profile": "640,480,15",
-            "depth_module.depth_profile": "640,480,15",
-            "depth_module.infra_profile": "640,480,15",
+            "serial_no": "'207522078043'",
+            "rgb_camera.color_profile": "1280,720,15",
+            "depth_module.depth_profile": "1280,720,15",
+            "depth_module.infra_profile": "1280,720,15",
             "initial_reset": "true",
             "pointcloud.enable": "false",
             "align_depth.enable": "true",
         }.items(),
     )
 
-    lift_camera = IncludeLaunchDescription(
+    right_camera = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("realsense2_camera"), "launch", "rs_launch.py")
         ),
         launch_arguments={
             "camera_name": "right_wrist_mounted_camera",
             "camera_namespace": "",
-            "serial_no": "'207122078580'", # needs to be updated for actual serial number
-            "rgb_camera.profile": "1280,720,30",
+            "serial_no": "'207522073775'", # needs to be updated for actual serial number
+            "rgb_camera.color_profile": "1280,720,15",
+            "depth_module.depth_profile": "1280,720,15",
+            "depth_module.infra_profile": "1280,720,15",
             "initial_reset": "true",
             "pointcloud.enable": "false",
             "align_depth.enable": "true",
         }.items(),
     )
 
-    return LaunchDescription([wrist_camera])
+    return LaunchDescription([left_camera, right_camera])

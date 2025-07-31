@@ -19,3 +19,7 @@
         publish_multiecho: False
         cluster: 1
         skip: 9
+        qos_overrides:
+          scan:
+            publisher:
+              reliability: best_effort

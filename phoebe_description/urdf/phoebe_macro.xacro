@@ -196,12 +196,12 @@
 
   <!-- Rear UR Control Box -->
   <link name="${tf_prefix}rear_ur_control_box">
-    <visual>
+    <!-- <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
       </geometry>
       <material name="clearpath_aluminum" />
-    </visual>
+    </visual> -->
     <collision>
       <origin xyz="0.090 -0.107 0.098"/>
       <geometry>
@@ -219,12 +219,12 @@
 
   <!-- Front UR Control Box -->
   <link name="${tf_prefix}front_ur_control_box">
-    <visual>
+    <!-- <visual>
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
       </geometry>
       <material name="clearpath_aluminum" />
-    </visual>
+    </visual> -->
     <collision>
       <origin xyz="0.090 -0.107 0.098"/>
       <geometry>
@@ -623,13 +623,20 @@
 
     <!-- right camera -->
     <xacro:sensor_d435 parent="${tf_prefix}right_ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="true" name="${tf_prefix}right_wrist_mounted_camera">
-      <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/>
+      <!-- original -->
+      <!-- <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/> -->
+      <!-- first cal ~2.3 px reproj error -->
+      <origin xyz="-6.1788056476961728e-02 -2.4867707148071745e-03 1.2036970069250407e-02" rpy="-5.2776889304282960e-03 -1.4500635837943188e+00 2.5519090344067272e-02"/>
     </xacro:sensor_d435>
 
     <!-- left camera -->
     <xacro:sensor_d435 parent="${tf_prefix}left_ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="true" name="${tf_prefix}left_wrist_mounted_camera">
+      <!-- original -->
       <!-- <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/> -->
-      <origin xyz="-6.3398954689359577e-02 1.0843610275642415e-03 1.0771886573701910e-02" rpy="-3.3291953701393887e-02 -1.4542171203396566e+00 3.8217188478749678e-02"/>
+      <!-- first cal ~4 px reproj error -->
+      <!-- <origin xyz="-6.3398954689359577e-02 1.0843610275642415e-03 1.0771886573701910e-02" rpy="-3.3291953701393887e-02 -1.4542171203396566e+00 3.8217188478749678e-02"/> -->
+      <!-- second cal ~2.4 px reproj error -->
+      <origin xyz="-6.4777232475001029e-02 1.1461581058038600e-04 1.2884814853441564e-02" rpy="-9.9487205554735336e-02 -1.4520756449714673e+00 1.0569277772629829e-01"/>
     </xacro:sensor_d435>
 
     <!-- Hand-E Grippers -->
@@ -641,7 +648,7 @@
       tf_prefix="${tf_prefix}right_"
       parent="${tf_prefix}right_ur_realsense_mount"
       finger_xacro="fngr_original">
-      <origin xyz="0 0 0.008" rpy="0 0 ${pi/2}"/>
+      <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
     </xacro:dextivr_hande>
 
     <xacro:dextivr_hande
@@ -651,7 +658,7 @@
       tf_prefix="${tf_prefix}left_"
       parent="${tf_prefix}left_ur_realsense_mount"
       finger_xacro="fngr_original">
-      <origin xyz="0 0 0.008" rpy="0 0 ${pi/2}"/>
+      <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
     </xacro:dextivr_hande>
 
   </xacro:unless>

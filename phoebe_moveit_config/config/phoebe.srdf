@@ -947,6 +947,9 @@
     <disable_collisions link1="right_mtc_effector_side" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_robot_side" link2="right_ur_arm_wrist_3_link" reason="Adjacent"/>
 
+    <disable_collisions link1="left_robotiq_hande_cb_adapter" link2="left_ur_realsense_mount" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_hande_cb_adapter" link2="right_ur_realsense_mount" reason="Adjacent"/>
+
     <xacro:if value="$(arg calibration_mode)">
         <disable_collisions link1="front_shelf" link2="calibration_plate_target_side" reason="Adjacent"/>
     </xacro:if>
