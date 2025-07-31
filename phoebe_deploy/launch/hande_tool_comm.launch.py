@@ -1,9 +1,14 @@
+import os
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
 )
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
@@ -17,8 +22,17 @@ def generate_launch_description():
             description="Namespace for the robot.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "remote_control",
+            default_value="true",
+            description="Informs launch of UR communication setting, set to false if local to suppress UR GUIs",
+            choices=["true", "false"],
+        )
+    )
 
     ns = LaunchConfiguration("ns")
+    remote_control = LaunchConfiguration("remote_control")
 
     hande_right_comm_node = Node(
         name="right_ur_tool_communication_hande",
@@ -82,6 +96,13 @@ def generate_launch_description():
         parameters=[{"robot_ip": "192.168.131.40"}],
     )
 
+    gui = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory("drt_ur_gui"), "launch", "pb.launch.py")
+        ),
+        condition=IfCondition(remote_control),
+    )
+
     nodes = [
         hande_right_comm_node,
         hande_left_comm_node,
@@ -91,4 +112,6 @@ def generate_launch_description():
         l_dashboard_client_node,
     ]
 
-    return LaunchDescription(declared_arguments + nodes)
+    launches = [gui]
+
+    return LaunchDescription(declared_arguments + nodes + launches)

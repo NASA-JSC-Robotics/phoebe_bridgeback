@@ -10,7 +10,7 @@ default_acceleration_scaling_factor: 0.1
 joint_limits:
   left_ewellix_lift_lower_to_higher:
     has_velocity_limits: true
-    max_velocity: 0.15
+    max_velocity: 0.02
     has_acceleration_limits: false
     max_acceleration: 0
   left_finger_1_joint:
@@ -50,7 +50,7 @@ joint_limits:
     max_acceleration: 0
   right_ewellix_lift_lower_to_higher:
     has_velocity_limits: true
-    max_velocity: 0.15
+    max_velocity: 0.02
     has_acceleration_limits: false
     max_acceleration: 0
   right_finger_1_joint:
