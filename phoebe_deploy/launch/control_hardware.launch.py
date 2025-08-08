@@ -46,6 +46,15 @@ def generate_launch_description():
         }.items(),
     )
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + [control_launch])
+    teleop_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory("phoebe_deploy"), "launch", "teleop.launch.py")
+        ),
+        launch_arguments={
+            "ns": ns,
+        }.items(),
+    )
+
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + [control_launch, teleop_launch])
 
     return LaunchDescription(declared_arguments + [ns_action])
