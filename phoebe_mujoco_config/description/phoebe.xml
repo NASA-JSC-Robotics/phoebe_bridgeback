@@ -96,6 +96,9 @@
     <material name="DEFAULT_MTL.001" specular="0.0" shininess="0.25" rgba="0.800000 0.800000 0.800000 1.000000"/>
     <mesh file="full/hande/hande.obj" scale="0.001 0.001 0.001"/>
     <mesh file="full/finger_1/finger_1.obj" scale="0.001 0.001 0.001"/>
+    <mesh file="mecanum_wheel.stl" scale="0.001 0.001 0.001"/>
+    <mesh file="mecanum_wheel1.stl" scale="0.001 0.001 0.001"/>
+    <mesh file="mecanum_wheel2.stl" scale="0.001 0.001 0.001"/>
     <material name="new_mat_color.022" specular="0.5" shininess="0.36" rgba="0.200000 0.200000 0.200000 1.000000"/>
   </asset>
   <worldbody>

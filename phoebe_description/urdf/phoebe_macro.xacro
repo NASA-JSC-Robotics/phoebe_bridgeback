@@ -450,7 +450,6 @@
     omit_plates="true"
     use_fake_hardware="${use_fake_hardware}"
     com_port="${left_ewellix_com_port}"
-    hw_calibration="${xacro.load_yaml(left_liftkit_calibration_file)}"
     generate_ros2_control_tag="${generate_ros2_control_tag}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
@@ -466,7 +465,6 @@
     omit_plates="true"
     use_fake_hardware="${use_fake_hardware}"
     com_port="${right_ewellix_com_port}"
-    hw_calibration="${xacro.load_yaml(right_liftkit_calibration_file)}"
     generate_ros2_control_tag="${generate_ros2_control_tag}"
   >
     <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>

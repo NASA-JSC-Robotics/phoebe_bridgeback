@@ -31,7 +31,7 @@ def return_wheel_description(link_name, pos, wheel_type):
 
     cylinder = f"""<body name="{link_name}_link" pos="{str(x)} {str(y)} {str(z)}">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="{str(mass)}" diaginertia="{str(ixx)} {str(iyy)} {str(izz)}" />
-    <joint name="{link_name}_joint" pos="0 0 0" axis="0 1 0" />
+    <joint name="{link_name}_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
     """
     # <geom size="{str(r)} {str(h/2)}" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.2 0.2 0.2 0.5" class="visual"/>
     wheel_description += cylinder + '\n'
@@ -62,10 +62,10 @@ def return_wheel_description(link_name, pos, wheel_type):
 
         wheel = f"""
     <geom size="{str(roller_r)}" fromto="{str(pin_1[0])} {str(pin_1[1])} {str(pin_1[2])} {str(pin_2[0])} {str(pin_2[1])} {str(pin_2[2])}" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="{body_name}_link" pos="{str(pos[0])} {str(pos[1])} {str(pos[2])}">
-        <joint name="{joint_name}_joint" type="hinge" pos="0 0 0" axis="{str(axis[0])} {str(axis[1])} {str(axis[2])}" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="{body_name}_link" pos="{str(pos[0])} {str(pos[1])} {str(pos[2])}" zaxis="{str(axis[0])} {str(axis[1])} {str(axis[2])}">
+        <joint name="{joint_name}_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="{str(roller_r)}" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>"""
 
         wheel_description += wheel + '\n' 

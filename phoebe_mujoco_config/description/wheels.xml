@@ -1,246 +1,246 @@
 <mujoco>
 <body name="rear_left_wheel_link" pos="-0.319 0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
-    <joint name="rear_left_wheel_joint" pos="0 0 0" axis="0 1 0" />
+    <joint name="rear_left_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
     
 
     <geom size="0.016697999999999998" fromto="0.059202 -0.0395 0.0 0.04186213565980599 0.0395 0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_0_link" pos="0.050532067829902994 0.0 0.02093106782990299">
-        <joint name="rear_left_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="-0.01733986434019401 0.079 0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_0_link" pos="0.050532067829902994 0.0 0.02093106782990299" zaxis="-0.01733986434019401 0.079 0.04186213565980598">
+        <joint name="rear_left_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.04186213565980599 -0.0395 0.04186213565980598 3.62507699015608e-18 0.0395 0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_1_link" pos="0.020931067829902998 0.0 0.050532067829902994">
-        <joint name="rear_left_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980598 0.079 0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_1_link" pos="0.020931067829902998 0.0 0.050532067829902994" zaxis="-0.04186213565980598 0.079 0.017339864340194015">
+        <joint name="rear_left_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="3.62507699015608e-18 -0.0395 0.059202 -0.04186213565980598 0.0395 0.04186213565980599" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_2_link" pos="-0.02093106782990299 0.0 0.050532067829902994">
-        <joint name="rear_left_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980599 0.079 -0.01733986434019401" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_2_link" pos="-0.02093106782990299 0.0 0.050532067829902994" zaxis="-0.04186213565980599 0.079 -0.01733986434019401">
+        <joint name="rear_left_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.04186213565980598 -0.0395 0.04186213565980599 -0.059202 0.0395 7.25015398031216e-18" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_3_link" pos="-0.050532067829902994 0.0 0.020931067829902998">
-        <joint name="rear_left_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="-0.017339864340194015 0.079 -0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_3_link" pos="-0.050532067829902994 0.0 0.020931067829902998" zaxis="-0.017339864340194015 0.079 -0.04186213565980598">
+        <joint name="rear_left_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.059202 -0.0395 7.25015398031216e-18 -0.041862135659805996 0.0395 -0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_4_link" pos="-0.050532067829902994 0.0 -0.020931067829902988">
-        <joint name="rear_left_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0.017339864340194 0.079 -0.04186213565980599" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_4_link" pos="-0.050532067829902994 0.0 -0.020931067829902988" zaxis="0.017339864340194 0.079 -0.04186213565980599">
+        <joint name="rear_left_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.041862135659805996 -0.0395 -0.04186213565980598 -1.087523097046824e-17 0.0395 -0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_5_link" pos="-0.020931067829903005 0.0 -0.050532067829902994">
-        <joint name="rear_left_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="0.04186213565980598 0.079 -0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_5_link" pos="-0.020931067829903005 0.0 -0.050532067829902994" zaxis="0.04186213565980598 0.079 -0.017339864340194015">
+        <joint name="rear_left_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-1.087523097046824e-17 -0.0395 -0.059202 0.041862135659805975 0.0395 -0.041862135659805996" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_6_link" pos="0.020931067829902984 0.0 -0.050532067829902994">
-        <joint name="rear_left_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="0.04186213565980599 0.079 0.017339864340194" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_6_link" pos="0.020931067829902984 0.0 -0.050532067829902994" zaxis="0.04186213565980599 0.079 0.017339864340194">
+        <joint name="rear_left_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.041862135659805975 -0.0395 -0.041862135659805996 0.059202 0.0395 0.0" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_left_wheel_roller_7_link" pos="0.05053206782990299 0.0 -0.020931067829902998">
-        <joint name="rear_left_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="0.017339864340194022 0.079 0.041862135659805996" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_left_wheel_roller_7_link" pos="0.05053206782990299 0.0 -0.020931067829902998" zaxis="0.017339864340194022 0.079 0.041862135659805996">
+        <joint name="rear_left_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 </body>
 <body name="rear_right_wheel_link" pos="-0.319 -0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
-    <joint name="rear_right_wheel_joint" pos="0 0 0" axis="0 1 0" />
+    <joint name="rear_right_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
     
 
     <geom size="0.016697999999999998" fromto="0.059202 -0.0395 0.0 0.041862135659805975 0.0395 -0.041862135659805996" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_0_link" pos="0.05053206782990299 0.0 -0.020931067829902998">
-        <joint name="rear_right_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="-0.017339864340194022 0.079 -0.041862135659805996" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_0_link" pos="0.05053206782990299 0.0 -0.020931067829902998" zaxis="-0.017339864340194022 0.079 -0.041862135659805996">
+        <joint name="rear_right_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.04186213565980599 -0.0395 0.04186213565980598 0.059202 0.0395 0.0" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_1_link" pos="0.050532067829902994 0.0 0.02093106782990299">
-        <joint name="rear_right_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="0.01733986434019401 0.079 -0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_1_link" pos="0.050532067829902994 0.0 0.02093106782990299" zaxis="0.01733986434019401 0.079 -0.04186213565980598">
+        <joint name="rear_right_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="3.62507699015608e-18 -0.0395 0.059202 0.04186213565980599 0.0395 0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_2_link" pos="0.020931067829902995 0.0 0.050532067829902994">
-        <joint name="rear_right_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="0.04186213565980598 0.079 -0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_2_link" pos="0.020931067829902995 0.0 0.050532067829902994" zaxis="0.04186213565980598 0.079 -0.017339864340194015">
+        <joint name="rear_right_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.04186213565980598 -0.0395 0.04186213565980599 3.62507699015608e-18 0.0395 0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_3_link" pos="-0.020931067829902988 0.0 0.050532067829902994">
-        <joint name="rear_right_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="0.04186213565980599 0.079 0.01733986434019401" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_3_link" pos="-0.020931067829902988 0.0 0.050532067829902994" zaxis="0.04186213565980599 0.079 0.01733986434019401">
+        <joint name="rear_right_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.059202 -0.0395 7.25015398031216e-18 -0.04186213565980598 0.0395 0.04186213565980599" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_4_link" pos="-0.050532067829902994 0.0 0.020931067829902998">
-        <joint name="rear_right_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0.017339864340194015 0.079 0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_4_link" pos="-0.050532067829902994 0.0 0.020931067829902998" zaxis="0.017339864340194015 0.079 0.04186213565980598">
+        <joint name="rear_right_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.041862135659805996 -0.0395 -0.04186213565980598 -0.059202 0.0395 7.25015398031216e-18" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_5_link" pos="-0.050532067829902994 0.0 -0.020931067829902988">
-        <joint name="rear_right_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="-0.017339864340194 0.079 0.04186213565980599" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_5_link" pos="-0.050532067829902994 0.0 -0.020931067829902988" zaxis="-0.017339864340194 0.079 0.04186213565980599">
+        <joint name="rear_right_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-1.087523097046824e-17 -0.0395 -0.059202 -0.041862135659805996 0.0395 -0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_6_link" pos="-0.020931067829903 0.0 -0.050532067829902994">
-        <joint name="rear_right_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980598 0.079 0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_6_link" pos="-0.020931067829903 0.0 -0.050532067829902994" zaxis="-0.04186213565980598 0.079 0.017339864340194015">
+        <joint name="rear_right_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.041862135659805975 -0.0395 -0.041862135659805996 -1.087523097046824e-17 0.0395 -0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="rear_right_wheel_roller_7_link" pos="0.02093106782990298 0.0 -0.050532067829902994">
-        <joint name="rear_right_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980599 0.079 -0.017339864340194" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="rear_right_wheel_roller_7_link" pos="0.02093106782990298 0.0 -0.050532067829902994" zaxis="-0.04186213565980599 0.079 -0.017339864340194">
+        <joint name="rear_right_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 </body>
 <body name="front_left_wheel_link" pos="0.319 0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
-    <joint name="front_left_wheel_joint" pos="0 0 0" axis="0 1 0" />
+    <joint name="front_left_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
     
 
     <geom size="0.016697999999999998" fromto="0.059202 -0.0395 0.0 0.041862135659805975 0.0395 -0.041862135659805996" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_0_link" pos="0.05053206782990299 0.0 -0.020931067829902998">
-        <joint name="front_left_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="-0.017339864340194022 0.079 -0.041862135659805996" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_0_link" pos="0.05053206782990299 0.0 -0.020931067829902998" zaxis="-0.017339864340194022 0.079 -0.041862135659805996">
+        <joint name="front_left_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.04186213565980599 -0.0395 0.04186213565980598 0.059202 0.0395 0.0" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_1_link" pos="0.050532067829902994 0.0 0.02093106782990299">
-        <joint name="front_left_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="0.01733986434019401 0.079 -0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_1_link" pos="0.050532067829902994 0.0 0.02093106782990299" zaxis="0.01733986434019401 0.079 -0.04186213565980598">
+        <joint name="front_left_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="3.62507699015608e-18 -0.0395 0.059202 0.04186213565980599 0.0395 0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_2_link" pos="0.020931067829902995 0.0 0.050532067829902994">
-        <joint name="front_left_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="0.04186213565980598 0.079 -0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_2_link" pos="0.020931067829902995 0.0 0.050532067829902994" zaxis="0.04186213565980598 0.079 -0.017339864340194015">
+        <joint name="front_left_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.04186213565980598 -0.0395 0.04186213565980599 3.62507699015608e-18 0.0395 0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_3_link" pos="-0.020931067829902988 0.0 0.050532067829902994">
-        <joint name="front_left_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="0.04186213565980599 0.079 0.01733986434019401" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_3_link" pos="-0.020931067829902988 0.0 0.050532067829902994" zaxis="0.04186213565980599 0.079 0.01733986434019401">
+        <joint name="front_left_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.059202 -0.0395 7.25015398031216e-18 -0.04186213565980598 0.0395 0.04186213565980599" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_4_link" pos="-0.050532067829902994 0.0 0.020931067829902998">
-        <joint name="front_left_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0.017339864340194015 0.079 0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_4_link" pos="-0.050532067829902994 0.0 0.020931067829902998" zaxis="0.017339864340194015 0.079 0.04186213565980598">
+        <joint name="front_left_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.041862135659805996 -0.0395 -0.04186213565980598 -0.059202 0.0395 7.25015398031216e-18" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_5_link" pos="-0.050532067829902994 0.0 -0.020931067829902988">
-        <joint name="front_left_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="-0.017339864340194 0.079 0.04186213565980599" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_5_link" pos="-0.050532067829902994 0.0 -0.020931067829902988" zaxis="-0.017339864340194 0.079 0.04186213565980599">
+        <joint name="front_left_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-1.087523097046824e-17 -0.0395 -0.059202 -0.041862135659805996 0.0395 -0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_6_link" pos="-0.020931067829903 0.0 -0.050532067829902994">
-        <joint name="front_left_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980598 0.079 0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_6_link" pos="-0.020931067829903 0.0 -0.050532067829902994" zaxis="-0.04186213565980598 0.079 0.017339864340194015">
+        <joint name="front_left_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.041862135659805975 -0.0395 -0.041862135659805996 -1.087523097046824e-17 0.0395 -0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_left_wheel_roller_7_link" pos="0.02093106782990298 0.0 -0.050532067829902994">
-        <joint name="front_left_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980599 0.079 -0.017339864340194" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_left_wheel_roller_7_link" pos="0.02093106782990298 0.0 -0.050532067829902994" zaxis="-0.04186213565980599 0.079 -0.017339864340194">
+        <joint name="front_left_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 </body>
 <body name="front_right_wheel_link" pos="0.319 -0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
-    <joint name="front_right_wheel_joint" pos="0 0 0" axis="0 1 0" />
+    <joint name="front_right_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
     
 
     <geom size="0.016697999999999998" fromto="0.059202 -0.0395 0.0 0.04186213565980599 0.0395 0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_0_link" pos="0.050532067829902994 0.0 0.02093106782990299">
-        <joint name="front_right_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="-0.01733986434019401 0.079 0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_0_link" pos="0.050532067829902994 0.0 0.02093106782990299" zaxis="-0.01733986434019401 0.079 0.04186213565980598">
+        <joint name="front_right_wheel_slipping_0_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.04186213565980599 -0.0395 0.04186213565980598 3.62507699015608e-18 0.0395 0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_1_link" pos="0.020931067829902998 0.0 0.050532067829902994">
-        <joint name="front_right_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980598 0.079 0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_1_link" pos="0.020931067829902998 0.0 0.050532067829902994" zaxis="-0.04186213565980598 0.079 0.017339864340194015">
+        <joint name="front_right_wheel_slipping_1_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="3.62507699015608e-18 -0.0395 0.059202 -0.04186213565980598 0.0395 0.04186213565980599" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_2_link" pos="-0.02093106782990299 0.0 0.050532067829902994">
-        <joint name="front_right_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="-0.04186213565980599 0.079 -0.01733986434019401" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_2_link" pos="-0.02093106782990299 0.0 0.050532067829902994" zaxis="-0.04186213565980599 0.079 -0.01733986434019401">
+        <joint name="front_right_wheel_slipping_2_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.04186213565980598 -0.0395 0.04186213565980599 -0.059202 0.0395 7.25015398031216e-18" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_3_link" pos="-0.050532067829902994 0.0 0.020931067829902998">
-        <joint name="front_right_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="-0.017339864340194015 0.079 -0.04186213565980598" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_3_link" pos="-0.050532067829902994 0.0 0.020931067829902998" zaxis="-0.017339864340194015 0.079 -0.04186213565980598">
+        <joint name="front_right_wheel_slipping_3_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.059202 -0.0395 7.25015398031216e-18 -0.041862135659805996 0.0395 -0.04186213565980598" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_4_link" pos="-0.050532067829902994 0.0 -0.020931067829902988">
-        <joint name="front_right_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0.017339864340194 0.079 -0.04186213565980599" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_4_link" pos="-0.050532067829902994 0.0 -0.020931067829902988" zaxis="0.017339864340194 0.079 -0.04186213565980599">
+        <joint name="front_right_wheel_slipping_4_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-0.041862135659805996 -0.0395 -0.04186213565980598 -1.087523097046824e-17 0.0395 -0.059202" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_5_link" pos="-0.020931067829903005 0.0 -0.050532067829902994">
-        <joint name="front_right_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="0.04186213565980598 0.079 -0.017339864340194015" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_5_link" pos="-0.020931067829903005 0.0 -0.050532067829902994" zaxis="0.04186213565980598 0.079 -0.017339864340194015">
+        <joint name="front_right_wheel_slipping_5_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="-1.087523097046824e-17 -0.0395 -0.059202 0.041862135659805975 0.0395 -0.041862135659805996" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_6_link" pos="0.020931067829902984 0.0 -0.050532067829902994">
-        <joint name="front_right_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="0.04186213565980599 0.079 0.017339864340194" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_6_link" pos="0.020931067829902984 0.0 -0.050532067829902994" zaxis="0.04186213565980599 0.079 0.017339864340194">
+        <joint name="front_right_wheel_slipping_6_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 
     <geom size="0.016697999999999998" fromto="0.041862135659805975 -0.0395 -0.041862135659805996 0.059202 0.0395 0.0" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
-    <body name="front_right_wheel_roller_7_link" pos="0.05053206782990299 0.0 -0.020931067829902998">
-        <joint name="front_right_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="0.017339864340194022 0.079 0.041862135659805996" damping="0.1" limited="false" actuatorfrclimited="false"/>
+    <body name="front_right_wheel_roller_7_link" pos="0.05053206782990299 0.0 -0.020931067829902998" zaxis="0.017339864340194022 0.079 0.041862135659805996">
+        <joint name="front_right_wheel_slipping_7_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom size="0.016697999999999998" quat="1 0 0 0" type="sphere" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>
 </body>
 </mujoco>
