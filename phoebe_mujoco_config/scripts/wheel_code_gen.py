@@ -3,16 +3,15 @@
 # this file is modified from this repository with several modifications and fixes
 # https://github.com/JunHeonYoon/mujoco_mecanum/
 
-from math import pi, sin, cos 
+from math import pi, sin, cos, sqrt
 import numpy as np
-
-roller_ratio = 33 / 150 # radius ratio of roller wrt wheel
 
 n_roller=8 # number of rollers of wheel
 pos=[0, 0, 0] # position of wheel wrt body frame
 mass=2.5 # mass of a wheel
 diag_inertia=[0.00720101, 0.00490071, 0.00490071] # diagonal inertia of a wheel [ixx, iyy, izz]
-size=[0.0759, 0.079] # size of a wheel [radius, width]
+size=[0.0759, 0.077*sqrt(2)/2] # size of a wheel [radius, width] - width is roller length * sqrt(2)/2
+roller_r = 0.033/2
 
 def return_wheel_description(link_name, pos, wheel_type):
 
@@ -37,7 +36,6 @@ def return_wheel_description(link_name, pos, wheel_type):
     wheel_description += cylinder + '\n'
 
     step = (2*pi) / n_roller
-    roller_r = r * roller_ratio
 
     for i in range(n_roller):
         body_name = link_name + '_roller_' + str(i)
@@ -65,7 +63,7 @@ def return_wheel_description(link_name, pos, wheel_type):
     <body name="{body_name}_link" pos="{str(pos[0])} {str(pos[1])} {str(pos[2])}" zaxis="{str(axis[0])} {str(axis[1])} {str(axis[2])}">
         <joint name="{joint_name}_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom mesh="mecanum_wheel" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom mesh="mecanum_wheel_22" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
     </body>"""
 
         wheel_description += wheel + '\n' 
