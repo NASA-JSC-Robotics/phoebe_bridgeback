@@ -123,6 +123,7 @@ def generate_launch_description():
             "--port",
             "11411",
         ],
+        prefix="taskset -c 4",
     )
 
     node_lighting_node = Node(

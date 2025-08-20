@@ -10,6 +10,7 @@
         serial_baud: 115200
         laser_frame_id: 'lidar2d_0_laser'
         calibrate_time: False
+        synchronize_time: False
         default_user_latency: 0.0
         diagnostics_tolerance: 0.05
         diagnostics_window_time: 5.0
@@ -19,7 +20,3 @@
         publish_multiecho: False
         cluster: 1
         skip: 9
-        qos_overrides:
-          scan:
-            publisher:
-              reliability: best_effort

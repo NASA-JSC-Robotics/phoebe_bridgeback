@@ -107,9 +107,7 @@ def generate_launch_description():
     nodes = [
         hande_right_comm_node,
         hande_left_comm_node,
-        r_urscript_interface,
         r_dashboard_client_node,
-        l_urscript_interface,
         l_dashboard_client_node,
     ]
     
