@@ -16,11 +16,12 @@ def generate_launch_description():
             "camera_namespace": "",
             "serial_no": "'207522078043'",
             "rgb_camera.color_profile": "1280,720,6",
-            "depth_module.depth_profile": "1280,720,6",
-            "depth_module.infra_profile": "1280,720,6",
+            # "depth_module.depth_profile": "320,180,6",
+            # "depth_module.infra_profile": "320,180,6",
             "initial_reset": "true",
             "pointcloud.enable": "false",
-            "align_depth.enable": "true",
+            "align_depth.enable": "false",
+            "enable_depth": "false",
         }.items(),
     )
 
@@ -33,11 +34,12 @@ def generate_launch_description():
             "camera_namespace": "",
             "serial_no": "'207522073775'", # needs to be updated for actual serial number
             "rgb_camera.color_profile": "1280,720,6",
-            "depth_module.depth_profile": "1280,720,6",
-            "depth_module.infra_profile": "1280,720,6",
+            # "depth_module.depth_profile": "320,180,6",
+            # "depth_module.infra_profile": "320,180,6",
             "initial_reset": "true",
             "pointcloud.enable": "false",
-            "align_depth.enable": "true",
+            "align_depth.enable": "false",
+            "enable_depth": "false",
         }.items(),
     )
 
