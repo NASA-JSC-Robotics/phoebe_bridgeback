@@ -150,7 +150,7 @@ def generate_launch_description():
             # Necessary remap for platform velocity controller. Preferably this would be done
             # at spawn time. This is not supported in humble, but is supported in jazzy.
         ],
-        prefix="taskset -c 0,2",
+        # prefix="taskset -c 0,2",
         output="both",
     )
 
