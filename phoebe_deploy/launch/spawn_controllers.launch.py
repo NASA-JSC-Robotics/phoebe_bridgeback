@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess, RegisterEventHandler
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from ament_index_python.packages import get_package_share_directory
-
+from launch_ros.substitutions import FindPackagePrefix
+from launch.event_handlers import OnProcessExit
 
 def generate_launch_description():
 
@@ -94,6 +95,22 @@ def generate_launch_description():
         [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_hande.launch.py"]
     )
 
+    # Thread prioritization should happen, clearly, after the threads have been started.
+    # The threads of interest are the controller manager main thread and control loop thread.
+    # Create a process to do the prioritization, then we will tie it to the exit of a spawner
+    # node that adds a controller to controller manager. This should ensure that controller
+    # manager itself has had time to initialize and start processing controllers.
+    prioritize_threads = ExecuteProcess(
+        shell=True,
+        cmd=[ PathJoinSubstitution([
+                FindPackagePrefix("phoebe_deploy"),
+                "lib",
+                "phoebe_deploy",
+                "prioritize_threads.sh"
+              ])
+        ],
+    )    
+
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
     launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
@@ -103,4 +120,8 @@ def generate_launch_description():
         )
     )
 
-    return LaunchDescription(declared_arguments + launches + [joint_state_broadcaster])
+    return LaunchDescription(declared_arguments + launches + [joint_state_broadcaster] + 
+                             [RegisterEventHandler(
+                                OnProcessExit(
+                                    target_action=joint_state_broadcaster, 
+                                    on_exit=[prioritize_threads]))])

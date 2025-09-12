@@ -9,7 +9,7 @@ install(
 )
 
 install(
-  PROGRAMS scripts/keyboard_joy.py
+  PROGRAMS scripts/keyboard_joy.py scripts/prioritize_threads.sh
   DESTINATION lib/${PROJECT_NAME}
 )
 
