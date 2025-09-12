@@ -10,7 +10,6 @@ from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
 from launch.conditions import IfCondition
 
-
 def generate_launch_description():
 
     declared_arguments = []
@@ -150,7 +149,7 @@ def generate_launch_description():
             # Necessary remap for platform velocity controller. Preferably this would be done
             # at spawn time. This is not supported in humble, but is supported in jazzy.
         ],
-        # prefix="taskset -c 0,2",
+        prefix="taskset -c 0,1,2,3,5",
         output="both",
     )
 
