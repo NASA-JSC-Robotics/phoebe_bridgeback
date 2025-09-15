@@ -49,5 +49,6 @@ def generate_launch_description():
         )
 
     nodes.append(MakeControllerNode("platform_velocity_controller"))
+    nodes.append(MakeControllerNode("odom_publisher"))
 
     return LaunchDescription(declared_arguments + nodes)
