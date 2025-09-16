@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-desired_main_loop_priority=50
+desired_main_loop_priority=55
 original_control_loop_priority=50
 desired_control_loop_priority=99
 

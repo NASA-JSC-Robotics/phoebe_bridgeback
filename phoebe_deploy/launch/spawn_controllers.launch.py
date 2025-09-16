@@ -109,6 +109,7 @@ def generate_launch_description():
                 "prioritize_threads.sh"
               ])
         ],
+        output="both"
     )    
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
