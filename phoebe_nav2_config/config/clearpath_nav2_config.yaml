@@ -108,7 +108,7 @@ controller_server:
       min_speed_theta: -0.2
       acc_lim_x: 0.2
       acc_lim_y: 0.2
-      acc_lim_theta: 0.2
+      acc_lim_theta: 0.6
       decel_lim_x: -0.2
       decel_lim_y: -0.2
       decel_lim_theta: -0.2
