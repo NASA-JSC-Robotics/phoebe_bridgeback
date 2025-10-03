@@ -10,7 +10,7 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
 
-    <xacro:arg name="calibration_mode" default="true" />
+    <xacro:arg name="calibration_mode" default="false" />
 
     <xacro:if value="$(arg calibration_mode)">
         <xacro:property name="tip_link_name" value="calibration_plate_robot_side"/>
@@ -18,6 +18,19 @@
     <xacro:unless value="$(arg calibration_mode)">
         <xacro:property name="tip_link_name" value="grasp_frame"/>
     </xacro:unless>
+
+    <group name="left_push1">
+        <chain base_link="left_ur_arm_base_link" tip_link="left_push_frame_1" />
+    </group>
+    <group name="left_push2">
+        <chain base_link="left_ur_arm_base_link" tip_link="left_push_frame_2" />
+    </group>
+    <group name="right_push1">
+        <chain base_link="right_ur_arm_base_link" tip_link="right_push_frame_1" />
+    </group>
+    <group name="right_push2">
+        <chain base_link="right_ur_arm_base_link" tip_link="right_push_frame_2" />
+    </group>
 
     <group name="left_grasp">
         <chain base_link="left_ur_arm_base_link" tip_link="left_${tip_link_name}"/>
@@ -39,11 +52,6 @@
             <joint name="right_finger_1_joint"/>
         </group>
     </xacro:unless>
-    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <xacro:unless value="$(arg calibration_mode)">
-        <end_effector name="right_gripper" parent_link="right_ur_arm_tool0" group="right_hande"/>
-        <end_effector name="left_gripper" parent_link="left_ur_arm_tool0" group="left_hande"/>
-    </xacro:unless>
 
     <!--GROUP STATES - Purpose - Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <!-- Arms -->
@@ -57,6 +65,42 @@
     </group_state>
 
     <group_state group="right_grasp" name="home">
+        <joint name="right_ur_arm_shoulder_pan_joint" value="0.0" />
+        <joint name="right_ur_arm_shoulder_lift_joint" value="-2.36" />
+        <joint name="right_ur_arm_elbow_joint" value="2.36" />
+        <joint name="right_ur_arm_wrist_1_joint" value="3.14" />
+        <joint name="right_ur_arm_wrist_2_joint" value="-1.57" />
+        <joint name="right_ur_arm_wrist_3_joint" value="0.0" />
+    </group_state>
+
+    <group_state group="left_push1" name="home">
+        <joint name="left_ur_arm_shoulder_pan_joint" value="3.14" />
+        <joint name="left_ur_arm_shoulder_lift_joint" value="-0.79" />
+        <joint name="left_ur_arm_elbow_joint" value="-2.36" />
+        <joint name="left_ur_arm_wrist_1_joint" value="0.0" />
+        <joint name="left_ur_arm_wrist_2_joint" value="1.57" />
+        <joint name="left_ur_arm_wrist_3_joint" value="0.0" />
+    </group_state>
+
+    <group_state group="left_push2" name="home">
+        <joint name="left_ur_arm_shoulder_pan_joint" value="3.14" />
+        <joint name="left_ur_arm_shoulder_lift_joint" value="-0.79" />
+        <joint name="left_ur_arm_elbow_joint" value="-2.36" />
+        <joint name="left_ur_arm_wrist_1_joint" value="0.0" />
+        <joint name="left_ur_arm_wrist_2_joint" value="1.57" />
+        <joint name="left_ur_arm_wrist_3_joint" value="0.0" />
+    </group_state>
+
+    <group_state group="right_push1" name="home">
+        <joint name="right_ur_arm_shoulder_pan_joint" value="0.0" />
+        <joint name="right_ur_arm_shoulder_lift_joint" value="-2.36" />
+        <joint name="right_ur_arm_elbow_joint" value="2.36" />
+        <joint name="right_ur_arm_wrist_1_joint" value="3.14" />
+        <joint name="right_ur_arm_wrist_2_joint" value="-1.57" />
+        <joint name="right_ur_arm_wrist_3_joint" value="0.0" />
+    </group_state>
+
+    <group_state group="right_push2" name="home">
         <joint name="right_ur_arm_shoulder_pan_joint" value="0.0" />
         <joint name="right_ur_arm_shoulder_lift_joint" value="-2.36" />
         <joint name="right_ur_arm_elbow_joint" value="2.36" />
@@ -902,6 +946,9 @@
     <disable_collisions link1="right_mtc_effector_side" link2="right_mtc_robot_side" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_effector_side" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_robot_side" link2="right_ur_arm_wrist_3_link" reason="Adjacent"/>
+
+    <disable_collisions link1="left_robotiq_hande_cb_adapter" link2="left_ur_realsense_mount" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_hande_cb_adapter" link2="right_ur_realsense_mount" reason="Adjacent"/>
 
     <xacro:if value="$(arg calibration_mode)">
         <disable_collisions link1="front_shelf" link2="calibration_plate_target_side" reason="Adjacent"/>

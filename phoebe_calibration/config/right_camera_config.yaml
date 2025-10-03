@@ -1,0 +1,16 @@
+/**:
+  hand_eye_cal:
+    ros__parameters:
+      gripper_frame: "right_ur_realsense_mount"
+      base_frame: "right_ur_arm_base_link"
+      camera_frame: "right_wrist_mounted_camera_color_optical_frame"
+      camera_origin_frame: 'right_wrist_mounted_camera_bottom_screw_frame'
+      marker_frame: "checkerboard"
+      number_of_samples: 12
+      board_width: 8
+      board_height: 11
+      square_size: 0.05
+      target_type: "CHESSBOARD"
+      calibration_mode: "hand_to_eye"
+      image_topic_namespace: 'right_wrist_mounted_camera'
+      hand_frame: 'right_ur_realsense_mount'

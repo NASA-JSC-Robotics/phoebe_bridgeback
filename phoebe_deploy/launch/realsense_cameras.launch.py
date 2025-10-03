@@ -7,34 +7,41 @@ import os
 
 def generate_launch_description():
 
-    wrist_camera = IncludeLaunchDescription(
+    left_camera = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("realsense2_camera"), "launch", "rs_launch.py")
         ),
         launch_arguments={
             "camera_name": "left_wrist_mounted_camera",
             "camera_namespace": "",
-            "serial_no": "'938422070949'", # needs to be updated for actual serial number
-            "rgb_camera.profile": "1280,720,30",
+            "serial_no": "'207522078043'",
+            "rgb_camera.color_profile": "1280,720,6",
+            # "depth_module.depth_profile": "320,180,6",
+            # "depth_module.infra_profile": "320,180,6",
             "initial_reset": "true",
             "pointcloud.enable": "false",
-            "align_depth.enable": "true",
+            "align_depth.enable": "false",
+            "enable_depth": "false",
         }.items(),
     )
 
-    lift_camera = IncludeLaunchDescription(
+    right_camera = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("realsense2_camera"), "launch", "rs_launch.py")
         ),
         launch_arguments={
             "camera_name": "right_wrist_mounted_camera",
             "camera_namespace": "",
-            "serial_no": "'207122078580'", # needs to be updated for actual serial number
-            "rgb_camera.profile": "1280,720,30",
+            "serial_no": "'207522073775'", # needs to be updated for actual serial number
+            "rgb_camera.color_profile": "1280,720,6",
+            # "depth_module.depth_profile": "320,180,6",
+            # "depth_module.infra_profile": "320,180,6",
             "initial_reset": "true",
             "pointcloud.enable": "false",
-            "align_depth.enable": "true",
+            "align_depth.enable": "false",
+            "enable_depth": "false",
         }.items(),
     )
 
-    return LaunchDescription([wrist_camera, lift_camera])
+    return LaunchDescription([left_camera, right_camera])
+    # return LaunchDescription([right_camera])
