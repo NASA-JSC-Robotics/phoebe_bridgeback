@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
 <mujoco model="phoebe">
-  <!-- <option timestep="0.0004"/> -->
   <compiler angle="radian" meshdir="assets/"/>
   <asset>
     <mesh file="full/body/body.obj" scale="1.0 1.0 1.0"/>
@@ -89,7 +88,7 @@
     <material name="DEFAULT_MTL" specular="0.0" shininess="0.25" rgba="0.100000 0.100000 0.100000 1.000000"/>
     <mesh file="full/mtc_effector_side/mtc_effector_side.obj" scale="1.0 1.0 1.0"/>
     <material name="DEFAULT_MTL.002" specular="0.0" shininess="0.25" rgba="0.100000 0.100000 0.100000 1.000000"/>
-    <mesh file="full/ur_realsense_short_mount_tube/ur_realsense_short_mount_tube.obj" scale="1.0 1.0 1.0"/>
+    <mesh file="full/ich-005_realsense_cable_mount_corr/ich-005_realsense_cable_mount_corr.obj" scale="0.0254 0.0254 0.0254"/>
     <material name="new_mat_color.021" specular="0.5" shininess="0.36" rgba="0.100000 0.100000 0.100000 1.000000"/>
     <mesh file="full/d435/d435.obj" scale="1.0 1.0 1.0"/>
     <material name="ID10" specular="0.0" shininess="0.25" rgba="0.749020 0.749020 0.749020 1.000000"/>
@@ -97,15 +96,8 @@
     <material name="DEFAULT_MTL.001" specular="0.0" shininess="0.25" rgba="0.800000 0.800000 0.800000 1.000000"/>
     <mesh file="full/hande/hande.obj" scale="0.001 0.001 0.001"/>
     <mesh file="full/finger_1/finger_1.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel.stl" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel1.stl" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel2.stl" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel_22.stl" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel_24.stl" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel_28.stl" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel_31.stl" scale="0.001 0.001 0.001"/>
-    <mesh file="mecanum_wheel_33.stl" scale="0.001 0.001 0.001"/>
     <material name="new_mat_color.022" specular="0.5" shininess="0.36" rgba="0.200000 0.200000 0.200000 1.000000"/>
+    <mesh file="mecanum_wheel_22.stl" scale="0.001 0.001 0.001"/>
   </asset>
   <worldbody>
     <body name="base_link">
@@ -137,9 +129,9 @@
                   <inertial pos="0 0.01634 -0.0018" quat="0.996652 -0.0779336 -0.00684629 -0.0237381" mass="1.3" diaginertia="0.00135637 0.00128607 0.00095814"/>
                   <joint name="left_ur_arm_wrist_2_joint" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" actuatorfrcrange="-28 28"/>
                   <body name="left_ur_arm_wrist_3_link" pos="0.000106733 0.0996158 1.94962e-05" quat="-0.707176 0.707038 1.93623e-08 -1.93661e-08">
-                    <inertial pos="0.00397466 -0.00338226 0.063839" quat="0.423223 0.902947 0.00974851 0.0739877" mass="1.31087" diaginertia="0.00846567 0.00556141 0.00477989"/>
+                    <inertial pos="0.000839754 -0.00316796 0.065463" quat="0.724907 0.688778 0.0074684 0.00631936" mass="1.31087" diaginertia="0.00765268 0.0049038 0.00405629"/>
                     <joint name="left_ur_arm_wrist_3_joint" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" actuatorfrcrange="-28 28"/>
-                    <body name="left_finger_1_link" pos="0.025 0 0.151" quat="0 0 0 -1">
+                    <body name="left_finger_1_link" pos="0.025 0 0.146" quat="0 0 0 -1">
                       <inertial pos="-0.02262 0.00759 0.00738" quat="0.871952 -0.0369732 0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="left_finger_1_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
@@ -149,7 +141,7 @@
                       <site name="left_finger_1_link" pos="0 0 0" quat="1.0 0 0 0"/>
                       <site name="left_push_frame_1" pos="0.03 0 0.046" quat="1.0 0 0 0"/>
                     </body>
-                    <body name="left_finger_2_link" pos="-0.025 0 0.151" quat="-1 0 0 0">
+                    <body name="left_finger_2_link" pos="-0.025 0 0.146" quat="-1 0 0 0">
                       <inertial pos="0.02262 -0.00759 0.00738" quat="0.871952 0.0369732 -0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="left_finger_2_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
@@ -165,40 +157,40 @@
                     <geom mesh="mtc_robot_side" class="collision" pos="" quat="0 0 0 1"/>
                     <geom material="DEFAULT_MTL.002" mesh="mtc_effector_side" class="visual" pos="0 0 0.009" quat="0 0 0 1"/>
                     <geom mesh="mtc_effector_side" class="collision" pos="0 0 0.009" quat="0 0 0 1"/>
-                    <geom material="new_mat_color.021" mesh="ur_realsense_short_mount_tube" class="visual" pos="0 0 0.033" quat="0 0 0 1"/>
-                    <geom mesh="ur_realsense_short_mount_tube" class="collision" pos="0 0 0.033" quat="0 0 0 1"/>
-                    <geom material="ID10" mesh="d435" class="visual" pos="0.0742879 0.00338466 0.0655007" quat="-0.708146 -0.0430621 0.0562476 0.702503"/>
-                    <geom mesh="d435" class="collision" pos="0.0742879 0.00338466 0.0655007" quat="-0.708146 -0.0430621 0.0562476 0.702503"/>
-                    <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.041" quat="-1 0 0 0"/>
-                    <geom mesh="robotiq_hande_cb_adapter" class="collision" pos="0 0 0.041" quat="-1 0 0 0"/>
-                    <geom mesh="hande" class="visual" pos="0 0 0.052" quat="-1 0 0 0"/>
-                    <geom mesh="hande" class="collision" pos="0 0 0.052" quat="-1 0 0 0"/>
-                    <geom size="0.007" pos="0 0 0.1508" quat="-1 0 0 0" type="sphere" class="collision"/>
-                    <geom size="0.007" pos="0 0 0.1508" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
-                    <geom size="0.007" pos="0 0 0.182" quat="-1 0 0 0" type="sphere" class="collision"/>
-                    <geom size="0.007" pos="0 0 0.182" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
+                    <geom material="new_mat_color.021" mesh="ich-005_realsense_cable_mount_corr" class="visual" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
+                    <geom mesh="ich-005_realsense_cable_mount_corr" class="collision" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
+                    <geom material="ID10" mesh="d435" class="visual" pos="0.000232461 0.075435 0.0621531" quat="-0.998234 -0.0590136 -0.00607553 -0.00309732"/>
+                    <geom mesh="d435" class="collision" pos="0.000232461 0.075435 0.0621531" quat="-0.998234 -0.0590136 -0.00607553 -0.00309732"/>
+                    <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.036" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_hande_cb_adapter" class="collision" pos="0 0 0.036" quat="-1 0 0 0"/>
+                    <geom mesh="hande" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="hande" class="collision" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom size="0.007" pos="0 0 0.1458" quat="-1 0 0 0" type="sphere" class="collision"/>
+                    <geom size="0.007" pos="0 0 0.1458" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
+                    <geom size="0.007" pos="0 0 0.177" quat="-1 0 0 0" type="sphere" class="collision"/>
+                    <geom size="0.007" pos="0 0 0.177" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
                     <site name="left_ur_arm_wrist_3_link" pos="0 0 0" quat="1.0 0 0 0"/>
                     <site name="left_ur_arm_ft_frame" pos="0 0 0" quat="0 1.0 0 0"/>
                     <site name="left_ur_arm_flange" pos="0 0 0" quat="-0.5000000000000001 0.5 0.5000000000000001 0.49999999999999994"/>
                     <site name="left_ur_arm_tool0" pos="0 0 0" quat="1.0 0 0 0"/>
                     <site name="left_mtc_robot_side" pos="0 0 0" quat="0 0 0 1.0"/>
                     <site name="left_mtc_effector_side" pos="0 0 0.009" quat="0 0 0 1.0"/>
-                    <site name="left_ur_realsense_mount" pos="0 0 0.033" quat="0 0 0 1.0"/>
-                    <site name="left_wrist_mounted_camera_bottom_screw_frame" pos="0.064 0.002999999999999996 0.04900000000000001" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="left_wrist_mounted_camera_link" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="left_wrist_mounted_camera_depth_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="left_wrist_mounted_camera_depth_optical_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="left_wrist_mounted_camera_infra1_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="left_wrist_mounted_camera_infra1_optical_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="left_wrist_mounted_camera_infra2_frame" pos="0.07467443213825625 0.03580040213240633 0.060621106594390926" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="left_wrist_mounted_camera_infra2_optical_frame" pos="0.07467443213825625 0.03580040213240633 0.060621106594390926" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="left_wrist_mounted_camera_color_frame" pos="0.07510670281270905 -0.029186227507050088 0.06186654232863569" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="left_wrist_mounted_camera_color_optical_frame" pos="0.07510670281270905 -0.029186227507050088 0.06186654232863569" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="left_robotiq_hande_cb_adapter" pos="0 0 0.041" quat="1.0 0 0 0"/>
-                    <site name="left_gripper_base_link" pos="0 0 0.052" quat="1.0 0 0 0"/>
-                    <site name="left_gripper_palm_link" pos="0 0 0.1508" quat="1.0 0 0 0"/>
-                    <site name="left_grasp_frame" pos="0 0 0.18200000000000002" quat="1.0 0 0 0"/>
-                    <camera name="left_wrist_mounted_camera_color" fovy="58" mode="fixed" resolution="640 480" pos="0.07510670281270905 -0.029186227507050088 0.06186654232863569" quat="0.05624760043867319 0.7025034152305873 0.7081460431581902 0.043062055148947516"/>
+                    <site name="left_ur_realsense_mount" pos="0 0 0.033" quat="0.7071067811865475 0 0 -0.7071067811865476"/>
+                    <site name="left_wrist_mounted_camera_bottom_screw_frame" pos="0.00011461581058039112 0.06477723247500103 0.04588481485344156" quat="0.5332101511675295 -0.4710992667519285 -0.46812105206923166 -0.5240373041752767"/>
+                    <site name="left_wrist_mounted_camera_link" pos="0.01767710423050336 0.07606221192742246 0.05767753461007523" quat="0.5332101511675295 -0.4710992667519285 -0.46812105206923166 -0.5240373041752767"/>
+                    <site name="left_wrist_mounted_camera_depth_frame" pos="0.01767710423050336 0.07606221192742246 0.05767753461007523" quat="0.5332101511675295 -0.4710992667519285 -0.46812105206923166 -0.5240373041752767"/>
+                    <site name="left_wrist_mounted_camera_depth_optical_frame" pos="0.01767710423050336 0.07606221192742246 0.05767753461007523" quat="-0.00309731615477802 0.006075530837474827 -0.05901356826082302 0.9982338870819831"/>
+                    <site name="left_wrist_mounted_camera_infra1_frame" pos="0.01767710423050336 0.07606221192742246 0.05767753461007523" quat="0.5332101511675295 -0.4710992667519285 -0.46812105206923166 -0.5240373041752767"/>
+                    <site name="left_wrist_mounted_camera_infra1_optical_frame" pos="0.01767710423050336 0.07606221192742246 0.05767753461007523" quat="-0.00309731615477802 0.006075530837474827 -0.05901356826082302 0.9982338870819831"/>
+                    <site name="left_wrist_mounted_camera_infra2_frame" pos="-0.03231824522526468 0.07571717345757206 0.05826573631864059" quat="0.5332101511675295 -0.4710992667519285 -0.46812105206923166 -0.5240373041752767"/>
+                    <site name="left_wrist_mounted_camera_infra2_optical_frame" pos="-0.03231824522526468 0.07571717345757206 0.05826573631864059" quat="-0.00309731615477802 0.006075530837474827 -0.05901356826082302 0.9982338870819831"/>
+                    <site name="left_wrist_mounted_camera_color_frame" pos="0.03267570906723376 0.07616572346837758 0.05750107409750563" quat="0.5332101511675295 -0.4710992667519285 -0.46812105206923166 -0.5240373041752767"/>
+                    <site name="left_wrist_mounted_camera_color_optical_frame" pos="0.03267570906723376 0.07616572346837758 0.05750107409750563" quat="-0.00309731615477802 0.006075530837474827 -0.05901356826082302 0.9982338870819831"/>
+                    <site name="left_robotiq_hande_cb_adapter" pos="0 0 0.036" quat="1.0 0 0 0"/>
+                    <site name="left_gripper_base_link" pos="0 0 0.047" quat="1.0 0 0 0"/>
+                    <site name="left_gripper_palm_link" pos="0 0 0.1458" quat="1.0 0 0 0"/>
+                    <site name="left_grasp_frame" pos="0 0 0.17700000000000002" quat="1.0 0 0 0"/>
+                    <camera name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480" pos="0.03267570906723376 0.07616572346837758 0.05750107409750563" quat="-0.006075530837474827 -0.00309731615477802 0.9982338870819831 0.05901356826082302"/>
                   </body>
                   <geom mesh="wrist2_0" material="Black.005" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_1" material="URBlue.004" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
@@ -287,9 +279,9 @@
                   <inertial pos="0 0.01634 -0.0018" quat="0.996652 -0.0779336 -0.00684629 -0.0237381" mass="1.3" diaginertia="0.00135637 0.00128607 0.00095814"/>
                   <joint name="right_ur_arm_wrist_2_joint" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" actuatorfrcrange="-28 28"/>
                   <body name="right_ur_arm_wrist_3_link" pos="7.98405e-05 0.0996341 1.16486e-05" quat="-0.707148 0.707065 4.07248e-09 -4.07295e-09">
-                    <inertial pos="0.00397466 -0.00338226 0.063839" quat="0.423223 0.902947 0.00974851 0.0739877" mass="1.31087" diaginertia="0.00846567 0.00556141 0.00477989"/>
+                    <inertial pos="0.000681263 -0.00313372 0.0653098" quat="0.720299 0.693617 0.00574545 0.00567072" mass="1.31087" diaginertia="0.00764365 0.00489151 0.00404757"/>
                     <joint name="right_ur_arm_wrist_3_joint" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" actuatorfrcrange="-28 28"/>
-                    <body name="right_finger_1_link" pos="0.025 0 0.151" quat="0 0 0 -1">
+                    <body name="right_finger_1_link" pos="0.025 0 0.146" quat="0 0 0 -1">
                       <inertial pos="-0.02262 0.00759 0.00738" quat="0.871952 -0.0369732 0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="right_finger_1_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
@@ -299,7 +291,7 @@
                       <site name="right_finger_1_link" pos="0 0 0" quat="1.0 0 0 0"/>
                       <site name="right_push_frame_1" pos="0.03 0 0.046" quat="1.0 0 0 0"/>
                     </body>
-                    <body name="right_finger_2_link" pos="-0.025 0 0.151" quat="-1 0 0 0">
+                    <body name="right_finger_2_link" pos="-0.025 0 0.146" quat="-1 0 0 0">
                       <inertial pos="0.02262 -0.00759 0.00738" quat="0.871952 0.0369732 -0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="right_finger_2_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
@@ -315,40 +307,40 @@
                     <geom mesh="mtc_robot_side" class="collision" pos="" quat="0 0 0 1"/>
                     <geom material="DEFAULT_MTL.002" mesh="mtc_effector_side" class="visual" pos="0 0 0.009" quat="0 0 0 1"/>
                     <geom mesh="mtc_effector_side" class="collision" pos="0 0 0.009" quat="0 0 0 1"/>
-                    <geom material="new_mat_color.021" mesh="ur_realsense_short_mount_tube" class="visual" pos="0 0 0.033" quat="0 0 0 1"/>
-                    <geom mesh="ur_realsense_short_mount_tube" class="collision" pos="0 0 0.033" quat="0 0 0 1"/>
-                    <geom material="ID10" mesh="d435" class="visual" pos="0.0742879 0.00338466 0.0655007" quat="-0.708146 -0.0430621 0.0562476 0.702503"/>
-                    <geom mesh="d435" class="collision" pos="0.0742879 0.00338466 0.0655007" quat="-0.708146 -0.0430621 0.0562476 0.702503"/>
-                    <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.041" quat="-1 0 0 0"/>
-                    <geom mesh="robotiq_hande_cb_adapter" class="collision" pos="0 0 0.041" quat="-1 0 0 0"/>
-                    <geom mesh="hande" class="visual" pos="0 0 0.052" quat="-1 0 0 0"/>
-                    <geom mesh="hande" class="collision" pos="0 0 0.052" quat="-1 0 0 0"/>
-                    <geom size="0.007" pos="0 0 0.1508" quat="-1 0 0 0" type="sphere" class="collision"/>
-                    <geom size="0.007" pos="0 0 0.1508" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
-                    <geom size="0.007" pos="0 0 0.182" quat="-1 0 0 0" type="sphere" class="collision"/>
-                    <geom size="0.007" pos="0 0 0.182" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
+                    <geom material="new_mat_color.021" mesh="ich-005_realsense_cable_mount_corr" class="visual" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
+                    <geom mesh="ich-005_realsense_cable_mount_corr" class="collision" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
+                    <geom material="ID10" mesh="d435" class="visual" pos="-0.00269166 0.0724006 0.061334" quat="-0.998127 -0.0603226 -0.000928944 -0.0101021"/>
+                    <geom mesh="d435" class="collision" pos="-0.00269166 0.0724006 0.061334" quat="-0.998127 -0.0603226 -0.000928944 -0.0101021"/>
+                    <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.036" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_hande_cb_adapter" class="collision" pos="0 0 0.036" quat="-1 0 0 0"/>
+                    <geom mesh="hande" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="hande" class="collision" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom size="0.007" pos="0 0 0.1458" quat="-1 0 0 0" type="sphere" class="collision"/>
+                    <geom size="0.007" pos="0 0 0.1458" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
+                    <geom size="0.007" pos="0 0 0.177" quat="-1 0 0 0" type="sphere" class="collision"/>
+                    <geom size="0.007" pos="0 0 0.177" quat="-1 0 0 0" rgba="0 1 0 0.5" type="sphere" class="visual"/>
                     <site name="right_ur_arm_wrist_3_link" pos="0 0 0" quat="1.0 0 0 0"/>
                     <site name="right_ur_arm_ft_frame" pos="0 0 0" quat="0 1.0 0 0"/>
                     <site name="right_ur_arm_flange" pos="0 0 0" quat="-0.5000000000000001 0.5 0.5000000000000001 0.49999999999999994"/>
                     <site name="right_ur_arm_tool0" pos="0 0 0" quat="1.0 0 0 0"/>
                     <site name="right_mtc_robot_side" pos="0 0 0" quat="0 0 0 1.0"/>
                     <site name="right_mtc_effector_side" pos="0 0 0.009" quat="0 0 0 1.0"/>
-                    <site name="right_ur_realsense_mount" pos="0 0 0.033" quat="0 0 0 1.0"/>
-                    <site name="right_wrist_mounted_camera_bottom_screw_frame" pos="0.064 0.002999999999999996 0.04900000000000001" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="right_wrist_mounted_camera_link" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="right_wrist_mounted_camera_depth_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="right_wrist_mounted_camera_depth_optical_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="right_wrist_mounted_camera_infra1_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="right_wrist_mounted_camera_infra1_optical_frame" pos="0.07500694804168148 -0.014189312974867837 0.06157913408227152" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="right_wrist_mounted_camera_infra2_frame" pos="0.07467443213825625 0.03580040213240633 0.060621106594390926" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="right_wrist_mounted_camera_infra2_optical_frame" pos="0.07467443213825625 0.03580040213240633 0.060621106594390926" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="right_wrist_mounted_camera_color_frame" pos="0.07510670281270905 -0.029186227507050088 0.06186654232863569" quat="0.0037714586810614656 0.6556699014005783 0.009414086608664256 0.7549795569881991"/>
-                    <site name="right_wrist_mounted_camera_color_optical_frame" pos="0.07510670281270905 -0.029186227507050088 0.06186654232863569" quat="0.7025034152305873 -0.05624760043867319 -0.043062055148947516 0.7081460431581902"/>
-                    <site name="right_robotiq_hande_cb_adapter" pos="0 0 0.041" quat="1.0 0 0 0"/>
-                    <site name="right_gripper_base_link" pos="0 0 0.052" quat="1.0 0 0 0"/>
-                    <site name="right_gripper_palm_link" pos="0 0 0.1508" quat="1.0 0 0 0"/>
-                    <site name="right_grasp_frame" pos="0 0 0.18200000000000002" quat="1.0 0 0 0"/>
-                    <camera name="right_wrist_mounted_camera_color" fovy="58" mode="fixed" resolution="640 480" pos="0.07510670281270905 -0.029186227507050088 0.06186654232863569" quat="0.05624760043867319 0.7025034152305873 0.7081460431581902 0.043062055148947516"/>
+                    <site name="right_ur_realsense_mount" pos="0 0 0.033" quat="0.7071067811865475 0 0 -0.7071067811865476"/>
+                    <site name="right_wrist_mounted_camera_bottom_screw_frame" pos="-0.0024867707148071697 0.06178805647696173 0.04503697006925041" quat="0.5347404914295344 -0.46431583558336753 -0.4734889852715583 -0.5237094542575391"/>
+                    <site name="right_wrist_mounted_camera_link" pos="0.014791524429828526 0.07327316271090978 0.05705415991088087" quat="0.5347404914295344 -0.46431583558336753 -0.4734889852715583 -0.5237094542575391"/>
+                    <site name="right_wrist_mounted_camera_depth_frame" pos="0.014791524429828526 0.07327316271090978 0.05705415991088087" quat="0.5347404914295344 -0.46431583558336753 -0.4734889852715583 -0.5237094542575391"/>
+                    <site name="right_wrist_mounted_camera_depth_optical_frame" pos="0.014791524429828526 0.07327316271090978 0.05705415991088087" quat="-0.010102093430093039 0.0009289437419023142 -0.06032256241607385 0.9981273832709996"/>
+                    <site name="right_wrist_mounted_camera_infra1_frame" pos="0.014791524429828526 0.07327316271090978 0.05705415991088087" quat="0.5347404914295344 -0.46431583558336753 -0.4734889852715583 -0.5237094542575391"/>
+                    <site name="right_wrist_mounted_camera_infra1_optical_frame" pos="0.014791524429828526 0.07327316271090978 0.05705415991088087" quat="-0.010102093430093039 0.0009289437419023142 -0.06032256241607385 0.9981273832709996"/>
+                    <site name="right_wrist_mounted_camera_infra2_frame" pos="-0.03519818404735689 0.07225924147613079 0.05708594191336498" quat="0.5347404914295344 -0.46431583558336753 -0.4734889852715583 -0.5237094542575391"/>
+                    <site name="right_wrist_mounted_camera_infra2_optical_frame" pos="-0.03519818404735689 0.07225924147613079 0.05708594191336498" quat="-0.010102093430093039 0.0009289437419023142 -0.06032256241607385 0.9981273832709996"/>
+                    <site name="right_wrist_mounted_camera_color_frame" pos="0.029788436972984143 0.07357733908134348 0.05704462531013564" quat="0.5347404914295344 -0.46431583558336753 -0.4734889852715583 -0.5237094542575391"/>
+                    <site name="right_wrist_mounted_camera_color_optical_frame" pos="0.029788436972984143 0.07357733908134348 0.05704462531013564" quat="-0.010102093430093039 0.0009289437419023142 -0.06032256241607385 0.9981273832709996"/>
+                    <site name="right_robotiq_hande_cb_adapter" pos="0 0 0.036" quat="1.0 0 0 0"/>
+                    <site name="right_gripper_base_link" pos="0 0 0.047" quat="1.0 0 0 0"/>
+                    <site name="right_gripper_palm_link" pos="0 0 0.1458" quat="1.0 0 0 0"/>
+                    <site name="right_grasp_frame" pos="0 0 0.17700000000000002" quat="1.0 0 0 0"/>
+                    <camera name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480" pos="0.029788436972984143 0.07357733908134348 0.05704462531013564" quat="-0.0009289437419023142 -0.010102093430093039 0.9981273832709996 0.06032256241607385"/>
                   </body>
                   <geom mesh="wrist2_0" material="Black.005" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_1" material="URBlue.004" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
@@ -483,6 +475,7 @@
       <site name="front_rocker_link" pos="0.319 0 0.05" quat="1.0 0 0 0"/>
       <site name="rear_rocker_link" pos="-0.319 0 0.05" quat="1.0 0 0 0"/>
       <site name="imu_0_link" pos="0.2085 -0.2902 0.1681" quat="1.0 0 0 0"/>
+      <site name="lidar2d_0_laser" pos="0.4 0 0.25" quat="1.0 0 0 0"/>
       <site name="default_mount" pos="0 0 0.28" quat="1.0 0 0 0"/>
       <site name="lift_rails" pos="0 0 0.28" quat="1.0 0 0 0"/>
       <site name="rear_shelf" pos="0 0 0.28" quat="1.0 0 0 0"/>
@@ -501,9 +494,13 @@
       <site name="right_ewellix_mount_flange_link" pos="0 -0.201 0.32" quat="1.0 0 0 0"/>
       <site name="left_ewellix_lift_lower_link" pos="0 0.201 0.5731999999999999" quat="1.0 0 0 0"/>
       <site name="right_ewellix_lift_lower_link" pos="0 -0.201 0.5731999999999999" quat="1.0 0 0 0"/>
+      <body name="lidar2d_0_laser_lidar_body" pos="0.4 0 0.25" quat="0.7071067251362828 0.7071067251362828 0.0002815440309169026 0.0002815440309169026">
+        <replicate site="lidar2d_0_laser" count="32" sep="-" offset="0 0 0" euler="0 0.1 0">
+          <site name="lidar2d_0" pos="0.0 0.0 0.0" quat="0.0 0.0 0.0 1.0"/>
+        </replicate>
+      </body>
     </body>
   </worldbody>
-  <option integrator="implicitfast"/>
   <default>
     <default class="phoebe">
       <material specular="0.5" shininess="0.25"/>
@@ -601,39 +598,6 @@
     <exclude body1="base_link" body2="front_right_wheel_roller_5_link"/>
     <exclude body1="base_link" body2="front_right_wheel_roller_6_link"/>
     <exclude body1="base_link" body2="front_right_wheel_roller_7_link"/>
-
-    <pair geom1="mecanum_wheel1" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel2" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel3" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel4" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel5" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel6" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel7" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel8" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel9" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel10" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel11" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel12" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel13" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel14" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel15" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel16" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel17" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel18" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel19" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel20" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel21" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel22" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel23" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel24" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel25" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel26" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel27" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel28" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel29" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel30" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel31" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel32" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
   </contact>
   <tendon>
     <fixed name="left_split">
@@ -647,6 +611,12 @@
       <joint joint="right_finger_2_joint" coef="0.5"/>
     </fixed>
   </tendon>
+  <equality>
+    <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+  </equality>
+  <equality>
+    <joint joint1="right_finger_1_joint" joint2="right_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+  </equality>
   <tendon>
     <fixed name="left_lift_middle_mimic_higher">
       <joint joint="left_ewellix_lift_lower_to_higher" coef="0.5"/>
@@ -659,12 +629,6 @@
       <joint joint="right_middle_mimic_higher" coef="0.5"/>
     </fixed>
   </tendon>
-  <equality>
-    <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-  </equality>
-  <equality>
-    <joint joint1="right_finger_1_joint" joint2="right_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-  </equality>
   <equality>
     <joint name="left_upper_mimic_lower" joint1="left_ewellix_lift_lower_to_higher" joint2="left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
   </equality>

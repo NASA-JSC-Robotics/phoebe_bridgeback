@@ -1,4 +1,4 @@
-<mujoco model="ur_realsense_short_mount_tube">
+<mujoco model="ich-005_realsense_cable_mount_corr">
   <default>
     <default class="visual">
       <geom group="2" type="mesh" contype="0" conaffinity="0"/>
@@ -9,12 +9,12 @@
   </default>
   <asset>
     <material name="new_mat_color.021" specular="0.5" shininess="0.36" rgba="0.100000 0.100000 0.100000 1.000000"/>
-    <mesh file="ur_realsense_short_mount_tube.obj"/>
+    <mesh file="ich-005_realsense_cable_mount_corr.obj"/>
   </asset>
   <worldbody>
-    <body name="ur_realsense_short_mount_tube">
-      <geom material="new_mat_color.021" mesh="ur_realsense_short_mount_tube" class="visual"/>
-      <geom mesh="ur_realsense_short_mount_tube" class="collision"/>
+    <body name="ich-005_realsense_cable_mount_corr">
+      <geom material="new_mat_color.021" mesh="ich-005_realsense_cable_mount_corr" class="visual"/>
+      <geom mesh="ich-005_realsense_cable_mount_corr" class="collision"/>
     </body>
   </worldbody>
 </mujoco>

@@ -17,56 +17,32 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import argparse
-import bpy
-import mujoco
-import os
-import pathlib
-import re
-import shutil
-import subprocess
-import tempfile
-import PyKDL
-import sys
-
-from urdf_parser_py.urdf import URDF
-
-from ament_index_python.packages import get_package_prefix
 from xml.dom import minidom
+import shutil
+from ament_index_python.packages import get_package_share_directory
 
-decomposed_path_name = "decomposed"
-composed_path_name = "full"
-converter_inputs_name = "converter_inputs"
-
-def add_mujoco_info(raw_xml):
-    dom = minidom.parseString(raw_xml)
-
-    mujoco_element = dom.createElement("mujoco")
-    compiler_element = dom.createElement("compiler")
-    compiler_element.setAttribute("meshdir", "assets")
-    compiler_element.setAttribute("balanceinertia", "true")
-    compiler_element.setAttribute("discardvisual", "false")
-    compiler_element.setAttribute("strippath", "false")
-
-    mujoco_element.appendChild(compiler_element)
-
-    robot_element = dom.getElementsByTagName('robot')
-
-    robot_element[0].appendChild(mujoco_element)
-
-    # Use minidom to format the string with line breaks and indentation
-    formatted_xml = dom.toprettyxml(indent="    ")
-
-    # Remove extra newlines that minidom adds after each tag
-    formatted_xml = "\n".join([line for line in formatted_xml.splitlines() if line.strip()])
-
-    return formatted_xml
 
 def main(filepath):
+    filepath_full = filepath + "/mujoco_description_formatted.xml"
     # Load your XML document
-    dom = minidom.parse(filepath)
+    dom = minidom.parse(filepath_full)
 
-    # Get all elements with the tag name you're interested in
+    # add the mesh mecanum_wheel_22.stl to the assets
+    asset_elements = dom.getElementsByTagName("asset")
+    asset_element = asset_elements[0]
+
+    mecanum_wheel_element = dom.createElement("mesh")
+    mecanum_wheel_element.setAttribute("file", "mecanum_wheel_22.stl")
+    mecanum_wheel_element.setAttribute("scale", "0.001 0.001 0.001")
+    asset_element.appendChild(mecanum_wheel_element)
+
+    # copy the mecanum wheel 22 mesh into the assets directory
+    shutil.copy2(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/mecanum_wheel_22.stl',
+        f"{filepath}/assets",
+    )
+
+    # Get all elements with the tag name body
     body_elements = dom.getElementsByTagName("body")
 
     include_element = dom.createElement("include")
@@ -82,11 +58,16 @@ def main(filepath):
             else:
                 elem.parentNode.removeChild(elem)
 
-    with open(filepath, 'w') as file:
+    print(f"writing to {filepath_full}")
+
+    with open(filepath_full, "w") as file:
         # Remove extra newlines that minidom adds after each tag
-        xml_data = "\n".join([line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()])
+        xml_data = "\n".join(
+            [line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()]
+        )
         file.write(xml_data)
 
-if __name__ == '__main__':
-    filepath = "mjcf_data/mujoco_description_formatted.xml"
+
+if __name__ == "__main__":
+    filepath = "mjcf_data"
     main(filepath)

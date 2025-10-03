@@ -649,6 +649,7 @@
       name="${tf_prefix}right_dextivr_hande"
       tf_prefix="${tf_prefix}right_"
       parent="${tf_prefix}right_ur_realsense_mount"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
       finger_xacro="fngr_original">
       <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
     </xacro:dextivr_hande>
@@ -659,6 +660,7 @@
       name="${tf_prefix}left_dextivr_hande"
       tf_prefix="${tf_prefix}left_"
       parent="${tf_prefix}left_ur_realsense_mount"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
       finger_xacro="fngr_original">
       <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
     </xacro:dextivr_hande>
@@ -714,37 +716,5 @@
 
   </xacro:if>
 
-<<<<<<< HEAD
-  <!-- Hand-E Grippers -->
-
-  <xacro:unless value="${calibration_mode}">
-    <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
-    <xacro:dextivr_hande
-      com_port="${right_hande_com_port}"
-      use_fake_hardware="${use_fake_hardware}"
-      name="${tf_prefix}right_dextivr_hande"
-      tf_prefix="${tf_prefix}right_"
-      parent="${tf_prefix}right_ur_realsense_mount"
-      finger_xacro="fngr_original"
-      generate_ros2_control_tag="${generate_ros2_control_tag}"
-    >
-      <origin xyz="0 0 0.008" rpy="0 0 ${pi}"/>
-    </xacro:dextivr_hande>
-
-    <xacro:dextivr_hande
-      com_port="${left_hande_com_port}"
-      use_fake_hardware="${use_fake_hardware}"
-      name="${tf_prefix}left_dextivr_hande"
-      tf_prefix="${tf_prefix}left_"
-      parent="${tf_prefix}left_ur_realsense_mount"
-      finger_xacro="fngr_original"
-      generate_ros2_control_tag="${generate_ros2_control_tag}"
-    >
-      <origin xyz="0 0 0.008" rpy="0 0 ${pi}"/>
-    </xacro:dextivr_hande>
-  </xacro:unless>
-
-=======
->>>>>>> humble-feature/nav2-go
   </xacro:macro>
 </robot>

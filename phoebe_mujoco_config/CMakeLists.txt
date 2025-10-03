@@ -12,6 +12,7 @@ install(
   DIRECTORY
     description
     launch
+    resources
     urdf
   DESTINATION
     share/${PROJECT_NAME}

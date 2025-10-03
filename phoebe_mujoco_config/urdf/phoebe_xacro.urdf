@@ -11,7 +11,36 @@
     <hardware>
       <plugin>mujoco_ros2_simulation/MujocoSystemInterface</plugin>
       <param name="mujoco_model">$(find phoebe_mujoco_config)/description/scene.xml</param>
+
+      <!-- Increase this parameter to run the sim faster than realtime. -->
+      <param name="sim_speed_factor">1.0</param>
+
+      <!-- Publish camera images at 5 hz -->
+      <param name="camera_publish_rate">5.0</param>
     </hardware>
+
+    <sensor name="left_wrist_mounted_camera">
+      <param name="frame_name">left_wrist_mounted_camera_color_optical_frame</param>
+      <param name="info_topic">/left_wrist_mounted_camera/color/camera_info</param>
+      <param name="image_topic">/left_wrist_mounted_camera/color/image_raw</param>
+      <param name="depth_topic">/left_wrist_mounted_camera/aligned_depth_to_color/image_raw</param>
+    </sensor>
+    <sensor name="right_wrist_mounted_camera">
+      <param name="frame_name">right_wrist_mounted_camera_color_optical_frame</param>
+      <param name="info_topic">/right_wrist_mounted_camera/color/camera_info</param>
+      <param name="image_topic">/right_wrist_mounted_camera/color/image_raw</param>
+      <param name="depth_topic">/right_wrist_mounted_camera/aligned_depth_to_color/image_raw</param>
+    </sensor>
+
+    <sensor name="lidar2d_0">
+      <param name="frame_name">lidar2d_0_laser</param>
+      <param name="angle_increment">0.1</param>
+      <param name="min_angle">-1.57</param>
+      <param name="max_angle">1.57</param>
+      <param name="range_min">0.05</param>
+      <param name="range_max">10</param>
+      <param name="laserscan_topic">/scan</param>
+    </sensor>
 
     <joint name="left_ewellix_lift_lower_to_higher">
       <command_interface name="position"/>
