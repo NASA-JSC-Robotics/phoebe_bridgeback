@@ -35,11 +35,27 @@
     <sensor name="lidar2d_0">
       <param name="frame_name">lidar2d_0_laser</param>
       <param name="angle_increment">0.1</param>
-      <param name="min_angle">-1.57</param>
-      <param name="max_angle">1.57</param>
+      <param name="min_angle">-2.3</param>
+      <param name="max_angle">2.3</param>
       <param name="range_min">0.05</param>
       <param name="range_max">10</param>
-      <param name="laserscan_topic">/scan</param>
+      <param name="laserscan_topic">lidar2d_0_laser/scan</param>
+    </sensor>
+
+    <sensor name="imu_sensor">
+      <param name="mujoco_type">imu</param>
+      <!-- There is no requirement for the mujoco_sensor_name to match the ros2_control sensor name -->
+      <param name="mujoco_sensor_name">imu_sensor</param>
+      <state_interface name="orientation.x"/>
+      <state_interface name="orientation.y"/>
+      <state_interface name="orientation.z"/>
+      <state_interface name="orientation.w"/>
+      <state_interface name="angular_velocity.x"/>
+      <state_interface name="angular_velocity.y"/>
+      <state_interface name="angular_velocity.z"/>
+      <state_interface name="linear_acceleration.x"/>
+      <state_interface name="linear_acceleration.y"/>
+      <state_interface name="linear_acceleration.z"/>
     </sensor>
 
     <joint name="left_ewellix_lift_lower_to_higher">

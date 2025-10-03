@@ -168,6 +168,10 @@
     <accelerometer name="imu_sensor_accel" site="imu_0_link" />
   </sensor>
 
+  <sensor>
+    <rangefinder name="lidar2d_0" site="lidar2d_0"/>
+  </sensor>
+
   </raw_inputs>
   <!-- Excluding contact checking between adjacent bodies that otherwise prevent movement. -->
 
@@ -175,8 +179,7 @@
     <camera site="left_wrist_mounted_camera_color_optical_frame" name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480"/>
     <camera site="right_wrist_mounted_camera_color_optical_frame" name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480"/>
 
-    <lidar ref_site="lidar2d_0_laser" sensor_name="lidar2d_0" min_angle="-1.57" max_angle="1.57" angle_increment="0.1" />
-    <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
+    <lidar ref_site="lidar2d_0_laser" sensor_name="lidar2d_0" min_angle="-2.3" max_angle="2.3" angle_increment="0.1" />    <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
   </processed_inputs>
 
 </mujoco_inputs>

@@ -494,8 +494,8 @@
       <site name="right_ewellix_mount_flange_link" pos="0 -0.201 0.32" quat="1.0 0 0 0"/>
       <site name="left_ewellix_lift_lower_link" pos="0 0.201 0.5731999999999999" quat="1.0 0 0 0"/>
       <site name="right_ewellix_lift_lower_link" pos="0 -0.201 0.5731999999999999" quat="1.0 0 0 0"/>
-      <body name="lidar2d_0_laser_lidar_body" pos="0.4 0 0.25" quat="0.7071067251362828 0.7071067251362828 0.0002815440309169026 0.0002815440309169026">
-        <replicate site="lidar2d_0_laser" count="32" sep="-" offset="0 0 0" euler="0 0.1 0">
+      <body name="lidar2d_0_laser_lidar_body" pos="0.4 0 0.25" quat="0.6606256905723392 0.6606256905723392 -0.25213824968818177 -0.25213824968818177">
+        <replicate site="lidar2d_0_laser" count="46" sep="-" offset="0 0 0" euler="0 0.1 0">
           <site name="lidar2d_0" pos="0.0 0.0 0.0" quat="0.0 0.0 0.0 1.0"/>
         </replicate>
       </body>
@@ -648,5 +648,8 @@
     <framequat name="imu_sensor_quat" objtype="site" objname="imu_0_link"/>
     <gyro name="imu_sensor_gyro" site="imu_0_link"/>
     <accelerometer name="imu_sensor_accel" site="imu_0_link"/>
+  </sensor>
+  <sensor>
+    <rangefinder name="lidar2d_0" site="lidar2d_0"/>
   </sensor>
 </mujoco>
