@@ -501,6 +501,7 @@
       </body>
     </body>
   </worldbody>
+  <option integrator="implicitfast"/>
   <default>
     <default class="phoebe">
       <material specular="0.5" shininess="0.25"/>
