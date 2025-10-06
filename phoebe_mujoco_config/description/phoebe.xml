@@ -599,6 +599,38 @@
     <exclude body1="base_link" body2="front_right_wheel_roller_5_link"/>
     <exclude body1="base_link" body2="front_right_wheel_roller_6_link"/>
     <exclude body1="base_link" body2="front_right_wheel_roller_7_link"/>
+    <pair geom1="mecanum_wheel1" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel2" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel3" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel4" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel5" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel6" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel7" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel8" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel9" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel10" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel11" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel12" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel13" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel14" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel15" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel16" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel17" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel18" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel19" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel20" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel21" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel22" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel23" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel24" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel25" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel26" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel27" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel28" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel29" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel30" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel31" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+    <pair geom1="mecanum_wheel32" geom2="floor" condim="3" friction="1.0 1.0 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
   </contact>
   <tendon>
     <fixed name="left_split">
