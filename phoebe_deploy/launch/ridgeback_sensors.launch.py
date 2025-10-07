@@ -4,6 +4,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.substitutions import FindPackageShare
+from launch.conditions import UnlessCondition
 
 
 def generate_launch_description():
@@ -14,22 +15,38 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "ns",
             default_value="",
-            description="Namespace for the robot.",
+            description="Namespace for the hardware robot",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "is_sim",
+            default_value="false",
+            description="This is some kind of simulation environment",
         )
     )
 
     ns = LaunchConfiguration("ns")
+    is_sim = LaunchConfiguration("is_sim")
     default_ns = "ridgeback"
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
     pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
 
-    config_imu_filter = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"])
-    config_localization = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"])
-    config_lidar2d = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"])
+    config_imu_filter = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"]
+    )
+    config_localization = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"]
+    )
+    config_lidar2d = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"]
+    )
 
-    launch_file_hokuyo_ust = PathJoinSubstitution([pkg_clearpath_sensors, "launch", "hokuyo_ust.launch.py"])
+    launch_file_hokuyo_ust = PathJoinSubstitution(
+        [pkg_clearpath_sensors, "launch", "hokuyo_ust.launch.py"]
+    )
 
     # Include Packages
     pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
@@ -41,6 +58,7 @@ def generate_launch_description():
             "parameters": config_lidar2d,
             "namespace": f"{default_ns}/sensors/lidar2d_0",
         }.items(),
+        condition=UnlessCondition(is_sim),
     )
 
     node_imu_filter_madgwick = Node(
@@ -58,6 +76,7 @@ def generate_launch_description():
         parameters=[
             config_imu_filter,
         ],
+        condition=UnlessCondition(is_sim),
     )
 
     node_localization = Node(
@@ -66,7 +85,10 @@ def generate_launch_description():
         name="ekf_node",
         namespace=default_ns,
         output="screen",
-        parameters=[config_localization],
+        parameters=[
+            config_localization,
+            {"use_sim_time": is_sim},
+        ],
         remappings=[
             ("~/odometry/filtered", "platform/odom/filtered"),
             ("~/diagnostics", "diagnostics"),

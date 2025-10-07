@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess, RegisterEventHandler
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    ExecuteProcess,
+    RegisterEventHandler,
+)
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -9,6 +14,7 @@ from launch.conditions import IfCondition, UnlessCondition
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.substitutions import FindPackagePrefix
 from launch.event_handlers import OnProcessExit
+
 
 def generate_launch_description():
 
@@ -92,16 +98,36 @@ def generate_launch_description():
 
     # add controller spawner launch files for each individual subsystem
     launch_file_r100_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_r100.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_r100.launch.py",
+        ]
     )
     launch_file_ewellix_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_ewellix.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_ewellix.launch.py",
+        ]
     )
     launch_file_ur_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_ur.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_ur.launch.py",
+        ]
     )
     launch_file_hande_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_hande.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_hande.launch.py",
+        ]
     )
 
     # Thread prioritization should happen, clearly, after the threads have been started.
@@ -111,26 +137,41 @@ def generate_launch_description():
     # manager itself has had time to initialize and start processing controllers.
     prioritize_threads = ExecuteProcess(
         shell=True,
-        cmd=[ PathJoinSubstitution([
-                FindPackagePrefix("phoebe_deploy"),
-                "lib",
-                "phoebe_deploy",
-                "prioritize_threads.sh"
-              ])
+        cmd=[
+            PathJoinSubstitution(
+                [
+                    FindPackagePrefix("phoebe_deploy"),
+                    "lib",
+                    "phoebe_deploy",
+                    "prioritize_threads.sh",
+                ]
+            )
         ],
-    )    
+        # condition=UnlessCondition(is_sim),
+    )
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
-    launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
+    launches.append(
+        MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args)
+    )
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
     launches.append(
         MakeLaunchDescription(
-            launch_file_hande_spawner, common_launch_args, condition=UnlessCondition(calibration_mode)
+            launch_file_hande_spawner,
+            common_launch_args,
+            condition=UnlessCondition(calibration_mode),
         )
     )
 
-    return LaunchDescription(declared_arguments + launches + [joint_state_broadcaster] + 
-                             [RegisterEventHandler(
-                                OnProcessExit(
-                                    target_action=joint_state_broadcaster, 
-                                    on_exit=[prioritize_threads]))])
+    return LaunchDescription(
+        declared_arguments
+        + launches
+        + [joint_state_broadcaster]
+        + [
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action=joint_state_broadcaster, on_exit=[prioritize_threads]
+                )
+            )
+        ]
+    )

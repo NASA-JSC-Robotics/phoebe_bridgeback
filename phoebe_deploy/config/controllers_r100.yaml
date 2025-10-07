@@ -7,6 +7,9 @@
       odom_publisher:
         type: mecanum_drive_odom_publisher/MecanumDriveOdomPublisher
 
+      imu_broadcaster:
+        type: imu_sensor_broadcaster/IMUSensorBroadcaster
+
   platform_velocity_controller:
     ros__parameters:
       use_sim_time: False
@@ -82,8 +85,8 @@
         x: 0.0
         y: 0.0
         theta: 0.0
-      kinematics.wheels_radius: 0.0759
-      kinematics.sum_of_robot_center_projection_on_X_Y_axis: 0.59
+      kinematics.wheels_radius: 0.063 # THIS IS WRONG!!!!!!!! BUT PLAYING TO GET SIM TO WORK
+      kinematics.sum_of_robot_center_projection_on_X_Y_axis: 0.595 # THIS IS MODIFIED FROM ORIGINAL
 
       wheel_separation_multiplier: 1.0
       wheel_radius_multiplier: 1.0
@@ -94,3 +97,10 @@
       base_frame_id: $(var tf_prefix)base_link
       odom_frame_id: $(var tf_prefix)odom
       enable_odom_tf: False
+
+
+  imu_broadcaster:
+    ros__parameters:
+      use_sim_time: False
+      sensor_name: "imu_sensor"
+      frame_id:  "imu_0_link"

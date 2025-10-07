@@ -4,11 +4,16 @@ import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, OrSubstitution 
+from launch.substitutions import (
+    LaunchConfiguration,
+    PathJoinSubstitution,
+    OrSubstitution,
+)
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
 from launch.conditions import IfCondition
+
 
 def generate_launch_description():
 
@@ -90,13 +95,19 @@ def generate_launch_description():
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
-    def AddLaunchDescriptions(package_name, launch_file_names, launch_args, if_condition="true"):
+    def AddLaunchDescriptions(
+        package_name, launch_file_names, launch_args, if_condition="true"
+    ):
         launch_files_list = []
         for launch_file_name in launch_file_names:
             launch_files_list.append(
                 IncludeLaunchDescription(
                     PythonLaunchDescriptionSource(
-                        os.path.join(get_package_share_directory(package_name), "launch", launch_file_name)
+                        os.path.join(
+                            get_package_share_directory(package_name),
+                            "launch",
+                            launch_file_name,
+                        )
                     ),
                     launch_arguments=launch_args,
                     condition=IfCondition(if_condition),
@@ -162,12 +173,15 @@ def generate_launch_description():
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
+            {"use_sim_time": OrSubstitution(use_fake_hardware, sim_ignition)},
         ],
         remappings=[
             # remap to be able to use the global robot_description
             ("~/robot_description", "robot_description"),
             # Necessary remap for platform velocity controller. Preferably this would be done
             # at spawn time. This is not supported in humble, but is supported in jazzy.
+            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
+            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
         prefix="taskset -c 0,1,2,3,5",
         output="both",
@@ -179,9 +193,18 @@ def generate_launch_description():
         package="topic_tools",
         namespace=ns,
         output="screen",
-        arguments=["messages", "platform/puma/cmd", "50", "ridgeback/platform/puma/cmd_throttle"],
+        arguments=[
+            "messages",
+            "platform/puma/cmd",
+            "50",
+            "ridgeback/platform/puma/cmd_throttle",
+        ],
     )
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle])
+    ns_action = GroupAction(
+        actions=[PushRosNamespace(ns)]
+        + launch_files
+        + [control_node, node_puma_throttle]
+    )
 
     return LaunchDescription(declared_arguments + [ns_action])
