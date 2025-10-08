@@ -20,10 +20,14 @@ def generate_launch_description():
             "use_sim_time", choices=["true", "false"], default_value="false", description="Use simulation time"
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument("joystick_dev", default_value="/dev/input/js0", description="dev location of joystick")
+    )
 
     # Launch Configurations
     ns = LaunchConfiguration("ns")
     use_sim_time = LaunchConfiguration("use_sim_time")
+    joystick_dev = LaunchConfiguration("joystick_dev")
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
@@ -44,7 +48,13 @@ def generate_launch_description():
         namespace=ns,
         output="screen",
         name="joy_node",
-        parameters=[config_teleop_joy, {"use_sim_time": use_sim_time}],
+        parameters=[
+            config_teleop_joy,
+            {
+                "use_sim_time": use_sim_time,
+                "dev": joystick_dev,
+            },
+        ],
         remappings=[
             ("/diagnostics", "diagnostics"),
             ("/tf", "tf"),
@@ -60,7 +70,10 @@ def generate_launch_description():
         namespace=ns,
         output="screen",
         name="teleop_twist_joy_node",
-        parameters=[config_teleop_joy, {"use_sim_time": use_sim_time}],
+        parameters=[
+            config_teleop_joy,
+            {"use_sim_time": use_sim_time},
+        ],
         remappings=[
             ("joy", "joy_teleop/joy"),
             ("cmd_vel", "joy_teleop/cmd_vel"),
