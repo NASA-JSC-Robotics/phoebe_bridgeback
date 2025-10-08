@@ -10,6 +10,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch_ros.substitutions import FindPackagePrefix
 from launch.event_handlers import OnProcessExit
 
+
 def generate_launch_description():
 
     declared_arguments = []
@@ -102,15 +103,11 @@ def generate_launch_description():
     # manager itself has had time to initialize and start processing controllers.
     prioritize_threads = ExecuteProcess(
         shell=True,
-        cmd=[ PathJoinSubstitution([
-                FindPackagePrefix("phoebe_deploy"),
-                "lib",
-                "phoebe_deploy",
-                "prioritize_threads.sh"
-              ])
+        cmd=[
+            PathJoinSubstitution([FindPackagePrefix("phoebe_deploy"), "lib", "phoebe_deploy", "prioritize_threads.sh"])
         ],
-        output="both"
-    )    
+        output="both",
+    )
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
     launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
@@ -121,8 +118,9 @@ def generate_launch_description():
         )
     )
 
-    return LaunchDescription(declared_arguments + launches + [joint_state_broadcaster] + 
-                             [RegisterEventHandler(
-                                OnProcessExit(
-                                    target_action=joint_state_broadcaster, 
-                                    on_exit=[prioritize_threads]))])
+    return LaunchDescription(
+        declared_arguments
+        + launches
+        + [joint_state_broadcaster]
+        + [RegisterEventHandler(OnProcessExit(target_action=joint_state_broadcaster, on_exit=[prioritize_threads]))]
+    )

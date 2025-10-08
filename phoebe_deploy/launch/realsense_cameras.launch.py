@@ -33,7 +33,7 @@ def generate_launch_description():
         launch_arguments={
             "camera_name": "right_wrist_mounted_camera",
             "camera_namespace": "",
-            "serial_no": "'207522073775'", # needs to be updated for actual serial number
+            "serial_no": "'207522073775'",  # needs to be updated for actual serial number
             "rgb_camera.color_profile": "1280,720,6",
             # "depth_module.depth_profile": "320,180,6",
             # "depth_module.infra_profile": "320,180,6",

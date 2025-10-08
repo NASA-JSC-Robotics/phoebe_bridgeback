@@ -62,14 +62,6 @@ def generate_launch_description():
         ],
     )
 
-    r_urscript_interface = Node(
-        package="ur_robot_driver",
-        executable="urscript_interface",
-        name="right_urscript_interface",
-        parameters=[{"robot_ip": "192.168.131.41"}],
-        output="screen",
-    )
-
     r_dashboard_client_node = Node(
         package="ur_robot_driver",
         executable="dashboard_client",
@@ -77,14 +69,6 @@ def generate_launch_description():
         output="screen",
         emulate_tty=True,
         parameters=[{"robot_ip": "192.168.131.41"}],
-    )
-
-    l_urscript_interface = Node(
-        package="ur_robot_driver",
-        executable="urscript_interface",
-        name="left_urscript_interface",
-        parameters=[{"robot_ip": "192.168.131.40"}],
-        output="screen",
     )
 
     l_dashboard_client_node = Node(
