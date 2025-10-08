@@ -43,7 +43,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
-                "use_sim_time": "true",
+                "use_sim_time": is_sim,
             }.items(),
         ),
         # Node(
