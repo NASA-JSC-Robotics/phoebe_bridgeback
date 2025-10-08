@@ -7,8 +7,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution, TextSubstitution
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition
 
 
@@ -34,26 +33,16 @@ def generate_launch_description():
     launch_rviz = LaunchConfiguration("launch_rviz")
     is_sim = LaunchConfiguration("is_sim")
 
-    rviz_config_file = os.path.join(
-        get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz"
-    )
-    rviz_qss_file = os.path.join(
-        get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss"
-    )
+    rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
+    rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
 
     nodes_to_start = [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [
-                    PathJoinSubstitution(
-                        [(pkg_slam_toolbox), "launch", "online_async_launch.py"]
-                    )
-                ]
+                [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
-                "slam_params_file": os.path.join(
-                    pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"
-                ),
+                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
                 "use_sim_time": "true",
             }.items(),
         ),
@@ -65,16 +54,10 @@ def generate_launch_description():
         # ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [
-                    PathJoinSubstitution(
-                        [(pkg_nav2_bringup), "launch", "navigation_launch.py"]
-                    )
-                ]
+                [PathJoinSubstitution([(pkg_nav2_bringup), "launch", "navigation_launch.py"])]
             ),
             launch_arguments={
-                "params_file": os.path.join(
-                    pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml"
-                )
+                "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml")
             }.items(),
         ),
         Node(

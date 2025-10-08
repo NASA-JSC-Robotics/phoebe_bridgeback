@@ -151,9 +151,7 @@ def generate_launch_description():
     )
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
-    launches.append(
-        MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args)
-    )
+    launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
     launches.append(
         MakeLaunchDescription(
@@ -167,11 +165,5 @@ def generate_launch_description():
         declared_arguments
         + launches
         + [joint_state_broadcaster]
-        + [
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action=joint_state_broadcaster, on_exit=[prioritize_threads]
-                )
-            )
-        ]
+        + [RegisterEventHandler(OnProcessExit(target_action=joint_state_broadcaster, on_exit=[prioritize_threads]))]
     )

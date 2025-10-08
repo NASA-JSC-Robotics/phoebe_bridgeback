@@ -34,19 +34,11 @@ def generate_launch_description():
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
     pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
 
-    config_imu_filter = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"]
-    )
-    config_localization = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"]
-    )
-    config_lidar2d = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"]
-    )
+    config_imu_filter = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"])
+    config_localization = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"])
+    config_lidar2d = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"])
 
-    launch_file_hokuyo_ust = PathJoinSubstitution(
-        [pkg_clearpath_sensors, "launch", "hokuyo_ust.launch.py"]
-    )
+    launch_file_hokuyo_ust = PathJoinSubstitution([pkg_clearpath_sensors, "launch", "hokuyo_ust.launch.py"])
 
     # Include Packages
     pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")

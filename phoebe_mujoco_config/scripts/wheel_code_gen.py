@@ -3,11 +3,20 @@
 # this file is modified from this repository with several modifications and fixes
 # https://github.com/JunHeonYoon/mujoco_mecanum/
 
-from math import pi, sin, cos, sqrt
+from math import (
+    pi,
+    sin,
+    cos,
+    sqrt,
+)
 import numpy as np
 
 n_roller = 8  # number of rollers of wheel
-pos = [0, 0, 0]  # position of wheel wrt body frame
+pos = [
+    0,
+    0,
+    0,
+]  # position of wheel wrt body frame
 mass = 2.5  # mass of a wheel
 diag_inertia = [
     0.00720101,
@@ -22,7 +31,11 @@ roller_r = 0.033 / 2
 counter = 1  # keep track for writing unique names to file
 
 
-def return_wheel_description(link_name, pos, wheel_type):
+def return_wheel_description(
+    link_name,
+    pos,
+    wheel_type,
+):
     global counter
     wheel_description = ""
 
@@ -51,7 +64,11 @@ def return_wheel_description(link_name, pos, wheel_type):
         joint_name = link_name + "_slipping_" + str(i)
 
         pin_1 = np.array(
-            [(r - roller_r) * cos(step * i), -h / 2, (r - roller_r) * sin(step * i)]
+            [
+                (r - roller_r) * cos(step * i),
+                -h / 2,
+                (r - roller_r) * sin(step * i),
+            ]
         )
 
         if wheel_type == 0:
@@ -111,20 +128,47 @@ def return_wheel_description(link_name, pos, wheel_type):
 def main():
     total_description = "<mujoco>\n"
     total_description += return_wheel_description(
-        link_name="rear_left_wheel", pos=[-0.319, 0.2755, 0.05], wheel_type=0
+        link_name="rear_left_wheel",
+        pos=[
+            -0.319,
+            0.2755,
+            0.05,
+        ],
+        wheel_type=0,
     )
     total_description += return_wheel_description(
-        link_name="rear_right_wheel", pos=[-0.319, -0.2755, 0.05], wheel_type=1
+        link_name="rear_right_wheel",
+        pos=[
+            -0.319,
+            -0.2755,
+            0.05,
+        ],
+        wheel_type=1,
     )
     total_description += return_wheel_description(
-        link_name="front_left_wheel", pos=[0.319, 0.2755, 0.05], wheel_type=1
+        link_name="front_left_wheel",
+        pos=[
+            0.319,
+            0.2755,
+            0.05,
+        ],
+        wheel_type=1,
     )
     total_description += return_wheel_description(
-        link_name="front_right_wheel", pos=[0.319, -0.2755, 0.05], wheel_type=0
+        link_name="front_right_wheel",
+        pos=[
+            0.319,
+            -0.2755,
+            0.05,
+        ],
+        wheel_type=0,
     )
     total_description += "</mujoco>\n"
 
-    open("mjcf_data/wheels.xml", "w").write(total_description)
+    open(
+        "mjcf_data/wheels.xml",
+        "w",
+    ).write(total_description)
 
 
 if __name__ == "__main__":

@@ -11,7 +11,6 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 
-
 def generate_launch_description():
 
     declared_arguments = []
@@ -28,13 +27,13 @@ def generate_launch_description():
             "remote_control",
             default_value="true",
             description="Informs launch of UR communication setting, set to false if local to suppress UR GUIs",
-            choices=['true', 'false']
+            choices=["true", "false"],
         )
     )
 
     ns = LaunchConfiguration("ns")
     remote_control = LaunchConfiguration("remote_control")
-    
+
     hande_right_comm_node = Node(
         name="right_ur_tool_communication_hande",
         package="ur_robot_driver",
@@ -63,14 +62,6 @@ def generate_launch_description():
         ],
     )
 
-    r_urscript_interface = Node(
-        package="ur_robot_driver",
-        executable="urscript_interface",
-        name="right_urscript_interface",
-        parameters=[{"robot_ip": "192.168.131.41"}],
-        output="screen",
-    )
-
     r_dashboard_client_node = Node(
         package="ur_robot_driver",
         executable="dashboard_client",
@@ -78,14 +69,6 @@ def generate_launch_description():
         output="screen",
         emulate_tty=True,
         parameters=[{"robot_ip": "192.168.131.41"}],
-    )
-
-    l_urscript_interface = Node(
-        package="ur_robot_driver",
-        executable="urscript_interface",
-        name="left_urscript_interface",
-        parameters=[{"robot_ip": "192.168.131.40"}],
-        output="screen",
     )
 
     l_dashboard_client_node = Node(
@@ -99,20 +82,18 @@ def generate_launch_description():
 
     gui = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('drt_ur_gui'), "launch", "pb.launch.py")
+            os.path.join(get_package_share_directory("drt_ur_gui"), "launch", "pb.launch.py")
         ),
-        condition=IfCondition(remote_control)
+        condition=IfCondition(remote_control),
     )
-    
+
     nodes = [
         hande_right_comm_node,
         hande_left_comm_node,
         r_dashboard_client_node,
         l_dashboard_client_node,
     ]
-    
-    launches = [
-        gui
-    ]
+
+    launches = [gui]
 
     return LaunchDescription(declared_arguments + nodes + launches)

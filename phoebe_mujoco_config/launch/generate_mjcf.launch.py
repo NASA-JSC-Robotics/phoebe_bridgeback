@@ -2,16 +2,11 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-import xacro
-
-
-from launch import LaunchDescription
 from launch.substitutions import (
     Command,
     FindExecutable,
     PathJoinSubstitution,
 )
-from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch.event_handlers import OnProcessExit
 from launch.actions import RegisterEventHandler
@@ -23,9 +18,7 @@ def generate_launch_description():
     phoebe_mujoco_description_file = "phoebe_xacro.urdf"
     phoebe_mujoco_package_path = get_package_share_directory(phoebe_mujoco_package_name)
 
-    mujoco_inputs = os.path.join(
-        phoebe_mujoco_package_path, "description", "mujoco_inputs.xml"
-    )
+    mujoco_inputs = os.path.join(phoebe_mujoco_package_path, "description", "mujoco_inputs.xml")
 
     # main robot description for Phoebe
     robot_description_content = Command(
@@ -69,9 +62,7 @@ def generate_launch_description():
     )
 
     delay_post_process = RegisterEventHandler(
-        OnProcessExit(
-            target_action=make_mjcf_from_robot_description, on_exit=[post_process_mjcf]
-        )
+        OnProcessExit(target_action=make_mjcf_from_robot_description, on_exit=[post_process_mjcf])
     )
 
     return LaunchDescription(

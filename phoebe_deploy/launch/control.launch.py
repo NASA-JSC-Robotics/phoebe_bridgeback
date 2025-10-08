@@ -95,9 +95,7 @@ def generate_launch_description():
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
-    def AddLaunchDescriptions(
-        package_name, launch_file_names, launch_args, if_condition="true"
-    ):
+    def AddLaunchDescriptions(package_name, launch_file_names, launch_args, if_condition="true"):
         launch_files_list = []
         for launch_file_name in launch_file_names:
             launch_files_list.append(
@@ -201,10 +199,6 @@ def generate_launch_description():
         ],
     )
 
-    ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)]
-        + launch_files
-        + [control_node, node_puma_throttle]
-    )
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle])
 
     return LaunchDescription(declared_arguments + [ns_action])
