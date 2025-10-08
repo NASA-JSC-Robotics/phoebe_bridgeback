@@ -7,51 +7,37 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution, TextSubstitution
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition
+
 
 def generate_launch_description():
     pkg_phoebe_nav2_config = get_package_share_directory("phoebe_nav2_config")
     pkg_slam_toolbox = get_package_share_directory("slam_toolbox")
     pkg_nav2_bringup = get_package_share_directory("nav2_bringup")
-    lifecycle_nodes = ['map_server']
 
     # Use static map in sim because sensor data is not available.
 
     declared_arguments = [
         DeclareLaunchArgument(
-            'map',
-            default_value=os.path.join(pkg_phoebe_nav2_config,
-                                       'maps', 'test.yaml'),
-            description='Path to static map to use',
+            "map",
+            default_value=os.path.join(pkg_phoebe_nav2_config, "maps", "test.yaml"),
+            description="Path to static map to use",
         ),
     ]
-    map = LaunchConfiguration('map')
-    declared_arguments = [
-        DeclareLaunchArgument(
-            'launch_rviz',
-            default_value="true",
-            description='Launch rviz or nah',
-        ),
-    ]
-    launch_rviz = LaunchConfiguration('launch_rviz')
+    launch_rviz = LaunchConfiguration("launch_rviz")
 
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
     rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
 
     nodes_to_start = [
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([
-                PathJoinSubstitution([
-                    (pkg_slam_toolbox),
-                    'launch',
-                    'online_async_launch.py'
-                ])
-            ]),
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
+            ),
             launch_arguments={
-                'slam_params_file': os.path.join(pkg_phoebe_nav2_config, 'config/clearpath_slam_config.yaml')
-            }.items()
+                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml")
+            }.items(),
         ),
         # Node(
         #     package='tf2_ros',
@@ -60,16 +46,12 @@ def generate_launch_description():
         #     # condition=UnlessCondition(OrSubstitution(LaunchConfiguration('slam'),LaunchConfiguration('amcl'))),
         # ),
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([
-                PathJoinSubstitution([
-                    (pkg_nav2_bringup),
-                    'launch',
-                    'navigation_launch.py'
-                ])
-            ]),
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([(pkg_nav2_bringup), "launch", "navigation_launch.py"])]
+            ),
             launch_arguments={
-                'params_file': os.path.join(pkg_phoebe_nav2_config, 'config/clearpath_nav2_config.yaml')
-            }.items()
+                "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml")
+            }.items(),
         ),
         Node(
             package="rviz2",
@@ -82,4 +64,3 @@ def generate_launch_description():
     ]
 
     return LaunchDescription(declared_arguments + nodes_to_start)
- 
