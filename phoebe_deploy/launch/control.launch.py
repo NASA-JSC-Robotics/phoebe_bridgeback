@@ -181,7 +181,7 @@ def generate_launch_description():
             ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
             ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
-        prefix="taskset -c 0,1,2,3,5",
+        # prefix="taskset -c 0,1,2,3,5",
         output="both",
     )
 
