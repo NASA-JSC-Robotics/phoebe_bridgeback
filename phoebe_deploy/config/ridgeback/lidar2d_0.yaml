@@ -2,14 +2,15 @@
   sensors/lidar2d_0:
     urg_node:
       ros__parameters:
-        angle_max: 2.356
-        angle_min: -2.356
+        angle_max: 2.0
+        angle_min: -2.0
         ip_address: '192.168.131.20'
         ip_port: 10940
         serial_port: '/dev/ttyACM0'
         serial_baud: 115200
         laser_frame_id: 'lidar2d_0_laser'
         calibrate_time: False
+        synchronize_time: False # does not seem to exist
         default_user_latency: 0.0
         diagnostics_tolerance: 0.05
         diagnostics_window_time: 5.0
@@ -19,7 +20,3 @@
         publish_multiecho: False
         cluster: 1
         skip: 9
-        qos_overrides:
-          scan:
-            publisher:
-              reliability: best_effort
