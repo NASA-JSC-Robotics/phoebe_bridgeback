@@ -24,4 +24,17 @@ def generate_launch_description():
         }.items(),
     )
 
-    return LaunchDescription([control_launch])
+    teleop_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("phoebe_deploy"),
+                "launch",
+                "teleop.launch.py",
+            )
+        ),
+        launch_arguments={
+            "joystick_dev": "/dev/input/js0",
+        }.items(),
+    )
+
+    return LaunchDescription([control_launch, teleop_launch])
