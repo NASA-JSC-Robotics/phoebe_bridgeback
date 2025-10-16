@@ -49,8 +49,17 @@
         <xacro:property name="dummy_inertia" value="1e-09" />
 
 
-        <!-- Chassis -->
-        <link name="${tf_prefix}base_link"></link>
+        <!-- Chassis w dummy mass/inertia so mujoco converter processes properly -->
+        <link name="${tf_prefix}base_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0.01" />
+                <inertia
+                    ixx="1e-3" ixy="0.0" ixz="0.0"
+                    iyy="1e-3" iyz="0.0"
+                    izz="1e-3" />
+            </inertial>
+        </link>
 
         <joint name="${tf_prefix}base_link_joint" type="fixed">
             <origin xyz="0 0 0" rpy="0 0 0" />

@@ -101,6 +101,7 @@
   </asset>
   <worldbody>
     <body name="base_link">
+      <inertial pos="0.0151044 0.00165701 0.0943591" quat="0.717959 -0.0265943 -0.0142385 0.695432" mass="199.343" diaginertia="11.7956 10.8921 8.18537"/>
       <freejoint name="floating_base_joint"/>
       <include file="wheels.xml"/>
       <body name="left_ewellix_lift_higher_link" pos="0 0.201 0.61">
