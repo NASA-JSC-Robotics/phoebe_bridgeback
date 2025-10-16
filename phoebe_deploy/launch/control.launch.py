@@ -35,6 +35,13 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
+            "use_sim_time",
+            default_value="false",
+            description="If the robot is running in simulation, use the published clock",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "tf_prefix",
             default_value="",
             description="tf_prefix of the joint names, useful for \
@@ -76,6 +83,7 @@ def generate_launch_description():
     # Initialize Arguments
     sim_ignition = LaunchConfiguration("sim_ignition")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
+    use_sim_time = LaunchConfiguration("use_sim_time")
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
@@ -171,7 +179,7 @@ def generate_launch_description():
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
-            {"use_sim_time": OrSubstitution(use_fake_hardware, sim_ignition)},
+            {"use_sim_time": use_sim_time},
         ],
         remappings=[
             # remap to be able to use the global robot_description
