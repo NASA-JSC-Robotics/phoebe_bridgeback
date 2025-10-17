@@ -40,7 +40,6 @@ def generate_launch_description():
         ),
         launch_arguments={
             "use_fake_hardware": "true",
-            "sim_ignition": "false",
             "ns": ns,
             "calibration_mode": calibration_mode,
         }.items(),

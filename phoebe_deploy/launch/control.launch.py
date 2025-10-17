@@ -7,7 +7,6 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
     PathJoinSubstitution,
-    OrSubstitution,
 )
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node, PushRosNamespace
@@ -19,13 +18,6 @@ def generate_launch_description():
 
     declared_arguments = []
 
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "sim_ignition",
-            default_value="false",
-            description="Load the robot with ignition simulation description.",
-        )
-    )
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_fake_hardware",
@@ -81,7 +73,6 @@ def generate_launch_description():
     )
 
     # Initialize Arguments
-    sim_ignition = LaunchConfiguration("sim_ignition")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     use_sim_time = LaunchConfiguration("use_sim_time")
     tf_prefix = LaunchConfiguration("tf_prefix")
@@ -92,14 +83,13 @@ def generate_launch_description():
 
     # common launch args shared across different nodes
     common_launch_args = {
-        "sim_ignition": sim_ignition,
         "use_fake_hardware": use_fake_hardware,
         "tf_prefix": tf_prefix,
         "ns": ns,
         "calibration_mode": calibration_mode,
         "robot_description_package": robot_description_package,
         "robot_description_file": robot_description_file,
-        "is_sim": OrSubstitution(use_fake_hardware, sim_ignition),
+        "is_sim": use_fake_hardware,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

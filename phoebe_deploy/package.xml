@@ -19,7 +19,6 @@
   <exec_depend>clearpath_desktop</exec_depend>
   <exec_depend>clearpath_common</exec_depend>
   <exec_depend>clearpath_robot</exec_depend>
-  <exec_depend>ros_gz_sim</exec_depend>
   <exec_depend>ur</exec_depend>
   <exec_depend>ewellix_liftkit_description</exec_depend>
   <exec_depend>ewellix_liftkit_deploy</exec_depend>
