@@ -24,13 +24,6 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "sim_ignition",
-            default_value="false",
-            description="Robot is starting using ignition",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "ns",
             default_value="",
             description="Namespace for the robot.",
@@ -53,7 +46,6 @@ def generate_launch_description():
     )
 
     rviz = LaunchConfiguration("rviz")
-    sim_ignition = LaunchConfiguration("sim_ignition")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
     use_sim_time = LaunchConfiguration("use_sim_time")
@@ -61,7 +53,7 @@ def generate_launch_description():
     description_package = "phoebe_description"
     description_file = "phoebe.urdf.xacro"
     description_full_path = os.path.join(get_package_share_directory(description_package), "urdf", description_file)
-    description_mappings = {"sim_ignition": sim_ignition, "calibration_mode": calibration_mode}
+    description_mappings = {"calibration_mode": calibration_mode}
 
     moveit_config = (
         MoveItConfigsBuilder("phoebe", package_name="phoebe_moveit_config")

@@ -6,10 +6,6 @@ The instructions to run the whole phoebe environment can be found in the (phoebe
 # run the standard control script with a kinematics simulation
 ros2 launch phoebe_deploy control.launch.py platform:=mock_hardware
 
-# run the standard control script in gazebo ignition simulation
-# (this is not fully developed yet)
-ros2 launch phoebe_deploy control.launch.py platform:=sim_ignition
-
 # run the standard control script on hardware
 ros2 launch phoebe_deploy control.launch.py platform:=hardware
 
