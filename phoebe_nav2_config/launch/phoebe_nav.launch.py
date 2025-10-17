@@ -20,12 +20,18 @@ def generate_launch_description():
 
     declared_arguments = [
         DeclareLaunchArgument(
-            "map",
-            default_value=os.path.join(pkg_phoebe_nav2_config, "maps", "test.yaml"),
-            description="Path to static map to use",
+            "launch_rviz",
+            default_value="true",
+            description="Launch rviz or nah",
+        ),
+        DeclareLaunchArgument(
+            "is_sim",
+            default_value="false",
+            description="This is some kind of simulation environment",
         ),
     ]
     launch_rviz = LaunchConfiguration("launch_rviz")
+    is_sim = LaunchConfiguration("is_sim")
 
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
     rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
@@ -36,14 +42,15 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
-                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml")
+                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
+                "use_sim_time": is_sim,
             }.items(),
         ),
         # Node(
-        #     package='tf2_ros',
-        #     executable='static_transform_publisher',
-        #     arguments=['0','0','0','0','0','0','map','world'],
-        #     # condition=UnlessCondition(OrSubstitution(LaunchConfiguration('slam'),LaunchConfiguration('amcl'))),
+        #     package="tf2_ros",
+        #     executable="static_transform_publisher",
+        #     arguments=["0", "0", "0", "0", "0", "0", "odom", "map"],
+        #     parameters=[{"use_sim_time": True}],
         # ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -60,6 +67,7 @@ def generate_launch_description():
             output="log",
             arguments=["-d", rviz_config_file, "--stylesheet", rviz_qss_file],
             condition=IfCondition(launch_rviz),
+            parameters=[{"use_sim_time": is_sim}],
         ),
     ]
 

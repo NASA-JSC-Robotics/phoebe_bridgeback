@@ -40,7 +40,10 @@ def generate_launch_description():
         namespace=namespace,
         package="hand_eye_cal_ros2",
         executable="hand_eye_cal_node",
-        remappings=[("color_image", "color/image_raw"), ("camera_info", "color/camera_info")],
+        remappings=[
+            ("color_image", "color/image_raw"),
+            ("camera_info", "color/camera_info"),
+        ],
         output="screen",
         parameters=[ParameterFile(config_filepath)],
     )

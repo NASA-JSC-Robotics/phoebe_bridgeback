@@ -2,7 +2,7 @@ moveit_setup_assistant_config:
   urdf:
     package: phoebe_description
     relative_path: urdf/phoebe.urdf.xacro
-    xacro_args: sim_ignition:=false use_fake_hardware:=true
+    xacro_args: use_fake_hardware:=true
   srdf:
     relative_path: config/phoebe.srdf
   package_settings:

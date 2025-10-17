@@ -4,11 +4,14 @@ import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import (
+    LaunchConfiguration,
+    PathJoinSubstitution,
+)
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 
 
 def generate_launch_description():
@@ -17,16 +20,16 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "sim_ignition",
+            "use_fake_hardware",
             default_value="false",
-            description="Load the robot with ignition simulation description.",
+            description="Start robot with simulated hardware mirroring command to its states.",
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "use_fake_hardware",
+            "use_sim_time",
             default_value="false",
-            description="Start robot with simulated hardware mirroring command to its states.",
+            description="If the robot is running in simulation, use the published clock",
         )
     )
     declared_arguments.append(
@@ -53,21 +56,40 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_description_package",
+            default_value="phoebe_description",
+            description="The package to find the robot description.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_description_file",
+            default_value="phoebe.urdf.xacro",
+            description="The name of the robot description file. "
+            "Must be in the 'urdf' folder of the description package.",
+        )
+    )
 
     # Initialize Arguments
-    sim_ignition = LaunchConfiguration("sim_ignition")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
+    use_sim_time = LaunchConfiguration("use_sim_time")
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
+    robot_description_package = LaunchConfiguration("robot_description_package")
+    robot_description_file = LaunchConfiguration("robot_description_file")
 
     # common launch args shared across different nodes
     common_launch_args = {
-        "sim_ignition": sim_ignition,
         "use_fake_hardware": use_fake_hardware,
         "tf_prefix": tf_prefix,
         "ns": ns,
         "calibration_mode": calibration_mode,
+        "robot_description_package": robot_description_package,
+        "robot_description_file": robot_description_file,
+        "is_sim": use_fake_hardware,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -77,7 +99,11 @@ def generate_launch_description():
             launch_files_list.append(
                 IncludeLaunchDescription(
                     PythonLaunchDescriptionSource(
-                        os.path.join(get_package_share_directory(package_name), "launch", launch_file_name)
+                        os.path.join(
+                            get_package_share_directory(package_name),
+                            "launch",
+                            launch_file_name,
+                        )
                     ),
                     launch_arguments=launch_args,
                     condition=IfCondition(if_condition),
@@ -143,15 +169,49 @@ def generate_launch_description():
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
+            {"use_sim_time": use_sim_time},
         ],
         remappings=[
             # remap to be able to use the global robot_description
             ("~/robot_description", "robot_description"),
             # Necessary remap for platform velocity controller. Preferably this would be done
             # at spawn time. This is not supported in humble, but is supported in jazzy.
+            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
+            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
-        # prefix="taskset -c 0,1,2,3,5",
         output="both",
+        condition=UnlessCondition(use_fake_hardware),
+    )
+
+    # start the controller manager node with all of the controller config files
+    # this is the versionf or sim, which just sets the kinematics.wheel radius to a smaller value for mujoco
+    control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        namespace=ns,
+        # allow_substs allows tf_prefix to be pulled in
+        parameters=[
+            ParameterFile(controllers_common, allow_substs=True),
+            ParameterFile(controllers_r100, allow_substs=True),
+            ParameterFile(controllers_ewellix, allow_substs=True),
+            ParameterFile(controllers_ur, allow_substs=True),
+            ParameterFile(controllers_hande, allow_substs=True),
+            # for some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically
+            {
+                "use_sim_time": use_sim_time,
+                "kinematics.wheels_radius": 0.063,
+            },
+        ],
+        remappings=[
+            # remap to be able to use the global robot_description
+            ("~/robot_description", "robot_description"),
+            # Necessary remap for platform velocity controller. Preferably this would be done
+            # at spawn time. This is not supported in humble, but is supported in jazzy.
+            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
+            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
+        ],
+        output="both",
+        condition=IfCondition(use_fake_hardware),
     )
 
     node_puma_throttle = Node(
@@ -160,7 +220,12 @@ def generate_launch_description():
         package="topic_tools",
         namespace=ns,
         output="screen",
-        arguments=["messages", "platform/puma/cmd", "50", "ridgeback/platform/puma/cmd_throttle"],
+        arguments=[
+            "messages",
+            "platform/puma/cmd",
+            "50",
+            "ridgeback/platform/puma/cmd_throttle",
+        ],
     )
 
     ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle])

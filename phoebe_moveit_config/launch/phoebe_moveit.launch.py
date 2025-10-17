@@ -24,13 +24,6 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "sim_ignition",
-            default_value="false",
-            description="Robot is starting using ignition",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "ns",
             default_value="",
             description="Namespace for the robot.",
@@ -44,16 +37,23 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_sim_time",
+            default_value="false",
+            description="If the robot is running in simulation, use the published clock",
+        )
+    )
 
     rviz = LaunchConfiguration("rviz")
-    sim_ignition = LaunchConfiguration("sim_ignition")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
+    use_sim_time = LaunchConfiguration("use_sim_time")
 
     description_package = "phoebe_description"
     description_file = "phoebe.urdf.xacro"
     description_full_path = os.path.join(get_package_share_directory(description_package), "urdf", description_file)
-    description_mappings = {"sim_ignition": sim_ignition, "calibration_mode": calibration_mode}
+    description_mappings = {"calibration_mode": calibration_mode}
 
     moveit_config = (
         MoveItConfigsBuilder("phoebe", package_name="phoebe_moveit_config")
@@ -74,7 +74,7 @@ def generate_launch_description():
             output="both",
             namespace=ns,
             parameters=[
-                {"use_sim_time": sim_ignition},
+                {"use_sim_time": use_sim_time},
                 moveit_config.to_dict(),
             ],
         )
@@ -92,7 +92,7 @@ def generate_launch_description():
             namespace=ns,
             arguments=["-d", rviz_config_file, "--stylesheet", rviz_qss_file],
             parameters=[
-                {"use_sim_time": sim_ignition},
+                {"use_sim_time": use_sim_time},
                 moveit_config.robot_description,
                 moveit_config.robot_description_semantic,
                 moveit_config.robot_description_kinematics,

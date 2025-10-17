@@ -1,0 +1,20 @@
+<mujoco model="lift_low_500mm">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="new_mat_color.017" specular="0.5" shininess="0.36" rgba="0.850000 0.850000 0.850000 1.000000"/>
+    <mesh file="lift_low_500mm.obj"/>
+  </asset>
+  <worldbody>
+    <body name="lift_low_500mm">
+      <geom material="new_mat_color.017" mesh="lift_low_500mm" class="visual"/>
+      <geom mesh="lift_low_500mm" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

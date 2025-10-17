@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess, RegisterEventHandler
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    ExecuteProcess,
+    RegisterEventHandler,
+)
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -39,15 +44,24 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "is_sim",
+            default_value="false",
+            description="This is some kind of simulation environment",
+        )
+    )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
+    is_sim = LaunchConfiguration("is_sim")
 
     # common launch args passed to each of the different launch files
     common_launch_args = {
         "tf_prefix": tf_prefix,
         "ns": ns,
+        "is_sim": is_sim,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -84,16 +98,36 @@ def generate_launch_description():
 
     # add controller spawner launch files for each individual subsystem
     launch_file_r100_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_r100.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_r100.launch.py",
+        ]
     )
     launch_file_ewellix_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_ewellix.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_ewellix.launch.py",
+        ]
     )
     launch_file_ur_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_ur.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_ur.launch.py",
+        ]
     )
     launch_file_hande_spawner = PathJoinSubstitution(
-        [pkg_phoebe_deploy, "launch", "spawn_controllers", "spawn_controllers_hande.launch.py"]
+        [
+            pkg_phoebe_deploy,
+            "launch",
+            "spawn_controllers",
+            "spawn_controllers_hande.launch.py",
+        ]
     )
 
     # Thread prioritization should happen, clearly, after the threads have been started.
@@ -104,9 +138,16 @@ def generate_launch_description():
     prioritize_threads = ExecuteProcess(
         shell=True,
         cmd=[
-            PathJoinSubstitution([FindPackagePrefix("phoebe_deploy"), "lib", "phoebe_deploy", "prioritize_threads.sh"])
+            PathJoinSubstitution(
+                [
+                    FindPackagePrefix("phoebe_deploy"),
+                    "lib",
+                    "phoebe_deploy",
+                    "prioritize_threads.sh",
+                ]
+            )
         ],
-        output="both",
+        # condition=UnlessCondition(is_sim),
     )
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
@@ -114,7 +155,9 @@ def generate_launch_description():
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
     launches.append(
         MakeLaunchDescription(
-            launch_file_hande_spawner, common_launch_args, condition=UnlessCondition(calibration_mode)
+            launch_file_hande_spawner,
+            common_launch_args,
+            condition=UnlessCondition(calibration_mode),
         )
     )
 

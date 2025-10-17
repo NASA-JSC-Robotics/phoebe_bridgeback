@@ -6,6 +6,7 @@ from launch.substitutions import (
     LaunchConfiguration,
 )
 from launch_ros.actions import Node
+from launch.conditions import UnlessCondition
 
 
 def generate_launch_description():
@@ -19,13 +20,21 @@ def generate_launch_description():
             description="Namespace for the hardware robot",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "is_sim",
+            default_value="false",
+            description="This is some kind of simulation environment",
+        )
+    )
 
     ns = LaunchConfiguration("ns")
+    is_sim = LaunchConfiguration("is_sim")
 
     nodes = []
 
     # helper function to make controller nodes
-    def MakeControllerNode(controller_name):
+    def MakeControllerNode(controller_name, condition=None):
         return Node(
             package="controller_manager",
             executable="spawner",
@@ -40,13 +49,14 @@ def generate_launch_description():
                 controller_name,
             ],
             output="screen",
+            condition=condition,
         )
 
     # need to fix name conflict by adding parameters before the activation controllers
     # can be added back in.
     nodes.append(MakeControllerNode("right_robotiq_gripper_hande_controller"))
-    nodes.append(MakeControllerNode("right_robotiq_activation_controller"))
+    nodes.append(MakeControllerNode("right_robotiq_activation_controller", condition=UnlessCondition(is_sim)))
     nodes.append(MakeControllerNode("left_robotiq_gripper_hande_controller"))
-    nodes.append(MakeControllerNode("left_robotiq_activation_controller"))
+    nodes.append(MakeControllerNode("left_robotiq_activation_controller", condition=UnlessCondition(is_sim)))
 
     return LaunchDescription(declared_arguments + nodes)

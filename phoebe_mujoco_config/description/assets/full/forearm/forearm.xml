@@ -1,0 +1,32 @@
+<mujoco model="forearm">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="Black.003" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
+    <material name="JointGrey.003" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
+    <material name="LinkGrey.001" specular="0.5" shininess="0.25" rgba="0.820392 0.820392 0.820392 1.000000"/>
+    <material name="URBlue.002" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <mesh file="forearm_0.obj"/>
+    <mesh file="forearm_1.obj"/>
+    <mesh file="forearm_2.obj"/>
+    <mesh file="forearm_3.obj"/>
+  </asset>
+  <worldbody>
+    <body name="forearm">
+      <geom mesh="forearm_0" material="URBlue.002" class="visual"/>
+      <geom mesh="forearm_1" material="LinkGrey.001" class="visual"/>
+      <geom mesh="forearm_2" material="Black.003" class="visual"/>
+      <geom mesh="forearm_3" material="JointGrey.003" class="visual"/>
+      <geom mesh="forearm_0" class="collision"/>
+      <geom mesh="forearm_1" class="collision"/>
+      <geom mesh="forearm_2" class="collision"/>
+      <geom mesh="forearm_3" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

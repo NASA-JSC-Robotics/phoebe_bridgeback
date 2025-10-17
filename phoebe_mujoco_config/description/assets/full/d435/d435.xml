@@ -1,0 +1,20 @@
+<mujoco model="d435">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="ID10" specular="0.0" shininess="0.25" rgba="0.749020 0.749020 0.749020 1.000000"/>
+    <mesh file="d435.obj"/>
+  </asset>
+  <worldbody>
+    <body name="d435">
+      <geom material="ID10" mesh="d435" class="visual"/>
+      <geom mesh="d435" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>
