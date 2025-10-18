@@ -10,6 +10,7 @@ from math import (
     sqrt,
 )
 import numpy as np
+import os
 
 n_roller = 8  # number of rollers of wheel
 pos = [
@@ -165,8 +166,11 @@ def main():
     )
     total_description += "</mujoco>\n"
 
+    file_path = "mjcf_data/wheels.xml"
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)  # make directory if missing
+
     open(
-        "mjcf_data/wheels.xml",
+        file_path,
         "w",
     ).write(total_description)
 

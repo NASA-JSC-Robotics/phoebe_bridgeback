@@ -38,7 +38,9 @@ def generate_launch_description():
     phoebe_mujoco_description_file = "phoebe_xacro.urdf"
     phoebe_mujoco_package_path = get_package_share_directory(phoebe_mujoco_package_name)
 
-    mujoco_inputs = os.path.join(phoebe_mujoco_package_path, "description", "mujoco_inputs.xml")
+    mujoco_inputs = os.path.join(
+        phoebe_mujoco_package_path, "description", "mujoco_inputs.xml"
+    )
 
     # main robot description for Phoebe
     robot_description_content = Command(
@@ -52,6 +54,9 @@ def generate_launch_description():
                     phoebe_mujoco_description_file,
                 ]
             ),
+            " ",
+            "add_grasp_push_frames:=",
+            "false",
         ]
     )
 
@@ -82,7 +87,9 @@ def generate_launch_description():
     )
 
     delay_post_process = RegisterEventHandler(
-        OnProcessExit(target_action=make_mjcf_from_robot_description, on_exit=[post_process_mjcf])
+        OnProcessExit(
+            target_action=make_mjcf_from_robot_description, on_exit=[post_process_mjcf]
+        )
     )
 
     return LaunchDescription(
