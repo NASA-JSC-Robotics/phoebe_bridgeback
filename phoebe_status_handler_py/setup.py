@@ -14,8 +14,8 @@ setup(
     zip_safe=True,
     maintainer="er4-user",
     maintainer_email="mark.paterson@nasa.gov",
-    description="TODO: Package description",
-    license="TODO: License declaration",
+    description="Status handlers for the Phoebe Bridgeback robot",
+    license="Apache License, Version 2.0",
     tests_require=["pytest"],
     entry_points={
         "console_scripts": ["phoebe_status_terminal = phoebe_status_handler_py.phoebe_status_terminal:main"],

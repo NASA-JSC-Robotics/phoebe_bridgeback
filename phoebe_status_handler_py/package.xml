@@ -5,17 +5,12 @@
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="mark.paterson@nasa.gov">er4-user</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache License, Version 2.0</license>
 
   <depend>std_msgs</depend>
   <depend>clearpath_platform_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
-
-  <test_depend>ament_copyright</test_depend>
-  <test_depend>ament_flake8</test_depend>
-  <test_depend>ament_pep257</test_depend>
-  <test_depend>python3-pytest</test_depend>
 
   <export>
     <build_type>ament_python</build_type>
