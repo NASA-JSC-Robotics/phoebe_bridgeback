@@ -27,18 +27,21 @@
 #include "rclcpp/utilities.hpp"
 #include "ros2_control_test_assets/descriptions.hpp"
 
-TEST(TestLoadMecanumDriveOdomPublisher, when_loading_controller_expect_no_exception)
-{
+TEST(TestLoadMecanumDriveOdomPublisher,
+     when_loading_controller_expect_no_exception) {
   rclcpp::init(0, nullptr);
 
-  std::shared_ptr<rclcpp::Executor> executor = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
+  std::shared_ptr<rclcpp::Executor> executor =
+      std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
 
   controller_manager::ControllerManager cm(
-      std::make_unique<hardware_interface::ResourceManager>(ros2_control_test_assets::minimal_robot_urdf), executor,
-      "test_controller_manager");
+      std::make_unique<hardware_interface::ResourceManager>(
+          ros2_control_test_assets::minimal_robot_urdf),
+      executor, "test_controller_manager");
 
-  ASSERT_NE(cm.load_controller("test_mecanum_drive_odom_publisher",
-                               "mecanum_drive_odom_publisher/MecanumDriveOdomPublisher"),
+  ASSERT_NE(cm.load_controller(
+                "test_mecanum_drive_odom_publisher",
+                "mecanum_drive_odom_publisher/MecanumDriveOdomPublisher"),
             nullptr);
 
   rclcpp::shutdown();

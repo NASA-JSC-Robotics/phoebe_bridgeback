@@ -28,7 +28,6 @@
 #include <utility>
 #include <vector>
 
-#include <mecanum_drive_odom_publisher/mecanum_drive_odom_publisher_parameters.hpp>
 #include "controller_interface/controller_interface.hpp"
 #include "mecanum_drive_odom_publisher/odometry.hpp"
 #include "mecanum_drive_odom_publisher/visibility_control.h"
@@ -37,17 +36,17 @@
 #include "realtime_tools/realtime_buffer.hpp"
 #include "realtime_tools/realtime_publisher.hpp"
 #include "std_srvs/srv/set_bool.hpp"
+#include <mecanum_drive_odom_publisher/mecanum_drive_odom_publisher_parameters.hpp>
 
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "tf2_msgs/msg/tf_message.hpp"
-namespace mecanum_drive_odom_publisher
-{
+namespace mecanum_drive_odom_publisher {
 // name constants for state interfaces
 static constexpr size_t NR_STATE_ITFS = 4;
 
-class MecanumDriveOdomPublisher : public controller_interface::ControllerInterface
-{
+class MecanumDriveOdomPublisher
+    : public controller_interface::ControllerInterface {
 public:
   MECANUM_DRIVE_ODOM_PUBLISHER__VISIBILITY_PUBLIC
   MecanumDriveOdomPublisher();
@@ -56,22 +55,28 @@ public:
   controller_interface::CallbackReturn on_init() override;
 
   MECANUM_DRIVE_ODOM_PUBLISHER__VISIBILITY_PUBLIC
-  controller_interface::InterfaceConfiguration command_interface_configuration() const override;
+  controller_interface::InterfaceConfiguration
+  command_interface_configuration() const override;
 
   MECANUM_DRIVE_ODOM_PUBLISHER__VISIBILITY_PUBLIC
-  controller_interface::InterfaceConfiguration state_interface_configuration() const override;
+  controller_interface::InterfaceConfiguration
+  state_interface_configuration() const override;
 
   MECANUM_DRIVE_ODOM_PUBLISHER__VISIBILITY_PUBLIC
-  controller_interface::CallbackReturn on_configure(const rclcpp_lifecycle::State& previous_state) override;
+  controller_interface::CallbackReturn
+  on_configure(const rclcpp_lifecycle::State &previous_state) override;
 
   MECANUM_DRIVE_ODOM_PUBLISHER__VISIBILITY_PUBLIC
-  controller_interface::CallbackReturn on_activate(const rclcpp_lifecycle::State& previous_state) override;
+  controller_interface::CallbackReturn
+  on_activate(const rclcpp_lifecycle::State &previous_state) override;
 
   MECANUM_DRIVE_ODOM_PUBLISHER__VISIBILITY_PUBLIC
-  controller_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State& previous_state) override;
+  controller_interface::CallbackReturn
+  on_deactivate(const rclcpp_lifecycle::State &previous_state) override;
 
   MECANUM_DRIVE_ODOM_PUBLISHER__VISIBILITY_PUBLIC
-  controller_interface::return_type update(const rclcpp::Time& time, const rclcpp::Duration& period) override;
+  controller_interface::return_type
+  update(const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
   using OdomStateMsg = nav_msgs::msg::Odometry;
   using TfStateMsg = tf2_msgs::msg::TFMessage;
@@ -93,11 +98,11 @@ protected:
   Odometry odometry_;
 
 private:
-  double velocity_in_center_frame_linear_x_;   // [m/s]
-  double velocity_in_center_frame_linear_y_;   // [m/s]
-  double velocity_in_center_frame_angular_z_;  // [rad/s]
+  double velocity_in_center_frame_linear_x_;  // [m/s]
+  double velocity_in_center_frame_linear_y_;  // [m/s]
+  double velocity_in_center_frame_angular_z_; // [rad/s]
 };
 
-}  // namespace mecanum_drive_odom_publisher
+} // namespace mecanum_drive_odom_publisher
 
-#endif  // MECANUM_DRIVE_ODOM_PUBLISHER__MECANUM_DRIVE_ODOM_PUBLISHER_HPP_
+#endif // MECANUM_DRIVE_ODOM_PUBLISHER__MECANUM_DRIVE_ODOM_PUBLISHER_HPP_

@@ -30,56 +30,56 @@
 #include "tf2/transform_datatypes.h"
 #include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
 
-namespace mecanum_drive_odom_publisher
-{
-MecanumDriveOdomPublisher::MecanumDriveOdomPublisher() : controller_interface::ControllerInterface()
-{
-}
+namespace mecanum_drive_odom_publisher {
+MecanumDriveOdomPublisher::MecanumDriveOdomPublisher()
+    : controller_interface::ControllerInterface() {}
 
-controller_interface::CallbackReturn MecanumDriveOdomPublisher::on_init()
-{
-  try
-  {
-    param_listener_ = std::make_shared<mecanum_drive_odom_publisher::ParamListener>(get_node());
-  }
-  catch (const std::exception& e)
-  {
-    fprintf(stderr, "Exception thrown during controller's init with message: %s \n", e.what());
+controller_interface::CallbackReturn MecanumDriveOdomPublisher::on_init() {
+  try {
+    param_listener_ =
+        std::make_shared<mecanum_drive_odom_publisher::ParamListener>(
+            get_node());
+  } catch (const std::exception &e) {
+    fprintf(stderr,
+            "Exception thrown during controller's init with message: %s \n",
+            e.what());
     return controller_interface::CallbackReturn::ERROR;
   }
 
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
-controller_interface::CallbackReturn
-MecanumDriveOdomPublisher::on_configure(const rclcpp_lifecycle::State& /*previous_state*/)
-{
+controller_interface::CallbackReturn MecanumDriveOdomPublisher::on_configure(
+    const rclcpp_lifecycle::State & /*previous_state*/) {
   params_ = param_listener_->get_params();
 
-  if (!params_.state_joint_names.empty())
-  {
+  if (!params_.state_joint_names.empty()) {
     state_joint_names_ = params_.state_joint_names;
-  }
-  else
-  {
-    RCLCPP_FATAL(get_node()->get_logger(), "'state_joint_names' must be provided in the config file!");
+  } else {
+    RCLCPP_FATAL(get_node()->get_logger(),
+                 "'state_joint_names' must be provided in the config file!");
   }
 
-  odometry_.init(get_node()->now(), { params_.kinematics.base_frame_offset.x, params_.kinematics.base_frame_offset.y,
-                                      params_.kinematics.base_frame_offset.theta });
+  odometry_.init(get_node()->now(),
+                 {params_.kinematics.base_frame_offset.x,
+                  params_.kinematics.base_frame_offset.y,
+                  params_.kinematics.base_frame_offset.theta});
   // Set wheel params for the odometry computation
-  odometry_.setWheelsParams(params_.kinematics.sum_of_robot_center_projection_on_X_Y_axis,
-                            params_.kinematics.wheels_radius);
+  odometry_.setWheelsParams(
+      params_.kinematics.sum_of_robot_center_projection_on_X_Y_axis,
+      params_.kinematics.wheels_radius);
 
-  try
-  {
+  try {
     // Odom state publisher
-    odom_s_publisher_ = get_node()->create_publisher<OdomStateMsg>("~/odom", rclcpp::SystemDefaultsQoS());
-    rt_odom_state_publisher_ = std::make_unique<OdomStatePublisher>(odom_s_publisher_);
-  }
-  catch (const std::exception& e)
-  {
-    fprintf(stderr, "Exception thrown during publisher creation at configure stage with message : %s \n", e.what());
+    odom_s_publisher_ = get_node()->create_publisher<OdomStateMsg>(
+        "~/odom", rclcpp::SystemDefaultsQoS());
+    rt_odom_state_publisher_ =
+        std::make_unique<OdomStatePublisher>(odom_s_publisher_);
+  } catch (const std::exception &e) {
+    fprintf(stderr,
+            "Exception thrown during publisher creation at configure stage "
+            "with message : %s \n",
+            e.what());
     return controller_interface::CallbackReturn::ERROR;
   }
 
@@ -89,34 +89,38 @@ MecanumDriveOdomPublisher::on_configure(const rclcpp_lifecycle::State& /*previou
   rt_odom_state_publisher_->msg_.child_frame_id = params_.base_frame_id;
   rt_odom_state_publisher_->msg_.pose.pose.position.z = 0;
 
-  auto& pose_covariance = rt_odom_state_publisher_->msg_.pose.covariance;
-  auto& twist_covariance = rt_odom_state_publisher_->msg_.twist.covariance;
+  auto &pose_covariance = rt_odom_state_publisher_->msg_.pose.covariance;
+  auto &twist_covariance = rt_odom_state_publisher_->msg_.twist.covariance;
   constexpr size_t NUM_DIMENSIONS = 6;
-  for (size_t index = 0; index < 6; ++index)
-  {
+  for (size_t index = 0; index < 6; ++index) {
     const size_t diagonal_index = NUM_DIMENSIONS * index + index;
     pose_covariance[diagonal_index] = params_.pose_covariance_diagonal[index];
     twist_covariance[diagonal_index] = params_.twist_covariance_diagonal[index];
   }
   rt_odom_state_publisher_->unlock();
 
-  try
-  {
+  try {
     // Tf State publisher
-    tf_odom_s_publisher_ = get_node()->create_publisher<TfStateMsg>("~/tf_odometry", rclcpp::SystemDefaultsQoS());
-    rt_tf_odom_state_publisher_ = std::make_unique<TfStatePublisher>(tf_odom_s_publisher_);
-  }
-  catch (const std::exception& e)
-  {
-    fprintf(stderr, "Exception thrown during publisher creation at configure stage with message : %s \n", e.what());
+    tf_odom_s_publisher_ = get_node()->create_publisher<TfStateMsg>(
+        "~/tf_odometry", rclcpp::SystemDefaultsQoS());
+    rt_tf_odom_state_publisher_ =
+        std::make_unique<TfStatePublisher>(tf_odom_s_publisher_);
+  } catch (const std::exception &e) {
+    fprintf(stderr,
+            "Exception thrown during publisher creation at configure stage "
+            "with message : %s \n",
+            e.what());
     return controller_interface::CallbackReturn::ERROR;
   }
 
   rt_tf_odom_state_publisher_->lock();
   rt_tf_odom_state_publisher_->msg_.transforms.resize(1);
-  rt_tf_odom_state_publisher_->msg_.transforms[0].header.stamp = get_node()->now();
-  rt_tf_odom_state_publisher_->msg_.transforms[0].header.frame_id = params_.odom_frame_id;
-  rt_tf_odom_state_publisher_->msg_.transforms[0].child_frame_id = params_.base_frame_id;
+  rt_tf_odom_state_publisher_->msg_.transforms[0].header.stamp =
+      get_node()->now();
+  rt_tf_odom_state_publisher_->msg_.transforms[0].header.frame_id =
+      params_.odom_frame_id;
+  rt_tf_odom_state_publisher_->msg_.transforms[0].child_frame_id =
+      params_.base_frame_id;
   rt_tf_odom_state_publisher_->msg_.transforms[0].transform.translation.z = 0.0;
   rt_tf_odom_state_publisher_->unlock();
 
@@ -124,52 +128,52 @@ MecanumDriveOdomPublisher::on_configure(const rclcpp_lifecycle::State& /*previou
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
-controller_interface::InterfaceConfiguration MecanumDriveOdomPublisher::command_interface_configuration() const
-{
-  return controller_interface::InterfaceConfiguration{ controller_interface::interface_configuration_type::NONE };
+controller_interface::InterfaceConfiguration
+MecanumDriveOdomPublisher::command_interface_configuration() const {
+  return controller_interface::InterfaceConfiguration{
+      controller_interface::interface_configuration_type::NONE};
 }
 
-controller_interface::InterfaceConfiguration MecanumDriveOdomPublisher::state_interface_configuration() const
-{
+controller_interface::InterfaceConfiguration
+MecanumDriveOdomPublisher::state_interface_configuration() const {
   controller_interface::InterfaceConfiguration state_interfaces_config;
-  state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
+  state_interfaces_config.type =
+      controller_interface::interface_configuration_type::INDIVIDUAL;
 
   state_interfaces_config.names.reserve(state_joint_names_.size());
 
-  for (const auto& joint : state_joint_names_)
-  {
-    state_interfaces_config.names.push_back(joint + "/" + params_.interface_name);
+  for (const auto &joint : state_joint_names_) {
+    state_interfaces_config.names.push_back(joint + "/" +
+                                            params_.interface_name);
   }
 
   return state_interfaces_config;
 }
 
-controller_interface::CallbackReturn
-MecanumDriveOdomPublisher::on_activate(const rclcpp_lifecycle::State& /*previous_state*/)
-{
+controller_interface::CallbackReturn MecanumDriveOdomPublisher::on_activate(
+    const rclcpp_lifecycle::State & /*previous_state*/) {
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
-controller_interface::CallbackReturn
-MecanumDriveOdomPublisher::on_deactivate(const rclcpp_lifecycle::State& /*previous_state*/)
-{
+controller_interface::CallbackReturn MecanumDriveOdomPublisher::on_deactivate(
+    const rclcpp_lifecycle::State & /*previous_state*/) {
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
-controller_interface::return_type MecanumDriveOdomPublisher::update(const rclcpp::Time& time,
-                                                                    const rclcpp::Duration& period)
-{
+controller_interface::return_type
+MecanumDriveOdomPublisher::update(const rclcpp::Time &time,
+                                  const rclcpp::Duration &period) {
   // FORWARD KINEMATICS (odometry).
   double wheel_front_left_vel = state_interfaces_[0].get_value();
   double wheel_back_left_vel = state_interfaces_[1].get_value();
   double wheel_back_right_vel = state_interfaces_[2].get_value();
   double wheel_front_right_vel = state_interfaces_[3].get_value();
 
-  if (!std::isnan(wheel_front_left_vel) && !std::isnan(wheel_back_left_vel) && !std::isnan(wheel_back_right_vel) &&
-      !std::isnan(wheel_front_right_vel))
-  {
+  if (!std::isnan(wheel_front_left_vel) && !std::isnan(wheel_back_left_vel) &&
+      !std::isnan(wheel_back_right_vel) && !std::isnan(wheel_front_right_vel)) {
     // Estimate twist (using joint information) and integrate
-    odometry_.update(wheel_front_left_vel, wheel_back_left_vel, wheel_back_right_vel, wheel_front_right_vel,
+    odometry_.update(wheel_front_left_vel, wheel_back_left_vel,
+                     wheel_back_right_vel, wheel_front_right_vel,
                      period.seconds());
   }
 
@@ -179,12 +183,12 @@ controller_interface::return_type MecanumDriveOdomPublisher::update(const rclcpp
   orientation.setRPY(0.0, 0.0, odometry_.getRz());
 
   // Populate odom message and publish
-  if (rt_odom_state_publisher_->trylock())
-  {
+  if (rt_odom_state_publisher_->trylock()) {
     rt_odom_state_publisher_->msg_.header.stamp = time;
     rt_odom_state_publisher_->msg_.pose.pose.position.x = odometry_.getX();
     rt_odom_state_publisher_->msg_.pose.pose.position.y = odometry_.getY();
-    rt_odom_state_publisher_->msg_.pose.pose.orientation = tf2::toMsg(orientation);
+    rt_odom_state_publisher_->msg_.pose.pose.orientation =
+        tf2::toMsg(orientation);
     rt_odom_state_publisher_->msg_.twist.twist.linear.x = odometry_.getVx();
     rt_odom_state_publisher_->msg_.twist.twist.linear.y = odometry_.getVy();
     rt_odom_state_publisher_->msg_.twist.twist.angular.z = odometry_.getWz();
@@ -192,19 +196,21 @@ controller_interface::return_type MecanumDriveOdomPublisher::update(const rclcpp
   }
 
   // Publish tf /odom frame
-  if (params_.enable_odom_tf && rt_tf_odom_state_publisher_->trylock())
-  {
+  if (params_.enable_odom_tf && rt_tf_odom_state_publisher_->trylock()) {
     rt_tf_odom_state_publisher_->msg_.transforms.front().header.stamp = time;
-    rt_tf_odom_state_publisher_->msg_.transforms.front().transform.translation.x = odometry_.getX();
-    rt_tf_odom_state_publisher_->msg_.transforms.front().transform.translation.y = odometry_.getY();
-    rt_tf_odom_state_publisher_->msg_.transforms.front().transform.rotation = tf2::toMsg(orientation);
+    rt_tf_odom_state_publisher_->msg_.transforms.front()
+        .transform.translation.x = odometry_.getX();
+    rt_tf_odom_state_publisher_->msg_.transforms.front()
+        .transform.translation.y = odometry_.getY();
+    rt_tf_odom_state_publisher_->msg_.transforms.front().transform.rotation =
+        tf2::toMsg(orientation);
     rt_tf_odom_state_publisher_->unlockAndPublish();
   }
 
   return controller_interface::return_type::OK;
 }
 
-}  // namespace mecanum_drive_odom_publisher
+} // namespace mecanum_drive_odom_publisher
 
 #include "pluginlib/class_list_macros.hpp"
 
