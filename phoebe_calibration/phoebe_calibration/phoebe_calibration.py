@@ -69,10 +69,10 @@ class PhoebeCalibrationNode(Node):
 
     def print_transform(self, np_tf: np.ndarray, name: string):
         tf_string: string = (
-            f"\n\t[{np_tf[0,0]:8.5f}, {np_tf[0,1]:8.5f}, {np_tf[0,2]:8.5f}, {np_tf[0,3]:8.5f}]"
-            + f"\n\t[{np_tf[1,0]:8.5f}, {np_tf[1,1]:8.5f}, {np_tf[1,2]:8.5f}, {np_tf[1,3]:8.5f}]"
-            + f"\n\t[{np_tf[2,0]:8.5f}, {np_tf[2,1]:8.5f}, {np_tf[2,2]:8.5f}, {np_tf[2,3]:8.5f}]"
-            + f"\n\t[{np_tf[3,0]:8.5f}, {np_tf[3,1]:8.5f}, {np_tf[3,2]:8.5f}, {np_tf[3,3]:8.5f}]"
+            f"\n\t[{np_tf[0, 0]:8.5f}, {np_tf[0, 1]:8.5f}, {np_tf[0, 2]:8.5f}, {np_tf[0, 3]:8.5f}]"
+            + f"\n\t[{np_tf[1, 0]:8.5f}, {np_tf[1, 1]:8.5f}, {np_tf[1, 2]:8.5f}, {np_tf[1, 3]:8.5f}]"
+            + f"\n\t[{np_tf[2, 0]:8.5f}, {np_tf[2, 1]:8.5f}, {np_tf[2, 2]:8.5f}, {np_tf[2, 3]:8.5f}]"
+            + f"\n\t[{np_tf[3, 0]:8.5f}, {np_tf[3, 1]:8.5f}, {np_tf[3, 2]:8.5f}, {np_tf[3, 3]:8.5f}]"
         )
 
         self.get_logger().info(f"\n\n{name}: {tf_string}\n")
@@ -82,7 +82,8 @@ class PhoebeCalibrationNode(Node):
         yaw = atan2(np_tf[1, 0], np_tf[0, 0])
 
         urdf_string: string = (
-            f'\n\nxyz="{np_tf[0,3]:.5f} {np_tf[1,3]:.5f} {np_tf[2,3]:.5f}" ' + f'rpy="{roll:.5f} {pitch:.5f} {yaw:.5f}"'
+            f'\n\nxyz="{np_tf[0, 3]:.5f} {np_tf[1, 3]:.5f} {np_tf[2, 3]:.5f}" '
+            + f'rpy="{roll:.5f} {pitch:.5f} {yaw:.5f}"'
         )
 
         self.get_logger().info(urdf_string)
