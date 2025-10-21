@@ -74,9 +74,7 @@ def main(filepath):
 
     with open(filepath_full, "w") as file:
         # Remove extra newlines that minidom adds after each tag
-        xml_data = "\n".join(
-            [line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()]
-        )
+        xml_data = "\n".join([line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()])
         file.write(xml_data)
 
 
