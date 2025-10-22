@@ -18,6 +18,8 @@
 # under the License.
 
 
+import math
+import time
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Header, Bool
@@ -27,7 +29,6 @@ from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
 from controller_manager_msgs.srv import ListControllers, SwitchController
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from enum import Enum
-import math
 
 
 class RobotState(Enum):
@@ -191,6 +192,7 @@ class PhoebeEstopManager(Node):
             if self.robot_state == RobotState.RUNNING:
                 response.success = True
                 return response
+            time.sleep(0.1)
 
         # return failure if we didn't change to running mode within the timeout
         response.success = False
