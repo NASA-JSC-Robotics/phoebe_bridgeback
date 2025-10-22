@@ -337,7 +337,7 @@ def main(args=None):
         pass
     finally:
         joystick_safing_node.destroy_node()
-        rclpy.shutdown()
+        rclpy.try_shutdown()
 
 
 if __name__ == "__main__":

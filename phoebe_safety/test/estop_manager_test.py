@@ -35,79 +35,48 @@ class EstopManagerTest(unittest.TestCase):
 
     TIMEOUT = 3.0
 
-    _service_node = None
-    _service_executor = None
-    _request_restart_client = None
-    _switch_controller_client = None
-
     @classmethod
     def setUpClass(cls):
         rclpy.init()
 
-        cls._service_node = rclpy.create_node("service_node")
-        cls._service_executor = MultiThreadedExecutor()
-
-        cls._request_restart_client = cls._service_node.create_client(Trigger, "phoebe_estop_manager/request_restart")
-        cls._switch_controller_client = cls._service_node.create_client(
-            SwitchController, "controller_manager/switch_controller"
-        )
-
-        cls._service_executor.add_node(cls._service_node)
-        threading.Thread(target=cls._service_executor.spin).start()
-
     @classmethod
     def tearDownClass(cls):
-        cls._service_executor.shutdown()
         rclpy.try_shutdown()
 
     def setUp(self):
         self.estop_node = PhoebeEstopManager()
-
         self.mock_cm_node = MockControllerManager()
-
-        self.estop_pub_node = rclpy.create_node("estop_publisher")
-        self.estop_state = True
-        self.estop_pub = self.estop_pub_node.create_publisher(Bool, self.estop_node.estop_topic_name, 1)
-        self.estop_pub_timer = self.estop_pub_node.create_timer(1.0, self.pub_estop_cb)
 
         self.executor = MultiThreadedExecutor()
         self.executor.add_node(self.estop_node)
         self.executor.add_node(self.mock_cm_node)
-        self.executor.add_node(self.estop_pub_node)
-        self.executor_thread = threading.Thread(target=self.executor.spin)
+        self.executor_thread = threading.Thread(target=self.executor.spin, daemon=True)
         self.executor_thread.start()
 
     def tearDown(self):
-        self.testDone = False
-
+        self.executor.shutdown()
+        self.executor_thread.join(timeout=1.0)
         self.estop_node.destroy_node()
         self.mock_cm_node.destroy_node()
-        self.estop_pub_node.destroy_node()
-
-        self.executor.shutdown()
-
-    def pub_estop_cb(self):
-        # Publish the estop message - True is estopped, false is not estopped
-        msg = Bool()
-        msg.data = self.estop_state
-        self.estop_pub.publish(msg)
 
     def set_estop_state(self, estop_state):
-        self.estop_state = estop_state
+        # Trigger the estop callback function in the estop manager node, simulating
+        # a processed ROS 2 topic message.
+        msg = Bool()
+        msg.data = estop_state
+        self.estop_node.estop_callback(msg)
 
     def request_service(self):
         srv = Trigger.Request()
-        future = self._request_restart_client.call_async(srv)
-        rclpy.spin_until_future_complete(self._service_node, future, timeout_sec=self.TIMEOUT)
-        return future.result().success if future.result() else False
+        resp = self.estop_node.request_restart(srv, Trigger.Response())
+        return resp.success
 
     def set_controller_states(self, activate_controllers=[], deactivate_controllers=[]):
         srv = SwitchController.Request()
         srv.activate_controllers = activate_controllers
         srv.deactivate_controllers = deactivate_controllers
-        future = self._switch_controller_client.call_async(srv)
-        rclpy.spin_until_future_complete(self._service_node, future, timeout_sec=self.TIMEOUT)
-        return future.result().ok if future.result() else False
+        resp = self.mock_cm_node.switch_controllers(srv, SwitchController.Response())
+        return resp.ok
 
     def start_robot(self):
         self.set_estop_state(False)
@@ -218,11 +187,9 @@ class EstopManagerTest(unittest.TestCase):
         self.estop_node.get_logger().info("starting test_controller_stay_off_after_only_safe_reset")
         self.start_and_then_estop()
 
-        # turn off the estop, and make sure that we don't go back to a running state or turn on controllers
-        self.request_service()
-
-        # wait a bit to make sure that we don't get something coming up after some time
-        time.sleep(self.TIMEOUT)
+        # turn off the estop, and make sure that we don't go back to a running state or turn on controllers,
+        # which is the case if this call fails
+        assert not self.request_service()
 
         # make sure that required controllers are turned off
         assert not self.mock_cm_node.any_controllers_with_command_interfaces_active()
