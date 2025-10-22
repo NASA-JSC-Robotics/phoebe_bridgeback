@@ -27,7 +27,7 @@ repos:
       - id: check-yaml
       - id: debug-statements
       - id: end-of-file-fixer
-        exclude: (\.(svg|stl|dae))$
+        exclude: (\.(svg|stl|dae|obj|mtl|xml))$
       - id: mixed-line-ending
       - id: trailing-whitespace
       - id: fix-byte-order-marker
@@ -60,7 +60,7 @@ repos:
         args: ["--line-length=120"]
 
   - repo: https://github.com/pycqa/flake8
-    rev: 7.1.1
+    rev: 7.3.0
     hooks:
     - id: flake8
       args:

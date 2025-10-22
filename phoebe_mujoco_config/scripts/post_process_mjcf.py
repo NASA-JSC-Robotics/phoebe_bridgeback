@@ -27,6 +27,18 @@ def main(filepath):
     # Load your XML document
     dom = minidom.parse(filepath_full)
 
+    # copy the cylinder mockup and jig into the assets directory
+    shutil.copy2(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_mockup_short_final_mm_1.stl',
+        f"{filepath}/assets",
+    )
+
+    # copy the april tag into the assets directory
+    shutil.copy2(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00001.png',
+        f"{filepath}/assets",
+    )
+
     # add the mesh mecanum_wheel_22.stl to the assets
     asset_elements = dom.getElementsByTagName("asset")
     asset_element = asset_elements[0]

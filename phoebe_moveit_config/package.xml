@@ -7,8 +7,7 @@
      An automatically generated package with all the configuration and launch files for using the phoebe with the MoveIt Motion Planning Framework
   </description>
   <maintainer email="nathan.b.dunkelberger@nasa.gov">Nathan Dunkelberger</maintainer>
-
-  <license>Apache-2.0</license>
+  <license>Apache License, Version 2.0</license>
 
   <url type="website">http://moveit.ros.org/</url>
   <url type="bugtracker">https://github.com/ros-planning/moveit2/issues</url>

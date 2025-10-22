@@ -1,4 +1,25 @@
 #!/usr/bin/env python3
+#
+# Copyright (c) 2025, United States Government, as represented by the
+# Administrator of the National Aeronautics and Space Administration.
+#
+# All rights reserved.
+#
+# This software is licensed under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with the
+# License. You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+
+import math
+import time
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Header, Bool
@@ -8,7 +29,6 @@ from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
 from controller_manager_msgs.srv import ListControllers, SwitchController
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from enum import Enum
-import math
 
 
 class RobotState(Enum):
@@ -172,6 +192,7 @@ class PhoebeEstopManager(Node):
             if self.robot_state == RobotState.RUNNING:
                 response.success = True
                 return response
+            time.sleep(0.1)
 
         # return failure if we didn't change to running mode within the timeout
         response.success = False

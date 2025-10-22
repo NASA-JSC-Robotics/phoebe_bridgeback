@@ -5,7 +5,7 @@
   <version>0.0.0</version>
   <description>Package to help with calibration of Phoebe Bridgeback</description>
   <maintainer email="nathan.b.dunkelberger@nasa.gov">Nathan Dunkelberger</maintainer>
-  <license>Apache-2.0</license>
+  <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>

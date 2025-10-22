@@ -7,10 +7,7 @@
      Information for connecting Phoebe to nav2
   </description>
   <maintainer email="connor.m.rainen@nasa.gov">Connor Rainen</maintainer>
-
-  <license>Apache-2.0</license>
-
-  <author email="connor.m.rainen@nasa.gov">Connor Rainen</author>
+  <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

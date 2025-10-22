@@ -7,7 +7,7 @@
 
   <maintainer email="jodi.s.graf@nasa.gov">Jodi Graf</maintainer>
 
-  <license>Apache-2.0</license>
+  <license>Apache License, Version 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
@@ -24,6 +24,7 @@
   <exec_depend>ewellix_liftkit_deploy</exec_depend>
   <exec_depend>liftkit_hardware_interface</exec_depend>
   <exec_depend>topic_tools</exec_depend>
+  <exec_depend>realsense_polled_camera</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>
