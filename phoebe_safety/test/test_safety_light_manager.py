@@ -52,8 +52,9 @@ class PhoebeSafetyLightManagerTest(unittest.TestCase):
         self.executor_thread.start()
 
     def tearDown(self):
-        self.node.destroy_node()
         self.executor.shutdown()
+        self.executor_thread.join(timeout=1.0)
+        self.node.destroy_node()
 
     def status_cb(self, msg):
         """
