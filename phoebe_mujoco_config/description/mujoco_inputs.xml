@@ -210,6 +210,7 @@
 
   <processed_inputs>
     <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
+    <decompose_mesh mesh_name="finger_v6" threshold="0.05"/>
 
     <camera site="left_wrist_mounted_camera_color_optical_frame" name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480"/>
     <camera site="right_wrist_mounted_camera_color_optical_frame" name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480"/>
