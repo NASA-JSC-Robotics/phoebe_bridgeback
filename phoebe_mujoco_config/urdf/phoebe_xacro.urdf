@@ -8,6 +8,7 @@
   <xacro:phoebe
     generate_ros2_control_tag="false"
     add_grasp_push_frames="$(arg add_grasp_push_frames)"
+    use_camera_mesh="false"
   />
 
   <ros2_control name="MujocoSystem" type="system">

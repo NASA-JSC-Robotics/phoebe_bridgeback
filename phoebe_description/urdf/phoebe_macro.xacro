@@ -23,6 +23,7 @@
       liftkit_mount_calibration_file:='$(find phoebe_description)/config/liftkit_mount_calibration.yaml'
       generate_ros2_control_tag:='true'
       add_grasp_push_frames:='true'
+      use_camera_mesh:='true'
     "
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
@@ -627,7 +628,7 @@
     <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro"/>
 
     <!-- right camera -->
-    <xacro:sensor_d435 parent="${tf_prefix}right_ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="true" name="${tf_prefix}right_wrist_mounted_camera">
+    <xacro:sensor_d435 parent="${tf_prefix}right_ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="${use_camera_mesh}" name="${tf_prefix}right_wrist_mounted_camera">
       <!-- original -->
       <!-- <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/> -->
       <!-- first cal ~2.3 px reproj error -->
@@ -635,7 +636,7 @@
     </xacro:sensor_d435>
 
     <!-- left camera -->
-    <xacro:sensor_d435 parent="${tf_prefix}left_ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="true" name="${tf_prefix}left_wrist_mounted_camera">
+    <xacro:sensor_d435 parent="${tf_prefix}left_ur_realsense_mount" use_nominal_extrinsics="true" use_mesh="${use_camera_mesh}" name="${tf_prefix}left_wrist_mounted_camera">
       <!-- original -->
       <!-- <origin xyz="-0.064 -0.003 0.016" rpy="0.136 -1.429 -0.128"/> -->
       <!-- first cal ~4 px reproj error -->
