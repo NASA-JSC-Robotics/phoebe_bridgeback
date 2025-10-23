@@ -111,7 +111,6 @@
     <mesh file="decomposed/finger_1/finger_1/finger_1_collision_14.obj" scale="0.001 0.001 0.001"/>
     <mesh file="decomposed/finger_1/finger_1/finger_1_collision_15.obj" scale="0.001 0.001 0.001"/>
     <mesh file="decomposed/finger_1/finger_1/finger_1_collision_16.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_17.obj" scale="0.001 0.001 0.001"/>
     <material name="new_mat_color.022" specular="0.5" shininess="0.36" rgba="0.200000 0.200000 0.200000 1.000000"/>
     <mesh file="mecanum_wheel_22.stl" scale="0.001 0.001 0.001"/>
   </asset>
@@ -152,48 +151,46 @@
                       <inertial pos="-0.02262 0.00759 0.00738" quat="0.871952 -0.0369732 0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="left_finger_1_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_0" rgba="0.1353797233977746 0.11418323076866876 0.3829286417665341 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_1" rgba="0.5625316260507515 0.5822311580603723 0.34930361448978886 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_2" rgba="0.6523886452444231 0.7593744775635316 0.5836879268302524 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_3" rgba="0.8148524695855683 0.37990593564940733 0.7804888258282046 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_4" rgba="0.13043184047292466 0.9645749517290718 0.8840602465227518 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_5" rgba="0.10458360443112902 0.8790146253843683 0.34210519195694655 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_6" rgba="0.7167827230967735 0.6109375083340821 0.06322999145076014 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_7" rgba="0.9387108148613666 0.14495557486640331 0.7449788821266542 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_8" rgba="0.5129591986608092 0.9258318712062027 0.6954571024791474 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_9" rgba="0.9980144611106785 0.012308640479051447 0.1954075330671856 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_10" rgba="0.45867401853987644 0.8744265163661805 0.4809746629095957 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_11" rgba="0.602034040935653 0.35042915608567804 0.6677472713288223 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_12" rgba="0.6117542325150757 0.0534612206473325 0.0332767567054949 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_13" rgba="0.6664248431710618 0.4235627640576787 0.23287632031715377 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_14" rgba="0.6856023372217375 0.9738272364674384 0.24245030710983762 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_15" rgba="0.9736022770814416 0.6959784670910348 0.13700202646766557 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_16" rgba="0.8036705226930212 0.297176987925592 0.5848364339169954 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_17" rgba="0.969626966960472 0.8131877956405187 0.2584766515943009 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_0" rgba="0.39484422454972123 0.444878340424249 0.00854985080448678 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_1" rgba="0.6658124858230927 0.360283538055295 0.8415340651489545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_2" rgba="0.5762193073203145 0.11583287064552727 0.6037203001473245 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_3" rgba="0.5323557600669341 0.7578563192449683 0.9294424485973067 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_4" rgba="0.8177458270584106 0.8385457242159096 0.41207401692153833 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_5" rgba="0.9291420354690484 0.9722018382175017 0.5091339679652445 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_6" rgba="0.4147499044670734 0.6161865006491469 0.7816727815427921 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_7" rgba="0.6540841012032913 0.9465582928643796 0.8165885636717796 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_8" rgba="0.4553902240524931 0.9529804188051268 0.23371878872556118 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_9" rgba="0.11358002557315106 0.5619232782770471 0.5881902643833017 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_10" rgba="0.0686803830416215 0.0996603698440669 0.4319027826480545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_11" rgba="0.12858239092041446 0.32346458997021776 0.1170823387055634 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_12" rgba="0.33839372829907477 0.7265144166297713 0.5736654303346549 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_13" rgba="0.11954549244462409 0.4419834152128683 0.41009264209687 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_14" rgba="0.9069824879186047 0.19009970268245346 0.4626038016117262 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_15" rgba="0.12710278998063484 0.294718312396822 0.9828806967481244 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_16" rgba="0.5228970827565796 0.3058868573368755 0.738824160888099 1" class="collision" pos="" quat=""/>
                       <site name="left_finger_1_link" pos="0 0 0" quat="1.0 0 0 0"/>
                     </body>
                     <body name="left_finger_2_link" pos="-0.025 0 0.146" quat="-1 0 0 0">
                       <inertial pos="0.02262 -0.00759 0.00738" quat="0.871952 0.0369732 -0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="left_finger_2_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_0" rgba="0.1353797233977746 0.11418323076866876 0.3829286417665341 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_1" rgba="0.5625316260507515 0.5822311580603723 0.34930361448978886 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_2" rgba="0.6523886452444231 0.7593744775635316 0.5836879268302524 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_3" rgba="0.8148524695855683 0.37990593564940733 0.7804888258282046 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_4" rgba="0.13043184047292466 0.9645749517290718 0.8840602465227518 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_5" rgba="0.10458360443112902 0.8790146253843683 0.34210519195694655 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_6" rgba="0.7167827230967735 0.6109375083340821 0.06322999145076014 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_7" rgba="0.9387108148613666 0.14495557486640331 0.7449788821266542 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_8" rgba="0.5129591986608092 0.9258318712062027 0.6954571024791474 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_9" rgba="0.9980144611106785 0.012308640479051447 0.1954075330671856 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_10" rgba="0.45867401853987644 0.8744265163661805 0.4809746629095957 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_11" rgba="0.602034040935653 0.35042915608567804 0.6677472713288223 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_12" rgba="0.6117542325150757 0.0534612206473325 0.0332767567054949 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_13" rgba="0.6664248431710618 0.4235627640576787 0.23287632031715377 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_14" rgba="0.6856023372217375 0.9738272364674384 0.24245030710983762 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_15" rgba="0.9736022770814416 0.6959784670910348 0.13700202646766557 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_16" rgba="0.8036705226930212 0.297176987925592 0.5848364339169954 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_17" rgba="0.969626966960472 0.8131877956405187 0.2584766515943009 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_0" rgba="0.39484422454972123 0.444878340424249 0.00854985080448678 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_1" rgba="0.6658124858230927 0.360283538055295 0.8415340651489545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_2" rgba="0.5762193073203145 0.11583287064552727 0.6037203001473245 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_3" rgba="0.5323557600669341 0.7578563192449683 0.9294424485973067 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_4" rgba="0.8177458270584106 0.8385457242159096 0.41207401692153833 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_5" rgba="0.9291420354690484 0.9722018382175017 0.5091339679652445 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_6" rgba="0.4147499044670734 0.6161865006491469 0.7816727815427921 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_7" rgba="0.6540841012032913 0.9465582928643796 0.8165885636717796 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_8" rgba="0.4553902240524931 0.9529804188051268 0.23371878872556118 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_9" rgba="0.11358002557315106 0.5619232782770471 0.5881902643833017 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_10" rgba="0.0686803830416215 0.0996603698440669 0.4319027826480545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_11" rgba="0.12858239092041446 0.32346458997021776 0.1170823387055634 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_12" rgba="0.33839372829907477 0.7265144166297713 0.5736654303346549 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_13" rgba="0.11954549244462409 0.4419834152128683 0.41009264209687 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_14" rgba="0.9069824879186047 0.19009970268245346 0.4626038016117262 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_15" rgba="0.12710278998063484 0.294718312396822 0.9828806967481244 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_16" rgba="0.5228970827565796 0.3058868573368755 0.738824160888099 1" class="collision" pos="" quat=""/>
                       <site name="left_finger_2_link" pos="0 0 0" quat="1.0 0 0 0"/>
                     </body>
                     <geom material="LinkGrey.002" mesh="wrist3" class="visual" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
@@ -325,48 +322,46 @@
                       <inertial pos="-0.02262 0.00759 0.00738" quat="0.871952 -0.0369732 0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="right_finger_1_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_0" rgba="0.1353797233977746 0.11418323076866876 0.3829286417665341 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_1" rgba="0.5625316260507515 0.5822311580603723 0.34930361448978886 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_2" rgba="0.6523886452444231 0.7593744775635316 0.5836879268302524 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_3" rgba="0.8148524695855683 0.37990593564940733 0.7804888258282046 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_4" rgba="0.13043184047292466 0.9645749517290718 0.8840602465227518 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_5" rgba="0.10458360443112902 0.8790146253843683 0.34210519195694655 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_6" rgba="0.7167827230967735 0.6109375083340821 0.06322999145076014 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_7" rgba="0.9387108148613666 0.14495557486640331 0.7449788821266542 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_8" rgba="0.5129591986608092 0.9258318712062027 0.6954571024791474 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_9" rgba="0.9980144611106785 0.012308640479051447 0.1954075330671856 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_10" rgba="0.45867401853987644 0.8744265163661805 0.4809746629095957 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_11" rgba="0.602034040935653 0.35042915608567804 0.6677472713288223 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_12" rgba="0.6117542325150757 0.0534612206473325 0.0332767567054949 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_13" rgba="0.6664248431710618 0.4235627640576787 0.23287632031715377 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_14" rgba="0.6856023372217375 0.9738272364674384 0.24245030710983762 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_15" rgba="0.9736022770814416 0.6959784670910348 0.13700202646766557 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_16" rgba="0.8036705226930212 0.297176987925592 0.5848364339169954 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_17" rgba="0.969626966960472 0.8131877956405187 0.2584766515943009 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_0" rgba="0.39484422454972123 0.444878340424249 0.00854985080448678 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_1" rgba="0.6658124858230927 0.360283538055295 0.8415340651489545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_2" rgba="0.5762193073203145 0.11583287064552727 0.6037203001473245 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_3" rgba="0.5323557600669341 0.7578563192449683 0.9294424485973067 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_4" rgba="0.8177458270584106 0.8385457242159096 0.41207401692153833 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_5" rgba="0.9291420354690484 0.9722018382175017 0.5091339679652445 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_6" rgba="0.4147499044670734 0.6161865006491469 0.7816727815427921 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_7" rgba="0.6540841012032913 0.9465582928643796 0.8165885636717796 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_8" rgba="0.4553902240524931 0.9529804188051268 0.23371878872556118 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_9" rgba="0.11358002557315106 0.5619232782770471 0.5881902643833017 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_10" rgba="0.0686803830416215 0.0996603698440669 0.4319027826480545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_11" rgba="0.12858239092041446 0.32346458997021776 0.1170823387055634 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_12" rgba="0.33839372829907477 0.7265144166297713 0.5736654303346549 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_13" rgba="0.11954549244462409 0.4419834152128683 0.41009264209687 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_14" rgba="0.9069824879186047 0.19009970268245346 0.4626038016117262 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_15" rgba="0.12710278998063484 0.294718312396822 0.9828806967481244 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_16" rgba="0.5228970827565796 0.3058868573368755 0.738824160888099 1" class="collision" pos="" quat=""/>
                       <site name="right_finger_1_link" pos="0 0 0" quat="1.0 0 0 0"/>
                     </body>
                     <body name="right_finger_2_link" pos="-0.025 0 0.146" quat="-1 0 0 0">
                       <inertial pos="0.02262 -0.00759 0.00738" quat="0.871952 0.0369732 -0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
                       <joint name="right_finger_2_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130"/>
                       <geom material="new_mat_color.022" mesh="finger_1" class="visual" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_0" rgba="0.1353797233977746 0.11418323076866876 0.3829286417665341 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_1" rgba="0.5625316260507515 0.5822311580603723 0.34930361448978886 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_2" rgba="0.6523886452444231 0.7593744775635316 0.5836879268302524 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_3" rgba="0.8148524695855683 0.37990593564940733 0.7804888258282046 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_4" rgba="0.13043184047292466 0.9645749517290718 0.8840602465227518 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_5" rgba="0.10458360443112902 0.8790146253843683 0.34210519195694655 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_6" rgba="0.7167827230967735 0.6109375083340821 0.06322999145076014 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_7" rgba="0.9387108148613666 0.14495557486640331 0.7449788821266542 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_8" rgba="0.5129591986608092 0.9258318712062027 0.6954571024791474 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_9" rgba="0.9980144611106785 0.012308640479051447 0.1954075330671856 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_10" rgba="0.45867401853987644 0.8744265163661805 0.4809746629095957 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_11" rgba="0.602034040935653 0.35042915608567804 0.6677472713288223 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_12" rgba="0.6117542325150757 0.0534612206473325 0.0332767567054949 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_13" rgba="0.6664248431710618 0.4235627640576787 0.23287632031715377 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_14" rgba="0.6856023372217375 0.9738272364674384 0.24245030710983762 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_15" rgba="0.9736022770814416 0.6959784670910348 0.13700202646766557 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_16" rgba="0.8036705226930212 0.297176987925592 0.5848364339169954 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_17" rgba="0.969626966960472 0.8131877956405187 0.2584766515943009 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_0" rgba="0.39484422454972123 0.444878340424249 0.00854985080448678 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_1" rgba="0.6658124858230927 0.360283538055295 0.8415340651489545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_2" rgba="0.5762193073203145 0.11583287064552727 0.6037203001473245 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_3" rgba="0.5323557600669341 0.7578563192449683 0.9294424485973067 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_4" rgba="0.8177458270584106 0.8385457242159096 0.41207401692153833 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_5" rgba="0.9291420354690484 0.9722018382175017 0.5091339679652445 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_6" rgba="0.4147499044670734 0.6161865006491469 0.7816727815427921 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_7" rgba="0.6540841012032913 0.9465582928643796 0.8165885636717796 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_8" rgba="0.4553902240524931 0.9529804188051268 0.23371878872556118 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_9" rgba="0.11358002557315106 0.5619232782770471 0.5881902643833017 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_10" rgba="0.0686803830416215 0.0996603698440669 0.4319027826480545 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_11" rgba="0.12858239092041446 0.32346458997021776 0.1170823387055634 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_12" rgba="0.33839372829907477 0.7265144166297713 0.5736654303346549 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_13" rgba="0.11954549244462409 0.4419834152128683 0.41009264209687 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_14" rgba="0.9069824879186047 0.19009970268245346 0.4626038016117262 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_15" rgba="0.12710278998063484 0.294718312396822 0.9828806967481244 1" class="collision" pos="" quat=""/>
+                      <geom mesh="finger_1_collision_16" rgba="0.5228970827565796 0.3058868573368755 0.738824160888099 1" class="collision" pos="" quat=""/>
                       <site name="right_finger_2_link" pos="0 0 0" quat="1.0 0 0 0"/>
                     </body>
                     <geom material="LinkGrey.002" mesh="wrist3" class="visual" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
