@@ -44,13 +44,13 @@ def generate_launch_description():
             description="Launch rviz or nah",
         ),
         DeclareLaunchArgument(
-            "is_sim",
+            "use_sim_time",
             default_value="false",
             description="This is some kind of simulation environment",
         ),
     ]
     launch_rviz = LaunchConfiguration("launch_rviz")
-    is_sim = LaunchConfiguration("is_sim")
+    use_sim_time = LaunchConfiguration("use_sim_time")
 
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
     rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
@@ -62,7 +62,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
-                "use_sim_time": is_sim,
+                "use_sim_time": use_sim_time,
             }.items(),
         ),
         # Node(
@@ -86,7 +86,7 @@ def generate_launch_description():
             output="log",
             arguments=["-d", rviz_config_file, "--stylesheet", rviz_qss_file],
             condition=IfCondition(launch_rviz),
-            parameters=[{"use_sim_time": is_sim}],
+            parameters=[{"use_sim_time": use_sim_time}],
         ),
     ]
 
