@@ -655,7 +655,7 @@
       parent="${tf_prefix}right_ur_realsense_mount"
       generate_ros2_control_tag="${generate_ros2_control_tag}"
       add_grasp_push_frames="${add_grasp_push_frames}"
-      finger_xacro="fngr_original">
+      finger_xacro="fngr_v6_wide">
       <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
     </xacro:dextivr_hande>
 
