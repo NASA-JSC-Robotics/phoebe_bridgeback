@@ -451,7 +451,7 @@
     height_limit="0.5"
     initial_value="0.26644069061695785"
     omit_plates="true"
-    use_fake_hardware="true"
+    use_fake_hardware="${use_fake_hardware}"
     com_port="${left_ewellix_com_port}"
     generate_ros2_control_tag="${generate_ros2_control_tag}"
   >
@@ -467,7 +467,7 @@
     height_limit="0.5"
     initial_value="0.259764889515653"
     omit_plates="true"
-    use_fake_hardware="true"
+    use_fake_hardware="${use_fake_hardware}"
     com_port="${right_ewellix_com_port}"
     generate_ros2_control_tag="${generate_ros2_control_tag}"
   >
