@@ -2,8 +2,9 @@
   <compiler angle="radian" assetdir="assets" />
   <asset>
     <texture type="2d" name="tag36_11_00001" file="tag36_11_00001.png"/>
-    <!-- <material name="tag36h11-1" texture="tag36_11_00001" specular="0.5" shininess="0.25"/> -->
+    <texture type="2d" name="tag36_11_00004" file="tag36_11_00004.png"/>
     <material name="tag36h11-1" texture="tag36_11_00001" specular="0.5" shininess="0.25" texrepeat="-1 1"/>
+    <material name="tag36h11-4" texture="tag36_11_00004" specular="0.5" shininess="0.25"/>
 
 
     <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
@@ -19,7 +20,8 @@
 
   </asset>
   <worldbody>
-    <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+    <light pos="0 0 3" dir="0 0 -1" directional="true" castshadow="false"/>
+
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
     <!-- left bookshelf -->
     <geom size="1.5 0.25 0.75" pos="1.55 -2.25 0.75" quat="1 0 0 0" type="box" material="cabinet_black" class="visual"/>
@@ -31,8 +33,8 @@
     <geom size="0.333 0.666 0.333" pos="3.0 -0.666 0.333" quat="1 0 0 0" type="box" material="table_blue" class="visual"/>
     <geom size="0.333 0.666 0.333" pos="3.0 -0.666 0.333" quat="1 0 0 0" type="box" class="collision"/>
     <!-- place table -->
-    <geom size="0.333 0.666 0.333" pos="-3.0 -0.666 0.333" quat="1 0 0 0" type="box" material="table_blue" class="visual"/>
-    <geom size="0.333 0.666 0.333" pos="-3.0 -0.666 0.333" quat="1 0 0 0" type="box" class="collision"/>
+    <geom size="0.333 0.333 0.333" pos="-2.25 -0.666 0.333" quat="1 0 0 0" type="box" material="table_blue" class="visual"/>
+    <geom size="0.333 0.333 0.333" pos="-2.25 -0.666 0.333" quat="1 0 0 0" type="box" class="collision"/>
     <!-- left operator desk -->
     <geom size="0.333 0.666 0.333" pos="3.0 1.0 0.333" euler="0 0 0.523599" type="box" material="desk_brown" class="visual"/>
     <geom size="0.333 0.666 0.333" pos="3.0 1.0 0.333" euler="0 0 0.523599" type="box" class="collision"/>
@@ -44,7 +46,7 @@
     <geom size="0.333 1.25 0.333" pos="-0.25 2.25 0.333" euler="0 0 1.57" type="box" class="collision"/>
 
     <body name="cylinder" pos="2.75 -0.666 0.665">
-      <inertial pos="0 0 -0.1" quat="1 0 0 0" mass="0.25" diaginertia="0.01 0.01 0.01"/>
+      <inertial pos="0 0 0.1" quat="1 0 0 0" mass="0.1" diaginertia="0.0005 0.0005 3e-5"/>
       <joint name="free_joint" type="free"/>
       <!-- Reference the mesh in a geom -->
       <geom name="cylinder_vis" type="mesh" mesh="cylinder" rgba="0.5 0.5 0.5 1" class="visual"/>
@@ -53,5 +55,7 @@
 
     <!-- april tag -->
     <geom material="tag36h11-1" size="0.107 0.107 0.001" pos="0.134059 -1.788736 2.822666" euler="0.785 0 3.14159" type="box" class="visual"/>
+    <geom material="tag36h11-4" size="0.0365 0.0365 0.001" pos="-2.0 -0.666 0.667" euler="0 0 1.57" type="box" class="visual"/>
+
   </worldbody>
 </mujoco>
