@@ -33,9 +33,13 @@ def main(filepath):
         f"{filepath}/assets",
     )
 
-    # copy the april tag into the assets directory
+    # copy the april tags into the assets directory
     shutil.copy2(
         f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00001.png',
+        f"{filepath}/assets",
+    )
+    shutil.copy2(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00004.png',
         f"{filepath}/assets",
     )
 
@@ -54,6 +58,7 @@ def main(filepath):
         f"{filepath}/assets",
     )
 
+    # Replace the wheels with the custom wheels xml
     # Get all elements with the tag name body
     body_elements = dom.getElementsByTagName("body")
 
@@ -69,6 +74,32 @@ def main(filepath):
                 first_time = False
             else:
                 elem.parentNode.removeChild(elem)
+
+    # change the class of the fingers from collision to rubber, and add rubber pads
+    # Get all elements with the tag name geom
+    geom_elements = dom.getElementsByTagName("geom")
+
+    # Filter by attribute value containing a substring
+    for elem in geom_elements:
+        if "finger_v6_collision" in elem.getAttribute("mesh"):
+            elem.setAttribute("class", "rubber")
+
+    rubber_vis_element = dom.createElement("geom")
+    rubber_col_element = dom.createElement("geom")
+    rubber_elems = [rubber_vis_element, rubber_col_element]
+    for rubber_elem in rubber_elems:
+        rubber_elem.setAttribute("size", "0.001 0.012 0.01")
+        rubber_elem.setAttribute("pos", "-0.002 0.00325 0.061")
+        rubber_elem.setAttribute("quat", "1 0 0 0")
+        rubber_elem.setAttribute("type", "box")
+        rubber_elem.setAttribute("rgba", "0.1 0.1 0.1 1")
+    rubber_vis_element.setAttribute("class", "visual")
+    rubber_col_element.setAttribute("class", "rubber")
+
+    for elem in body_elements:
+        if "right_finger" in elem.getAttribute("name"):
+            elem.appendChild(rubber_vis_element.cloneNode(True))
+            elem.appendChild(rubber_col_element.cloneNode(True))
 
     print(f"writing to {filepath_full}")
 
