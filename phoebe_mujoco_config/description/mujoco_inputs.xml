@@ -48,7 +48,7 @@
   <actuator>
     <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
     <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
-    <position tendon="right_split" name="right_robotiq_85_left_knuckle_joint" kp="100" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-5 5"/>
+    <position tendon="right_split" name="right_robotiq_85_left_knuckle_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-5 5"/>
     <position tendon="left_split" name="left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
 
     <general class="size4" name="left_ur_arm_shoulder_pan_joint" joint="left_ur_arm_shoulder_pan_joint"/>
@@ -177,7 +177,26 @@
     solref="0.005 1"/>
   </equality>
 
-  
+  <contact>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_right_inner_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_left_inner_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_right_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_left_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_right_finger_tip_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_left_finger_tip_link"/>
+    <exclude body1="right_robotiq_85_right_finger_tip_link" body2="right_robotiq_85_right_knuckle_link"/>
+    <exclude body1="right_robotiq_85_left_finger_tip_link" body2="right_robotiq_85_left_knuckle_link"/>
+    <exclude body1="right_robotiq_85_right_finger_tip_link" body2="right_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_left_finger_tip_link" body2="right_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_right_knuckle_link" body2="right_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_left_knuckle_link" body2="right_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_tip_link"/>
+    <exclude body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_tip_link"/>
+    <exclude body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_knuckle_link"/>
+    <exclude body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_knuckle_link"/>
+  </contact>
 
   <!-- Same logic as above... but for liftkits -->
   <tendon>
@@ -236,7 +255,27 @@
     <modify_element type="joint" name="left_finger_1_joint" armature="0.5" frictionloss="5.0" />
     <modify_element type="joint" name="left_finger_2_joint" armature="0.5" frictionloss="5.0" />
     <modify_element type="joint" name="right_finger_1_joint" armature="0.5" frictionloss="5.0" />
-    <modify_element type="joint" name="right_finger_2_joint" armature="0.5" frictionloss="5.0" />
+    <modify_element type="joint" name="right_finger_2_joint" armature="0.5" frictionloss="5.0" />.
+
+    <!-- Add gravcomp so that control will make the joints move about the desired position-->
+    <modify_element type="body" name="left_ewellix_lift_higher_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ewellix_lift_middle_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_shoulder_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_upper_arm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_forearm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_wrist_1_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_wrist_2_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_wrist_3_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_finger_1_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_finger_2_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ewellix_lift_higher_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ewellix_lift_middle_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_shoulder_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_upper_arm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_forearm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_wrist_1_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_wrist_2_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_wrist_3_link" gravcomp="1.0"/>
   </processed_inputs>
 
 </mujoco_inputs>
