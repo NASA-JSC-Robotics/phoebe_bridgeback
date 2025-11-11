@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find robotiq_hande_description)/urdf/gen_mesh.xacro"/>
+
+  <xacro:macro name="robotiq_2f_85" params="
+    name
+    tf_prefix
+    parent
+    *origin
+    use_fake_hardware:=false
+    fake_sensor_commands:=false
+    com_port:=/dev/ttyUSB1
+    add_grasp_push_frames:=true
+    generate_ros2_control_tag:=true">
+
+    <material name="${tf_prefix}black">
+      <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="${tf_prefix}green">
+      <color rgba="0 1.0 0 0.5"/>
+    </material>
+
+    <!-- if ignition or gazebo - need to use absolute paths instead of relative, applies locally -->
+    <xacro:property name="force_abs_paths" value="${sim_ignition}" />
+
+    <joint name="${tf_prefix}gripper_adapter_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${tf_prefix}robotiq_hande_cb_adapter"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <link name="${tf_prefix}robotiq_hande_cb_adapter">
+      <!--Not sure if these are right, based on the robotiq numbers for ur_to_robotiq_link-->
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.000044" ixy="0.0" ixz="0.0" iyy="0.000027" iyz="0.0" izz="0.000027" />
+      </inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <visual>
+        <geometry>
+          <xacro:gen_mesh
+            force_abs_path="${force_abs_paths}"
+            pkg_name="robotiq_hande_description"
+            file_path="meshes/visual/robotiq_hande_cb_adapter.dae" />
+        </geometry>
+        <material name="${tf_prefix}black"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.006" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.018" radius="0.038"/>
+        </geometry>
+        <material name="${tf_prefix}black"/>
+      </collision>
+    </link>
+
+    <!-- right gripper - 2F-85 -->
+    <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
+    <xacro:robotiq_gripper
+      com_port="${right_hande_com_port}"
+      use_fake_hardware="${use_fake_hardware}"
+      name="${name}"
+      prefix="${tf_prefix}"
+      parent="${tf_prefix}robotiq_hande_cb_adapter"
+      include_ros2_control="${generate_ros2_control_tag}">
+      <origin xyz="0.0 0.0 0.011" rpy="0 0 0"/>
+    </xacro:robotiq_gripper>
+
+    <!-- grasp frame -->
+    <link name="${tf_prefix}grasp_frame">
+      <!-- only add visual if we specifically want it -->
+      <xacro:if value="${add_grasp_push_frames}">
+      <visual>
+        <geometry>
+          <sphere radius="0.007"/>
+        </geometry>
+        <material name="${tf_prefix}green"/>
+      </visual>
+      </xacro:if>
+    </link>
+
+    <joint name="${tf_prefix}grasp_frame_joint" type="fixed">
+      <parent link="${tf_prefix}robotiq_85_base_link"/>
+      <child link="${tf_prefix}grasp_frame"/>
+      <!-- using value from hande for now -->
+      <origin xyz="0.0 0.0 0.130" rpy="0 0 0"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

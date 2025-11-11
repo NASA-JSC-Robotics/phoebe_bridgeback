@@ -25,12 +25,13 @@
     <group name="left_push2">
         <chain base_link="left_ur_arm_base_link" tip_link="left_push_frame_2" />
     </group>
-    <group name="right_push1">
+    <!-- disabling push because the 2f-85 isn't ideal for pushing -->
+    <!-- <group name="right_push1">
         <chain base_link="right_ur_arm_base_link" tip_link="right_push_frame_1" />
     </group>
     <group name="right_push2">
         <chain base_link="right_ur_arm_base_link" tip_link="right_push_frame_2" />
-    </group>
+    </group> -->
 
     <group name="left_grasp">
         <chain base_link="left_ur_arm_base_link" tip_link="left_${tip_link_name}"/>
@@ -49,7 +50,7 @@
             <joint name="left_finger_1_joint"/>
         </group>
         <group name="right_hande">
-            <joint name="right_finger_1_joint"/>
+            <joint name="right_robotiq_85_left_knuckle_joint"/>
         </group>
     </xacro:unless>
 
@@ -91,24 +92,6 @@
         <joint name="left_ur_arm_wrist_3_joint" value="0.0" />
     </group_state>
 
-    <group_state group="right_push1" name="home">
-        <joint name="right_ur_arm_shoulder_pan_joint" value="0.0" />
-        <joint name="right_ur_arm_shoulder_lift_joint" value="-2.36" />
-        <joint name="right_ur_arm_elbow_joint" value="2.36" />
-        <joint name="right_ur_arm_wrist_1_joint" value="3.14" />
-        <joint name="right_ur_arm_wrist_2_joint" value="-1.57" />
-        <joint name="right_ur_arm_wrist_3_joint" value="0.0" />
-    </group_state>
-
-    <group_state group="right_push2" name="home">
-        <joint name="right_ur_arm_shoulder_pan_joint" value="0.0" />
-        <joint name="right_ur_arm_shoulder_lift_joint" value="-2.36" />
-        <joint name="right_ur_arm_elbow_joint" value="2.36" />
-        <joint name="right_ur_arm_wrist_1_joint" value="3.14" />
-        <joint name="right_ur_arm_wrist_2_joint" value="-1.57" />
-        <joint name="right_ur_arm_wrist_3_joint" value="0.0" />
-    </group_state>
-
     <!-- Grippers -->
     <xacro:unless value="$(arg calibration_mode)">
         <group_state group="left_hande" name="open">
@@ -120,11 +103,11 @@
         </group_state>
 
         <group_state group="right_hande" name="open">
-            <joint name="right_finger_1_joint" value="0.025"/>
+            <joint name="right_robotiq_85_left_knuckle_joint" value="0"/>
         </group_state>
 
         <group_state group="right_hande" name="close">
-            <joint name="right_finger_1_joint" value="0"/>
+            <joint name="right_robotiq_85_left_knuckle_joint" value="${radians(45)}"/>
         </group_state>
     </xacro:unless>
 
@@ -949,6 +932,21 @@
 
     <disable_collisions link1="left_robotiq_hande_cb_adapter" link2="left_ur_realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_hande_cb_adapter" link2="right_ur_realsense_mount" reason="Adjacent"/>
+
+    <!-- manually added from 2f-85 modification -->
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_finger_link" link2="right_robotiq_85_left_finger_tip_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_finger_link" link2="right_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_finger_tip_link" link2="right_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_right_finger_link" link2="right_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_right_finger_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_right_finger_tip_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_finger_link" link2="right_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_right_finger_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
 
     <xacro:if value="$(arg calibration_mode)">
         <disable_collisions link1="front_shelf" link2="calibration_plate_target_side" reason="Adjacent"/>

@@ -1,11 +1,12 @@
 Panels:
   - Class: rviz_common/Displays
-    Help Height: 78
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 751
+    Tree Height: 358
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -162,11 +163,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        front_ur_control_box:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         imu_0_link:
           Alpha: 1
           Show Axes: false
@@ -232,7 +228,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         left_monitor:
           Alpha: 1
           Show Axes: false
@@ -428,11 +423,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_ur_control_box:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         right_arm_cal_link:
           Alpha: 1
           Show Axes: false
@@ -470,27 +460,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_finger_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_finger_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         right_grasp_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_gripper_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_gripper_palm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -510,12 +480,47 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_push_frame_1:
+        right_robotiq_85_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_push_frame_2:
+        right_robotiq_85_left_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_left_finger_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_left_inner_knuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_left_knuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_finger_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_inner_knuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -685,8 +690,6 @@ Visualization Manager:
           Value: false
         front_shelf:
           Value: false
-        front_ur_control_box:
-          Value: false
         imu_0_link:
           Value: false
         left_arm_cal_link:
@@ -787,6 +790,8 @@ Visualization Manager:
           Value: false
         monitor_hinge_top:
           Value: false
+        nav_target_pose:
+          Value: true
         odom:
           Value: true
         rear_cover_link:
@@ -802,8 +807,6 @@ Visualization Manager:
         rear_scu:
           Value: false
         rear_shelf:
-          Value: false
-        rear_ur_control_box:
           Value: false
         right_arm_cal_link:
           Value: false
@@ -821,15 +824,7 @@ Visualization Manager:
           Value: false
         right_ewellix_mount_flange_link:
           Value: false
-        right_finger_1_link:
-          Value: false
-        right_finger_2_link:
-          Value: false
         right_grasp_frame:
-          Value: false
-        right_gripper_base_link:
-          Value: false
-        right_gripper_palm_link:
           Value: false
         right_monitor:
           Value: false
@@ -837,9 +832,23 @@ Visualization Manager:
           Value: false
         right_mtc_robot_side:
           Value: false
-        right_push_frame_1:
+        right_robotiq_85_base_link:
           Value: false
-        right_push_frame_2:
+        right_robotiq_85_left_finger_link:
+          Value: false
+        right_robotiq_85_left_finger_tip_link:
+          Value: false
+        right_robotiq_85_left_inner_knuckle_link:
+          Value: false
+        right_robotiq_85_left_knuckle_link:
+          Value: false
+        right_robotiq_85_right_finger_link:
+          Value: false
+        right_robotiq_85_right_finger_tip_link:
+          Value: false
+        right_robotiq_85_right_inner_knuckle_link:
+          Value: false
+        right_robotiq_85_right_knuckle_link:
           Value: false
         right_robotiq_hande_cb_adapter:
           Value: false
@@ -895,10 +904,12 @@ Visualization Manager:
           Value: false
         riser_link:
           Value: false
-        tag36h11:4:
-          Value: false
+        tag36h11:1:
+          Value: true
         top_link:
           Value: false
+        world:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: false
@@ -906,6 +917,8 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
+          nav_target_pose:
+            {}
           odom:
             base_link:
               chassis_link:
@@ -943,8 +956,6 @@ Visualization Manager:
                     front_scu:
                       {}
                     front_shelf:
-                      {}
-                    front_ur_control_box:
                       {}
                     left_ewellix_mount_flange_link:
                       left_ewellix_lift_lower_link:
@@ -986,8 +997,7 @@ Visualization Manager:
                                                               left_wrist_mounted_camera_link:
                                                                 left_wrist_mounted_camera_color_frame:
                                                                   left_wrist_mounted_camera_color_optical_frame:
-                                                                    tag36h11:4:
-                                                                      {}
+                                                                    {}
                                                                 left_wrist_mounted_camera_depth_frame:
                                                                   left_wrist_mounted_camera_depth_optical_frame:
                                                                     {}
@@ -1015,8 +1025,6 @@ Visualization Manager:
                       {}
                     rear_shelf:
                       {}
-                    rear_ur_control_box:
-                      {}
                     right_ewellix_mount_flange_link:
                       right_ewellix_lift_lower_link:
                         right_ewellix_lift_higher_link:
@@ -1042,22 +1050,27 @@ Visualization Manager:
                                                         right_mtc_effector_side:
                                                           right_ur_realsense_mount:
                                                             right_robotiq_hande_cb_adapter:
-                                                              right_gripper_base_link:
-                                                                right_finger_1_link:
-                                                                  right_push_frame_1:
-                                                                    {}
-                                                                right_finger_2_link:
-                                                                  right_push_frame_2:
-                                                                    {}
+                                                              right_robotiq_85_base_link:
                                                                 right_grasp_frame:
                                                                   {}
-                                                                right_gripper_palm_link:
+                                                                right_robotiq_85_left_inner_knuckle_link:
                                                                   {}
+                                                                right_robotiq_85_left_knuckle_link:
+                                                                  right_robotiq_85_left_finger_link:
+                                                                    right_robotiq_85_left_finger_tip_link:
+                                                                      {}
+                                                                right_robotiq_85_right_inner_knuckle_link:
+                                                                  {}
+                                                                right_robotiq_85_right_knuckle_link:
+                                                                  right_robotiq_85_right_finger_link:
+                                                                    right_robotiq_85_right_finger_tip_link:
+                                                                      {}
                                                             right_wrist_mounted_camera_bottom_screw_frame:
                                                               right_wrist_mounted_camera_link:
                                                                 right_wrist_mounted_camera_color_frame:
                                                                   right_wrist_mounted_camera_color_optical_frame:
-                                                                    {}
+                                                                    tag36h11:1:
+                                                                      {}
                                                                 right_wrist_mounted_camera_depth_frame:
                                                                   right_wrist_mounted_camera_depth_optical_frame:
                                                                     {}
@@ -1073,6 +1086,8 @@ Visualization Manager:
                       {}
                   top_link:
                     {}
+          world:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -1227,12 +1242,12 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1403
+  Height: 997
   Hide Left Dock: false
   Hide Right Dock: false
   Navigation 2:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd000000040000000000000156000004e1fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b00000378000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018004e0061007600690067006100740069006f006e0020003201000003b9000001630000011200ffffff000000010000010f00000306fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b00000306000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005000000003efc0100000002fb0000000800540069006d00650100000000000005000000025300fffffffb0000000800540069006d00650100000000000004500000000000000000000003a4000004e100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000016700000331fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000007c00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730200000780000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000004b000001af0000010f00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018004e0061007600690067006100740069006f006e0020003201000002020000017a0000016300ffffff000000010000010f00000306fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b00000306000000d400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000077c00000040fc0100000002fb0000000800540069006d006501000000000000077c0000032b00fffffffb0000000800540069006d006501000000000000045000000000000000000000060d0000033100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -1241,6 +1256,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1280
-  X: 1280
-  Y: 0
+  Width: 1916
+  X: 3842
+  Y: 45

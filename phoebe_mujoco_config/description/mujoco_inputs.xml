@@ -33,10 +33,14 @@
         <default class="collision">
           <geom group="3" type="mesh"/>
           <default class="rubber">
-            <geom condim="6" friction="5 0.02 0.1" priority="1" solimp="0.99 0.99 0.01" conaffinity="1"/>
-            <!-- to try -->
-            <!-- <geom condim="6" friction="5 3 3" priority="1" solimp="0.99 0.99 0.01" conaffinity="1"/> -->
+            <geom condim="4" friction="5 1.0 1.0" priority="1" solimp="0.9 0.95 0.001" solref="0.002 1" conaffinity="1"/>
           </default>
+        </default>
+        <default class="right_spring_link">
+          <joint range="-0.9 0.29670597283" armature="0.001" stiffness="0.05" springref="-2.62" damping="0.00125"/>
+        </default>
+        <default class="left_spring_link">
+          <joint range="-0.29670597283 0.9" armature="0.001" stiffness="0.05" springref="2.62" damping="0.00125"/>
         </default>
       </default>
     </default>
@@ -44,7 +48,7 @@
   <actuator>
     <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
     <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
-    <position tendon="right_split" name="right_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
+    <position tendon="right_split" name="right_robotiq_85_left_knuckle_joint" kp="100" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-5 5"/>
     <position tendon="left_split" name="left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
 
     <general class="size4" name="left_ur_arm_shoulder_pan_joint" joint="left_ur_arm_shoulder_pan_joint"/>
@@ -147,27 +151,35 @@
     <pair geom1="mecanum_wheel32" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
   </contact>
 
+  <!-- let hand - hande -->
   <tendon>
     <fixed name="left_split">
       <joint joint="left_finger_1_joint" coef="0.5"/>
       <joint joint="left_finger_2_joint" coef="0.5"/>
     </fixed>
   </tendon>
+  <equality>
+    <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+  </equality>
+
+  <!-- right hand - 2f-85 -->
   <tendon>
     <fixed name="right_split">
-      <joint joint="right_finger_1_joint" coef="0.5"/>
-      <joint joint="right_finger_2_joint" coef="0.5"/>
+      <joint joint="right_robotiq_85_left_knuckle_joint" coef="0.485"/>
+      <joint joint="right_robotiq_85_right_knuckle_joint" coef="-0.485"/>
     </fixed>
   </tendon>
 
   <equality>
-    <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-  </equality>
-  <equality>
-    <joint joint1="right_finger_1_joint" joint2="right_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="-0.0371575 0.0 0.043422" body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="0.0371575 0.0 0.043422" body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <joint joint1="right_robotiq_85_left_knuckle_joint" joint2="right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
+    solref="0.005 1"/>
   </equality>
 
-  <!-- Same logic as above... -->
+  
+
+  <!-- Same logic as above... but for liftkits -->
   <tendon>
     <fixed name="left_lift_middle_mimic_higher">
       <joint joint="left_ewellix_lift_lower_to_higher" coef="0.5"/>
