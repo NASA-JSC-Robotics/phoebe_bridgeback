@@ -176,7 +176,7 @@ def generate_launch_description():
     controllers_hande = GetControllersFile("controllers_hande.yaml")
 
     # start the controller manager node with all of the controller config files
-    control_node = Node(
+    control_node_hw = Node(
         package="controller_manager",
         executable="ros2_control_node",
         namespace=ns,
@@ -203,7 +203,7 @@ def generate_launch_description():
 
     # start the controller manager node with all of the controller config files
     # this is the versionf or sim, which just sets the kinematics.wheel radius to a smaller value for mujoco
-    control_node = Node(
+    control_node_sim = Node(
         package="controller_manager",
         executable="ros2_control_node",
         namespace=ns,
@@ -246,6 +246,6 @@ def generate_launch_description():
         ],
     )
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node, node_puma_throttle])
+    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launch_files + [control_node_hw, control_node_sim, node_puma_throttle])
 
     return LaunchDescription(declared_arguments + [ns_action])
