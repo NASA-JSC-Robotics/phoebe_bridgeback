@@ -1,7 +1,7 @@
 <right_robotiq_85>
     <body name="right_robotiq_85_left_knuckle_link" pos="0.0306011 0 0.101905" quat="-1 0 0 0">
         <inertial pos="0.0280921 -0.000550523 0.00570126" quat="0.699112 0.212074 0.213677 0.648544" mass="0.0564515" diaginertia="1.95637e-05 1.76663e-05 9.3792e-06"/>
-        <joint name="right_robotiq_85_left_knuckle_joint" pos="0 0 0" axis="0 -1 0" range="0 0.8" actuatorfrcrange="-50 50" armature="0.005" damping="0.1" solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
+        <joint name="right_robotiq_85_left_knuckle_joint" pos="0 0 0" axis="0 -1 0" range="0 0.8" actuatorfrcrange="-50 50" armature="0.5" frictionloss="1.0" damping="0.1" solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
         <geom material="grey.001" mesh="left_knuckle" class="visual" pos="" quat=""/>
         <geom mesh="left_knuckle" class="collision" pos="" quat=""/>
         <body name="right_robotiq_85_left_finger_coupler_link" pos="0.0315262 0 -0.00376347">
@@ -26,7 +26,7 @@
     </body>
     <body name="right_robotiq_85_right_knuckle_link" pos="-0.0306011 0 0.101905" quat="-1 0 0 0">
         <inertial pos="-0.0280921 4.48872e-05 0.00570126" quat="0.669099 -0.212862 -0.212522 0.679581" mass="0.0564515" diaginertia="1.95514e-05 1.7665e-05 9.37296e-06"/>
-        <joint name="right_robotiq_85_right_knuckle_joint" pos="0 0 0" axis="0 -1 0" range="-0.8 0" actuatorfrcrange="-50 50" armature="0.005" damping="0.1" solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
+        <joint name="right_robotiq_85_right_knuckle_joint" pos="0 0 0" axis="0 -1 0" range="-0.8 0" actuatorfrcrange="-50 50" armature="0.5" frictionloss="1.0" damping="0.1" solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
         <geom material="grey.002" mesh="right_knuckle" class="visual" pos="" quat=""/>
         <geom mesh="right_knuckle" class="collision" pos="" quat=""/>
         <body name="right_robotiq_85_right_finger_coupler_link" pos="-0.03152616 0 -0.00376347">
