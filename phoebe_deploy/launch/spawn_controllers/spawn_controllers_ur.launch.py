@@ -82,5 +82,9 @@ def generate_launch_description():
     nodes.append(MakeControllerNode("left_force_torque_sensor_broadcaster"))
     nodes.append(MakeControllerNode("left_ur_joint_trajectory_controller"))
     nodes.append(MakeControllerNode("left_freedrive_mode_controller", active=False, condition=UnlessCondition(is_sim)))
+    nodes.append(MakeControllerNode("left_admittance_controller", active=False))
+    nodes.append(MakeControllerNode("left_admittance_jtc", active=False))
+    nodes.append(MakeControllerNode("right_admittance_controller", active=False))
+    nodes.append(MakeControllerNode("right_admittance_jtc", active=False))
 
     return LaunchDescription(declared_arguments + nodes)

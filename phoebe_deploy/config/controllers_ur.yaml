@@ -2,6 +2,7 @@
   controller_manager:
     ros__parameters:
 
+      # right arm
       right_io_and_status_controller:
         type: ur_controllers/GPIOController
 
@@ -14,6 +15,14 @@
       right_freedrive_mode_controller:
         type: ur_controllers/FreedriveModeController
 
+      # admittance controllers
+      right_admittance_controller:
+        type: admittance_controller/AdmittanceController
+
+      right_admittance_jtc:
+        type: joint_trajectory_controller/JointTrajectoryController
+
+      # left arm
       left_io_and_status_controller:
         type: ur_controllers/GPIOController
 
@@ -25,6 +34,13 @@
 
       left_freedrive_mode_controller:
         type: ur_controllers/FreedriveModeController
+
+      # admittance controllers
+      left_admittance_controller:
+        type: admittance_controller/AdmittanceController
+
+      left_admittance_jtc:
+        type: joint_trajectory_controller/JointTrajectoryController
 
   # right controllers
   right_io_and_status_controller:
@@ -123,3 +139,273 @@
   left_freedrive_mode_controller:
     ros__parameters:
       tf_prefix: $(var tf_prefix)left_ur_arm_
+
+
+  # Putting admittance controllers down here because they are a ton
+  left_admittance_jtc:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)left_ur_arm_elbow_joint
+        - $(var tf_prefix)left_ur_arm_wrist_1_joint
+        - $(var tf_prefix)left_ur_arm_wrist_2_joint
+        - $(var tf_prefix)left_ur_arm_wrist_3_joint
+      command_interfaces:
+        - position
+        - velocity
+      state_interfaces:
+        - position
+        - velocity
+      command_joints:
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_elbow_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_wrist_1_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_wrist_2_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_wrist_3_joint
+      state_publish_rate: 100.0
+      action_monitor_rate: 20.0
+      allow_partial_joints_goal: false
+      constraints:
+        stopped_velocity_tolerance: 0.2
+        goal_time: 0.0
+        $(var tf_prefix)left_ur_arm_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_elbow_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
+
+  # admittance controllers - these are super long so just putting these at the end
+  left_admittance_controller:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)left_ur_arm_elbow_joint
+        - $(var tf_prefix)left_ur_arm_wrist_1_joint
+        - $(var tf_prefix)left_ur_arm_wrist_2_joint
+        - $(var tf_prefix)left_ur_arm_wrist_3_joint
+
+      command_interfaces:
+        - position
+
+      state_interfaces:
+        - position
+        - velocity
+
+      chainable_command_interfaces:
+        - position
+        - velocity
+
+      kinematics:
+        plugin_name: kinematics_interface_kdl/KinematicsInterfaceKDL
+        plugin_package: kinematics_interface
+        base: $(var tf_prefix)left_ur_arm_base_link # Assumed to be stationary
+        tip: $(var tf_prefix)left_grasp_frame
+        alpha: 0.0005
+
+      # We must separately specify the name of the base link for the kinematics plugin, as was added in
+      # https://github.com/ros-controls/kinematics_interface/blob/2f02ebd1ab16828c346c8ccc12e21bf8ef7a29a7/kinematics_interface_kdl/src/kinematics_interface_kdl.cpp#L51
+      # This is redundant, but necessary so that the IK solver for the controller only uses the UR links,
+      # and not anything the robot is attached to (e.g. a lift or rail or both!)
+      # Unfortunately, as we are still on humble we must compile that interface from source.
+      base: $(var tf_prefix)left_ur_arm_base_link
+
+      ft_sensor:
+        name: $(var tf_prefix)left_ur_arm_tcp_fts_sensor
+        frame:
+          id: $(var tf_prefix)left_ur_arm_tool0  # Wrench measurements are in this frame
+        filter_coefficient: 0.1
+
+      control:
+        frame:
+          id: $(var tf_prefix)left_grasp_frame # Admittance calcs (displacement etc) are done in this frame. Usually the tool or end-effector
+
+      fixed_world_frame:
+        frame:   # Gravity points down (neg. Z) in this frame (Usually: world or base_link)
+          id: $(var tf_prefix)left_ur_arm_base_link # Admittance calcs (displacement etc) are done in this frame. Usually the tool or end-effector
+
+      gravity_compensation:
+        frame:
+          id: $(var tf_prefix)left_ur_arm_tool0
+
+        CoG: # specifies the center of gravity of the end effector
+          pos:
+            - 0.0 # x
+            - 0.0 # y
+            - 0.0 # z
+          force: 0.0 # mass * 9.81
+
+      admittance:
+        selected_axes: # starting default to off
+          - true # x
+          - true # y
+          - true # z
+          - true # rx
+          - true # ry
+          - true # rz
+
+        # Having ".0" at the end is MUST, otherwise there is a loading error
+        # F = M*a + D*v + S*(x - x_d)
+        mass:
+          - 15.0 # x
+          - 15.0 # y
+          - 15.0 # z
+          - 2.5 # rx
+          - 2.5 # ry
+          - 2.5 # rz
+
+        damping_ratio: # damping can be used instead: zeta = D / (2 * sqrt( M * S ))
+          - 3.5 # x
+          - 3.5 # y
+          - 3.5 # z
+          - 1.0 # rx
+          - 1.0 # ry
+          - 1.0 # rz
+
+        stiffness:
+          - 300.0 # x
+          - 300.0 # y
+          - 300.0 # z
+          - 20.0 # rx
+          - 20.0 # ry
+          - 20.0 # rz
+
+      # general settings
+      enable_parameter_update_without_reactivation: true
+
+  right_admittance_jtc:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)right_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)right_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)right_ur_arm_elbow_joint
+        - $(var tf_prefix)right_ur_arm_wrist_1_joint
+        - $(var tf_prefix)right_ur_arm_wrist_2_joint
+        - $(var tf_prefix)right_ur_arm_wrist_3_joint
+      command_interfaces:
+        - position
+        - velocity
+      state_interfaces:
+        - position
+        - velocity
+      command_joints:
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_shoulder_pan_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_shoulder_lift_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_elbow_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_wrist_1_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_wrist_2_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_wrist_3_joint
+      state_publish_rate: 100.0
+      action_monitor_rate: 20.0
+      allow_partial_joints_goal: false
+      constraints:
+        stopped_velocity_tolerance: 0.2
+        goal_time: 0.0
+        $(var tf_prefix)right_ur_arm_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_elbow_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
+
+  # admittance controllers - these are super long so just putting these at the end
+  right_admittance_controller:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)right_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)right_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)right_ur_arm_elbow_joint
+        - $(var tf_prefix)right_ur_arm_wrist_1_joint
+        - $(var tf_prefix)right_ur_arm_wrist_2_joint
+        - $(var tf_prefix)right_ur_arm_wrist_3_joint
+
+      command_interfaces:
+        - position
+
+      state_interfaces:
+        - position
+        - velocity
+
+      chainable_command_interfaces:
+        - position
+        - velocity
+
+      kinematics:
+        plugin_name: kinematics_interface_kdl/KinematicsInterfaceKDL
+        plugin_package: kinematics_interface
+        base: $(var tf_prefix)right_ur_arm_base_link # Assumed to be stationary
+        tip: $(var tf_prefix)right_grasp_frame
+        alpha: 0.0005
+
+      # We must separately specify the name of the base link for the kinematics plugin, as was added in
+      # https://github.com/ros-controls/kinematics_interface/blob/2f02ebd1ab16828c346c8ccc12e21bf8ef7a29a7/kinematics_interface_kdl/src/kinematics_interface_kdl.cpp#L51
+      # This is redundant, but necessary so that the IK solver for the controller only uses the UR links,
+      # and not anything the robot is attached to (e.g. a lift or rail or both!)
+      # Unfortunately, as we are still on humble we must compile that interface from source.
+      base: $(var tf_prefix)right_ur_arm_base_link
+
+      ft_sensor:
+        name: $(var tf_prefix)right_ur_arm_tcp_fts_sensor
+        frame:
+          id: $(var tf_prefix)right_ur_arm_tool0  # Wrench measurements are in this frame
+        filter_coefficient: 0.1
+
+      control:
+        frame:
+          id: $(var tf_prefix)right_grasp_frame # Admittance calcs (displacement etc) are done in this frame. Usually the tool or end-effector
+
+      fixed_world_frame:
+        frame:   # Gravity points down (neg. Z) in this frame (Usually: world or base_link)
+          id: $(var tf_prefix)right_ur_arm_base_link # Admittance calcs (displacement etc) are done in this frame. Usually the tool or end-effector
+
+      gravity_compensation:
+        frame:
+          id: $(var tf_prefix)right_ur_arm_tool0
+
+        CoG: # specifies the center of gravity of the end effector
+          pos:
+            - 0.0 # x
+            - 0.0 # y
+            - 0.0 # z
+          force: 0.0 # mass * 9.81
+
+      admittance:
+        selected_axes: # starting default to off
+          - true # x
+          - true # y
+          - true # z
+          - true # rx
+          - true # ry
+          - true # rz
+
+        # Having ".0" at the end is MUST, otherwise there is a loading error
+        # F = M*a + D*v + S*(x - x_d)
+        mass:
+          - 15.0 # x
+          - 15.0 # y
+          - 15.0 # z
+          - 2.5 # rx
+          - 2.5 # ry
+          - 2.5 # rz
+
+        damping_ratio: # damping can be used instead: zeta = D / (2 * sqrt( M * S ))
+          - 3.5 # x
+          - 3.5 # y
+          - 3.5 # z
+          - 1.0 # rx
+          - 1.0 # ry
+          - 1.0 # rz
+
+        stiffness:
+          - 300.0 # x
+          - 300.0 # y
+          - 300.0 # z
+          - 20.0 # rx
+          - 20.0 # ry
+          - 20.0 # rz
+
+      # general settings
+      enable_parameter_update_without_reactivation: true
