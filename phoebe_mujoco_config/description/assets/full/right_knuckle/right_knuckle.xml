@@ -1,0 +1,20 @@
+<mujoco model="right_knuckle">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="grey.002" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <mesh file="right_knuckle.obj"/>
+  </asset>
+  <worldbody>
+    <body name="right_knuckle">
+      <geom material="grey.002" mesh="right_knuckle" class="visual"/>
+      <geom mesh="right_knuckle" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

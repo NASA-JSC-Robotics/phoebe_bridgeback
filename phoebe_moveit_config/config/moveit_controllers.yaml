@@ -61,4 +61,4 @@ moveit_simple_controller_manager:
     type: GripperCommand
     default: true
     joints:
-      - right_finger_1_joint
+      - right_robotiq_85_left_knuckle_joint

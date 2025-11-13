@@ -50,7 +50,7 @@
       <joint name="free_joint" type="free"/>
       <!-- Reference the mesh in a geom -->
       <geom name="cylinder_vis" type="mesh" mesh="cylinder" rgba="1.0 0.1 0.1 1" class="visual"/>
-      <geom name="cylinder_col" type="mesh" mesh="cylinder" class="collision"/>
+      <geom name="cylinder_col" type="mesh" mesh="cylinder" class="rubber"/>
     </body>
 
     <!-- april tag -->
