@@ -33,9 +33,13 @@ def main(filepath):
         f"{filepath}/assets",
     )
 
-    # copy the april tag into the assets directory
+    # copy the april tags into the assets directory
     shutil.copy2(
         f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00001.png',
+        f"{filepath}/assets",
+    )
+    shutil.copy2(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00004.png',
         f"{filepath}/assets",
     )
 
@@ -54,6 +58,7 @@ def main(filepath):
         f"{filepath}/assets",
     )
 
+    # Replace the wheels with the custom wheels xml
     # Get all elements with the tag name body
     body_elements = dom.getElementsByTagName("body")
 
@@ -69,6 +74,27 @@ def main(filepath):
                 first_time = False
             else:
                 elem.parentNode.removeChild(elem)
+
+    # replace the right hand with the custom modified xml that
+    # has working 2f-85 mechanism
+    include_element = dom.createElement("include")
+    include_element.setAttribute("file", "right_robotiq_85.xml")
+
+    # Filter by attribute value containing a substring
+    first_time = True
+    for elem in body_elements:
+        if "right_robotiq_85" in elem.getAttribute("name"):
+            if first_time:
+                elem.parentNode.replaceChild(include_element, elem)
+                first_time = False
+            else:
+                elem.parentNode.removeChild(elem)
+
+    # copy in the robotiq_85 xml file into the main mujoco description directory
+    shutil.copy2(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml',
+        f"{filepath}",
+    )
 
     print(f"writing to {filepath_full}")
 

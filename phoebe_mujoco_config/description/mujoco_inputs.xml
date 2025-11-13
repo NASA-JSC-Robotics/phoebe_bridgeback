@@ -2,7 +2,9 @@
 <mujoco_inputs>
   <!-- Copied directly into the final MJCF -->
   <raw_inputs>
-    <option integrator="implicitfast"/>
+    <option integrator="implicitfast" impratio="20" cone="elliptic" noslip_iterations="5">
+      <flag multiccd="enable"/>
+    </option>
     <default>
       <default class="phoebe">
         <material specular="0.5" shininess="0.25"/>
@@ -15,7 +17,7 @@
         </default>
         <default class="size3">
           <joint damping="5"/>
-          <general forcerange="-150 150" gainprm="40000" biasprm="0 -40000 -4000"/>
+          <general forcerange="-150 150" gainprm="100000" biasprm="0 -100000 -5000"/>
           <default class="size3_limited">
             <joint range="-3.1415 3.1415"/>
             <general ctrlrange="-3.1415 3.1415"/>
@@ -23,17 +25,22 @@
         </default>
         <default class="size2">
           <joint damping="2"/>
-          <general forcerange="-56 56" gainprm="10000" biasprm="0 -10000 -1000"/>
-        </default>
-        <default class="hande">
-          <joint damping="2"/>
-          <general forcerange="-50 50" ctrlrange="0.0 0.025" gainprm="1000" biasprm="0 -1000 -100"/>
+          <general forcerange="-56 56" gainprm="100000" biasprm="0 -100000 -1000"/>
         </default>
         <default class="visual">
           <geom group="2" type="mesh" contype="0" conaffinity="0"/>
         </default>
         <default class="collision">
           <geom group="3" type="mesh"/>
+          <default class="rubber">
+            <geom condim="4" friction="5 1.0 1.0" priority="1" solimp="0.9 0.95 0.001" solref="0.002 1" conaffinity="1"/>
+          </default>
+        </default>
+        <default class="right_spring_link">
+          <joint range="-0.9 0.29670597283" armature="0.001" stiffness="0.05" springref="-2.62" damping="0.00125"/>
+        </default>
+        <default class="left_spring_link">
+          <joint range="-0.29670597283 0.9" armature="0.001" stiffness="0.05" springref="2.62" damping="0.00125"/>
         </default>
       </default>
     </default>
@@ -41,8 +48,8 @@
   <actuator>
     <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
     <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
-    <position joint="left_finger_1_joint" name="left_finger_1_joint" kp="10000" dampratio="100.0" ctrlrange="0.0 0.025" forcerange="-50 50"/>
-    <position joint="right_finger_1_joint" name="right_finger_1_joint" kp="10000" dampratio="100.0" ctrlrange="0.0 0.025" forcerange="-50 50"/>
+    <position tendon="right_split" name="right_robotiq_85_left_knuckle_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-5 5"/>
+    <position tendon="left_split" name="left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
 
     <general class="size4" name="left_ur_arm_shoulder_pan_joint" joint="left_ur_arm_shoulder_pan_joint"/>
     <general class="size4" name="left_ur_arm_shoulder_lift_joint" joint="left_ur_arm_shoulder_lift_joint"/>
@@ -144,27 +151,54 @@
     <pair geom1="mecanum_wheel32" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
   </contact>
 
+  <!-- let hand - hande -->
   <tendon>
     <fixed name="left_split">
       <joint joint="left_finger_1_joint" coef="0.5"/>
       <joint joint="left_finger_2_joint" coef="0.5"/>
     </fixed>
   </tendon>
+  <equality>
+    <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+  </equality>
+
+  <!-- right hand - 2f-85 -->
   <tendon>
     <fixed name="right_split">
-      <joint joint="right_finger_1_joint" coef="0.5"/>
-      <joint joint="right_finger_2_joint" coef="0.5"/>
+      <joint joint="right_robotiq_85_left_knuckle_joint" coef="0.485"/>
+      <joint joint="right_robotiq_85_right_knuckle_joint" coef="-0.485"/>
     </fixed>
   </tendon>
 
   <equality>
-    <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-  </equality>
-  <equality>
-    <joint joint1="right_finger_1_joint" joint2="right_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="-0.0371575 0.0 0.043422" body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="0.0371575 0.0 0.043422" body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <joint joint1="right_robotiq_85_left_knuckle_joint" joint2="right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
+    solref="0.005 1"/>
   </equality>
 
-  <!-- Same logic as above... -->
+  <contact>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_right_inner_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_left_inner_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_right_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_left_knuckle_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_right_finger_tip_link"/>
+    <exclude body1="right_ur_arm_wrist_3_link" body2="right_robotiq_85_left_finger_tip_link"/>
+    <exclude body1="right_robotiq_85_right_finger_tip_link" body2="right_robotiq_85_right_knuckle_link"/>
+    <exclude body1="right_robotiq_85_left_finger_tip_link" body2="right_robotiq_85_left_knuckle_link"/>
+    <exclude body1="right_robotiq_85_right_finger_tip_link" body2="right_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_left_finger_tip_link" body2="right_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_right_knuckle_link" body2="right_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_left_knuckle_link" body2="right_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_tip_link"/>
+    <exclude body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_tip_link"/>
+    <exclude body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_knuckle_link"/>
+    <exclude body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_knuckle_link"/>
+  </contact>
+
+  <!-- Same logic as above... but for liftkits -->
   <tendon>
     <fixed name="left_lift_middle_mimic_higher">
       <joint joint="left_ewellix_lift_lower_to_higher" coef="0.5"/>
@@ -212,10 +246,36 @@
     <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
     <decompose_mesh mesh_name="finger_v6" threshold="0.05"/>
 
-    <camera site="left_wrist_mounted_camera_color_optical_frame" name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480"/>
-    <camera site="right_wrist_mounted_camera_color_optical_frame" name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="640 480"/>
+    <camera site="left_wrist_mounted_camera_color_optical_frame" name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
+    <camera site="right_wrist_mounted_camera_color_optical_frame" name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
 
     <lidar ref_site="lidar2d_0_laser" sensor_name="lidar2d_0" min_angle="-2.3" max_angle="2.3" angle_increment="0.1" />    <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
+
+    <!-- Add frictionloss and armature to fingers to help with backdriving -->
+    <modify_element type="joint" name="left_finger_1_joint" armature="0.5" frictionloss="5.0" />
+    <modify_element type="joint" name="left_finger_2_joint" armature="0.5" frictionloss="5.0" />
+    <modify_element type="joint" name="right_finger_1_joint" armature="0.5" frictionloss="5.0" />
+    <modify_element type="joint" name="right_finger_2_joint" armature="0.5" frictionloss="5.0" />.
+
+    <!-- Add gravcomp so that control will make the joints move about the desired position-->
+    <modify_element type="body" name="left_ewellix_lift_higher_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ewellix_lift_middle_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_shoulder_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_upper_arm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_forearm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_wrist_1_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_wrist_2_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_ur_arm_wrist_3_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_finger_1_link" gravcomp="1.0"/>
+    <modify_element type="body" name="left_finger_2_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ewellix_lift_higher_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ewellix_lift_middle_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_shoulder_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_upper_arm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_forearm_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_wrist_1_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_wrist_2_link" gravcomp="1.0"/>
+    <modify_element type="body" name="right_ur_arm_wrist_3_link" gravcomp="1.0"/>
   </processed_inputs>
 
 </mujoco_inputs>
