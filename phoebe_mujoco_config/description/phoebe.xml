@@ -554,24 +554,28 @@
   <default>
     <default class="phoebe">
       <material specular="0.5" shininess="0.25"/>
-      <joint axis="0 1 0" range="-6.28319 6.28319" armature="0.1"/>
+      <joint axis="0 1 0" range="-6.28319 6.28319" armature="0.5"/>
       <position ctrlrange="-6.2831 6.2831"/>
       <general biastype="affine" ctrlrange="-6.2831 6.2831"/>
       <default class="size4">
         <joint damping="10"/>
-        <general forcerange="-330 330" gainprm="100000" biasprm="0 -100000 -10000"/>
+        <!-- <general forcerange="-330 330" gainprm="100000" biasprm="0 -100000 -10000"/> -->
+        <position forcerange="-330 330" kp="100000" dampratio="2.0"/>
       </default>
       <default class="size3">
         <joint damping="5"/>
-        <general forcerange="-150 150" gainprm="100000" biasprm="0 -100000 -5000"/>
+        <!-- <general forcerange="-150 150" gainprm="100000" biasprm="0 -100000 -5000"/> -->
+        <position forcerange="-150 150" kp="100000" dampratio="2.0"/>
         <default class="size3_limited">
           <joint range="-3.1415 3.1415"/>
-          <general ctrlrange="-3.1415 3.1415"/>
+          <!-- <general ctrlrange="-3.1415 3.1415"/> -->
+          <position ctrlrange="-3.1415 3.1415"/>
         </default>
       </default>
       <default class="size2">
         <joint damping="2"/>
-        <general forcerange="-56 56" gainprm="100000" biasprm="0 -100000 -1000"/>
+        <!-- <general forcerange="-56 56" gainprm="100000" biasprm="0 -100000 -1000"/> -->
+        <position forcerange="-56 56" kp="100000" dampratio="5.0"/>
       </default>
       <default class="visual">
         <geom group="2" type="mesh" contype="0" conaffinity="0"/>
@@ -595,18 +599,18 @@
     <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7"/>
     <position tendon="right_split" name="right_robotiq_85_left_knuckle_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-10 10"/>
     <position tendon="left_split" name="left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
-    <general class="size4" name="left_ur_arm_shoulder_pan_joint" joint="left_ur_arm_shoulder_pan_joint"/>
-    <general class="size4" name="left_ur_arm_shoulder_lift_joint" joint="left_ur_arm_shoulder_lift_joint"/>
-    <general class="size3_limited" name="left_ur_arm_elbow_joint" joint="left_ur_arm_elbow_joint"/>
-    <general class="size2" name="left_ur_arm_wrist_1_joint" joint="left_ur_arm_wrist_1_joint"/>
-    <general class="size2" name="left_ur_arm_wrist_2_joint" joint="left_ur_arm_wrist_2_joint"/>
-    <general class="size2" name="left_ur_arm_wrist_3_joint" joint="left_ur_arm_wrist_3_joint"/>
-    <general class="size4" name="right_ur_arm_shoulder_pan_joint" joint="right_ur_arm_shoulder_pan_joint"/>
-    <general class="size4" name="right_ur_arm_shoulder_lift_joint" joint="right_ur_arm_shoulder_lift_joint"/>
-    <general class="size3_limited" name="right_ur_arm_elbow_joint" joint="right_ur_arm_elbow_joint"/>
-    <general class="size2" name="right_ur_arm_wrist_1_joint" joint="right_ur_arm_wrist_1_joint"/>
-    <general class="size2" name="right_ur_arm_wrist_2_joint" joint="right_ur_arm_wrist_2_joint"/>
-    <general class="size2" name="right_ur_arm_wrist_3_joint" joint="right_ur_arm_wrist_3_joint"/>
+    <position class="size4" name="left_ur_arm_shoulder_pan_joint" joint="left_ur_arm_shoulder_pan_joint"/>
+    <position class="size4" name="left_ur_arm_shoulder_lift_joint" joint="left_ur_arm_shoulder_lift_joint"/>
+    <position class="size3_limited" name="left_ur_arm_elbow_joint" joint="left_ur_arm_elbow_joint"/>
+    <position class="size2" name="left_ur_arm_wrist_1_joint" joint="left_ur_arm_wrist_1_joint"/>
+    <position class="size2" name="left_ur_arm_wrist_2_joint" joint="left_ur_arm_wrist_2_joint"/>
+    <position class="size2" name="left_ur_arm_wrist_3_joint" joint="left_ur_arm_wrist_3_joint"/>
+    <position class="size4" name="right_ur_arm_shoulder_pan_joint" joint="right_ur_arm_shoulder_pan_joint"/>
+    <position class="size4" name="right_ur_arm_shoulder_lift_joint" joint="right_ur_arm_shoulder_lift_joint"/>
+    <position class="size3_limited" name="right_ur_arm_elbow_joint" joint="right_ur_arm_elbow_joint"/>
+    <position class="size2" name="right_ur_arm_wrist_1_joint" joint="right_ur_arm_wrist_1_joint"/>
+    <position class="size2" name="right_ur_arm_wrist_2_joint" joint="right_ur_arm_wrist_2_joint"/>
+    <position class="size2" name="right_ur_arm_wrist_3_joint" joint="right_ur_arm_wrist_3_joint"/>
     <velocity name="front_right_wheel_joint" joint="front_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
     <velocity name="front_left_wheel_joint" joint="front_left_wheel_joint" ctrlrange="-15 15" kv="50"/>
     <velocity name="rear_right_wheel_joint" joint="rear_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
@@ -745,12 +749,12 @@
     <joint name="right_upper_mimic_lower" joint1="right_ewellix_lift_lower_to_higher" joint2="right_middle_mimic_higher" polycoef="0 2 0 0 0"/>
   </equality>
   <sensor>
-    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_ft_frame"/>
-    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_ft_frame"/>
+    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_tool0"/>
+    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_tool0"/>
   </sensor>
   <sensor>
-    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
-    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
+    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_tool0"/>
+    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_tool0"/>
   </sensor>
   <sensor>
     <framequat name="imu_sensor_quat" objtype="site" objname="imu_0_link"/>
