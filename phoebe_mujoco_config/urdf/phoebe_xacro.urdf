@@ -2,6 +2,7 @@
 <robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Args -->
   <xacro:arg name="add_grasp_push_frames" default="true"/>
+  <xacro:arg name="override_start_position_file" default="$(find phoebe_mujoco_config)/config/key_frame.xml"/>
   <!-- Includes -->
   <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
 
@@ -15,6 +16,9 @@
     <hardware>
       <plugin>mujoco_ros2_simulation/MujocoSystemInterface</plugin>
       <param name="mujoco_model">$(find phoebe_mujoco_config)/description/scene.xml</param>
+
+      <!-- uncomment to start from saved keyframe -->
+      <!-- <param name="override_start_position_file">$(arg override_start_position_file)</param> -->
 
       <!-- Increase this parameter to run the sim faster than realtime. -->
       <param name="sim_speed_factor">1.0</param>
