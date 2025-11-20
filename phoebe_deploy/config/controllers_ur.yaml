@@ -17,10 +17,13 @@
 
       # admittance controllers
       right_admittance_controller:
-        type: admittance_controller/AdmittanceController
+        type: drt_admittance_controller/DrtAdmittanceController
 
       right_admittance_jtc:
         type: joint_trajectory_controller/JointTrajectoryController
+
+      right_force_torque_sensor_broadcaster_admittance:
+        type: force_torque_sensor_broadcaster_advanced/ForceTorqueSensorBroadcasterAdvanced
 
       # left arm
       left_io_and_status_controller:
@@ -37,10 +40,13 @@
 
       # admittance controllers
       left_admittance_controller:
-        type: admittance_controller/AdmittanceController
+        type: drt_admittance_controller/DrtAdmittanceController
 
       left_admittance_jtc:
         type: joint_trajectory_controller/JointTrajectoryController
+
+      left_force_torque_sensor_broadcaster_admittance:
+        type: force_torque_sensor_broadcaster_advanced/ForceTorqueSensorBroadcasterAdvanced
 
   # right controllers
   right_io_and_status_controller:
@@ -153,10 +159,10 @@
         - $(var tf_prefix)left_ur_arm_wrist_3_joint
       command_interfaces:
         - position
-        - velocity
+        # - velocity
       state_interfaces:
         - position
-        - velocity
+        # - velocity
       command_joints:
         - left_admittance_controller/$(var tf_prefix)left_ur_arm_shoulder_pan_joint
         - left_admittance_controller/$(var tf_prefix)left_ur_arm_shoulder_lift_joint
@@ -180,6 +186,8 @@
   # admittance controllers - these are super long so just putting these at the end
   left_admittance_controller:
     ros__parameters:
+      fts_broadcaster_name: left_force_torque_sensor_broadcaster_advanced
+
       joints:
         - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
         - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
@@ -193,7 +201,7 @@
 
       state_interfaces:
         - position
-        - velocity
+        # - velocity
 
       chainable_command_interfaces:
         - position
@@ -240,9 +248,9 @@
 
       admittance:
         selected_axes: # starting default to off
-          - true # x
-          - true # y
-          - true # z
+          - false # x
+          - false # y
+          - false # z
           - false # rx
           - false # ry
           - false # rz
@@ -257,13 +265,13 @@
           - 2.5 # ry
           - 2.5 # rz
 
-        damping_ratio: # damping can be used instead: zeta = D / (2 * sqrt( M * S ))
-          - 3.5 # x
-          - 3.5 # y
-          - 3.5 # z
-          - 1.0 # rx
-          - 1.0 # ry
-          - 1.0 # rz
+        damping:
+          - 470.0 # x
+          - 470.0 # y
+          - 470.0 # z
+          - 14.0 # rx
+          - 14.0 # ry
+          - 14.0 # rz
 
         stiffness:
           - 300.0 # x
@@ -275,6 +283,43 @@
 
       # general settings
       enable_parameter_update_without_reactivation: true
+
+  left_force_torque_sensor_broadcaster_admittance:
+    ros__parameters:
+      chained_controller_name: left_admittance_controller
+      sensor_name: left_ur_arm_tcp_fts_sensor
+      frame_id: $(var tf_prefix)left_ur_arm_tool0
+
+      kinematics:
+        plugin_name: kinematics_interface_kdl/KinematicsInterfaceKDL
+        plugin_package: kinematics_interface
+        base: $(var tf_prefix)left_ur_arm_base_link # Assumed to be stationary
+        tip: $(var tf_prefix)left_grasp_frame
+        alpha: 0.0005
+        joints:
+          - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+          - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+          - $(var tf_prefix)left_ur_arm_elbow_joint
+          - $(var tf_prefix)left_ur_arm_wrist_1_joint
+          - $(var tf_prefix)left_ur_arm_wrist_2_joint
+          - $(var tf_prefix)left_ur_arm_wrist_3_joint
+
+      base: $(var tf_prefix)left_ur_arm_base_link
+
+      gravity_compensation:
+        frame:
+          id: $(var tf_prefix)left_ur_arm_tool0
+
+        CoG: # specifies the center of gravity of the end effector
+          pos:
+            - 0.0 # x
+            - 0.0 # y
+            - 0.0 # z 0.08625
+          force: 0.0 # -80.0
+      
+      fixed_world_frame: 
+        frame:
+          id: $(var tf_prefix)left_ur_arm_base_link
 
   right_admittance_jtc:
     ros__parameters:
@@ -314,6 +359,8 @@
   # admittance controllers - these are super long so just putting these at the end
   right_admittance_controller:
     ros__parameters:
+      fts_broadcaster_name: right_force_torque_sensor_broadcaster_advanced
+
       joints:
         - $(var tf_prefix)right_ur_arm_shoulder_pan_joint
         - $(var tf_prefix)right_ur_arm_shoulder_lift_joint
@@ -327,7 +374,7 @@
 
       state_interfaces:
         - position
-        - velocity
+        # - velocity
 
       chainable_command_interfaces:
         - position
@@ -374,9 +421,9 @@
 
       admittance:
         selected_axes: # starting default to off
-          - true # x
-          - true # y
-          - true # z
+          - false # x
+          - false # y
+          - false # z
           - false # rx
           - false # ry
           - false # rz
@@ -391,13 +438,13 @@
           - 2.5 # ry
           - 2.5 # rz
 
-        damping_ratio: # damping can be used instead: zeta = D / (2 * sqrt( M * S ))
-          - 3.5 # x
-          - 3.5 # y
-          - 3.5 # z
-          - 1.0 # rx
-          - 1.0 # ry
-          - 1.0 # rz
+        damping:
+          - 470.0 # x
+          - 470.0 # y
+          - 470.0 # z
+          - 14.0 # rx
+          - 14.0 # ry
+          - 14.0 # rz
 
         stiffness:
           - 300.0 # x
@@ -409,3 +456,41 @@
 
       # general settings
       enable_parameter_update_without_reactivation: true
+
+
+right_force_torque_sensor_broadcaster_admittance:
+  ros__parameters:
+    chained_controller_name: right_admittance_controller
+    sensor_name: right_ur_arm_tcp_fts_sensor
+    frame_id: $(var tf_prefix)right_ur_arm_tool0
+
+    kinematics:
+      plugin_name: kinematics_interface_kdl/KinematicsInterfaceKDL
+      plugin_package: kinematics_interface
+      base: $(var tf_prefix)right_ur_arm_base_link # Assumed to be stationary
+      tip: $(var tf_prefix)right_grasp_frame
+      alpha: 0.0005
+      joints:
+        - $(var tf_prefix)right_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)right_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)right_ur_arm_elbow_joint
+        - $(var tf_prefix)right_ur_arm_wrist_1_joint
+        - $(var tf_prefix)right_ur_arm_wrist_2_joint
+        - $(var tf_prefix)right_ur_arm_wrist_3_joint
+
+    base: $(var tf_prefix)right_ur_arm_base_link
+
+    gravity_compensation:
+      frame:
+        id: $(var tf_prefix)right_ur_arm_tool0
+
+      CoG: # specifies the center of gravity of the end effector
+        pos:
+          - 0.0 # x
+          - 0.0 # y
+          - 0.0 # z 0.08625
+        force: 0.0 # -80.0
+    
+    fixed_world_frame: 
+      frame:
+        id: $(var tf_prefix)right_ur_arm_base_link
