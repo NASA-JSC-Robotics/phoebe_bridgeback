@@ -202,7 +202,7 @@ def generate_launch_description():
     )
 
     # start the controller manager node with all of the controller config files
-    # this is the versionf or sim, which just sets the kinematics.wheel radius to a smaller value for mujoco
+    # this is the version for sim, which just sets the kinematics.wheel radius to a smaller value for mujoco
     control_node_sim = Node(
         package="controller_manager",
         executable="ros2_control_node",
