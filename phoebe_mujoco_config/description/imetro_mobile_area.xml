@@ -17,7 +17,7 @@
       markrgb="0.5 0.5 0.5" width="300" height="300"/>
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="3.0 3.0" reflectance="0.0"/>
 
-    <mesh name="cylinder" file="cylinder_mockup_short_final_mm_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="cylinder" file="cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
 
     <!-- cylinder jig - decomposed bc convexity doesn't work well for it -->
     <mesh file="cylinder_jig/cylinder_jig.obj" scale="0.001 0.001 0.001"/>
