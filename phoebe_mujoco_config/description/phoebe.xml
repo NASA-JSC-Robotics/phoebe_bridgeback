@@ -559,23 +559,19 @@
       <general biastype="affine" ctrlrange="-6.2831 6.2831"/>
       <default class="size4">
         <joint damping="10"/>
-        <!-- <general forcerange="-330 330" gainprm="100000" biasprm="0 -100000 -10000"/> -->
-        <position forcerange="-330 330" kp="100000" dampratio="2.0"/>
+        <position forcerange="-330 330" kp="2000" dampratio="1.0"/>
       </default>
       <default class="size3">
         <joint damping="5"/>
-        <!-- <general forcerange="-150 150" gainprm="100000" biasprm="0 -100000 -5000"/> -->
-        <position forcerange="-150 150" kp="100000" dampratio="2.0"/>
+        <position forcerange="-150 150" kp="2000" dampratio="1.0"/>
         <default class="size3_limited">
           <joint range="-3.1415 3.1415"/>
-          <!-- <general ctrlrange="-3.1415 3.1415"/> -->
           <position ctrlrange="-3.1415 3.1415"/>
         </default>
       </default>
       <default class="size2">
-        <joint damping="2"/>
-        <!-- <general forcerange="-56 56" gainprm="100000" biasprm="0 -100000 -1000"/> -->
-        <position forcerange="-56 56" kp="100000" dampratio="5.0"/>
+        <joint damping="5"/>
+        <position forcerange="-56 56" kp="500" dampratio="1.0"/>
       </default>
       <default class="visual">
         <geom group="2" type="mesh" contype="0" conaffinity="0"/>
@@ -583,7 +579,7 @@
       <default class="collision">
         <geom group="3" type="mesh"/>
         <default class="rubber">
-          <geom condim="4" friction="5 1.0 1.0" priority="1" solimp="0.9 0.95 0.001" solref="0.002 1" conaffinity="1"/>
+          <geom condim="6" friction="5 1.0 1.0" priority="1" solimp="0.0 0.95 0.005 0.1 6" solref="0.002 3" conaffinity="1"/>
         </default>
       </default>
       <default class="right_spring_link">
@@ -595,9 +591,9 @@
     </default>
   </default>
   <actuator>
-    <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7"/>
-    <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7"/>
-    <position tendon="right_split" name="right_robotiq_85_left_knuckle_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-20 20"/>
+    <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="5000" dampratio="1.0" ctrlrange="0.0 0.7"/>
+    <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="5000" dampratio="1.0" ctrlrange="0.0 0.7"/>
+    <general biastype="affine" name="right_robotiq_85_left_knuckle_joint" tendon="right_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
     <position tendon="left_split" name="left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
     <position class="size4" name="left_ur_arm_shoulder_pan_joint" joint="left_ur_arm_shoulder_pan_joint"/>
     <position class="size4" name="left_ur_arm_shoulder_lift_joint" joint="left_ur_arm_shoulder_lift_joint"/>
@@ -690,29 +686,29 @@
     <pair geom1="mecanum_wheel31" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
     <pair geom1="mecanum_wheel32" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
 
-    <pair geom1="cylinder_jig_collision_0" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_1" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_2" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_3" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_4" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_5" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_6" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_7" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_8" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_9" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_10" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_11" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_12" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_13" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_14" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_15" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_16" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_17" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_18" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_19" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_20" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_21" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_22" geom2="floor" condim="3" friction="1 0.005 0.0001" solimp="0.0 0.99 0.005 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_0" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_1" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_2" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_3" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_4" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_5" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_6" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_7" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_8" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_9" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_10" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_11" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_12" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_13" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_14" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_15" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_16" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_17" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_18" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_19" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_20" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_21" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
+    <pair geom1="cylinder_jig_collision_22" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
   </contact>
   <tendon>
     <fixed name="left_split">
@@ -730,8 +726,8 @@
     </fixed>
   </tendon>
   <equality>
-    <connect anchor="-0.0371575 0.0 0.043422" body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-    <connect anchor="0.0371575 0.0 0.043422" body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="0 0 0" body1="right_robotiq_85_right_finger_tip_link" body2="right_robotiq_85_right_finger_coupler_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="0 0 0" body1="right_robotiq_85_left_finger_tip_link" body2="right_robotiq_85_left_finger_coupler_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
     <joint joint1="right_robotiq_85_left_knuckle_joint" joint2="right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
   </equality>
   <contact>
