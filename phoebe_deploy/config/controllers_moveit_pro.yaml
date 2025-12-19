@@ -2,116 +2,162 @@
   controller_manager:
     ros__parameters:
 
+      servo_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+
       right_velocity_force_controller:
         type: velocity_force_controller/VelocityForceController
 
       left_velocity_force_controller:
         type: velocity_force_controller/VelocityForceController
 
-left_velocity_force_controller:
-  ros__parameters:
-    planning_group_name: left_grasp
-    ee_frame: left_grasp_frame
-    sensor_frame: left_ur_arm_tool0
-    command_interfaces: ["position"]
-    # The force/torque ros2_control hardware interface name.
-    # An optional deadband to apply to the force/torque signal. Set to 0.0 to disable.
-    ft_force_deadband: 2.0
-    ft_torque_deadband: 1.0
-    # Maximum joint-space velocities.
-    max_joint_velocity:
-      - 1.0
-      - 1.0
-      - 1.0
-      - 1.0
-      - 1.0
-      - 1.0
-    # Maximum joint-space accelerations.
-    max_joint_acceleration:
-      - 2.0
-      - 2.0
-      - 2.0
-      - 2.0
-      - 2.0
-      - 2.0
-    # Maximum Cartesian-space velocities.
-    max_cartesian_velocity:
-      - 0.25
-      - 0.25
-      - 0.25
-      - 1.0
-      - 1.0
-      - 1.0
-    # Maximum Cartesian-space accelerations.
-    max_cartesian_acceleration:
-      - 2.0
-      - 2.0
-      - 2.0
-      - 4.0
-      - 4.0
-      - 4.0
-    # Additional optional parameters for reference (set to defaults):
-    # Cutoff frequency ratio for the FTS filter. Valid values range from 0 to 1, where 1 is the sampling frequency.
-    ft_cutoff_frequency_ratio: 1.0
-    # Rate in Hz at which the controller will publish the state.
-    state_publish_rate: 10
-    # Damping coefficient for the Jacobian damped least-squares inverse.
-    jacobian_damping: 0.002
-    # Timeout in seconds after which the controller will stop motion if no new commands are received.
-    command_timeout: 0.2
-    # Padding (in radians) to add to joint position limits as a safety margin.
-    joint_limit_position_tolerance: 0.02
+  servo_controller:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)right_ewellix_lift_lower_to_higher
+        - $(var tf_prefix)right_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)right_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)right_ur_arm_elbow_joint
+        - $(var tf_prefix)right_ur_arm_wrist_1_joint
+        - $(var tf_prefix)right_ur_arm_wrist_2_joint
+        - $(var tf_prefix)right_ur_arm_wrist_3_joint
+        - $(var tf_prefix)left_ewellix_lift_lower_to_higher
+        - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)left_ur_arm_elbow_joint
+        - $(var tf_prefix)left_ur_arm_wrist_1_joint
+        - $(var tf_prefix)left_ur_arm_wrist_2_joint
+        - $(var tf_prefix)left_ur_arm_wrist_3_joint
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position
+        - velocity
+      state_publish_rate: 100.0
+      action_monitor_rate: 20.0
+      allow_partial_joints_goal: true
+      constraints:
+        stopped_velocity_tolerance: 0.2
+        goal_time: 0.0
+        $(var tf_prefix)right_ewellix_lift_lower_to_higher: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_elbow_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)right_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ewellix_lift_lower_to_higher: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_elbow_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+        $(var tf_prefix)left_ur_arm_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
 
-right_velocity_force_controller:
-  ros__parameters:
-    planning_group_name: right_grasp
-    ee_frame: right_grasp_frame
-    sensor_frame: right_ur_arm_tool0
-    command_interfaces: ["position"]
-    # The force/torque ros2_control hardware interface name.
-    # An optional deadband to apply to the force/torque signal. Set to 0.0 to disable.
-    ft_force_deadband: 2.0
-    ft_torque_deadband: 1.0
-    # Maximum joint-space velocities.
-    max_joint_velocity:
-      - 1.0
-      - 1.0
-      - 1.0
-      - 1.0
-      - 1.0
-      - 1.0
-    # Maximum joint-space accelerations.
-    max_joint_acceleration:
-      - 2.0
-      - 2.0
-      - 2.0
-      - 2.0
-      - 2.0
-      - 2.0
-    # Maximum Cartesian-space velocities.
-    max_cartesian_velocity:
-      - 0.25
-      - 0.25
-      - 0.25
-      - 1.0
-      - 1.0
-      - 1.0
-    # Maximum Cartesian-space accelerations.
-    max_cartesian_acceleration:
-      - 2.0
-      - 2.0
-      - 2.0
-      - 4.0
-      - 4.0
-      - 4.0
-    # Additional optional parameters for reference (set to defaults):
-    # Cutoff frequency ratio for the FTS filter. Valid values range from 0 to 1, where 1 is the sampling frequency.
-    ft_cutoff_frequency_ratio: 1.0
-    # Rate in Hz at which the controller will publish the state.
-    state_publish_rate: 10
-    # Damping coefficient for the Jacobian damped least-squares inverse.
-    jacobian_damping: 0.002
-    # Timeout in seconds after which the controller will stop motion if no new commands are received.
-    command_timeout: 0.2
-    # Padding (in radians) to add to joint position limits as a safety margin.
-    joint_limit_position_tolerance: 0.02
+  right_velocity_force_controller:
+    ros__parameters:
+      planning_group_name: right_grasp
+      ee_frame: $(var tf_prefix)right_grasp_frame
+      sensor_frame: $(var tf_prefix)right_ur_arm_tool0
+      command_interfaces: ["position"]
+      # The force/torque ros2_control hardware interface name.
+      # An optional deadband to apply to the force/torque signal. Set to 0.0 to disable.
+      ft_force_deadband: 2.0
+      ft_torque_deadband: 1.0
+      # Maximum joint-space velocities.
+      max_joint_velocity:
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+      # Maximum joint-space accelerations.
+      max_joint_acceleration:
+        - 2.0
+        - 2.0
+        - 2.0
+        - 2.0
+        - 2.0
+        - 2.0
+      # Maximum Cartesian-space velocities.
+      max_cartesian_velocity:
+        - 0.25
+        - 0.25
+        - 0.25
+        - 1.0
+        - 1.0
+        - 1.0
+      # Maximum Cartesian-space accelerations.
+      max_cartesian_acceleration:
+        - 2.0
+        - 2.0
+        - 2.0
+        - 4.0
+        - 4.0
+        - 4.0
+      # Additional optional parameters for reference (set to defaults):
+      # Cutoff frequency ratio for the FTS filter. Valid values range from 0 to 1, where 1 is the sampling frequency.
+      ft_cutoff_frequency_ratio: 1.0
+      # Rate in Hz at which the controller will publish the state.
+      state_publish_rate: 10
+      # Damping coefficient for the Jacobian damped least-squares inverse.
+      jacobian_damping: 0.002
+      # Timeout in seconds after which the controller will stop motion if no new commands are received.
+      command_timeout: 0.2
+      # Padding (in radians) to add to joint position limits as a safety margin.
+      joint_limit_position_tolerance: 0.02
+
+  left_velocity_force_controller:
+    ros__parameters:
+      planning_group_name: left_grasp
+      ee_frame: $(var tf_prefix)left_grasp_frame
+      sensor_frame: $(var tf_prefix)left_ur_arm_tool0
+      command_interfaces: ["position"]
+      # The force/torque ros2_control hardware interface name.
+      # An optional deadband to apply to the force/torque signal. Set to 0.0 to disable.
+      ft_force_deadband: 2.0
+      ft_torque_deadband: 1.0
+      # Maximum joint-space velocities.
+      max_joint_velocity:
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+      # Maximum joint-space accelerations.
+      max_joint_acceleration:
+        - 2.0
+        - 2.0
+        - 2.0
+        - 2.0
+        - 2.0
+        - 2.0
+      # Maximum Cartesian-space velocities.
+      max_cartesian_velocity:
+        - 0.25
+        - 0.25
+        - 0.25
+        - 1.0
+        - 1.0
+        - 1.0
+      # Maximum Cartesian-space accelerations.
+      max_cartesian_acceleration:
+        - 2.0
+        - 2.0
+        - 2.0
+        - 4.0
+        - 4.0
+        - 4.0
+      # Additional optional parameters for reference (set to defaults):
+      # Cutoff frequency ratio for the FTS filter. Valid values range from 0 to 1, where 1 is the sampling frequency.
+      ft_cutoff_frequency_ratio: 1.0
+      # Rate in Hz at which the controller will publish the state.
+      state_publish_rate: 10
+      # Damping coefficient for the Jacobian damped least-squares inverse.
+      jacobian_damping: 0.002
+      # Timeout in seconds after which the controller will stop motion if no new commands are received.
+      command_timeout: 0.2
+      # Padding (in radians) to add to joint position limits as a safety margin.
+      joint_limit_position_tolerance: 0.02
