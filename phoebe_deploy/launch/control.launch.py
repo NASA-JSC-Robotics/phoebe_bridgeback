@@ -174,6 +174,8 @@ def generate_launch_description():
     controllers_ur = GetControllersFile("controllers_ur.yaml")
     # controllers for the grippers
     controllers_hande = GetControllersFile("controllers_hande.yaml")
+    # controllers for moveit pro (must be spawned separately)
+    controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
     # start the controller manager node with all of the controller config files
     control_node = Node(
@@ -187,6 +189,7 @@ def generate_launch_description():
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
+            ParameterFile(controllers_moveit_pro, allow_substs=True),
             {"use_sim_time": use_sim_time},
         ],
         remappings=[
@@ -214,6 +217,7 @@ def generate_launch_description():
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
+            ParameterFile(controllers_moveit_pro, allow_substs=True),
             # for some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically
             {
                 "use_sim_time": use_sim_time,

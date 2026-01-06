@@ -54,6 +54,44 @@
         </group>
     </xacro:unless>
 
+    <group name="right_lift_ur">
+      <group name="right_lift" />
+      <group name="right_grasp" />
+    </group>
+    <group name="left_lift_ur">
+      <group name="left_lift" />
+      <group name="left_grasp" />
+    </group>
+
+    <group name="both_lifts_and_urs">
+      <group name="right_lift_ur" />
+      <group name="left_lift_ur" />
+    </group>
+
+    <group name="left_gripper">
+      <link name="left_gripper_base_link"/>
+      <link name="left_finger_1_link"/>
+      <link name="left_finger_2_link"/>
+      <link name="left_grasp_frame" />
+      <joint name="left_finger_1_joint"/>
+      <passive_joint name="left_finger_2_joint"/>
+    </group>
+
+    <group name="right_gripper">
+        <joint name="right_robotiq_85_left_finger_tip_joint"/>
+        <joint name="right_robotiq_85_left_finger_joint"/>
+        <joint name="right_robotiq_85_left_inner_knuckle_joint"/>
+        <joint name="right_robotiq_85_left_knuckle_joint"/>
+        <joint name="right_robotiq_85_right_finger_tip_joint"/>
+        <joint name="right_robotiq_85_right_finger_joint"/>
+        <joint name="right_robotiq_85_right_inner_knuckle_joint"/>
+        <joint name="right_robotiq_85_right_knuckle_joint"/>
+        <link name="right_grasp_frame"/>
+    </group>
+
+    <end_effector group="left_gripper" name="left_gripper" parent_link="left_ur_arm_tool0"/>
+    <end_effector group="right_gripper" name="right_gripper" parent_link="right_ur_arm_tool0"/>
+
     <!--GROUP STATES - Purpose - Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <!-- Arms -->
     <group_state group="left_grasp" name="home">
@@ -141,7 +179,6 @@
     <disable_collisions link1="autec_antenna" link2="front_right_wheel_link" reason="Never"/>
     <disable_collisions link1="autec_antenna" link2="front_scu" reason="Adjacent"/>
     <disable_collisions link1="autec_antenna" link2="front_shelf" reason="Adjacent"/>
-    <disable_collisions link1="autec_antenna" link2="front_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="autec_antenna" link2="left_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="autec_antenna" link2="left_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="autec_antenna" link2="left_ewellix_lift_lower_link" reason="Never"/>
@@ -159,7 +196,6 @@
     <disable_collisions link1="autec_antenna" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="autec_antenna" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="autec_antenna" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="autec_antenna" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="autec_antenna" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="autec_antenna" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="autec_antenna" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -176,7 +212,6 @@
     <disable_collisions link1="autec_receiver" link2="front_right_wheel_link" reason="Never"/>
     <disable_collisions link1="autec_receiver" link2="front_scu" reason="Adjacent"/>
     <disable_collisions link1="autec_receiver" link2="front_shelf" reason="Adjacent"/>
-    <disable_collisions link1="autec_receiver" link2="front_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="autec_receiver" link2="left_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="autec_receiver" link2="left_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="autec_receiver" link2="left_ewellix_lift_lower_link" reason="Never"/>
@@ -196,7 +231,6 @@
     <disable_collisions link1="autec_receiver" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="autec_receiver" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="autec_receiver" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="autec_receiver" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="autec_receiver" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="autec_receiver" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="autec_receiver" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -213,7 +247,6 @@
     <disable_collisions link1="chassis_link" link2="front_right_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="chassis_link" link2="front_scu" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="front_shelf" reason="Never"/>
-    <disable_collisions link1="chassis_link" link2="front_ur_control_box" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="left_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="left_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="left_ewellix_lift_lower_link" reason="Never"/>
@@ -231,7 +264,6 @@
     <disable_collisions link1="chassis_link" link2="rear_right_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="chassis_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="chassis_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="chassis_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -247,7 +279,6 @@
     <disable_collisions link1="front_left_wheel_link" link2="front_right_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="front_left_wheel_link" link2="front_scu" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="front_shelf" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="front_ur_control_box" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="left_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="left_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="left_ewellix_lift_lower_link" reason="Never"/>
@@ -272,15 +303,11 @@
     <disable_collisions link1="front_left_wheel_link" link2="rear_right_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="front_left_wheel_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_ewellix_lift_middle_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_ewellix_mount_flange_link" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="right_finger_1_link" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="right_finger_2_link" reason="Never"/>
-    <disable_collisions link1="front_left_wheel_link" link2="right_gripper_base_link" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_monitor" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_robotiq_hande_cb_adapter" reason="Never"/>
     <disable_collisions link1="front_left_wheel_link" link2="right_ur_arm_base_link_inertia" reason="Never"/>
@@ -295,7 +322,6 @@
     <disable_collisions link1="front_left_wheel_link" link2="top_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="front_scu" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="front_shelf" reason="Never"/>
-    <disable_collisions link1="front_right_wheel_link" link2="front_ur_control_box" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="left_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="left_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="left_ewellix_lift_lower_link" reason="Never"/>
@@ -321,7 +347,6 @@
     <disable_collisions link1="front_right_wheel_link" link2="rear_right_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="front_right_wheel_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="front_right_wheel_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -339,7 +364,6 @@
     <disable_collisions link1="front_right_wheel_link" link2="riser_link" reason="Never"/>
     <disable_collisions link1="front_right_wheel_link" link2="top_link" reason="Never"/>
     <disable_collisions link1="front_scu" link2="front_shelf" reason="Adjacent"/>
-    <disable_collisions link1="front_scu" link2="front_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="front_scu" link2="left_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_scu" link2="left_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_scu" link2="left_ewellix_lift_lower_link" reason="Never"/>
@@ -357,7 +381,6 @@
     <disable_collisions link1="front_scu" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="front_scu" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="front_scu" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="front_scu" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="front_scu" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_scu" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_scu" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -370,7 +393,6 @@
     <disable_collisions link1="front_scu" link2="right_wifi_antenna" reason="Adjacent"/>
     <disable_collisions link1="front_scu" link2="riser_link" reason="Adjacent"/>
     <disable_collisions link1="front_scu" link2="top_link" reason="Default"/>
-    <disable_collisions link1="front_shelf" link2="front_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="front_shelf" link2="left_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_shelf" link2="left_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_shelf" link2="left_ewellix_lift_lower_link" reason="Never"/>
@@ -388,7 +410,6 @@
     <disable_collisions link1="front_shelf" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="front_shelf" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="front_shelf" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="front_shelf" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="front_shelf" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="front_shelf" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="front_shelf" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -401,36 +422,6 @@
     <disable_collisions link1="front_shelf" link2="right_wifi_antenna" reason="Adjacent"/>
     <disable_collisions link1="front_shelf" link2="riser_link" reason="Adjacent"/>
     <disable_collisions link1="front_shelf" link2="top_link" reason="Default"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_arm_mount_plate" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_ewellix_lift_higher_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_ewellix_lift_lower_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_ewellix_lift_middle_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_ewellix_mount_flange_link" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_monitor" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_ur_arm_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_ur_arm_shoulder_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_ur_arm_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="left_wifi_antenna" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="lift_rails" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="monitor_hinge_base" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="monitor_hinge_top" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="rear_left_wheel_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="rear_right_wheel_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="rear_scu" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="rear_ur_control_box" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_arm_mount_plate" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_ewellix_lift_higher_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_ewellix_lift_lower_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_ewellix_lift_middle_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_ewellix_mount_flange_link" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_monitor" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_ur_arm_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_ur_arm_shoulder_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_ur_arm_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="front_ur_control_box" link2="right_wifi_antenna" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="riser_link" reason="Adjacent"/>
-    <disable_collisions link1="front_ur_control_box" link2="top_link" reason="Never"/>
     <disable_collisions link1="left_arm_mount_plate" link2="left_ewellix_lift_higher_link" reason="Adjacent"/>
     <disable_collisions link1="left_arm_mount_plate" link2="left_ewellix_lift_lower_link" reason="Never"/>
     <disable_collisions link1="left_arm_mount_plate" link2="left_ewellix_lift_middle_link" reason="Never"/>
@@ -446,7 +437,6 @@
     <disable_collisions link1="left_arm_mount_plate" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_arm_mount_plate" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_arm_mount_plate" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="left_arm_mount_plate" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_arm_mount_plate" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_arm_mount_plate" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_arm_mount_plate" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -472,7 +462,6 @@
     <disable_collisions link1="left_ewellix_lift_higher_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_higher_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_higher_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="left_ewellix_lift_higher_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_higher_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_higher_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_higher_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -497,7 +486,6 @@
     <disable_collisions link1="left_ewellix_lift_lower_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_lower_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_lower_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="left_ewellix_lift_lower_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_lower_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_lower_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_lower_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -521,7 +509,6 @@
     <disable_collisions link1="left_ewellix_lift_middle_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_middle_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_middle_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="left_ewellix_lift_middle_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_middle_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_middle_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_lift_middle_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -545,7 +532,6 @@
     <disable_collisions link1="left_ewellix_mount_flange_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_mount_flange_link" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="left_ewellix_mount_flange_link" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="left_ewellix_mount_flange_link" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="left_ewellix_mount_flange_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_ewellix_mount_flange_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_ewellix_mount_flange_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -571,10 +557,12 @@
     <disable_collisions link1="left_finger_2_link" link2="left_ur_arm_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_finger_2_link" link2="left_ur_arm_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_finger_2_link" link2="rear_right_wheel_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_mtc_effector_side" reason="Adjacent"/>
     <disable_collisions link1="left_gripper_base_link" link2="left_robotiq_hande_cb_adapter" reason="Adjacent"/>
     <disable_collisions link1="left_gripper_base_link" link2="left_ur_arm_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_gripper_base_link" link2="left_ur_arm_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_gripper_base_link" link2="left_ur_arm_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_ur_realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="left_gripper_base_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_monitor" link2="left_ur_arm_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_monitor" link2="left_ur_arm_shoulder_link" reason="Never"/>
@@ -587,7 +575,6 @@
     <disable_collisions link1="left_monitor" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_monitor" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_monitor" link2="rear_shelf" reason="Default"/>
-    <disable_collisions link1="left_monitor" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_monitor" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_monitor" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_monitor" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -614,7 +601,6 @@
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="left_ur_arm_base_link_inertia" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -640,7 +626,6 @@
     <disable_collisions link1="left_ur_arm_shoulder_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_shoulder_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_ur_arm_shoulder_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="left_ur_arm_shoulder_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_ur_arm_shoulder_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_ur_arm_shoulder_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_shoulder_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -660,7 +645,6 @@
     <disable_collisions link1="left_ur_arm_upper_arm_link" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_upper_arm_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="left_ur_arm_upper_arm_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="left_ur_arm_upper_arm_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="left_ur_arm_upper_arm_link" link2="right_ewellix_mount_flange_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_upper_arm_link" link2="right_monitor" reason="Never"/>
     <disable_collisions link1="left_ur_arm_upper_arm_link" link2="right_ur_arm_shoulder_link" reason="Never"/>
@@ -683,7 +667,6 @@
     <disable_collisions link1="left_wifi_antenna" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_wifi_antenna" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="left_wifi_antenna" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="left_wifi_antenna" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="left_wifi_antenna" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="left_wifi_antenna" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="left_wifi_antenna" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -702,7 +685,6 @@
     <disable_collisions link1="lift_rails" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="lift_rails" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="lift_rails" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="lift_rails" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="lift_rails" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="lift_rails" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="lift_rails" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -720,7 +702,6 @@
     <disable_collisions link1="monitor_hinge_base" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="monitor_hinge_base" link2="rear_scu" reason="Adjacent"/>
     <disable_collisions link1="monitor_hinge_base" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="monitor_hinge_base" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="monitor_hinge_base" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="monitor_hinge_base" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="monitor_hinge_base" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -737,7 +718,6 @@
     <disable_collisions link1="monitor_hinge_top" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="monitor_hinge_top" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="monitor_hinge_top" link2="rear_shelf" reason="Default"/>
-    <disable_collisions link1="monitor_hinge_top" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="monitor_hinge_top" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="monitor_hinge_top" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="monitor_hinge_top" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -753,15 +733,11 @@
     <disable_collisions link1="rear_left_wheel_link" link2="rear_right_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="rear_left_wheel_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="rear_left_wheel_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_ewellix_lift_middle_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_ewellix_mount_flange_link" reason="Never"/>
-    <disable_collisions link1="rear_left_wheel_link" link2="right_finger_1_link" reason="Never"/>
-    <disable_collisions link1="rear_left_wheel_link" link2="right_finger_2_link" reason="Never"/>
-    <disable_collisions link1="rear_left_wheel_link" link2="right_gripper_base_link" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_monitor" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_robotiq_hande_cb_adapter" reason="Never"/>
     <disable_collisions link1="rear_left_wheel_link" link2="right_ur_arm_base_link_inertia" reason="Never"/>
@@ -776,15 +752,11 @@
     <disable_collisions link1="rear_left_wheel_link" link2="top_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="rear_scu" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="rear_shelf" reason="Never"/>
-    <disable_collisions link1="rear_right_wheel_link" link2="rear_ur_control_box" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_ewellix_lift_lower_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_ewellix_lift_middle_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_ewellix_mount_flange_link" reason="Never"/>
-    <disable_collisions link1="rear_right_wheel_link" link2="right_finger_1_link" reason="Never"/>
-    <disable_collisions link1="rear_right_wheel_link" link2="right_finger_2_link" reason="Never"/>
-    <disable_collisions link1="rear_right_wheel_link" link2="right_gripper_base_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_monitor" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_robotiq_hande_cb_adapter" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="right_ur_arm_base_link_inertia" reason="Never"/>
@@ -798,7 +770,6 @@
     <disable_collisions link1="rear_right_wheel_link" link2="riser_link" reason="Never"/>
     <disable_collisions link1="rear_right_wheel_link" link2="top_link" reason="Never"/>
     <disable_collisions link1="rear_scu" link2="rear_shelf" reason="Adjacent"/>
-    <disable_collisions link1="rear_scu" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="rear_scu" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="rear_scu" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="rear_scu" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -811,7 +782,6 @@
     <disable_collisions link1="rear_scu" link2="right_wifi_antenna" reason="Adjacent"/>
     <disable_collisions link1="rear_scu" link2="riser_link" reason="Adjacent"/>
     <disable_collisions link1="rear_scu" link2="top_link" reason="Default"/>
-    <disable_collisions link1="rear_shelf" link2="rear_ur_control_box" reason="Adjacent"/>
     <disable_collisions link1="rear_shelf" link2="right_arm_mount_plate" reason="Never"/>
     <disable_collisions link1="rear_shelf" link2="right_ewellix_lift_higher_link" reason="Never"/>
     <disable_collisions link1="rear_shelf" link2="right_ewellix_lift_lower_link" reason="Never"/>
@@ -824,18 +794,6 @@
     <disable_collisions link1="rear_shelf" link2="right_wifi_antenna" reason="Adjacent"/>
     <disable_collisions link1="rear_shelf" link2="riser_link" reason="Adjacent"/>
     <disable_collisions link1="rear_shelf" link2="top_link" reason="Default"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_arm_mount_plate" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_ewellix_lift_higher_link" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_ewellix_lift_lower_link" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_ewellix_lift_middle_link" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_ewellix_mount_flange_link" reason="Adjacent"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_monitor" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_ur_arm_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_ur_arm_shoulder_link" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_ur_arm_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="rear_ur_control_box" link2="right_wifi_antenna" reason="Adjacent"/>
-    <disable_collisions link1="rear_ur_control_box" link2="riser_link" reason="Adjacent"/>
-    <disable_collisions link1="rear_ur_control_box" link2="top_link" reason="Never"/>
     <disable_collisions link1="right_arm_mount_plate" link2="right_ewellix_lift_higher_link" reason="Adjacent"/>
     <disable_collisions link1="right_arm_mount_plate" link2="right_ewellix_lift_lower_link" reason="Never"/>
     <disable_collisions link1="right_arm_mount_plate" link2="right_ewellix_lift_middle_link" reason="Never"/>
@@ -877,21 +835,6 @@
     <disable_collisions link1="right_ewellix_mount_flange_link" link2="right_wifi_antenna" reason="Adjacent"/>
     <disable_collisions link1="right_ewellix_mount_flange_link" link2="riser_link" reason="Adjacent"/>
     <disable_collisions link1="right_ewellix_mount_flange_link" link2="top_link" reason="Never"/>
-    <disable_collisions link1="right_finger_1_link" link2="right_finger_2_link" reason="Never"/>
-    <disable_collisions link1="right_finger_1_link" link2="right_gripper_base_link" reason="Adjacent"/>
-    <disable_collisions link1="right_finger_1_link" link2="right_robotiq_hande_cb_adapter" reason="Never"/>
-    <disable_collisions link1="right_finger_1_link" link2="right_ur_arm_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="right_finger_1_link" link2="right_ur_arm_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="right_finger_1_link" link2="right_ur_arm_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="right_finger_2_link" link2="right_gripper_base_link" reason="Adjacent"/>
-    <disable_collisions link1="right_finger_2_link" link2="right_robotiq_hande_cb_adapter" reason="Never"/>
-    <disable_collisions link1="right_finger_2_link" link2="right_ur_arm_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="right_finger_2_link" link2="right_ur_arm_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="right_finger_2_link" link2="right_ur_arm_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="right_gripper_base_link" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
-    <disable_collisions link1="right_gripper_base_link" link2="right_ur_arm_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="right_gripper_base_link" link2="right_ur_arm_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="right_gripper_base_link" link2="right_ur_arm_wrist_3_link" reason="Never"/>
     <disable_collisions link1="right_monitor" link2="right_ur_arm_base_link_inertia" reason="Never"/>
     <disable_collisions link1="right_monitor" link2="right_ur_arm_shoulder_link" reason="Never"/>
     <disable_collisions link1="right_monitor" link2="right_ur_arm_upper_arm_link" reason="Never"/>
@@ -925,13 +868,24 @@
     <disable_collisions link1="left_mtc_effector_side" link2="left_ur_realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_effector_side" link2="right_ur_realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="left_mtc_effector_side" link2="left_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="left_mtc_effector_side" link2="left_ur_arm_wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="left_mtc_effector_side" link2="left_wrist_mounted_camera_link" reason="Adjacent"/>
+    <disable_collisions link1="left_ur_realsense_mount" link2="left_wrist_mounted_camera_link" reason="Adjacent"/>
     <disable_collisions link1="left_mtc_robot_side" link2="left_ur_arm_wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="left_mtc_robot_side" link2="left_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="left_mtc_robot_side" link2="left_ur_realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_effector_side" link2="right_mtc_robot_side" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_effector_side" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_effector_side" link2="right_ur_arm_wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_effector_side" link2="right_wrist_mounted_camera_link" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_effector_side" link2="right_robotiq_85_base_link" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_robot_side" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
     <disable_collisions link1="right_mtc_robot_side" link2="right_ur_arm_wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="right_mtc_robot_side" link2="right_ur_realsense_mount" reason="Never"/>
 
     <disable_collisions link1="left_robotiq_hande_cb_adapter" link2="left_ur_realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_hande_cb_adapter" link2="right_ur_realsense_mount" reason="Adjacent"/>
+    <disable_collisions link1="right_ur_realsense_mount" link2="right_wrist_mounted_camera_link" reason="Adjacent"/>
 
     <!-- manually added from 2f-85 modification -->
     <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
@@ -939,14 +893,27 @@
     <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_right_finger_link" reason="Never"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_left_finger_tip_link" reason="Never"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_base_link" reason="Never"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_right_finger_tip_link" reason="Never"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_robotiq_85_left_finger_link" reason="Never"/>
+    <disable_collisions link1="right_robotiq_85_base_link" link2="right_ur_realsense_mount" reason="Never"/>
     <disable_collisions link1="right_robotiq_85_left_finger_link" link2="right_robotiq_85_left_finger_tip_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_left_finger_link" link2="right_robotiq_85_left_knuckle_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_left_finger_tip_link" link2="right_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_finger_tip_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_finger_tip_link" link2="right_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_right_finger_link" link2="right_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_right_finger_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_right_finger_tip_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_left_finger_link" link2="right_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_right_finger_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_inner_knuckle_link" link2="right_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_inner_knuckle_link" link2="right_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_inner_knuckle_link" link2="right_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_left_inner_knuckle_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="right_robotiq_85_right_inner_knuckle_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
 
     <xacro:if value="$(arg calibration_mode)">
         <disable_collisions link1="front_shelf" link2="calibration_plate_target_side" reason="Adjacent"/>
