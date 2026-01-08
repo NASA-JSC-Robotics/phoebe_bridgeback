@@ -579,7 +579,7 @@
       <default class="collision">
         <geom group="3" type="mesh"/>
         <default class="rubber">
-          <geom condim="6" friction="5 1.0 1.0" priority="1" solimp="0.0 0.95 0.005 0.1 6" solref="0.002 3" conaffinity="1"/>
+          <geom condim="6" friction="1.0 0.1 0.1" priority="1" solimp="0.0 0.95 0.005 0.1 6" solref="0.002 3" conaffinity="1"/>
         </default>
       </default>
       <default class="right_spring_link">
@@ -685,30 +685,6 @@
     <pair geom1="mecanum_wheel30" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
     <pair geom1="mecanum_wheel31" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
     <pair geom1="mecanum_wheel32" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-
-    <pair geom1="cylinder_jig_collision_0" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_1" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_2" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_3" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_4" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_5" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_6" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_7" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_8" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_9" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_10" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_11" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_12" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_13" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_14" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_15" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_16" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_17" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_18" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_19" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_20" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_21" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
-    <pair geom1="cylinder_jig_collision_22" geom2="cylinder_col" condim="3" friction="0.01 0.005 0.0001" solimp="0.0 0.99 0.01 0.1 6"/>
   </contact>
   <tendon>
     <fixed name="left_split">
