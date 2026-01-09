@@ -62,14 +62,16 @@ def generate_launch_description():
         package="depth_image_proc",
         executable="point_cloud_xyzrgb_node",
         name="left_point_cloud_proc_node",
-        parameters=[{
-            "use_sim_time": True,
-        }],
+        parameters=[
+            {
+                "use_sim_time": True,
+            }
+        ],
         remappings=[
-            ('rgb/image_rect_color', '/left_wrist_mounted_camera_/color/image_raw'),
-            ('rgb/camera_info', '/left_wrist_mounted_camera_/color/camera_info'),
-            ('depth_registered/image_rect', '/left_wrist_mounted_camera_/aligned_depth_to_color/image_raw'),
-            ('points', '/left_wrist_mounted_camera_/depth/color/points'),
+            ("rgb/image_rect_color", "/left_wrist_mounted_camera_/color/image_raw"),
+            ("rgb/camera_info", "/left_wrist_mounted_camera_/color/camera_info"),
+            ("depth_registered/image_rect", "/left_wrist_mounted_camera_/aligned_depth_to_color/image_raw"),
+            ("points", "/left_wrist_mounted_camera_/depth/color/points"),
         ],
     )
 
@@ -77,9 +79,11 @@ def generate_launch_description():
         package="depth_image_proc",
         executable="point_cloud_xyzrgb_node",
         name="right_point_cloud_proc_node",
-        parameters=[{
-            "use_sim_time": True,
-        }],
+        parameters=[
+            {
+                "use_sim_time": True,
+            }
+        ],
         remappings=[
             ("rgb/image_rect_color", "/right_wrist_mounted_camera_/color/image_raw"),
             ("rgb/camera_info", "/right_wrist_mounted_camera_/color/camera_info"),
