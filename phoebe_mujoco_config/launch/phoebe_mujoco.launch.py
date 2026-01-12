@@ -20,15 +20,37 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
 
 from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
 
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "point_clouds",
+            default_value="True",
+            description="Whether or not to include the point cloud republishers",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "polled_cameras",
+            default_value="True",
+            description="If true, run the mock polled cameras to 'simulate' real hardware",
+        )
+    )
+
+    point_clouds = LaunchConfiguration("point_clouds")
+    polled_cameras = LaunchConfiguration("polled_cameras")
+
+    # Include the control launch file with relevant configuration
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -45,6 +67,7 @@ def generate_launch_description():
         }.items(),
     )
 
+    # Optionally launch teleoperation for joystick control
     teleop_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -58,38 +81,98 @@ def generate_launch_description():
         }.items(),
     )
 
-    left_point_cloud_proc = Node(
-        package="depth_image_proc",
-        executable="point_cloud_xyzrgb_node",
-        name="left_point_cloud_proc_node",
-        parameters=[
-            {
-                "use_sim_time": True,
-            }
-        ],
-        remappings=[
-            ("rgb/image_rect_color", "/left_wrist_mounted_camera_/color/image_raw"),
-            ("rgb/camera_info", "/left_wrist_mounted_camera_/color/camera_info"),
-            ("depth_registered/image_rect", "/left_wrist_mounted_camera_/aligned_depth_to_color/image_raw"),
-            ("points", "/left_wrist_mounted_camera_/depth/color/points"),
-        ],
+    nodes = []
+
+    nodes.append(
+        Node(
+            package="depth_image_proc",
+            executable="point_cloud_xyzrgb_node",
+            name="left_point_cloud_proc_node",
+            parameters=[
+                {
+                    "use_sim_time": True,
+                }
+            ],
+            remappings=[
+                ("rgb/image_rect_color", "/left_wrist_mounted_camera_/color/image_raw"),
+                ("rgb/camera_info", "/left_wrist_mounted_camera_/color/camera_info"),
+                ("depth_registered/image_rect", "/left_wrist_mounted_camera_/aligned_depth_to_color/image_raw"),
+                ("points", "/left_wrist_mounted_camera/depth/color/points"),
+            ],
+            condition=IfCondition(point_clouds),
+        )
     )
 
-    right_point_cloud_proc = Node(
-        package="depth_image_proc",
-        executable="point_cloud_xyzrgb_node",
-        name="right_point_cloud_proc_node",
-        parameters=[
-            {
-                "use_sim_time": True,
-            }
-        ],
-        remappings=[
-            ("rgb/image_rect_color", "/right_wrist_mounted_camera_/color/image_raw"),
-            ("rgb/camera_info", "/right_wrist_mounted_camera_/color/camera_info"),
-            ("depth_registered/image_rect", "/right_wrist_mounted_camera_/aligned_depth_to_color/image_raw"),
-            ("points", "/right_wrist_mounted_camera_/depth/color/points"),
-        ],
+    nodes.append(
+        Node(
+            package="depth_image_proc",
+            executable="point_cloud_xyzrgb_node",
+            name="right_point_cloud_proc_node",
+            parameters=[
+                {
+                    "use_sim_time": True,
+                }
+            ],
+            remappings=[
+                ("rgb/image_rect_color", "/right_wrist_mounted_camera_/color/image_raw"),
+                ("rgb/camera_info", "/right_wrist_mounted_camera_/color/camera_info"),
+                ("depth_registered/image_rect", "/right_wrist_mounted_camera_/aligned_depth_to_color/image_raw"),
+                ("points", "/right_wrist_mounted_camera/depth/color/points"),
+            ],
+            condition=IfCondition(point_clouds),
+        )
     )
 
-    return LaunchDescription([control_launch, teleop_launch, left_point_cloud_proc, right_point_cloud_proc])
+    nodes.append(
+        Node(
+            package="phoebe_mujoco_config",
+            executable="mock_polled_camera.py",
+            name="mock_polled_camera_left",
+            parameters=[
+                {
+                    "input_color_image_topic": "left_wrist_mounted_camera_/color/image_raw",
+                    "input_depth_image_topic": "left_wrist_mounted_camera_/aligned_depth_to_color/image_raw",
+                    "input_camera_info_topic": "left_wrist_mounted_camera_/color/camera_info",
+                    "output_color_image_topic": "left_wrist_mounted_camera/color/image_raw",
+                    "output_depth_image_topic": "left_wrist_mounted_camera/depth/image_raw",
+                    "output_camera_info_topic": "left_wrist_mounted_camera/color/camera_info",
+                    "use_sim_time": True,
+                }
+            ],
+            remappings=[
+                (
+                    "trigger_capture",
+                    "/left_wrist_mounted_camera/request_images",
+                ),
+            ],
+            condition=IfCondition(polled_cameras),
+        )
+    )
+
+    nodes.append(
+        Node(
+            package="phoebe_mujoco_config",
+            executable="mock_polled_camera.py",
+            name="mock_polled_camera_right",
+            parameters=[
+                {
+                    "input_color_image_topic": "right_wrist_mounted_camera_/color/image_raw",
+                    "input_depth_image_topic": "right_wrist_mounted_camera_/aligned_depth_to_color/image_raw",
+                    "input_camera_info_topic": "right_wrist_mounted_camera_/color/camera_info",
+                    "output_color_image_topic": "right_wrist_mounted_camera/color/image_raw",
+                    "output_depth_image_topic": "right_wrist_mounted_camera/depth/image_raw",
+                    "output_camera_info_topic": "right_wrist_mounted_camera/color/camera_info",
+                    "use_sim_time": True,
+                }
+            ],
+            remappings=[
+                (
+                    "trigger_capture",
+                    "/right_wrist_mounted_camera/request_images",
+                ),
+            ],
+            condition=IfCondition(polled_cameras),
+        )
+    )
+
+    return LaunchDescription(declared_arguments + [control_launch, teleop_launch] + nodes)
