@@ -34,16 +34,16 @@ def generate_launch_description():
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
-            "point_clouds",
+            "polled_cameras",
             default_value="True",
-            description="Whether or not to include the point cloud republishers",
+            description="If true, run the mock polled cameras to 'simulate' real hardware",
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "polled_cameras",
+            "point_clouds",
             default_value="True",
-            description="If true, run the mock polled cameras to 'simulate' real hardware",
+            description="Whether or not to include the point cloud republishers, must be using polled cameras",
         )
     )
 
@@ -82,46 +82,6 @@ def generate_launch_description():
     )
 
     nodes = []
-
-    nodes.append(
-        Node(
-            package="depth_image_proc",
-            executable="point_cloud_xyzrgb_node",
-            name="left_point_cloud_proc_node",
-            parameters=[
-                {
-                    "use_sim_time": True,
-                }
-            ],
-            remappings=[
-                ("rgb/image_rect_color", "/left_wrist_mounted_camera_/color/image_raw"),
-                ("rgb/camera_info", "/left_wrist_mounted_camera_/color/camera_info"),
-                ("depth_registered/image_rect", "/left_wrist_mounted_camera_/aligned_depth_to_color/image_raw"),
-                ("points", "/left_wrist_mounted_camera/depth/color/points"),
-            ],
-            condition=IfCondition(point_clouds),
-        )
-    )
-
-    nodes.append(
-        Node(
-            package="depth_image_proc",
-            executable="point_cloud_xyzrgb_node",
-            name="right_point_cloud_proc_node",
-            parameters=[
-                {
-                    "use_sim_time": True,
-                }
-            ],
-            remappings=[
-                ("rgb/image_rect_color", "/right_wrist_mounted_camera_/color/image_raw"),
-                ("rgb/camera_info", "/right_wrist_mounted_camera_/color/camera_info"),
-                ("depth_registered/image_rect", "/right_wrist_mounted_camera_/aligned_depth_to_color/image_raw"),
-                ("points", "/right_wrist_mounted_camera/depth/color/points"),
-            ],
-            condition=IfCondition(point_clouds),
-        )
-    )
 
     nodes.append(
         Node(
@@ -172,6 +132,46 @@ def generate_launch_description():
                 ),
             ],
             condition=IfCondition(polled_cameras),
+        )
+    )
+
+    nodes.append(
+        Node(
+            package="depth_image_proc",
+            executable="point_cloud_xyzrgb_node",
+            name="left_point_cloud_proc_node",
+            parameters=[
+                {
+                    "use_sim_time": True,
+                }
+            ],
+            remappings=[
+                ("rgb/image_rect_color", "/left_wrist_mounted_camera/color/image_raw"),
+                ("rgb/camera_info", "/left_wrist_mounted_camera/color/camera_info"),
+                ("depth_registered/image_rect", "/left_wrist_mounted_camera/depth/image_raw"),
+                ("points", "/left_wrist_mounted_camera/depth/color/points"),
+            ],
+            condition=IfCondition(point_clouds),
+        )
+    )
+
+    nodes.append(
+        Node(
+            package="depth_image_proc",
+            executable="point_cloud_xyzrgb_node",
+            name="right_point_cloud_proc_node",
+            parameters=[
+                {
+                    "use_sim_time": True,
+                }
+            ],
+            remappings=[
+                ("rgb/image_rect_color", "/right_wrist_mounted_camera/color/image_raw"),
+                ("rgb/camera_info", "/right_wrist_mounted_camera/color/camera_info"),
+                ("depth_registered/image_rect", "/right_wrist_mounted_camera/depth/image_raw"),
+                ("points", "/right_wrist_mounted_camera/depth/color/points"),
+            ],
+            condition=IfCondition(point_clouds),
         )
     )
 
