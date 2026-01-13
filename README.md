@@ -37,7 +37,7 @@ ros2 launch phoebe_moveit_config phoebe_moveit.launch.py
 # Hardware cameras launch file
 ros2 launch phoebe_deploy phoebe_rspc_camera.launch.py
 ```
-### Citation
+## Citation
 
 This project falls under the purview of the iMETRO project. If you use this in your own work, please cite the following paper:
 
