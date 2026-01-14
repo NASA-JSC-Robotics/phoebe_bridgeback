@@ -45,7 +45,20 @@ class WorldPublisher(Node):
     # Receive + store transform
     def set_world_transform(self, request, response):
         self.world_transform = request.transform
-        self.get_logger().info("Found world.")
+        self.get_logger().info("Found world, updated transform")
+        t = request.transform.translation
+        r = request.transform.rotation
+        self.get_logger().info(
+            f"  Translation:\n"
+            f"    x: {t.x:.3f}\n"
+            f"    y: {t.y:.3f}\n"
+            f"    z: {t.z:.3f}\n"
+            f"  Rotation (quaternion):\n"
+            f"    x: {r.x:.3f}\n"
+            f"    y: {r.y:.3f}\n"
+            f"    z: {r.z:.3f}\n"
+            f"    w: {r.w:.3f}"
+        )
         response.success = True
         return response
 
