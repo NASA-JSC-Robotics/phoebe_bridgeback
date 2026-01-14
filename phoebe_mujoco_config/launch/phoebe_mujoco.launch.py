@@ -143,6 +143,7 @@ def generate_launch_description():
             parameters=[
                 {
                     "use_sim_time": True,
+                    "use_exact_sync": False,
                 }
             ],
             remappings=[
@@ -163,6 +164,7 @@ def generate_launch_description():
             parameters=[
                 {
                     "use_sim_time": True,
+                    "use_exact_sync": False,
                 }
             ],
             remappings=[
