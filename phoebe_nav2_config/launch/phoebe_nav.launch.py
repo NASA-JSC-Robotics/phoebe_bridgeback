@@ -71,7 +71,8 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_nav2_bringup), "launch", "navigation_launch.py"])]
             ),
             launch_arguments={
-                "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml")
+                "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml"),
+                "use_sim_time": use_sim_time,
             }.items(),
         ),
         IncludeLaunchDescription(
