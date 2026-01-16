@@ -3,6 +3,8 @@
   <!-- Args -->
   <xacro:arg name="add_grasp_push_frames" default="true"/>
   <xacro:arg name="override_start_position_file" default="$(find cylinder_demo)/config/new_pre_place.xml"/>
+  <xacro:arg name="include_world_joints" default="false"/>
+
   <!-- Includes -->
   <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
 
@@ -10,6 +12,7 @@
     generate_ros2_control_tag="false"
     add_grasp_push_frames="$(arg add_grasp_push_frames)"
     use_camera_mesh="false"
+    include_world_joints="$(arg include_world_joints)"
   />
 
   <ros2_control name="MujocoSystem" type="system">
