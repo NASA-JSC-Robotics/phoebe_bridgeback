@@ -93,6 +93,14 @@ def generate_launch_description():
             "Must be in the 'urdf' folder of the description package.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_frame",
+            default_value="false",
+            description="Whether or not to include a root world frame",
+            choices=["true", "false"],
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -102,6 +110,7 @@ def generate_launch_description():
     calibration_mode = LaunchConfiguration("calibration_mode")
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
+    include_world_frame = LaunchConfiguration("include_world_frame")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -112,6 +121,7 @@ def generate_launch_description():
         "robot_description_package": robot_description_package,
         "robot_description_file": robot_description_file,
         "is_sim": use_fake_hardware,
+        "include_world_frame": include_world_frame,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

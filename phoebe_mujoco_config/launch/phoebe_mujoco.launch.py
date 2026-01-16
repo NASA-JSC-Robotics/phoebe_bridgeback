@@ -64,6 +64,7 @@ def generate_launch_description():
             "robot_description_package": "phoebe_mujoco_config",
             "robot_description_file": "phoebe_xacro.urdf",
             "use_sim_time": "true",
+            "include_world_frame": "true",
         }.items(),
     )
 

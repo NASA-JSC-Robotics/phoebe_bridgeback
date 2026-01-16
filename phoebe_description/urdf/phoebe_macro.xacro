@@ -9,6 +9,7 @@
       tf_prefix:=''
       use_fake_hardware:='false'
       sim_ignition:='false'
+      include_world_frame:='false'
       calibration_mode:='false'
       left_ewellix_com_port:='/dev/ewellix_left'
       right_ewellix_com_port:='/dev/ewellix_right'
@@ -28,6 +29,18 @@
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
   <xacro:include filename="$(find phoebe_description)/urdf/r100/r100_macro.xacro" />
+
+  <!-- Moveit Pro explicity requires a world frame in the description, so we conditionally ad it here. -->
+  <xacro:if value="${include_world_frame}">
+    <link name="world"/>
+
+    <!-- Add a floating joint so that it can freely move in the world -->
+    <joint name="world_to_base_link" type="floating">
+      <parent link="world"/>
+      <child link="${tf_prefix}base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
 
   <xacro:r100
       tf_prefix="${tf_prefix}"
