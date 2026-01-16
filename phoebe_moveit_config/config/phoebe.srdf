@@ -593,6 +593,7 @@
     <disable_collisions link1="left_robotiq_hande_cb_adapter" link2="rear_left_wheel_link" reason="Never"/>
     <disable_collisions link1="left_robotiq_hande_cb_adapter" link2="rear_right_wheel_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="left_ur_arm_shoulder_link" reason="Adjacent"/>
+    <disable_collisions link1="left_ur_arm_base_link_inertia" link2="left_ur_arm_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="left_wifi_antenna" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="lift_rails" reason="Never"/>
     <disable_collisions link1="left_ur_arm_base_link_inertia" link2="monitor_hinge_base" reason="Never"/>
@@ -845,6 +846,7 @@
     <disable_collisions link1="right_robotiq_hande_cb_adapter" link2="right_ur_arm_wrist_2_link" reason="Never"/>
     <disable_collisions link1="right_robotiq_hande_cb_adapter" link2="right_ur_arm_wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="right_ur_arm_base_link_inertia" link2="right_ur_arm_shoulder_link" reason="Adjacent"/>
+    <disable_collisions link1="right_ur_arm_base_link_inertia" link2="right_ur_arm_upper_arm_link" reason="Never"/>
     <disable_collisions link1="right_ur_arm_base_link_inertia" link2="right_wifi_antenna" reason="Never"/>
     <disable_collisions link1="right_ur_arm_base_link_inertia" link2="riser_link" reason="Never"/>
     <disable_collisions link1="right_ur_arm_base_link_inertia" link2="top_link" reason="Never"/>

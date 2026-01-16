@@ -1,0 +1,9 @@
+right_drt_ur_gui:
+  ros__parameters:
+    dashboard_client_name: "right_dashboard_client"
+    window.name: "PB Remote Commander: Right Arm"
+    window.stylesheet: "background-color: #f7937d;"
+    robot.name: "PB"
+    arm.name: "Right Arm"
+    program: "ext_ctrl.urp"
+    logo_file_name: 'iMETRO_full.png'
