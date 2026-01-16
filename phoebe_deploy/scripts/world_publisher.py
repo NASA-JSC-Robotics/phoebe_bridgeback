@@ -20,7 +20,7 @@
 
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Transform, TransformStamped
+from geometry_msgs.msg import TransformStamped
 from phoebe_interfaces.srv import SetWorld
 import tf2_ros
 
@@ -39,8 +39,8 @@ class WorldPublisher(Node):
         self.rate_hz = 5  # TODO: Adjust as needed.
         self.timer = self.create_timer(1 / self.rate_hz, self.publish_world_transform)
 
-        # Initialization of stored transform, defaults to an empty transform.
-        self.world_transform = Transform()
+        # Initialization of stored transform, will not publish until this is initialized.
+        self.world_transform = None
 
     # Receive + store transform
     def set_world_transform(self, request, response):
@@ -86,7 +86,7 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        node.shutdown()
+        node.destroy_node()
         rclpy.try_shutdown()
 
 
