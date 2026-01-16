@@ -150,7 +150,7 @@ local_costmap:
       height: 5
       resolution: 0.06
       footprint: "[ [0.480, 0.3965], [0.480, -0.3965], [-0.480, -0.3965], [-0.480, 0.3965] ]"
-      always_send_full_costmap: true
+      always_send_full_costmap: false
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -191,7 +191,7 @@ global_costmap:
       origin_y: -7.5
       resolution: 0.06
       track_unknown_space: true
-      always_send_full_costmap: true
+      always_send_full_costmap: false
       plugins: ["obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
