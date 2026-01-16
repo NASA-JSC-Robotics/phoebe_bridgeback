@@ -81,7 +81,7 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "include_world_frame",
+            "include_world_joints",
             default_value="false",
             description="Whether or not to include a root world frame",
             choices=["true", "false"],
@@ -94,7 +94,7 @@ def generate_launch_description():
     calibration_mode = LaunchConfiguration("calibration_mode")
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
-    include_world_frame = LaunchConfiguration("include_world_frame")
+    include_world_joints = LaunchConfiguration("include_world_joints")
 
     # main robot description for Phoebe
     robot_description_content = Command(
@@ -112,8 +112,8 @@ def generate_launch_description():
             "use_fake_hardware:=",
             use_fake_hardware,
             " ",
-            "include_world_frame:=",
-            include_world_frame,
+            "include_world_joints:=",
+            include_world_joints,
             " ",
             "calibration_mode:=",
             calibration_mode,

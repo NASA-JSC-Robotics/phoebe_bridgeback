@@ -46,9 +46,18 @@ def generate_launch_description():
             description="Whether or not to include the point cloud republishers, must be using polled cameras",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame",
+            choices=["true", "false"],
+        )
+    )
 
     point_clouds = LaunchConfiguration("point_clouds")
     polled_cameras = LaunchConfiguration("polled_cameras")
+    include_world_joints = LaunchConfiguration("include_world_joints")
 
     # Include the control launch file with relevant configuration
     control_launch = IncludeLaunchDescription(
@@ -65,6 +74,7 @@ def generate_launch_description():
             "robot_description_file": "phoebe_xacro.urdf",
             "use_sim_time": "true",
             "include_world_frame": "true",
+            "include_world_joints": include_world_joints,
         }.items(),
     )
 
