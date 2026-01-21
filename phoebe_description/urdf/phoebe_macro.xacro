@@ -32,7 +32,7 @@
 
   <!-- Conditionally attach the world to the base_link with a x, y, and yaw joints. -->
   <!-- This is necessary for moveit pro integration and for whole body motion planning and execution. -->
-  <!-- However, as this is non-standare for other applications we do not necessarily want it by default. -->
+  <!-- However, as this is non-standard for other applications we do not want it by default. -->
   <xacro:if value="${include_world_joints}">
     <link name="world"/>
 
