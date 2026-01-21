@@ -69,6 +69,7 @@ def generate_launch_description():
             mujoco_inputs,
             "-c",  # convert stl to obj
             "-f",
+            "--save_only",
         ],
     )
 

@@ -18,6 +18,7 @@
 # under the License.
 
 from xml.dom import minidom
+import os
 import shutil
 from ament_index_python.packages import get_package_share_directory
 
@@ -29,14 +30,16 @@ def main(filepath):
 
     # copy the cylinder mockup into the assets directory
     shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_mockup_short_final_mm_1.stl',
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_mockup_full_length.stl',
         f"{filepath}/assets",
     )
 
     # copy the cylinder jig into the assets directory (folder bc it has several files bc it is decomposed)
+    os.mkdir(f"{filepath}/assets/cylinder_jig")
     shutil.copytree(
         f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_jig',
-        f"{filepath}/assets",
+        f"{filepath}/assets/cylinder_jig",
+        dirs_exist_ok=True,
     )
 
     # copy the april tags into the assets directory
@@ -50,6 +53,10 @@ def main(filepath):
     )
     shutil.copy2(
         f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00004.png',
+        f"{filepath}/assets",
+    )
+    shutil.copy2(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00006.png',
         f"{filepath}/assets",
     )
 
