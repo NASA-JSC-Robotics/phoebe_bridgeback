@@ -148,11 +148,6 @@ def generate_launch_description():
     launch_file_names = []
     hardware_launch_file_names = []
 
-    # This is the "definitive" robot state publisher.
-    # This should be launched on whatever machine has the most resources, which
-    # along with whichever controller manager we think should com up first.
-    launch_file_names.append("robot_state_publisher.launch.py")
-
     # add controller spawners for each component
     launch_file_names.append("spawn_controllers.launch.py")
 
@@ -191,7 +186,8 @@ def generate_launch_description():
     # controllers for moveit pro (must be spawned separately)
     controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
-    # blah, we need the robot description for the controller manager to launch admittance control :(
+    # This is the main robot description for Phoebe.
+    # Unfortunately, we need the robot description for the controller manager to launch admittance controllers.
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -207,12 +203,27 @@ def generate_launch_description():
             "use_fake_hardware:=",
             use_fake_hardware,
             " ",
+            "include_world_joints:=",
+            include_world_joints,
+            " ",
             "calibration_mode:=",
             calibration_mode,
             " ",
         ]
     )
     robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}
+
+    # This is the "definitive" robot state publisher.
+    # This should be launched on whatever machine has the most resources, which
+    # along with whichever controller manager we think should com up first.
+    # Note that this is distinct from when running in transport only mode!
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        namespace=ns,
+        output="both",
+        parameters=[robot_description],
+    )
 
     # start the controller manager node with all of the controller config files
     control_node = Node(
@@ -290,7 +301,7 @@ def generate_launch_description():
     )
 
     ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)] + launch_files + [control_node, control_node_sim, node_puma_throttle]
+        actions=[PushRosNamespace(ns)] + launch_files + [robot_state_publisher_node, control_node, control_node_sim, node_puma_throttle]
     )
 
     return LaunchDescription(declared_arguments + [ns_action])
