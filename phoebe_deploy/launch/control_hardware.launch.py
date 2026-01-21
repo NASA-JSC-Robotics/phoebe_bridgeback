@@ -48,10 +48,19 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame",
+            choices=["true", "false"],
+        )
+    )
 
     # Initialize Arguments
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
+    include_world_joints = LaunchConfiguration("include_world_joints")
 
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -61,6 +70,7 @@ def generate_launch_description():
             "use_fake_hardware": "false",
             "ns": ns,
             "calibration_mode": calibration_mode,
+            "include_world_joints": include_world_joints,
         }.items(),
     )
 
