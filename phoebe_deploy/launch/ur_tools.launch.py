@@ -102,7 +102,7 @@ def generate_launch_description():
 
     gui = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("drt_ur_gui"), "launch", "pb.launch.py")
+            os.path.join(get_package_share_directory("phoebe_deploy"), "launch", "pb_ur_gui.launch.py")
         ),
         condition=IfCondition(remote_control),
     )

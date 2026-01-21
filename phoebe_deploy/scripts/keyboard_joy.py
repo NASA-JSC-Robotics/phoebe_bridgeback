@@ -40,7 +40,7 @@ class KeyboardTeleopNode(Node):
         self.twist = Twist()
         self.last_key_time = time.time() - 0.2
         self.reset_twist()
-        self.publisher_ = self.create_publisher(Twist, "/cmd_vel_unstamped", 1)
+        self.publisher_ = self.create_publisher(Twist, "/cmd_vel", 1)
         self.timer = self.create_timer(0.1, self.publish_twist)
         self.running = True
 
@@ -87,17 +87,17 @@ class KeyboardTeleopNode(Node):
                 self.last_key_time = time.time()
                 key = sys.stdin.read(2)
                 if key == "[A":  # Up arrow
-                    self.twist.linear.x = 1.0
+                    self.twist.linear.x = 0.1
                     self.twist.angular.z = 0.0
                 elif key == "[B":  # Down arrow
-                    self.twist.linear.x = -1.0
+                    self.twist.linear.x = -0.1
                     self.twist.angular.z = 0.0
                 elif key == "[C":  # Right arrow
                     self.twist.linear.x = 0.0
-                    self.twist.angular.z = -1.0
+                    self.twist.angular.z = -0.1
                 elif key == "[D":  # Left arrow
                     self.twist.linear.x = 0.0
-                    self.twist.angular.z = 1.0
+                    self.twist.angular.z = 0.1
             else:
                 # Stop the robot on any other key
                 self.reset_twist()
@@ -114,7 +114,7 @@ class KeyboardTeleopNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = KeyboardTeleopNode()
-    print("Starting down keyboard node (ctrl-c to quit)")
+    print("Starting keyboard node (ctrl-c to quit)")
 
     try:
         rclpy.spin(node)

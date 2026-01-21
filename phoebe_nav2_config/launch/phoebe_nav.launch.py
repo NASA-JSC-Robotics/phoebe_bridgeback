@@ -34,6 +34,7 @@ def generate_launch_description():
     pkg_phoebe_nav2_config = get_package_share_directory("phoebe_nav2_config")
     pkg_slam_toolbox = get_package_share_directory("slam_toolbox")
     pkg_nav2_bringup = get_package_share_directory("nav2_bringup")
+    pkg_phoebe_deploy = get_package_share_directory("phoebe_deploy")
 
     # Use static map in sim because sensor data is not available.
 
@@ -65,18 +66,21 @@ def generate_launch_description():
                 "use_sim_time": use_sim_time,
             }.items(),
         ),
-        # Node(
-        #     package="tf2_ros",
-        #     executable="static_transform_publisher",
-        #     arguments=["0", "0", "0", "0", "0", "0", "odom", "map"],
-        #     parameters=[{"use_sim_time": True}],
-        # ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [PathJoinSubstitution([(pkg_nav2_bringup), "launch", "navigation_launch.py"])]
             ),
             launch_arguments={
-                "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml")
+                "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml"),
+                "use_sim_time": use_sim_time,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([(pkg_phoebe_deploy), "launch", "ridgeback_sensors.launch.py"])]
+            ),
+            launch_arguments={
+                "is_sim": use_sim_time,
             }.items(),
         ),
         Node(
@@ -86,6 +90,12 @@ def generate_launch_description():
             output="log",
             arguments=["-d", rviz_config_file, "--stylesheet", rviz_qss_file],
             condition=IfCondition(launch_rviz),
+            parameters=[{"use_sim_time": use_sim_time}],
+        ),
+        Node(
+            package="phoebe_deploy",
+            executable="world_publisher.py",
+            name="world_publisher",
             parameters=[{"use_sim_time": use_sim_time}],
         ),
     ]

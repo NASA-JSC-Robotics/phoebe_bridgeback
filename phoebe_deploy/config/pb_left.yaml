@@ -1,0 +1,9 @@
+left_drt_ur_gui:
+  ros__parameters:
+    dashboard_client_name: "left_dashboard_client"
+    window.name: "PB Remote Commander: Left Arm"
+    window.stylesheet: "background-color: #7d94f7;"
+    robot.name: "PB"
+    arm.name: "Left Arm"
+    program: "ext_ctrl.urp"
+    logo_file_name: 'iMETRO_full.png'

@@ -178,6 +178,8 @@ def generate_launch_description():
     controllers_ur = GetControllersFile("controllers_ur.yaml")
     # controllers for the grippers
     controllers_hande = GetControllersFile("controllers_hande.yaml")
+    # controllers for moveit pro (must be spawned separately)
+    controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
     # blah, we need the robot description for the controller manager to launch admittance control :(
     robot_description_content = Command(
@@ -214,6 +216,7 @@ def generate_launch_description():
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
+            ParameterFile(controllers_moveit_pro, allow_substs=True),
             {"use_sim_time": use_sim_time},
             robot_description,
         ],
@@ -242,6 +245,7 @@ def generate_launch_description():
             ParameterFile(controllers_ewellix, allow_substs=True),
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
+            ParameterFile(controllers_moveit_pro, allow_substs=True),
             robot_description,
             # for some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically
             {
