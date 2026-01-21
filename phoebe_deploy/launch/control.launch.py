@@ -301,7 +301,9 @@ def generate_launch_description():
     )
 
     ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)] + launch_files + [robot_state_publisher_node, control_node, control_node_sim, node_puma_throttle]
+        actions=[PushRosNamespace(ns)]
+        + launch_files
+        + [robot_state_publisher_node, control_node, control_node_sim, node_puma_throttle]
     )
 
     return LaunchDescription(declared_arguments + [ns_action])
