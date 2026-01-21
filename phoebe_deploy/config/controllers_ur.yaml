@@ -316,8 +316,8 @@
             - 0.0 # y
             - 0.0 # z 0.08625
           force: 0.0 # -80.0
-      
-      fixed_world_frame: 
+
+      fixed_world_frame:
         frame:
           id: $(var tf_prefix)left_ur_arm_base_link
 
@@ -490,7 +490,7 @@ right_force_torque_sensor_broadcaster_admittance:
           - 0.0 # y
           - 0.0 # z 0.08625
         force: 0.0 # -80.0
-    
-    fixed_world_frame: 
+
+    fixed_world_frame:
       frame:
         id: $(var tf_prefix)right_ur_arm_base_link
