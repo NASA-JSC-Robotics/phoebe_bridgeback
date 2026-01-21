@@ -23,6 +23,7 @@
   <exec_depend>ewellix_liftkit_description</exec_depend>
   <exec_depend>ewellix_liftkit_deploy</exec_depend>
   <exec_depend>liftkit_hardware_interface</exec_depend>
+  <exec_depend>kinematics_interface_kdl</exec_depend>
   <exec_depend>topic_tools</exec_depend>
   <exec_depend>realsense_polled_camera</exec_depend>
   <export>

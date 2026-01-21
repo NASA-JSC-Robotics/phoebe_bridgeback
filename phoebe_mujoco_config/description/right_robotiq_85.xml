@@ -5,21 +5,12 @@
         <geom material="grey.001" mesh="left_knuckle" class="visual" pos="" quat=""/>
         <geom mesh="left_knuckle" class="collision" pos="" quat=""/>
         <body name="right_robotiq_85_left_finger_coupler_link" pos="0.0315262 0 -0.00376347">
-        <inertial pos="-0.0145671 -0.0008 0.016497" quat="0.977773 0 -0.209665 0" mass="0.0426859" diaginertia="1.20653e-05 1.19789e-05 2.64405e-06"/>
-        <joint name="right_robotiq_85_left_finger_coupler_joint" pos="0 0 0" axis="0 -1 0" armature="0.001"  solimplimit="0.95 0.99 0.001" solreflimit="0.005 1" range="-1.57 0"/>
-        <geom mesh="left_finger_0" material="black.001" class="visual" pos="" quat=""/>
-        <geom mesh="left_finger_1" material="grey.003" class="visual" pos="" quat=""/>
-        <geom mesh="left_finger_0" class="collision" pos="" quat=""/>
-        <geom mesh="left_finger_1" class="collision" pos="" quat=""/>
-        <body name="right_robotiq_85_left_finger_tip_link" pos="0.0056313 0 0.04718517">
             <inertial pos="-0.0145671 -0.0008 0.016497" quat="0.977773 0 -0.209665 0" mass="0.0426859" diaginertia="1.20653e-05 1.19789e-05 2.64405e-06"/>
-            <joint name="right_robotiq_85_left_finger_tip_joint" pos="0 0 0" axis="0 -1 0" armature="0.001" solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
-            <geom mesh="left_finger_tip_0" material="grey.007" class="visual" pos="" quat=""/>
-            <geom mesh="left_finger_tip_1" material="black.005" class="visual" pos="" quat=""/>
-            <geom mesh="left_finger_tip_0" class="rubber" pos="" quat=""/>
-            <geom mesh="left_finger_tip_1" class="rubber" pos="" quat=""/>
-            <site name="right_robotiq_85_left_finger_tip_link" pos="0 0 0" quat="1.0 0 0 0"/>
-        </body>
+            <joint name="right_robotiq_85_left_finger_coupler_joint" pos="0 0 0" axis="0 -1 0" armature="0.5" damping="1.0" frictionloss="1.0"  solimplimit="0.95 0.99 0.001" solreflimit="0.005 1" range="-1.57 0"/>
+            <geom mesh="left_finger_0" material="black.001" class="visual" pos="" quat=""/>
+            <geom mesh="left_finger_1" material="grey.003" class="visual" pos="" quat=""/>
+            <geom mesh="left_finger_0" class="collision" pos="" quat=""/>
+            <geom mesh="left_finger_1" class="collision" pos="" quat=""/>
         </body>
         <site name="right_robotiq_85_left_knuckle_link" pos="0 0 0" quat="1.0 0 0 0"/>
         <site name="right_robotiq_85_left_finger_link" pos="0.03152616 0 -0.00376347" quat="1.0 0 0 0"/>
@@ -29,22 +20,13 @@
         <joint name="right_robotiq_85_right_knuckle_joint" pos="0 0 0" axis="0 -1 0" range="-0.8 0" actuatorfrcrange="-50 50" armature="0.5" frictionloss="1.0" damping="0.1" solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
         <geom material="grey.002" mesh="right_knuckle" class="visual" pos="" quat=""/>
         <geom mesh="right_knuckle" class="collision" pos="" quat=""/>
-        <body name="right_robotiq_85_right_finger_coupler_link" pos="-0.03152616 0 -0.00376347">
-        <inertial pos="0.0145671 5e-05 0.016497" quat="0.977773 0 0.209665 0" mass="0.0426859" diaginertia="1.20653e-05 1.19789e-05 2.64405e-06"/>
-        <joint name="right_robotiq_85_right_finger_coupler_joint" pos="0 0 0" axis="0 -1 0" armature="0.001"  solimplimit="0.95 0.99 0.001" solreflimit="0.005 1" range="0 1.57"/>
-        <geom mesh="right_finger_0" material="black.002" class="visual" pos="" quat=""/>
-        <geom mesh="right_finger_1" material="grey.004" class="visual" pos="" quat=""/>
-        <geom mesh="right_finger_0" class="collision" pos="" quat=""/>
-        <geom mesh="right_finger_1" class="collision" pos="" quat=""/>
-        <body name="right_robotiq_85_right_finger_tip_link" pos="-0.00563134 0 0.04718517">
+            <body name="right_robotiq_85_right_finger_coupler_link" pos="-0.03152616 0 -0.00376347">
             <inertial pos="0.0145671 5e-05 0.016497" quat="0.977773 0 0.209665 0" mass="0.0426859" diaginertia="1.20653e-05 1.19789e-05 2.64405e-06"/>
-            <joint name="right_robotiq_85_right_finger_tip_joint" pos="0 0 0" axis="0 -1 0" armature="0.001"  solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
-            <geom mesh="right_finger_tip_0" material="grey.008" class="visual" pos="" quat=""/>
-            <geom mesh="right_finger_tip_1" material="black.006" class="visual" pos="" quat=""/>
-            <geom mesh="right_finger_tip_0" class="rubber" pos="" quat=""/>
-            <geom mesh="right_finger_tip_1" class="rubber" pos="" quat=""/>
-            <site name="right_robotiq_85_right_finger_tip_link" pos="0 0 0" quat="1.0 0 0 0"/>
-        </body>
+            <joint name="right_robotiq_85_right_finger_coupler_joint" pos="0 0 0" axis="0 -1 0" armature="0.5" damping="1.0" frictionloss="1.0"  solimplimit="0.95 0.99 0.001" solreflimit="0.005 1" range="0 1.57"/>
+            <geom mesh="right_finger_0" material="black.002" class="visual" pos="" quat=""/>
+            <geom mesh="right_finger_1" material="grey.004" class="visual" pos="" quat=""/>
+            <geom mesh="right_finger_0" class="collision" pos="" quat=""/>
+            <geom mesh="right_finger_1" class="collision" pos="" quat=""/>
         </body>
         <site name="right_robotiq_85_right_knuckle_link" pos="0 0 0" quat="1.0 0 0 0"/>
         <site name="right_robotiq_85_right_finger_link" pos="-0.03152616 0 -0.00376347" quat="1.0 0 0 0"/>
@@ -56,6 +38,15 @@
         <geom mesh="left_inner_knuckle_1" material="black.003" class="visual" pos="" quat=""/>
         <geom mesh="left_inner_knuckle_0" class="rubber" pos="" quat=""/>
         <geom mesh="left_inner_knuckle_1" class="rubber" pos="" quat=""/>
+        <body name="right_robotiq_85_left_finger_tip_link" pos="0.0550586 0.0 0.0369062">
+            <inertial pos="-0.0145671 -0.0008 0.016497" quat="0.977773 0 -0.209665 0" mass="0.0426859" diaginertia="1.20653e-05 1.19789e-05 2.64405e-06"/>
+            <joint name="right_robotiq_85_left_finger_tip_joint" pos="-0.0179011 0 0.0065158" axis="0 -1 0" armature="0.5" damping="1.0" frictionloss="1.0" solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
+            <geom mesh="left_finger_tip_0" material="grey.007" class="visual" pos="" quat=""/>
+            <geom mesh="left_finger_tip_1" material="black.005" class="visual" pos="" quat=""/>
+            <geom mesh="left_finger_tip_0" class="rubber" pos="" quat=""/>
+            <geom mesh="left_finger_tip_1" class="rubber" pos="" quat=""/>
+            <site name="right_robotiq_85_left_finger_tip_link" pos="0 0 0" quat="1.0 0 0 0"/>
+        </body>
         <site name="right_robotiq_85_left_inner_knuckle_link" pos="0 0 0" quat="1.0 0 0 0"/>
     </body>
     <body name="right_robotiq_85_right_inner_knuckle_link" pos="-0.0127 0 0.10842" quat="-1 0 0 0">
@@ -65,6 +56,15 @@
         <geom mesh="right_inner_knuckle_1" material="black.004" class="visual" pos="" quat=""/>
         <geom mesh="right_inner_knuckle_0" class="rubber" pos="" quat=""/>
         <geom mesh="right_inner_knuckle_1" class="rubber" pos="" quat=""/>
+        <body name="right_robotiq_85_right_finger_tip_link" pos="-0.0550586 0.0 0.0369062">
+            <inertial pos="0.0145671 5e-05 0.016497" quat="0.977773 0 0.209665 0" mass="0.0426859" diaginertia="1.20653e-05 1.19789e-05 2.64405e-06"/>
+            <joint name="right_robotiq_85_right_finger_tip_joint" pos="0.0179011 0 0.0065158" axis="0 -1 0" armature="0.5" damping="1.0" frictionloss="1.0"  solimplimit="0.95 0.99 0.001" solreflimit="0.005 1"/>
+            <geom mesh="right_finger_tip_0" material="grey.008" class="visual" pos="" quat=""/>
+            <geom mesh="right_finger_tip_1" material="black.006" class="visual" pos="" quat=""/>
+            <geom mesh="right_finger_tip_0" class="rubber" pos="" quat=""/>
+            <geom mesh="right_finger_tip_1" class="rubber" pos="" quat=""/>
+            <site name="right_robotiq_85_right_finger_tip_link" pos="0 0 0" quat="1.0 0 0 0"/>
+        </body>
         <site name="right_robotiq_85_right_inner_knuckle_link" pos="0 0 0" quat="1.0 0 0 0"/>
     </body>
 </right_robotiq_85>

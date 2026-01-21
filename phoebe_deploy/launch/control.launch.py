@@ -23,6 +23,8 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
+    Command,
+    FindExecutable,
     LaunchConfiguration,
     PathJoinSubstitution,
 )
@@ -30,6 +32,8 @@ from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.parameter_descriptions import ParameterFile
 from launch.conditions import IfCondition, UnlessCondition
+from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -177,6 +181,29 @@ def generate_launch_description():
     # controllers for moveit pro (must be spawned separately)
     controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
+    # blah, we need the robot description for the controller manager to launch admittance control :(
+    robot_description_content = Command(
+        [
+            PathJoinSubstitution([FindExecutable(name="xacro")]),
+            " ",
+            PathJoinSubstitution([FindPackageShare(robot_description_package), "urdf", robot_description_file]),
+            " ",
+            "ns:=",
+            ns,
+            " ",
+            "tf_prefix:=",
+            tf_prefix,
+            " ",
+            "use_fake_hardware:=",
+            use_fake_hardware,
+            " ",
+            "calibration_mode:=",
+            calibration_mode,
+            " ",
+        ]
+    )
+    robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}
+
     # start the controller manager node with all of the controller config files
     control_node = Node(
         package="controller_manager",
@@ -191,6 +218,7 @@ def generate_launch_description():
             ParameterFile(controllers_hande, allow_substs=True),
             ParameterFile(controllers_moveit_pro, allow_substs=True),
             {"use_sim_time": use_sim_time},
+            robot_description,
         ],
         remappings=[
             # remap to be able to use the global robot_description
@@ -218,6 +246,7 @@ def generate_launch_description():
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
             ParameterFile(controllers_moveit_pro, allow_substs=True),
+            robot_description,
             # for some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically
             {
                 "use_sim_time": use_sim_time,

@@ -1,0 +1,64 @@
+<mujoco model="cylinder_jig">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <mesh file="cylinder_jig.obj"/>
+    <mesh file="cylinder_jig_collision_0.obj"/>
+    <mesh file="cylinder_jig_collision_1.obj"/>
+    <mesh file="cylinder_jig_collision_2.obj"/>
+    <mesh file="cylinder_jig_collision_3.obj"/>
+    <mesh file="cylinder_jig_collision_4.obj"/>
+    <mesh file="cylinder_jig_collision_5.obj"/>
+    <mesh file="cylinder_jig_collision_6.obj"/>
+    <mesh file="cylinder_jig_collision_7.obj"/>
+    <mesh file="cylinder_jig_collision_8.obj"/>
+    <mesh file="cylinder_jig_collision_9.obj"/>
+    <mesh file="cylinder_jig_collision_10.obj"/>
+    <mesh file="cylinder_jig_collision_11.obj"/>
+    <mesh file="cylinder_jig_collision_12.obj"/>
+    <mesh file="cylinder_jig_collision_13.obj"/>
+    <mesh file="cylinder_jig_collision_14.obj"/>
+    <mesh file="cylinder_jig_collision_15.obj"/>
+    <mesh file="cylinder_jig_collision_16.obj"/>
+    <mesh file="cylinder_jig_collision_17.obj"/>
+    <mesh file="cylinder_jig_collision_18.obj"/>
+    <mesh file="cylinder_jig_collision_19.obj"/>
+    <mesh file="cylinder_jig_collision_20.obj"/>
+    <mesh file="cylinder_jig_collision_21.obj"/>
+    <mesh file="cylinder_jig_collision_22.obj"/>
+  </asset>
+  <worldbody>
+    <body name="cylinder_jig">
+      <geom mesh="cylinder_jig" class="visual"/>
+      <geom mesh="cylinder_jig_collision_0" rgba="0.8900706191757303 0.9713592020957457 0.5780404029665048 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_1" rgba="0.5545276775470052 0.47601813929328296 0.35862291685158143 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_2" rgba="0.13197806700948966 0.6471947445059179 0.7095739691734154 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_3" rgba="0.7327672247839327 0.06423444375100495 0.8043783305091261 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_4" rgba="0.2021803460953837 0.8744426278588913 0.3386706933649809 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_5" rgba="0.37872295514623133 0.6631442663595145 0.15468060498609038 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_6" rgba="0.6679580209979851 0.3060642452647271 0.20193549290426838 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_7" rgba="0.47177191206702973 0.6540724362279718 0.8740551402007518 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_8" rgba="0.5899446431026785 0.6311655960711683 0.027869920889558975 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_9" rgba="0.2591704408287576 0.6300630983154788 0.25980279876281087 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_10" rgba="0.6408079987631246 0.4613069677941516 0.8155322240665396 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_11" rgba="0.3962835623849993 0.19715408034338555 0.5191951688125966 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_12" rgba="0.13721703394572005 0.26619449837891695 0.7535914591211844 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_13" rgba="0.8013209941740281 0.623267868073114 0.5249186188051098 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_14" rgba="0.12000656712564839 0.24490833975705906 0.6437845642161399 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_15" rgba="0.6989912314637909 0.8834574961444431 0.2365143868062637 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_16" rgba="0.18990052529297574 0.5675369407151897 0.7895952869553159 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_17" rgba="0.40779119532224406 0.7556777891725958 0.49631518694962695 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_18" rgba="0.1863716966990977 0.5551044180319202 0.6785043125909683 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_19" rgba="0.048451371073279015 0.6758287766400523 0.4051556228153562 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_20" rgba="0.018782822474950556 0.15708435070778426 0.515621244371689 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_21" rgba="0.6460655150070409 0.42822465655561837 0.18481563322749284 1" class="collision"/>
+      <geom mesh="cylinder_jig_collision_22" rgba="0.7648716961996037 0.8822818672407353 0.1549012556710525 1" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

@@ -59,7 +59,7 @@ def generate_launch_description():
     )
 
     make_mjcf_from_robot_description = Node(
-        package="mujoco_ros2_simulation",
+        package="mujoco_ros2_control",
         executable="make_mjcf_from_robot_description.py",
         output="screen",
         arguments=[
@@ -69,6 +69,7 @@ def generate_launch_description():
             mujoco_inputs,
             "-c",  # convert stl to obj
             "-f",
+            "--save_only",
         ],
     )
 
