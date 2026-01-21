@@ -24,7 +24,6 @@ from launch.substitutions import (
     LaunchConfiguration,
 )
 from launch_ros.actions import Node
-from launch.conditions import UnlessCondition
 
 
 def generate_launch_description():
@@ -38,16 +37,8 @@ def generate_launch_description():
             description="Namespace for the hardware robot",
         )
     )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "is_sim",
-            default_value="false",
-            description="This is some kind of simulation environment",
-        )
-    )
 
     ns = LaunchConfiguration("ns")
-    is_sim = LaunchConfiguration("is_sim")
 
     nodes = []
 
@@ -74,13 +65,11 @@ def generate_launch_description():
             condition=condition,
         )
 
-    nodes.append(MakeControllerNode("right_io_and_status_controller", condition=UnlessCondition(is_sim)))
-    nodes.append(MakeControllerNode("right_force_torque_sensor_broadcaster"))
-    nodes.append(MakeControllerNode("right_ur_joint_trajectory_controller"))
-    nodes.append(MakeControllerNode("right_freedrive_mode_controller", active=False, condition=UnlessCondition(is_sim)))
-    nodes.append(MakeControllerNode("left_io_and_status_controller", condition=UnlessCondition(is_sim)))
-    nodes.append(MakeControllerNode("left_force_torque_sensor_broadcaster"))
-    nodes.append(MakeControllerNode("left_ur_joint_trajectory_controller"))
-    nodes.append(MakeControllerNode("left_freedrive_mode_controller", active=False, condition=UnlessCondition(is_sim)))
+    nodes.append(MakeControllerNode("left_admittance_controller", active=False))
+    nodes.append(MakeControllerNode("left_admittance_jtc", active=False))
+    nodes.append(MakeControllerNode("left_force_torque_sensor_broadcaster_admittance", active=False))
+    nodes.append(MakeControllerNode("right_admittance_controller", active=False))
+    nodes.append(MakeControllerNode("right_admittance_jtc", active=False))
+    nodes.append(MakeControllerNode("right_force_torque_sensor_broadcaster_admittance", active=False))
 
     return LaunchDescription(declared_arguments + nodes)
