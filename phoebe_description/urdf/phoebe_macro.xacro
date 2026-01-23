@@ -36,6 +36,22 @@
   <xacro:if value="${include_world_joints}">
     <link name="world"/>
 
+    <!-- For nav2 compatibility we affix map and odom to the world frame. -->
+    <!-- All odometry/world transforms are converted to joint states for the virtual joints manually. -->
+    <link name="map"/>
+    <joint name="world_to_map" type="fixed">
+      <parent link="world"/>
+      <child link="map"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="odom"/>
+    <joint name="map_to_odom" type="fixed">
+      <parent link="map"/>
+      <child link="odom"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
     <link name="virtual_rail_link_1"/>
 
     <joint name="linear_x_joint" type="prismatic">
