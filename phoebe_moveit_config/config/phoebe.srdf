@@ -19,12 +19,6 @@
         <xacro:property name="tip_link_name" value="grasp_frame"/>
     </xacro:unless>
 
-    <group name="left_push1">
-        <chain base_link="left_ur_arm_base_link" tip_link="left_push_frame_1" />
-    </group>
-    <group name="left_push2">
-        <chain base_link="left_ur_arm_base_link" tip_link="left_push_frame_2" />
-    </group>
     <group name="arms_only">
         <chain base_link="right_ur_arm_base_link" tip_link="right_${tip_link_name}"/>
         <chain base_link="left_ur_arm_base_link" tip_link="left_${tip_link_name}"/>
@@ -44,7 +38,8 @@
     </group>
     <xacro:unless value="$(arg calibration_mode)">
         <group name="left_hande">
-            <joint name="left_finger_1_joint"/>
+            <!-- <joint name="left_finger_1_joint"/> -->
+            <joint name="left_robotiq_85_left_knuckle_joint"/>
         </group>
         <group name="right_hande">
             <joint name="right_robotiq_85_left_knuckle_joint"/>
@@ -66,12 +61,21 @@
     </group>
 
     <group name="left_gripper">
-      <link name="left_gripper_base_link"/>
+      <!-- <link name="left_gripper_base_link"/>
       <link name="left_finger_1_link"/>
       <link name="left_finger_2_link"/>
       <link name="left_grasp_frame" />
       <joint name="left_finger_1_joint"/>
-      <passive_joint name="left_finger_2_joint"/>
+      <passive_joint name="left_finger_2_joint"/> -->
+      <joint name="left_robotiq_85_left_finger_tip_joint"/>
+      <joint name="left_robotiq_85_left_finger_joint"/>
+      <joint name="left_robotiq_85_left_inner_knuckle_joint"/>
+      <joint name="left_robotiq_85_left_knuckle_joint"/>
+      <joint name="left_robotiq_85_right_finger_tip_joint"/>
+      <joint name="left_robotiq_85_right_finger_joint"/>
+      <joint name="left_robotiq_85_right_inner_knuckle_joint"/>
+      <joint name="left_robotiq_85_right_knuckle_joint"/>
+      <link name="left_grasp_frame"/>
     </group>
 
     <group name="right_gripper">
@@ -138,11 +142,13 @@
     <!-- Grippers -->
     <xacro:unless value="$(arg calibration_mode)">
         <group_state group="left_hande" name="open">
-            <joint name="left_finger_1_joint" value="0.025"/>
+            <!-- <joint name="left_finger_1_joint" value="0.025"/> -->
+            <joint name="left_robotiq_85_left_knuckle_joint" value="0"/>
         </group_state>
 
         <group_state group="left_hande" name="close">
-            <joint name="left_finger_1_joint" value="0"/>
+            <!-- <joint name="left_finger_1_joint" value="0"/> -->
+            <joint name="left_robotiq_85_left_knuckle_joint" value="${radians(45)}"/>
         </group_state>
 
         <group_state group="right_hande" name="open">
@@ -921,6 +927,35 @@
     <disable_collisions link1="right_robotiq_85_left_inner_knuckle_link" link2="right_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_left_inner_knuckle_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
     <disable_collisions link1="right_robotiq_85_right_inner_knuckle_link" link2="right_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_hande_cb_adapter" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_right_finger_link" reason="Never"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_left_finger_tip_link" reason="Never"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_base_link" reason="Never"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_right_finger_tip_link" reason="Never"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_robotiq_85_left_finger_link" reason="Never"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="right_ur_realsense_mount" reason="Never"/>
+    <disable_collisions link1="left_robotiq_85_left_finger_link" link2="left_robotiq_85_left_finger_tip_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_finger_link" link2="left_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_finger_tip_link" link2="left_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_finger_tip_link" link2="left_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_finger_tip_link" link2="left_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_right_finger_link" link2="left_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_right_finger_link" link2="left_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_right_finger_tip_link" link2="left_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_finger_link" link2="left_robotiq_85_left_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_right_finger_link" link2="left_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_inner_knuckle_link" link2="left_robotiq_85_left_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_inner_knuckle_link" link2="left_robotiq_85_right_inner_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_inner_knuckle_link" link2="left_robotiq_85_right_finger_tip_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_left_inner_knuckle_link" link2="left_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_right_inner_knuckle_link" link2="left_robotiq_85_right_knuckle_link" reason="Adjacent"/>
+    <disable_collisions link1="left_mtc_effector_side" link2="left_robotiq_85_base_link" reason="Adjacent"/>
+    <disable_collisions link1="left_robotiq_85_base_link" link2="left_ur_realsense_mount" reason="Adjacent"/>
+
 
     <xacro:if value="$(arg calibration_mode)">
         <disable_collisions link1="front_shelf" link2="calibration_plate_target_side" reason="Adjacent"/>

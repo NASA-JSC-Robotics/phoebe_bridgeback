@@ -15,7 +15,7 @@
   right_robotiq_gripper_hande_controller:
     ros__parameters:
       default: true
-      goal_tolerance: 0.5
+      goal_tolerance: 0.6
       joint: $(var tf_prefix)right_robotiq_85_left_knuckle_joint
 
   right_robotiq_activation_controller:
@@ -26,7 +26,8 @@
   left_robotiq_gripper_hande_controller:
     ros__parameters:
       default: true
-      joint: $(var tf_prefix)left_finger_1_joint
+      goal_tolerance: 0.6
+      joint: $(var tf_prefix)left_robotiq_85_left_knuckle_joint
 
   left_robotiq_activation_controller:
     ros__parameters:

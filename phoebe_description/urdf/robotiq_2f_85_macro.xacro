@@ -59,7 +59,7 @@
     <!-- right gripper - 2F-85 -->
     <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
     <xacro:robotiq_gripper
-      com_port="${right_hande_com_port}"
+      com_port="${com_port}"
       use_fake_hardware="${use_fake_hardware}"
       name="${name}"
       prefix="${tf_prefix}"

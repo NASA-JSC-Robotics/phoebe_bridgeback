@@ -698,7 +698,7 @@
     </xacro:robotiq_2f_85>
 
     <!-- Left gripper - Hand-E -->
-    <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
+    <!-- <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
     <xacro:dextivr_hande
       com_port="${left_hande_com_port}"
       use_fake_hardware="${use_fake_hardware}"
@@ -709,7 +709,19 @@
       add_grasp_push_frames="${add_grasp_push_frames}"
       finger_xacro="fngr_original">
       <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
-    </xacro:dextivr_hande>
+    </xacro:dextivr_hande> -->
+
+    <!-- Left gripper - 2F-85 -->
+    <xacro:robotiq_2f_85
+      com_port="${left_hande_com_port}"
+      use_fake_hardware="${use_fake_hardware}"
+      name="${tf_prefix}left_dextivr_hande"
+      tf_prefix="${tf_prefix}left_"
+      parent="${tf_prefix}left_ur_realsense_mount"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
+      add_grasp_push_frames="${add_grasp_push_frames}">
+      <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
+    </xacro:robotiq_2f_85>
 
   </xacro:unless>
 
