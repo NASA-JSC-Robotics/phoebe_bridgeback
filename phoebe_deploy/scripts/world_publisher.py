@@ -20,7 +20,7 @@
 
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import TransformStamped, Transform
 from phoebe_interfaces.srv import SetWorld
 import tf2_ros
 
@@ -36,7 +36,7 @@ class WorldPublisher(Node):
         self.srv = self.create_service(SetWorld, "set_world", self.set_world_transform)
 
         # Timer to publish the transform repeatedly
-        self.rate_hz = 5  # TODO: Adjust as needed.
+        self.rate_hz = 10  # TODO: Adjust as needed.
         self.timer = self.create_timer(1 / self.rate_hz, self.publish_world_transform)
 
         # Initialization of stored transform, will not publish until this is initialized.
@@ -45,7 +45,7 @@ class WorldPublisher(Node):
     # Receive + store transform
     def set_world_transform(self, request, response):
         self.world_transform = request.transform
-        self.get_logger().info("Found world, updated transform")
+        self.get_logger().info("Found world, updated world to map transform")
         t = request.transform.translation
         r = request.transform.rotation
         self.get_logger().info(
@@ -66,20 +66,22 @@ class WorldPublisher(Node):
     def publish_world_transform(self):
         if self.world_transform is None:
             return
+        now = self.get_clock().now().to_msg()
 
-        t = TransformStamped()
-        t.header.stamp = self.get_clock().now().to_msg()
-        t.header.frame_id = "map"
-        t.child_frame_id = "world"
+        # Publish world → map
+        world_to_map_tf = TransformStamped()
+        world_to_map_tf.header.stamp = now
+        world_to_map_tf.header.frame_id = "world"
+        world_to_map_tf.child_frame_id = "map"
+        world_to_map_tf.transform = self.world_transform
 
-        t.transform = self.world_transform  # map to world tf
-        self.broadcaster.sendTransform(t)
+        self.broadcaster.sendTransform(world_to_map_tf)
 
 
 def main(args=None):
     rclpy.init(args=args)
     node = WorldPublisher()
-    print("Starting the world to map republisher...")
+    node.get_logger().info("World publisher started, waiting for localization...")
 
     try:
         rclpy.spin(node)
