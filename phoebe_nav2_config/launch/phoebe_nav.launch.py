@@ -50,8 +50,18 @@ def generate_launch_description():
             description="This is some kind of simulation environment",
         ),
     ]
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "publish_tf",
+            default_value="True",
+            description="Whether or not to publish tf from slam, defaults to False."
+                        "If False, users must manually handle map -> odom -> base_link transforms.",
+        )
+    )
+
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
+    publish_tf = LaunchConfiguration("publish_tf")
 
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
     rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
@@ -81,6 +91,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 "is_sim": use_sim_time,
+                "publish_tf": publish_tf,
             }.items(),
         ),
         Node(
