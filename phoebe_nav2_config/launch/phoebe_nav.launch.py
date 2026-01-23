@@ -27,7 +27,7 @@ from launch.substitutions import LaunchConfiguration
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 
 
 def generate_launch_description():
@@ -75,6 +75,17 @@ def generate_launch_description():
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
+            condition=IfCondition(publish_tf),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
+            ),
+            launch_arguments={
+                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"),
+                "use_sim_time": use_sim_time,
+            }.items(),
+            condition=UnlessCondition(publish_tf),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
