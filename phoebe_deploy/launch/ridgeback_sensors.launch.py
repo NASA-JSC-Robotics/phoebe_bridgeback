@@ -50,7 +50,7 @@ def generate_launch_description():
             "publish_tf",
             default_value="True",
             description="Whether or not to publish tf from slam, defaults to False."
-                        "If False, users must manually handle map -> odom -> base_link transforms.",
+            "If False, users must manually handle map -> odom -> base_link transforms.",
         )
     )
 

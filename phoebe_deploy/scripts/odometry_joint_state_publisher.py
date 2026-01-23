@@ -84,12 +84,8 @@ class OdometryJointStateRepublisher(Node):
         )
 
         # Subscriber and publisher
-        self.odom_sub = self.create_subscription(
-            Odometry, odom_topic, self.odom_callback, qos_profile_sub
-        )
-        self.joint_states_pub = self.create_publisher(
-            JointState, joint_states_topic, qos_profile_pub
-        )
+        self.odom_sub = self.create_subscription(Odometry, odom_topic, self.odom_callback, qos_profile_sub)
+        self.joint_states_pub = self.create_publisher(JointState, joint_states_topic, qos_profile_pub)
 
         # Timer for publishing
         timer_period = 1.0 / publish_rate_hz
