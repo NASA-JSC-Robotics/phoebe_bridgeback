@@ -119,7 +119,14 @@ def generate_launch_description():
             executable="world_publisher.py",
             name="world_publisher",
             parameters=[{"use_sim_time": use_sim_time}],
-            condition=IfCondition(publish_tf),
+        ),
+        # Launch the odom to joint state publisher if not using tf from sensors/slam
+        Node(
+            package="phoebe_deploy",
+            executable="odometry_joint_state_publisher.py",
+            name="odometry_joint_state_publisher",
+            parameters=[{"use_sim_time": use_sim_time}],
+            condition=UnlessCondition(publish_tf),
         ),
     ]
 
