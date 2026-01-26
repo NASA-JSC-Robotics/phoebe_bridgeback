@@ -45,9 +45,18 @@ def generate_launch_description():
             description="This is some kind of simulation environment",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "publish_tf",
+            default_value="True",
+            description="Whether or not to publish tf from slam, defaults to False."
+            "If False, users must manually handle map -> odom -> base_link transforms.",
+        )
+    )
 
     ns = LaunchConfiguration("ns")
     is_sim = LaunchConfiguration("is_sim")
+    publish_tf = LaunchConfiguration("publish_tf")
     default_ns = "ridgeback"
 
     # Include Packages
@@ -99,7 +108,10 @@ def generate_launch_description():
         output="screen",
         parameters=[
             config_localization,
-            {"use_sim_time": is_sim},
+            {
+                "use_sim_time": is_sim,
+                "publish_tf": publish_tf,
+            },
         ],
         remappings=[
             ("~/odometry/filtered", "platform/odom/filtered"),

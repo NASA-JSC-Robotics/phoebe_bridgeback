@@ -9,6 +9,7 @@
       tf_prefix:=''
       use_fake_hardware:='false'
       sim_ignition:='false'
+      include_world_joints:='false'
       calibration_mode:='false'
       left_ewellix_com_port:='/dev/ewellix_left'
       right_ewellix_com_port:='/dev/ewellix_right'
@@ -28,6 +29,56 @@
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
   <xacro:include filename="$(find phoebe_description)/urdf/r100/r100_macro.xacro" />
+
+  <!-- Conditionally attach the world to the base_link with a x, y, and yaw joints. -->
+  <!-- This is necessary for moveit pro integration and for whole body motion planning and execution. -->
+  <!-- However, as this is non-standard for other applications we do not want it by default. -->
+  <xacro:if value="${include_world_joints}">
+
+    <!-- For nav2 compatibility we affix map and odom to the world frame. -->
+    <!-- The map pose in the world frame must be set manually from the world publisher. -->
+    <!-- All odometry/world transforms are converted to joint states for the virtual joints manually. -->
+    <link name="map"/>
+
+    <link name="odom"/>
+    <joint name="map_to_odom" type="fixed">
+      <parent link="map"/>
+      <child link="odom"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="virtual_rail_link_1"/>
+
+    <!-- Connecting to odometry will enable the map -> world xform to be updated without distruption. -->
+    <joint name="linear_x_joint" type="prismatic">
+      <axis xyz="1 0 0"/>
+      <parent link="odom" />
+      <child link="virtual_rail_link_1" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <limit effort="1000.0" lower="-20.0" upper="20.0" velocity="0.175" acceleration="10.0"/>
+      <dynamics damping="20.0" friction="500.0" />
+    </joint>
+
+    <link name="virtual_rail_link_2"/>
+
+    <joint name="linear_y_joint" type="prismatic">
+      <axis xyz="0 1 0"/>
+      <parent link="virtual_rail_link_1" />
+      <child link="virtual_rail_link_2" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <limit effort="1000.0" lower="-5.0" upper="55.0" velocity="0.175" acceleration="10.0"/>
+      <dynamics damping="20.0" friction="500.0" />
+    </joint>
+
+    <joint name="rotational_yaw_joint" type="continuous">
+      <axis xyz="0 0 1"/>
+      <parent link="virtual_rail_link_2"/>
+      <child link="${tf_prefix}base_link"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <limit effort="150.0" velocity="0.5235987755982988"/>
+      <dynamics damping="0" friction="0"/>
+    </joint>
+  </xacro:if>
 
   <xacro:r100
       tf_prefix="${tf_prefix}"

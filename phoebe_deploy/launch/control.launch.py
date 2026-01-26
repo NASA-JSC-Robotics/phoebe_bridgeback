@@ -93,6 +93,14 @@ def generate_launch_description():
             "Must be in the 'urdf' folder of the description package.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame",
+            choices=["true", "false"],
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -102,6 +110,7 @@ def generate_launch_description():
     calibration_mode = LaunchConfiguration("calibration_mode")
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
+    include_world_joints = LaunchConfiguration("include_world_joints")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -112,6 +121,7 @@ def generate_launch_description():
         "robot_description_package": robot_description_package,
         "robot_description_file": robot_description_file,
         "is_sim": use_fake_hardware,
+        "include_world_joints": include_world_joints,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -137,11 +147,6 @@ def generate_launch_description():
     # lists to keep track of launch file names to start
     launch_file_names = []
     hardware_launch_file_names = []
-
-    # This is the "definitive" robot state publisher.
-    # This should be launched on whatever machine has the most resources, which
-    # along with whichever controller manager we think should com up first.
-    launch_file_names.append("robot_state_publisher.launch.py")
 
     # add controller spawners for each component
     launch_file_names.append("spawn_controllers.launch.py")
@@ -181,7 +186,8 @@ def generate_launch_description():
     # controllers for moveit pro (must be spawned separately)
     controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
-    # blah, we need the robot description for the controller manager to launch admittance control :(
+    # This is the main robot description for Phoebe.
+    # Unfortunately, we need the robot description for the controller manager to launch admittance controllers.
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -197,12 +203,30 @@ def generate_launch_description():
             "use_fake_hardware:=",
             use_fake_hardware,
             " ",
+            "include_world_joints:=",
+            include_world_joints,
+            " ",
             "calibration_mode:=",
             calibration_mode,
             " ",
         ]
     )
     robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}
+
+    # This is the "definitive" robot state publisher.
+    # This should be launched on whatever machine has the most resources, which
+    # along with whichever controller manager we think should com up first.
+    # Note that this is distinct from when running in transport only mode!
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        namespace=ns,
+        output="both",
+        parameters=[
+            robot_description,
+            {"use_sim_time": use_sim_time},
+        ],
+    )
 
     # start the controller manager node with all of the controller config files
     control_node = Node(
@@ -277,10 +301,13 @@ def generate_launch_description():
             "50",
             "ridgeback/platform/puma/cmd_throttle",
         ],
+        condition=UnlessCondition(use_fake_hardware),
     )
 
     ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)] + launch_files + [control_node, control_node_sim, node_puma_throttle]
+        actions=[PushRosNamespace(ns)]
+        + launch_files
+        + [robot_state_publisher_node, control_node, control_node_sim, node_puma_throttle]
     )
 
     return LaunchDescription(declared_arguments + [ns_action])

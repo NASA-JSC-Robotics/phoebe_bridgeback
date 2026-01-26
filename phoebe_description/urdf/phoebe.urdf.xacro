@@ -5,6 +5,7 @@
     <xacro:arg name="use_fake_hardware" default="false" />
     <xacro:arg name="sim_ignition" default="false" />
     <xacro:arg name="calibration_mode" default="false" />
+    <xacro:arg name="include_world_joints" default="false"/>
     <xacro:arg name="left_ewellix_com_port" default="/dev/ewellix_left" />
     <xacro:arg name="right_ewellix_com_port" default="/dev/ewellix_right" />
     <xacro:arg name="left_hande_com_port" default="/tmp/hande_left" />
@@ -27,6 +28,7 @@
         use_fake_hardware="$(arg use_fake_hardware)"
         sim_ignition="$(arg sim_ignition)"
         calibration_mode="$(arg calibration_mode)"
+        include_world_joints="$(arg include_world_joints)"
         left_ewellix_com_port="$(arg left_ewellix_com_port)"
         right_ewellix_com_port="$(arg right_ewellix_com_port)"
         left_hande_com_port="$(arg left_hande_com_port)"
