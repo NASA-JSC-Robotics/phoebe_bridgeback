@@ -4,7 +4,6 @@
       odom_frame: 'odom'
       base_link_frame: 'base_link'
       world_frame: 'odom'
-      publish_tf: True
       two_d_mode: True
       use_sim_time: False
       frequency: 50.0

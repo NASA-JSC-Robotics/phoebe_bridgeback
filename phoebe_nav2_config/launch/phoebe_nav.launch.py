@@ -27,7 +27,7 @@ from launch.substitutions import LaunchConfiguration
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 
 
 def generate_launch_description():
@@ -50,8 +50,18 @@ def generate_launch_description():
             description="This is some kind of simulation environment",
         ),
     ]
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "publish_tf",
+            default_value="True",
+            description="Whether or not to publish tf from slam, defaults to False."
+            "If False, users must manually handle map -> odom -> base_link transforms.",
+        )
+    )
+
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
+    publish_tf = LaunchConfiguration("publish_tf")
 
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
     rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
@@ -65,6 +75,17 @@ def generate_launch_description():
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
+            condition=IfCondition(publish_tf),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
+            ),
+            launch_arguments={
+                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"),
+                "use_sim_time": use_sim_time,
+            }.items(),
+            condition=UnlessCondition(publish_tf),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -81,6 +102,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 "is_sim": use_sim_time,
+                "publish_tf": publish_tf,
             }.items(),
         ),
         Node(
@@ -97,6 +119,14 @@ def generate_launch_description():
             executable="world_publisher.py",
             name="world_publisher",
             parameters=[{"use_sim_time": use_sim_time}],
+        ),
+        # Launch the odom to joint state publisher if not using tf from sensors/slam
+        Node(
+            package="phoebe_deploy",
+            executable="odometry_joint_state_publisher.py",
+            name="odometry_joint_state_publisher",
+            parameters=[{"use_sim_time": use_sim_time}],
+            condition=UnlessCondition(publish_tf),
         ),
     ]
 
