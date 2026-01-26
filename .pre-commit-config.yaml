@@ -82,5 +82,5 @@ repos:
     rev: v2.3.0
     hooks:
       - id: codespell
-        args: ['-L=hande']
-        exclude: \.(svg|stl|dae)$
+        exclude: \.(svg|stl|dae)
+        args: ["--ignore-words-list", "hande, Hart"]
