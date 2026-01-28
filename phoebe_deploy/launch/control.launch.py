@@ -222,7 +222,10 @@ def generate_launch_description():
         executable="robot_state_publisher",
         namespace=ns,
         output="both",
-        parameters=[robot_description],
+        parameters=[
+            robot_description,
+            {"use_sim_time": use_sim_time},
+        ],
     )
 
     # start the controller manager node with all of the controller config files
@@ -298,6 +301,7 @@ def generate_launch_description():
             "50",
             "ridgeback/platform/puma/cmd_throttle",
         ],
+        condition=UnlessCondition(use_fake_hardware),
     )
 
     ns_action = GroupAction(
