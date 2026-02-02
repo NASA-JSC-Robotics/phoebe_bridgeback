@@ -210,12 +210,12 @@
   </equality>
 
   <sensor>
-    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_ft_frame"/>
-    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_ft_frame"/>
+    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_tool0"/>
+    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_tool0"/>
   </sensor>
   <sensor>
-    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
-    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
+    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_tool0"/>
+    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_tool0"/>
   </sensor>
 
   <sensor>

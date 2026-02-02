@@ -672,12 +672,12 @@
     <joint name="right_upper_mimic_lower" joint1="right_ewellix_lift_lower_to_higher" joint2="right_middle_mimic_higher" polycoef="0 2 0 0 0"/>
   </equality>
   <sensor>
-    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_ft_frame"/>
-    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_ft_frame"/>
+    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_tool0"/>
+    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_tool0"/>
   </sensor>
   <sensor>
-    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
-    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
+    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_tool0"/>
+    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_tool0"/>
   </sensor>
   <sensor>
     <framequat name="imu_sensor_quat" objtype="site" objname="imu_0_link"/>
