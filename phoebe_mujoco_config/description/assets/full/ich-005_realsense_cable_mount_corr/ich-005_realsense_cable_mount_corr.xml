@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="new_mat_color.021" specular="0.5" shininess="0.36" rgba="0.100000 0.100000 0.100000 1.000000"/>
+    <material name="mtl_m30" specular="0.20000000000000004" shininess="1.0" rgba="0.10196078 0.10196078 0.10196078 1.0"/>
     <mesh file="ich-005_realsense_cable_mount_corr.obj"/>
   </asset>
   <worldbody>
     <body name="ich-005_realsense_cable_mount_corr">
-      <geom material="new_mat_color.021" mesh="ich-005_realsense_cable_mount_corr" class="visual"/>
+      <geom material="mtl_m30" mesh="ich-005_realsense_cable_mount_corr" class="visual"/>
       <geom mesh="ich-005_realsense_cable_mount_corr" class="collision"/>
     </body>
   </worldbody>

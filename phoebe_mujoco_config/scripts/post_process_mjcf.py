@@ -23,7 +23,7 @@ import shutil
 from ament_index_python.packages import get_package_share_directory
 
 
-def main(filepath):
+def main(filepath: str) -> None:
     filepath_full = filepath + "/mujoco_description_formatted.xml"
     # Load your XML document
     dom = minidom.parse(filepath_full)
@@ -92,26 +92,30 @@ def main(filepath):
             else:
                 elem.parentNode.removeChild(elem)
 
-    # replace the right hand with the custom modified xml that
-    # has working 2f-85 mechanism
-    include_element = dom.createElement("include")
-    include_element.setAttribute("file", "right_robotiq_85.xml")
+    def add_robotiq(prefix: str):
+        # replace the right hand with the custom modified xml that
+        # has working 2f-85 mechanism
+        include_element = dom.createElement("include")
+        include_element.setAttribute("file", f"{prefix}_robotiq_85.xml")
 
-    # Filter by attribute value containing a substring
-    first_time = True
-    for elem in body_elements:
-        if "right_robotiq_85" in elem.getAttribute("name"):
-            if first_time:
-                elem.parentNode.replaceChild(include_element, elem)
-                first_time = False
-            else:
-                elem.parentNode.removeChild(elem)
+        # Filter by attribute value containing a substring
+        first_time = True
+        for elem in body_elements:
+            if f"{prefix}_robotiq_85" in elem.getAttribute("name"):
+                if first_time:
+                    elem.parentNode.replaceChild(include_element, elem)
+                    first_time = False
+                else:
+                    elem.parentNode.removeChild(elem)
 
-    # copy in the robotiq_85 xml file into the main mujoco description directory
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml',
-        f"{filepath}",
-    )
+        # copy in the robotiq_85 xml file into the main mujoco description directory
+        shutil.copy2(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/{prefix}_robotiq_85.xml',
+            f"{filepath}",
+        )
+
+    add_robotiq("left")
+    add_robotiq("right")
 
     print(f"writing to {filepath_full}")
 

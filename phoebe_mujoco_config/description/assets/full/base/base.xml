@@ -8,15 +8,15 @@
     </default>
   </default>
   <asset>
-    <material name="Black" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
+    <material name="material_m21_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_m21_1" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
     <mesh file="base_0.obj"/>
     <mesh file="base_1.obj"/>
   </asset>
   <worldbody>
     <body name="base">
-      <geom mesh="base_0" material="Black" class="visual"/>
-      <geom mesh="base_1" material="JointGrey" class="visual"/>
+      <geom mesh="base_0" material="material_m21_1" class="visual"/>
+      <geom mesh="base_1" material="material_m21_0" class="visual"/>
       <geom mesh="base_0" class="collision"/>
       <geom mesh="base_1" class="collision"/>
     </body>

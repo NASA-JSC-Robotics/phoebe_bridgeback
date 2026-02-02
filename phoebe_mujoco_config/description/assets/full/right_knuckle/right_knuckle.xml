@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="grey.002" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m34_0" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="right_knuckle.obj"/>
   </asset>
   <worldbody>
     <body name="right_knuckle">
-      <geom material="grey.002" mesh="right_knuckle" class="visual"/>
+      <geom material="material_m34_0" mesh="right_knuckle" class="visual"/>
       <geom mesh="right_knuckle" class="collision"/>
     </body>
   </worldbody>

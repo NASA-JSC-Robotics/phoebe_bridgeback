@@ -1,149 +1,129 @@
 <?xml version="1.0" ?>
 <mujoco model="phoebe">
-  <compiler angle="radian" meshdir="assets/"/>
+  <compiler angle="radian" meshdir="assets/" texturedir="assets/"/>
   <asset>
     <mesh file="full/body/body.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m0" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/side-cover/side-cover.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.001" specular="0.5" shininess="0.36" rgba="0.800000 0.800000 0.000000 1.000000"/>
+    <material name="mtl_m1" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.00000000 1.0"/>
     <mesh file="full/end-cover/end-cover.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.002" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m2" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/lights/lights.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.003" specular="0.5" shininess="0.36" rgba="1.000000 1.000000 1.000000 1.000000"/>
+    <material name="mtl_m3" specular="0.20000000000000004" shininess="1.0" rgba="1.00000000 1.00000000 1.00000000 1.0"/>
     <mesh file="full/axle/axle.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.004" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m4" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/top/top.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.005" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m5" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/rocker/rocker.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.006" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m6" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/wheel/wheel.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.007" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m7" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/lift_rails/lift_rails.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.008" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m8" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/shelf/shelf.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.009" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m9" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/monitor_hinge_base/monitor_hinge_base.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.010" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m10" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/monitor_hinge_top/monitor_hinge_top.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.011" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m11" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/monitor/monitor.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.012" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m12" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/scu/scu.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.013" specular="0.5" shininess="0.36" rgba="0.500000 0.500000 0.500000 1.000000"/>
+    <material name="mtl_m13" specular="0.20000000000000004" shininess="1.0" rgba="0.50196078 0.50196078 0.50196078 1.0"/>
     <mesh file="full/autec_receiver/autec_receiver.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.014" specular="0.5" shininess="0.36" rgba="0.800000 0.800000 0.000000 1.000000"/>
+    <material name="mtl_m14" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.00000000 1.0"/>
     <mesh file="full/wifi_antenna/wifi_antenna.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.015" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m15" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/autec_antenna/autec_antenna.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.016" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m16" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/lift_low_500mm/lift_low_500mm.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.017" specular="0.5" shininess="0.36" rgba="0.850000 0.850000 0.850000 1.000000"/>
+    <material name="mtl_m17" specular="0.20000000000000004" shininess="1.0" rgba="0.85098039 0.85098039 0.85098039 1.0"/>
     <mesh file="full/lift_mid_500mm/lift_mid_500mm.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.018" specular="0.5" shininess="0.36" rgba="0.850000 0.850000 0.850000 1.000000"/>
+    <material name="mtl_m18" specular="0.20000000000000004" shininess="1.0" rgba="0.85098039 0.85098039 0.85098039 1.0"/>
     <mesh file="full/lift_high_500mm/lift_high_500mm.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.019" specular="0.5" shininess="0.36" rgba="0.850000 0.850000 0.850000 1.000000"/>
+    <material name="mtl_m19" specular="0.20000000000000004" shininess="1.0" rgba="0.85098039 0.85098039 0.85098039 1.0"/>
     <mesh file="full/arm_mount/arm_mount.obj" scale="1.0 1.0 1.0"/>
-    <material name="new_mat_color.020" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m20" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="full/base/base_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/base/base_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="Black" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
+    <material name="material_m21_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_m21_1" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
     <mesh file="full/shoulder/shoulder_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/shoulder/shoulder_1.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/shoulder/shoulder_2.obj" scale="1.0 1.0 1.0"/>
-    <material name="Black.001" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey.001" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
-    <material name="URBlue" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <material name="material_m22_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_m22_1" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m22_2" specular="0.20000000000000004" shininess="1.0" rgba="0.49019608 0.67843137 0.80000000 1.0"/>
     <mesh file="full/upperarm/upperarm_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/upperarm/upperarm_1.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/upperarm/upperarm_2.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/upperarm/upperarm_3.obj" scale="1.0 1.0 1.0"/>
-    <material name="Black.002" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey.002" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
-    <material name="LinkGrey" specular="0.5" shininess="0.25" rgba="0.820392 0.820392 0.820392 1.000000"/>
-    <material name="URBlue.001" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <material name="material_m23_0" specular="0.20000000000000004" shininess="1.0" rgba="0.49019608 0.67843137 0.80000000 1.0"/>
+    <material name="material_m23_1" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_m23_2" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m23_3" specular="0.20000000000000004" shininess="1.0" rgba="0.81960784 0.81960784 0.81960784 1.0"/>
     <mesh file="full/forearm/forearm_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/forearm/forearm_1.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/forearm/forearm_2.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/forearm/forearm_3.obj" scale="1.0 1.0 1.0"/>
-    <material name="Black.003" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey.003" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
-    <material name="LinkGrey.001" specular="0.5" shininess="0.25" rgba="0.820392 0.820392 0.820392 1.000000"/>
-    <material name="URBlue.002" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <material name="material_m24_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_m24_1" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m24_2" specular="0.20000000000000004" shininess="1.0" rgba="0.81960784 0.81960784 0.81960784 1.0"/>
+    <material name="material_m24_3" specular="0.20000000000000004" shininess="1.0" rgba="0.49019608 0.67843137 0.80000000 1.0"/>
     <mesh file="full/wrist1/wrist1_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/wrist1/wrist1_1.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/wrist1/wrist1_2.obj" scale="1.0 1.0 1.0"/>
-    <material name="Black.004" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey.004" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
-    <material name="URBlue.003" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <material name="material_m25_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_m25_1" specular="0.20000000000000004" shininess="1.0" rgba="0.49019608 0.67843137 0.80000000 1.0"/>
+    <material name="material_m25_2" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
     <mesh file="full/wrist2/wrist2_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/wrist2/wrist2_1.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/wrist2/wrist2_2.obj" scale="1.0 1.0 1.0"/>
-    <material name="Black.005" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey.005" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
-    <material name="URBlue.004" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <material name="material_m26_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_m26_1" specular="0.20000000000000004" shininess="1.0" rgba="0.49019608 0.67843137 0.80000000 1.0"/>
+    <material name="material_m26_2" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
     <mesh file="full/wrist3/wrist3.obj" scale="1.0 1.0 1.0"/>
-    <material name="LinkGrey.002" specular="0.5" shininess="0.25" rgba="0.820392 0.820392 0.820392 1.000000"/>
+    <material name="material_m27_0" specular="0.20000000000000004" shininess="1.0" rgba="0.81960784 0.81960784 0.81960784 1.0"/>
     <mesh file="full/mtc_robot_side/mtc_robot_side.obj" scale="1.0 1.0 1.0"/>
-    <material name="DEFAULT_MTL" specular="0.0" shininess="0.25" rgba="0.100000 0.100000 0.100000 1.000000"/>
+    <material name="material_m28_0" specular="0.20000000000000004" shininess="1.0" rgba="0.10196078 0.10196078 0.10196078 1.0"/>
     <mesh file="full/mtc_effector_side/mtc_effector_side.obj" scale="1.0 1.0 1.0"/>
-    <material name="DEFAULT_MTL.002" specular="0.0" shininess="0.25" rgba="0.100000 0.100000 0.100000 1.000000"/>
+    <material name="material_m29_0" specular="0.20000000000000004" shininess="1.0" rgba="0.10196078 0.10196078 0.10196078 1.0"/>
     <mesh file="full/ich-005_realsense_cable_mount_corr/ich-005_realsense_cable_mount_corr.obj" scale="0.0254 0.0254 0.0254"/>
-    <material name="new_mat_color.021" specular="0.5" shininess="0.36" rgba="0.100000 0.100000 0.100000 1.000000"/>
+    <material name="mtl_m30" specular="0.20000000000000004" shininess="1.0" rgba="0.10196078 0.10196078 0.10196078 1.0"/>
     <mesh file="full/robotiq_hande_cb_adapter/robotiq_hande_cb_adapter.obj" scale="1.0 1.0 1.0"/>
-    <material name="DEFAULT_MTL.001" specular="0.0" shininess="0.25" rgba="0.800000 0.800000 0.800000 1.000000"/>
+    <material name="material_m31_0" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="full/robotiq_base/robotiq_base_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/robotiq_base/robotiq_base_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="black" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m32_0" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m32_1" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="full/left_knuckle/left_knuckle.obj" scale="1.0 1.0 1.0"/>
-    <material name="grey.001" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m33_0" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="full/right_knuckle/right_knuckle.obj" scale="1.0 1.0 1.0"/>
-    <material name="grey.002" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m34_0" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="full/left_finger/left_finger_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/left_finger/left_finger_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="black.001" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey.003" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m35_0" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
+    <material name="material_m35_1" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
     <mesh file="full/right_finger/right_finger_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/right_finger/right_finger_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="black.002" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey.004" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m36_0" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
+    <material name="material_m36_1" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
     <mesh file="full/left_inner_knuckle/left_inner_knuckle_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/left_inner_knuckle/left_inner_knuckle_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="black.003" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey.005" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m37_0" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m37_1" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="full/right_inner_knuckle/right_inner_knuckle_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/right_inner_knuckle/right_inner_knuckle_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="black.004" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey.006" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m38_0" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m38_1" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="full/left_finger_tip/left_finger_tip_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/left_finger_tip/left_finger_tip_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="black.005" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey.007" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m39_0" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m39_1" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="full/right_finger_tip/right_finger_tip_0.obj" scale="1.0 1.0 1.0"/>
     <mesh file="full/right_finger_tip/right_finger_tip_1.obj" scale="1.0 1.0 1.0"/>
-    <material name="black.006" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey.008" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
-    <mesh file="full/hande/hande.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_0.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_1.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_2.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_3.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_4.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_5.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_6.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_7.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_8.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_9.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_10.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_11.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_12.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_13.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_14.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_15.obj" scale="0.001 0.001 0.001"/>
-    <mesh file="decomposed/finger_1/finger_1/finger_1_collision_16.obj" scale="0.001 0.001 0.001"/>
-    <material name="new_mat_color.023" specular="0.5" shininess="0.36" rgba="0.200000 0.200000 0.200000 1.000000"/>
+    <material name="material_m40_0" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m40_1" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="mecanum_wheel_22.stl" scale="0.001 0.001 0.001"/>
   </asset>
   <worldbody>
@@ -157,7 +137,7 @@
         <body name="left_ewellix_lift_middle_link" pos="0 0 -0.0303" gravcomp="1.0">
           <inertial pos="0 0 0" mass="5.4116" diaginertia="0.11963 0.11963 0.0330997"/>
           <joint name="left_middle_mimic_higher" pos="0 0 0" axis="0 0 -1" type="slide" range="0 0.25" actuatorfrcrange="-1000 1000"/>
-          <geom material="new_mat_color.018" mesh="lift_mid_500mm" class="visual" pos="" quat=""/>
+          <geom material="mtl_m18" mesh="lift_mid_500mm" class="visual" pos="" quat=""/>
           <geom mesh="lift_mid_500mm" class="collision" pos="" quat=""/>
           <site name="left_ewellix_lift_middle_link" pos="0 0 0" quat="1.0 0 0 0"/>
         </body>
@@ -177,66 +157,23 @@
                   <inertial pos="0 0.01634 -0.0018" quat="0.996652 -0.0779336 -0.00684629 -0.0237381" mass="1.3" diaginertia="0.00135637 0.00128607 0.00095814"/>
                   <joint name="left_ur_arm_wrist_2_joint" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" actuatorfrcrange="-28 28"/>
                   <body name="left_ur_arm_wrist_3_link" pos="0.000106733 0.0996158 1.94962e-05" quat="-0.707176 0.707038 1.93623e-08 -1.93661e-08" gravcomp="1.0">
-                    <inertial pos="0.000839754 -0.00316796 0.065463" quat="0.724907 0.688778 0.0074684 0.00631936" mass="1.31087" diaginertia="0.00765268 0.0049038 0.00405629"/>
+                    <inertial pos="0.00114641 -0.00368009 0.0522612" quat="0.724654 0.68899 0.0129479 0.000803289" mass="1.1102" diaginertia="0.00642542 0.00480832 0.00288861"/>
                     <joint name="left_ur_arm_wrist_3_joint" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" actuatorfrcrange="-28 28"/>
-                    <body name="left_finger_1_link" pos="0.025 0 0.146" quat="0 0 0 -1" gravcomp="1.0">
-                      <inertial pos="-0.02262 0.00759 0.00738" quat="0.871952 -0.0369732 0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
-                      <joint name="left_finger_1_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130" armature="0.5" frictionloss="5.0"/>
-                      <geom material="new_mat_color.023" mesh="finger_1" class="visual" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_0" rgba="0.6192047630789531 0.1798918860970241 0.46550270600231103 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_1" rgba="0.12548365616742707 0.4169879407812068 0.8585330674162476 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_2" rgba="0.806695151239711 0.6061582569055793 0.5573540208917612 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_3" rgba="0.9021169227140297 0.34797352451207053 0.153678531670561 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_4" rgba="0.5747037224061728 0.5988889964500744 0.1780531864767687 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_5" rgba="0.2844263535166681 0.513154014665106 0.3793950563639128 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_6" rgba="0.7726362864107219 0.6557060287327873 0.9502766382495667 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_7" rgba="0.6891504131999012 0.7058251723550518 0.16484593727198882 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_8" rgba="0.5208349110326382 0.09604916736057512 0.41612276471266785 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_9" rgba="0.1575959363400693 0.4535280718052722 0.6933041383431137 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_10" rgba="0.34607649156470666 0.43208351741759055 0.530630566672801 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_11" rgba="0.9031459156325523 0.16706224274308235 0.7091216457391037 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_12" rgba="0.3524576776707232 0.7130403627684129 0.7643501848831463 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_13" rgba="0.9685724052951808 0.7685867408407155 0.7322061148634995 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_14" rgba="0.5418333356031758 0.15615553983515318 0.9739771886676672 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_15" rgba="0.9191326130380535 0.003683522075901835 0.612881567843329 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_16" rgba="0.9315763514513771 0.9653204450174085 0.7169485104081637 1" class="collision" pos="" quat=""/>
-                      <site name="left_finger_1_link" pos="0 0 0" quat="1.0 0 0 0"/>
-                    </body>
-                    <body name="left_finger_2_link" pos="-0.025 0 0.146" quat="-1 0 0 0" gravcomp="1.0">
-                      <inertial pos="0.02262 -0.00759 0.00738" quat="0.871952 0.0369732 -0.211073 0.440205" mass="0.03804" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
-                      <joint name="left_finger_2_joint" pos="0 0 0" axis="1 0 0" type="slide" range="0 0.025" actuatorfrcrange="-130 130" armature="0.5" frictionloss="5.0"/>
-                      <geom material="new_mat_color.023" mesh="finger_1" class="visual" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_0" rgba="0.6192047630789531 0.1798918860970241 0.46550270600231103 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_1" rgba="0.12548365616742707 0.4169879407812068 0.8585330674162476 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_2" rgba="0.806695151239711 0.6061582569055793 0.5573540208917612 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_3" rgba="0.9021169227140297 0.34797352451207053 0.153678531670561 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_4" rgba="0.5747037224061728 0.5988889964500744 0.1780531864767687 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_5" rgba="0.2844263535166681 0.513154014665106 0.3793950563639128 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_6" rgba="0.7726362864107219 0.6557060287327873 0.9502766382495667 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_7" rgba="0.6891504131999012 0.7058251723550518 0.16484593727198882 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_8" rgba="0.5208349110326382 0.09604916736057512 0.41612276471266785 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_9" rgba="0.1575959363400693 0.4535280718052722 0.6933041383431137 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_10" rgba="0.34607649156470666 0.43208351741759055 0.530630566672801 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_11" rgba="0.9031459156325523 0.16706224274308235 0.7091216457391037 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_12" rgba="0.3524576776707232 0.7130403627684129 0.7643501848831463 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_13" rgba="0.9685724052951808 0.7685867408407155 0.7322061148634995 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_14" rgba="0.5418333356031758 0.15615553983515318 0.9739771886676672 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_15" rgba="0.9191326130380535 0.003683522075901835 0.612881567843329 1" class="collision" pos="" quat=""/>
-                      <geom mesh="finger_1_collision_16" rgba="0.9315763514513771 0.9653204450174085 0.7169485104081637 1" class="collision" pos="" quat=""/>
-                      <site name="left_finger_2_link" pos="0 0 0" quat="1.0 0 0 0"/>
-                    </body>
-                    <geom material="LinkGrey.002" mesh="wrist3" class="visual" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
+                    <include file="left_robotiq_85.xml"/>
+                    <geom material="material_m27_0" mesh="wrist3" class="visual" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
                     <geom mesh="wrist3" class="collision" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
-                    <geom material="DEFAULT_MTL" mesh="mtc_robot_side" class="visual" pos="" quat="0 0 0 1"/>
+                    <geom material="material_m28_0" mesh="mtc_robot_side" class="visual" pos="" quat="0 0 0 1"/>
                     <geom mesh="mtc_robot_side" class="collision" pos="" quat="0 0 0 1"/>
-                    <geom material="DEFAULT_MTL.002" mesh="mtc_effector_side" class="visual" pos="0 0 0.009" quat="0 0 0 1"/>
+                    <geom material="material_m29_0" mesh="mtc_effector_side" class="visual" pos="0 0 0.009" quat="0 0 0 1"/>
                     <geom mesh="mtc_effector_side" class="collision" pos="0 0 0.009" quat="0 0 0 1"/>
-                    <geom material="new_mat_color.021" mesh="ich-005_realsense_cable_mount_corr" class="visual" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
+                    <geom material="mtl_m30" mesh="ich-005_realsense_cable_mount_corr" class="visual" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
                     <geom mesh="ich-005_realsense_cable_mount_corr" class="collision" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
-                    <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.036" quat="-1 0 0 0"/>
+                    <geom material="material_m31_0" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.036" quat="-1 0 0 0"/>
                     <geom mesh="robotiq_hande_cb_adapter" class="collision" pos="0 0 0.036" quat="-1 0 0 0"/>
-                    <geom mesh="hande" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
-                    <geom mesh="hande" class="collision" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_base_0" material="material_m32_1" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_base_1" material="material_m32_0" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_base_0" class="collision" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_base_1" class="collision" pos="0 0 0.047" quat="-1 0 0 0"/>
                     <geom size="0.012525 0.045 0.0125" pos="0.000178732 0.0759414 0.0578834" quat="-0.53321 0.471099 0.468121 0.524037" type="box" class="collision"/>
                     <geom size="0.012525 0.045 0.0125" pos="0.000178732 0.0759414 0.0578834" quat="-0.53321 0.471099 0.468121 0.524037" type="box" class="visual"/>
                     <site name="left_ur_arm_wrist_3_link" pos="0 0 0" quat="1.0 0 0 0"/>
@@ -257,60 +194,60 @@
                     <site name="left_wrist_mounted_camera_color_frame" pos="0.03267570906723376 0.07616572346837758 0.05750107409750563" quat="0.5332101511675295 -0.4710992667519285 -0.46812105206923166 -0.5240373041752767"/>
                     <site name="left_wrist_mounted_camera_color_optical_frame" pos="0.03267570906723376 0.07616572346837758 0.05750107409750563" quat="-0.00309731615477802 0.006075530837474827 -0.05901356826082302 0.9982338870819831"/>
                     <site name="left_robotiq_hande_cb_adapter" pos="0 0 0.036" quat="1.0 0 0 0"/>
-                    <site name="left_gripper_base_link" pos="0 0 0.047" quat="1.0 0 0 0"/>
-                    <site name="left_gripper_palm_link" pos="0 0 0.1458" quat="1.0 0 0 0"/>
+                    <site name="left_robotiq_85_base_link" pos="0 0 0.047" quat="1.0 0 0 0"/>
+                    <site name="left_grasp_frame" pos="0 0 0.17700000000000002" quat="1.0 0 0 0"/>
                     <camera name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720" pos="0.03267570906723376 0.07616572346837758 0.05750107409750563" quat="-0.006075530837474827 -0.00309731615477802 0.9982338870819831 0.05901356826082302"/>
                   </body>
-                  <geom mesh="wrist2_0" material="Black.005" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
-                  <geom mesh="wrist2_1" material="URBlue.004" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
-                  <geom mesh="wrist2_2" material="JointGrey.005" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
+                  <geom mesh="wrist2_0" material="material_m26_2" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
+                  <geom mesh="wrist2_1" material="material_m26_1" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
+                  <geom mesh="wrist2_2" material="material_m26_0" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_0" class="collision" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_1" class="collision" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_2" class="collision" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <site name="left_ur_arm_wrist_2_link" pos="0 0 0" quat="1.0 0 0 0"/>
                 </body>
-                <geom mesh="wrist1_0" material="Black.004" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
-                <geom mesh="wrist1_1" material="URBlue.003" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
-                <geom mesh="wrist1_2" material="JointGrey.004" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
+                <geom mesh="wrist1_0" material="material_m25_2" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
+                <geom mesh="wrist1_1" material="material_m25_1" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
+                <geom mesh="wrist1_2" material="material_m25_0" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <geom mesh="wrist1_0" class="collision" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <geom mesh="wrist1_1" class="collision" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <geom mesh="wrist1_2" class="collision" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <site name="left_ur_arm_wrist_1_link" pos="0 0 0" quat="1.0 0 0 0"/>
               </body>
-              <geom mesh="forearm_0" material="URBlue.002" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
-              <geom mesh="forearm_1" material="LinkGrey.001" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
-              <geom mesh="forearm_2" material="Black.003" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
-              <geom mesh="forearm_3" material="JointGrey.003" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_0" material="material_m24_3" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_1" material="material_m24_2" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_2" material="material_m24_1" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_3" material="material_m24_0" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_0" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_1" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_2" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_3" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <site name="left_ur_arm_forearm_link" pos="0 0 0" quat="1.0 0 0 0"/>
             </body>
-            <geom mesh="upperarm_0" material="LinkGrey" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
-            <geom mesh="upperarm_1" material="Black.002" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
-            <geom mesh="upperarm_2" material="JointGrey.002" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
-            <geom mesh="upperarm_3" material="URBlue.001" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_0" material="material_m23_3" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_1" material="material_m23_2" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_2" material="material_m23_1" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_3" material="material_m23_0" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_0" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_1" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_2" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_3" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <site name="left_ur_arm_upper_arm_link" pos="0 0 0" quat="1.0 0 0 0"/>
           </body>
-          <geom mesh="shoulder_0" material="URBlue" class="visual" pos="" quat="0 0 0 1"/>
-          <geom mesh="shoulder_1" material="Black.001" class="visual" pos="" quat="0 0 0 1"/>
-          <geom mesh="shoulder_2" material="JointGrey.001" class="visual" pos="" quat="0 0 0 1"/>
+          <geom mesh="shoulder_0" material="material_m22_2" class="visual" pos="" quat="0 0 0 1"/>
+          <geom mesh="shoulder_1" material="material_m22_1" class="visual" pos="" quat="0 0 0 1"/>
+          <geom mesh="shoulder_2" material="material_m22_0" class="visual" pos="" quat="0 0 0 1"/>
           <geom mesh="shoulder_0" class="collision" pos="" quat="0 0 0 1"/>
           <geom mesh="shoulder_1" class="collision" pos="" quat="0 0 0 1"/>
           <geom mesh="shoulder_2" class="collision" pos="" quat="0 0 0 1"/>
           <site name="left_ur_arm_shoulder_link" pos="0 0 0" quat="1.0 0 0 0"/>
         </body>
-        <geom material="new_mat_color.019" mesh="lift_high_500mm" class="visual" pos="" quat=""/>
+        <geom material="mtl_m19" mesh="lift_high_500mm" class="visual" pos="" quat=""/>
         <geom mesh="lift_high_500mm" class="collision" pos="" quat=""/>
-        <geom material="new_mat_color.020" mesh="arm_mount" class="visual" pos="0 0 0.245" quat="1 0 0 0"/>
+        <geom material="mtl_m20" mesh="arm_mount" class="visual" pos="0 0 0.245" quat="1 0 0 0"/>
         <geom mesh="arm_mount" class="collision" pos="0 0 0.245" quat="1 0 0 0"/>
-        <geom mesh="base_0" material="Black" class="visual" pos="0.00991665 0.0112464 0.346581" quat="-0.856843 0.350748 0.134633 0.353087"/>
-        <geom mesh="base_1" material="JointGrey" class="visual" pos="0.00991665 0.0112464 0.346581" quat="-0.856843 0.350748 0.134633 0.353087"/>
+        <geom mesh="base_0" material="material_m21_1" class="visual" pos="0.00991665 0.0112464 0.346581" quat="-0.856843 0.350748 0.134633 0.353087"/>
+        <geom mesh="base_1" material="material_m21_0" class="visual" pos="0.00991665 0.0112464 0.346581" quat="-0.856843 0.350748 0.134633 0.353087"/>
         <geom mesh="base_0" class="collision" pos="0.00991665 0.0112464 0.346581" quat="-0.856843 0.350748 0.134633 0.353087"/>
         <geom mesh="base_1" class="collision" pos="0.00991665 0.0112464 0.346581" quat="-0.856843 0.350748 0.134633 0.353087"/>
         <site name="left_ewellix_lift_higher_link" pos="0 0 0" quat="1.0 0 0 0"/>
@@ -328,7 +265,7 @@
         <body name="right_ewellix_lift_middle_link" pos="0 0 -0.0303" gravcomp="1.0">
           <inertial pos="0 0 0" mass="5.4116" diaginertia="0.11963 0.11963 0.0330997"/>
           <joint name="right_middle_mimic_higher" pos="0 0 0" axis="0 0 -1" type="slide" range="0 0.25" actuatorfrcrange="-1000 1000"/>
-          <geom material="new_mat_color.018" mesh="lift_mid_500mm" class="visual" pos="" quat=""/>
+          <geom material="mtl_m18" mesh="lift_mid_500mm" class="visual" pos="" quat=""/>
           <geom mesh="lift_mid_500mm" class="collision" pos="" quat=""/>
           <site name="right_ewellix_lift_middle_link" pos="0 0 0" quat="1.0 0 0 0"/>
         </body>
@@ -351,18 +288,18 @@
                     <inertial pos="0.000959276 -0.00363967 0.0520803" quat="0.722472 0.691323 0.0102476 0.00114071" mass="1.1102" diaginertia="0.00641092 0.00479627 0.00287483"/>
                     <joint name="right_ur_arm_wrist_3_joint" pos="0 0 0" axis="0 0 1" range="-6.28319 6.28319" actuatorfrcrange="-28 28"/>
                     <include file="right_robotiq_85.xml"/>
-                    <geom material="LinkGrey.002" mesh="wrist3" class="visual" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
+                    <geom material="material_m27_0" mesh="wrist3" class="visual" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
                     <geom mesh="wrist3" class="collision" pos="0 0 -0.0989" quat="0.707107 0.707107 0 0"/>
-                    <geom material="DEFAULT_MTL" mesh="mtc_robot_side" class="visual" pos="" quat="0 0 0 1"/>
+                    <geom material="material_m28_0" mesh="mtc_robot_side" class="visual" pos="" quat="0 0 0 1"/>
                     <geom mesh="mtc_robot_side" class="collision" pos="" quat="0 0 0 1"/>
-                    <geom material="DEFAULT_MTL.002" mesh="mtc_effector_side" class="visual" pos="0 0 0.009" quat="0 0 0 1"/>
+                    <geom material="material_m29_0" mesh="mtc_effector_side" class="visual" pos="0 0 0.009" quat="0 0 0 1"/>
                     <geom mesh="mtc_effector_side" class="collision" pos="0 0 0.009" quat="0 0 0 1"/>
-                    <geom material="new_mat_color.021" mesh="ich-005_realsense_cable_mount_corr" class="visual" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
+                    <geom material="mtl_m30" mesh="ich-005_realsense_cable_mount_corr" class="visual" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
                     <geom mesh="ich-005_realsense_cable_mount_corr" class="collision" pos="0 0 0.033" quat="-0.707107 0 0 0.707107"/>
-                    <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.036" quat="-1 0 0 0"/>
+                    <geom material="material_m31_0" mesh="robotiq_hande_cb_adapter" class="visual" pos="0 0 0.036" quat="-1 0 0 0"/>
                     <geom mesh="robotiq_hande_cb_adapter" class="collision" pos="0 0 0.036" quat="-1 0 0 0"/>
-                    <geom mesh="robotiq_base_0" material="grey" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
-                    <geom mesh="robotiq_base_1" material="black" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_base_0" material="material_m32_1" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
+                    <geom mesh="robotiq_base_1" material="material_m32_0" class="visual" pos="0 0 0.047" quat="-1 0 0 0"/>
                     <geom mesh="robotiq_base_0" class="collision" pos="0 0 0.047" quat="-1 0 0 0"/>
                     <geom mesh="robotiq_base_1" class="collision" pos="0 0 0.047" quat="-1 0 0 0"/>
                     <geom size="0.012525 0.045 0.0125" pos="-0.00270487 0.0729183 0.0570653" quat="-0.53474 0.464316 0.473489 0.523709" type="box" class="collision"/>
@@ -389,56 +326,56 @@
                     <site name="right_grasp_frame" pos="0 0 0.17700000000000002" quat="1.0 0 0 0"/>
                     <camera name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720" pos="0.029788436972984143 0.07357733908134348 0.05704462531013564" quat="-0.0009289437419023142 -0.010102093430093039 0.9981273832709996 0.06032256241607385"/>
                   </body>
-                  <geom mesh="wrist2_0" material="Black.005" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
-                  <geom mesh="wrist2_1" material="URBlue.004" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
-                  <geom mesh="wrist2_2" material="JointGrey.005" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
+                  <geom mesh="wrist2_0" material="material_m26_2" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
+                  <geom mesh="wrist2_1" material="material_m26_1" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
+                  <geom mesh="wrist2_2" material="material_m26_0" class="visual" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_0" class="collision" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_1" class="collision" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <geom mesh="wrist2_2" class="collision" pos="0 0 -0.0997" quat="1 0 0 0"/>
                   <site name="right_ur_arm_wrist_2_link" pos="0 0 0" quat="1.0 0 0 0"/>
                 </body>
-                <geom mesh="wrist1_0" material="Black.004" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
-                <geom mesh="wrist1_1" material="URBlue.003" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
-                <geom mesh="wrist1_2" material="JointGrey.004" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
+                <geom mesh="wrist1_0" material="material_m25_2" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
+                <geom mesh="wrist1_1" material="material_m25_1" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
+                <geom mesh="wrist1_2" material="material_m25_0" class="visual" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <geom mesh="wrist1_0" class="collision" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <geom mesh="wrist1_1" class="collision" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <geom mesh="wrist1_2" class="collision" pos="0 0 -0.127" quat="0.707107 0.707107 0 0"/>
                 <site name="right_ur_arm_wrist_1_link" pos="0 0 0" quat="1.0 0 0 0"/>
               </body>
-              <geom mesh="forearm_0" material="URBlue.002" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
-              <geom mesh="forearm_1" material="LinkGrey.001" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
-              <geom mesh="forearm_2" material="Black.003" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
-              <geom mesh="forearm_3" material="JointGrey.003" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_0" material="material_m24_3" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_1" material="material_m24_2" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_2" material="material_m24_1" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
+              <geom mesh="forearm_3" material="material_m24_0" class="visual" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_0" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_1" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_2" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <geom mesh="forearm_3" class="collision" pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5"/>
               <site name="right_ur_arm_forearm_link" pos="0 0 0" quat="1.0 0 0 0"/>
             </body>
-            <geom mesh="upperarm_0" material="LinkGrey" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
-            <geom mesh="upperarm_1" material="Black.002" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
-            <geom mesh="upperarm_2" material="JointGrey.002" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
-            <geom mesh="upperarm_3" material="URBlue.001" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_0" material="material_m23_3" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_1" material="material_m23_2" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_2" material="material_m23_1" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
+            <geom mesh="upperarm_3" material="material_m23_0" class="visual" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_0" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_1" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_2" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <geom mesh="upperarm_3" class="collision" pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5"/>
             <site name="right_ur_arm_upper_arm_link" pos="0 0 0" quat="1.0 0 0 0"/>
           </body>
-          <geom mesh="shoulder_0" material="URBlue" class="visual" pos="" quat="0 0 0 1"/>
-          <geom mesh="shoulder_1" material="Black.001" class="visual" pos="" quat="0 0 0 1"/>
-          <geom mesh="shoulder_2" material="JointGrey.001" class="visual" pos="" quat="0 0 0 1"/>
+          <geom mesh="shoulder_0" material="material_m22_2" class="visual" pos="" quat="0 0 0 1"/>
+          <geom mesh="shoulder_1" material="material_m22_1" class="visual" pos="" quat="0 0 0 1"/>
+          <geom mesh="shoulder_2" material="material_m22_0" class="visual" pos="" quat="0 0 0 1"/>
           <geom mesh="shoulder_0" class="collision" pos="" quat="0 0 0 1"/>
           <geom mesh="shoulder_1" class="collision" pos="" quat="0 0 0 1"/>
           <geom mesh="shoulder_2" class="collision" pos="" quat="0 0 0 1"/>
           <site name="right_ur_arm_shoulder_link" pos="0 0 0" quat="1.0 0 0 0"/>
         </body>
-        <geom material="new_mat_color.019" mesh="lift_high_500mm" class="visual" pos="" quat=""/>
+        <geom material="mtl_m19" mesh="lift_high_500mm" class="visual" pos="" quat=""/>
         <geom mesh="lift_high_500mm" class="collision" pos="" quat=""/>
-        <geom material="new_mat_color.020" mesh="arm_mount" class="visual" pos="0 0 0.245" quat="0 0 0 1"/>
+        <geom material="mtl_m20" mesh="arm_mount" class="visual" pos="0 0 0.245" quat="0 0 0 1"/>
         <geom mesh="arm_mount" class="collision" pos="0 0 0.245" quat="0 0 0 1"/>
-        <geom mesh="base_0" material="Black" class="visual" pos="0.0114708 -0.0148729 0.345116" quat="-0.348645 -0.131976 -0.353915 0.857772"/>
-        <geom mesh="base_1" material="JointGrey" class="visual" pos="0.0114708 -0.0148729 0.345116" quat="-0.348645 -0.131976 -0.353915 0.857772"/>
+        <geom mesh="base_0" material="material_m21_1" class="visual" pos="0.0114708 -0.0148729 0.345116" quat="-0.348645 -0.131976 -0.353915 0.857772"/>
+        <geom mesh="base_1" material="material_m21_0" class="visual" pos="0.0114708 -0.0148729 0.345116" quat="-0.348645 -0.131976 -0.353915 0.857772"/>
         <geom mesh="base_0" class="collision" pos="0.0114708 -0.0148729 0.345116" quat="-0.348645 -0.131976 -0.353915 0.857772"/>
         <geom mesh="base_1" class="collision" pos="0.0114708 -0.0148729 0.345116" quat="-0.348645 -0.131976 -0.353915 0.857772"/>
         <site name="right_ewellix_lift_higher_link" pos="0 0 0" quat="1.0 0 0 0"/>
@@ -450,57 +387,57 @@
         <site name="right_ur_arm_base_link_inertia" pos="0.011470773314534262 -0.014872936032459481 0.34511613244814854" quat="0.857772310228425 0.35391477532901494 -0.1319758414715612 0.3486450528504269"/>
         <site name="right_ur_arm_base" pos="0.011470773314534262 -0.014872936032459481 0.34511613244814854" quat="0.857772310228425 0.35391477532901494 -0.1319758414715612 0.3486450528504269"/>
       </body>
-      <geom material="new_mat_color" mesh="body" class="visual" pos="" quat=""/>
+      <geom material="mtl_m0" mesh="body" class="visual" pos="" quat=""/>
       <geom mesh="body" class="collision" pos="" quat=""/>
-      <geom material="new_mat_color.001" mesh="side-cover" class="visual" pos="" quat=""/>
+      <geom material="mtl_m1" mesh="side-cover" class="visual" pos="" quat=""/>
       <geom mesh="side-cover" class="collision" pos="" quat=""/>
-      <geom material="new_mat_color.001" mesh="side-cover" class="visual" pos="0 0 0" quat="0 0 0 1"/>
+      <geom material="mtl_m1" mesh="side-cover" class="visual" pos="0 0 0" quat="0 0 0 1"/>
       <geom mesh="side-cover" class="collision" pos="0 0 0" quat="0 0 0 1"/>
-      <geom material="new_mat_color.002" mesh="end-cover" class="visual" pos="" quat=""/>
+      <geom material="mtl_m2" mesh="end-cover" class="visual" pos="" quat=""/>
       <geom mesh="end-cover" class="collision" pos="" quat=""/>
-      <geom material="new_mat_color.002" mesh="end-cover" class="visual" pos="0 0 0" quat="0 0 0 1"/>
+      <geom material="mtl_m2" mesh="end-cover" class="visual" pos="0 0 0" quat="0 0 0 1"/>
       <geom mesh="end-cover" class="collision" pos="0 0 0" quat="0 0 0 1"/>
-      <geom material="new_mat_color.003" mesh="lights" class="visual" pos="" quat=""/>
+      <geom material="mtl_m3" mesh="lights" class="visual" pos="" quat=""/>
       <geom mesh="lights" class="collision" pos="" quat=""/>
-      <geom material="new_mat_color.003" mesh="lights" class="visual" pos="0 0 0" quat="0 0 0 1"/>
+      <geom material="mtl_m3" mesh="lights" class="visual" pos="0 0 0" quat="0 0 0 1"/>
       <geom mesh="lights" class="collision" pos="0 0 0" quat="0 0 0 1"/>
-      <geom material="new_mat_color.004" mesh="axle" class="visual" pos="0 0 0.05" quat="0.707107 0 0.707107 0"/>
+      <geom material="mtl_m4" mesh="axle" class="visual" pos="0 0 0.05" quat="0.707107 0 0.707107 0"/>
       <geom mesh="axle" class="collision" pos="0 0 0.05" quat="0.707107 0 0.707107 0"/>
-      <geom material="new_mat_color.005" mesh="top" class="visual" pos="" quat=""/>
+      <geom material="mtl_m5" mesh="top" class="visual" pos="" quat=""/>
       <geom mesh="top" class="collision" pos="" quat=""/>
-      <geom material="new_mat_color.006" mesh="rocker" class="visual" pos="0.319 0 0.05" quat="0.5 0.5 0.5 0.5"/>
+      <geom material="mtl_m6" mesh="rocker" class="visual" pos="0.319 0 0.05" quat="0.5 0.5 0.5 0.5"/>
       <geom mesh="rocker" class="collision" pos="0.319 0 0.05" quat="0.5 0.5 0.5 0.5"/>
-      <geom material="new_mat_color.006" mesh="rocker" class="visual" pos="-0.319 0 0.05" quat="0.5 0.5 0.5 0.5"/>
+      <geom material="mtl_m6" mesh="rocker" class="visual" pos="-0.319 0 0.05" quat="0.5 0.5 0.5 0.5"/>
       <geom mesh="rocker" class="collision" pos="-0.319 0 0.05" quat="0.5 0.5 0.5 0.5"/>
-      <geom material="new_mat_color.008" mesh="lift_rails" class="visual" pos="0 0 0.28" quat="1 0 0 0"/>
+      <geom material="mtl_m8" mesh="lift_rails" class="visual" pos="0 0 0.28" quat="1 0 0 0"/>
       <geom mesh="lift_rails" class="collision" pos="0 0 0.28" quat="1 0 0 0"/>
-      <geom material="new_mat_color.009" mesh="shelf" class="visual" pos="0 0 0.28" quat="1 0 0 0"/>
+      <geom material="mtl_m9" mesh="shelf" class="visual" pos="0 0 0.28" quat="1 0 0 0"/>
       <geom mesh="shelf" class="collision" pos="0 0 0.28" quat="1 0 0 0"/>
-      <geom material="new_mat_color.009" mesh="shelf" class="visual" pos="0 0 0.28" quat="0 0 0 1"/>
+      <geom material="mtl_m9" mesh="shelf" class="visual" pos="0 0 0.28" quat="0 0 0 1"/>
       <geom mesh="shelf" class="collision" pos="0 0 0.28" quat="0 0 0 1"/>
-      <geom material="new_mat_color.010" mesh="monitor_hinge_base" class="visual" pos="-0.4 0 0.52635" quat="1 0 0 0"/>
+      <geom material="mtl_m10" mesh="monitor_hinge_base" class="visual" pos="-0.4 0 0.52635" quat="1 0 0 0"/>
       <geom mesh="monitor_hinge_base" class="collision" pos="-0.4 0 0.52635" quat="1 0 0 0"/>
-      <geom material="new_mat_color.011" mesh="monitor_hinge_top" class="visual" pos="-0.4 0 0.52635" quat="0.932327 0 0.361615 0"/>
+      <geom material="mtl_m11" mesh="monitor_hinge_top" class="visual" pos="-0.4 0 0.52635" quat="0.932327 0 0.361615 0"/>
       <geom mesh="monitor_hinge_top" class="collision" pos="-0.4 0 0.52635" quat="0.932327 0 0.361615 0"/>
-      <geom material="new_mat_color.012" mesh="monitor" class="visual" pos="-0.422796 0.18 0.560706" quat="0.932327 0 0.361615 0"/>
+      <geom material="mtl_m12" mesh="monitor" class="visual" pos="-0.422796 0.18 0.560706" quat="0.932327 0 0.361615 0"/>
       <geom mesh="monitor" class="collision" pos="-0.422796 0.18 0.560706" quat="0.932327 0 0.361615 0"/>
-      <geom material="new_mat_color.012" mesh="monitor" class="visual" pos="-0.422796 -0.18 0.560706" quat="0.932327 0 0.361615 0"/>
+      <geom material="mtl_m12" mesh="monitor" class="visual" pos="-0.422796 -0.18 0.560706" quat="0.932327 0 0.361615 0"/>
       <geom mesh="monitor" class="collision" pos="-0.422796 -0.18 0.560706" quat="0.932327 0 0.361615 0"/>
-      <geom material="new_mat_color.013" mesh="scu" class="visual" pos="-0.18187 0 0.28" quat="1 0 0 0"/>
+      <geom material="mtl_m13" mesh="scu" class="visual" pos="-0.18187 0 0.28" quat="1 0 0 0"/>
       <geom mesh="scu" class="collision" pos="-0.18187 0 0.28" quat="1 0 0 0"/>
-      <geom material="new_mat_color.013" mesh="scu" class="visual" pos="0.18187 0 0.28" quat="0 0 0 1"/>
+      <geom material="mtl_m13" mesh="scu" class="visual" pos="0.18187 0 0.28" quat="0 0 0 1"/>
       <geom mesh="scu" class="collision" pos="0.18187 0 0.28" quat="0 0 0 1"/>
-      <geom material="new_mat_color.014" mesh="autec_receiver" class="visual" pos="-0.26 -0.29909 0.28" quat="1 0 0 0"/>
+      <geom material="mtl_m14" mesh="autec_receiver" class="visual" pos="-0.26 -0.29909 0.28" quat="1 0 0 0"/>
       <geom mesh="autec_receiver" class="collision" pos="-0.26 -0.29909 0.28" quat="1 0 0 0"/>
-      <geom material="new_mat_color.015" mesh="wifi_antenna" class="visual" pos="-0.086 -0.384 0.5" quat="1 0 0 0"/>
+      <geom material="mtl_m15" mesh="wifi_antenna" class="visual" pos="-0.086 -0.384 0.5" quat="1 0 0 0"/>
       <geom mesh="wifi_antenna" class="collision" pos="-0.086 -0.384 0.5" quat="1 0 0 0"/>
-      <geom material="new_mat_color.015" mesh="wifi_antenna" class="visual" pos="-0.086 0.384 0.5" quat="1 0 0 0"/>
+      <geom material="mtl_m15" mesh="wifi_antenna" class="visual" pos="-0.086 0.384 0.5" quat="1 0 0 0"/>
       <geom mesh="wifi_antenna" class="collision" pos="-0.086 0.384 0.5" quat="1 0 0 0"/>
-      <geom material="new_mat_color.016" mesh="autec_antenna" class="visual" pos="0.0845 -0.384 0.5" quat="1 0 0 0"/>
+      <geom material="mtl_m16" mesh="autec_antenna" class="visual" pos="0.0845 -0.384 0.5" quat="1 0 0 0"/>
       <geom mesh="autec_antenna" class="collision" pos="0.0845 -0.384 0.5" quat="1 0 0 0"/>
-      <geom material="new_mat_color.017" mesh="lift_low_500mm" class="visual" pos="0 0.201 0.5732" quat=""/>
+      <geom material="mtl_m17" mesh="lift_low_500mm" class="visual" pos="0 0.201 0.5732" quat=""/>
       <geom mesh="lift_low_500mm" class="collision" pos="0 0.201 0.5732" quat=""/>
-      <geom material="new_mat_color.017" mesh="lift_low_500mm" class="visual" pos="0 -0.201 0.5732" quat=""/>
+      <geom material="mtl_m17" mesh="lift_low_500mm" class="visual" pos="0 -0.201 0.5732" quat=""/>
       <geom mesh="lift_low_500mm" class="collision" pos="0 -0.201 0.5732" quat=""/>
       <geom size="0.2465 0.2465 0.0275" pos="0 0 0.2475" quat="0.92388 0 0 0.382683" type="box" class="collision"/>
       <geom size="0.2465 0.2465 0.0275" pos="0 0 0.2475" quat="0.92388 0 0 0.382683" type="box" rgba="0.8 0.8 0.8 1" class="visual"/>
@@ -594,7 +531,7 @@
     <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="5000" dampratio="1.0" ctrlrange="0.0 0.7"/>
     <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="5000" dampratio="1.0" ctrlrange="0.0 0.7"/>
     <general biastype="affine" name="right_robotiq_85_left_knuckle_joint" tendon="right_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
-    <position tendon="left_split" name="left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
+    <general biastype="affine" name="left_robotiq_85_left_knuckle_joint" tendon="left_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
     <position class="size4" name="left_ur_arm_shoulder_pan_joint" joint="left_ur_arm_shoulder_pan_joint"/>
     <position class="size4" name="left_ur_arm_shoulder_lift_joint" joint="left_ur_arm_shoulder_lift_joint"/>
     <position class="size3_limited" name="left_ur_arm_elbow_joint" joint="left_ur_arm_elbow_joint"/>
@@ -653,48 +590,38 @@
     <exclude body1="base_link" body2="front_right_wheel_roller_5_link"/>
     <exclude body1="base_link" body2="front_right_wheel_roller_6_link"/>
     <exclude body1="base_link" body2="front_right_wheel_roller_7_link"/>
-    <pair geom1="mecanum_wheel1" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel2" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel3" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel4" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel5" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel6" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel7" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel8" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel9" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel10" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel11" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel12" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel13" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel14" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel15" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel16" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel17" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel18" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel19" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel20" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel21" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel22" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel23" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel24" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel25" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel26" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel27" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel28" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel29" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel30" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel31" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
-    <pair geom1="mecanum_wheel32" geom2="floor" condim="3" friction="0.5 0.5 0.005 0.0001 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
   </contact>
   <tendon>
     <fixed name="left_split">
-      <joint joint="left_finger_1_joint" coef="0.5"/>
-      <joint joint="left_finger_2_joint" coef="0.5"/>
+      <joint joint="left_robotiq_85_left_knuckle_joint" coef="0.485"/>
+      <joint joint="left_robotiq_85_right_knuckle_joint" coef="-0.485"/>
     </fixed>
   </tendon>
   <equality>
-    <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="-0.0371575 0.0 0.043422" body1="left_robotiq_85_right_inner_knuckle_link" body2="left_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="0.0371575 0.0 0.043422" body1="left_robotiq_85_left_inner_knuckle_link" body2="left_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <joint joint1="left_robotiq_85_left_knuckle_joint" joint2="left_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
   </equality>
+  <contact>
+    <exclude body1="left_ur_arm_wrist_3_link" body2="left_robotiq_85_right_inner_knuckle_link"/>
+    <exclude body1="left_ur_arm_wrist_3_link" body2="left_robotiq_85_left_inner_knuckle_link"/>
+    <exclude body1="left_ur_arm_wrist_3_link" body2="left_robotiq_85_right_knuckle_link"/>
+    <exclude body1="left_ur_arm_wrist_3_link" body2="left_robotiq_85_left_knuckle_link"/>
+    <exclude body1="left_ur_arm_wrist_3_link" body2="left_robotiq_85_right_finger_tip_link"/>
+    <exclude body1="left_ur_arm_wrist_3_link" body2="left_robotiq_85_left_finger_tip_link"/>
+    <exclude body1="left_robotiq_85_right_finger_tip_link" body2="left_robotiq_85_right_knuckle_link"/>
+    <exclude body1="left_robotiq_85_left_finger_tip_link" body2="left_robotiq_85_left_knuckle_link"/>
+    <exclude body1="left_robotiq_85_right_finger_tip_link" body2="left_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="left_robotiq_85_left_finger_tip_link" body2="left_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="left_robotiq_85_right_knuckle_link" body2="left_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="left_robotiq_85_left_knuckle_link" body2="left_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="left_robotiq_85_right_inner_knuckle_link" body2="left_robotiq_85_right_finger_tip_link"/>
+    <exclude body1="left_robotiq_85_left_inner_knuckle_link" body2="left_robotiq_85_left_finger_tip_link"/>
+    <exclude body1="left_robotiq_85_right_inner_knuckle_link" body2="left_robotiq_85_right_finger_coupler_link"/>
+    <exclude body1="left_robotiq_85_left_inner_knuckle_link" body2="left_robotiq_85_left_finger_coupler_link"/>
+    <exclude body1="left_robotiq_85_right_inner_knuckle_link" body2="left_robotiq_85_right_knuckle_link"/>
+    <exclude body1="left_robotiq_85_left_inner_knuckle_link" body2="left_robotiq_85_left_knuckle_link"/>
+  </contact>
   <tendon>
     <fixed name="right_split">
       <joint joint="right_robotiq_85_left_knuckle_joint" coef="0.485"/>
@@ -702,8 +629,8 @@
     </fixed>
   </tendon>
   <equality>
-    <connect anchor="0 0 0" body1="right_robotiq_85_right_finger_tip_link" body2="right_robotiq_85_right_finger_coupler_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-    <connect anchor="0 0 0" body1="right_robotiq_85_left_finger_tip_link" body2="right_robotiq_85_left_finger_coupler_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="-0.0371575 0.0 0.043422" body1="right_robotiq_85_right_inner_knuckle_link" body2="right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+    <connect anchor="0.0371575 0.0 0.043422" body1="right_robotiq_85_left_inner_knuckle_link" body2="right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
     <joint joint1="right_robotiq_85_left_knuckle_joint" joint2="right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
   </equality>
   <contact>
@@ -745,12 +672,12 @@
     <joint name="right_upper_mimic_lower" joint1="right_ewellix_lift_lower_to_higher" joint2="right_middle_mimic_higher" polycoef="0 2 0 0 0"/>
   </equality>
   <sensor>
-    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_tool0"/>
-    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_tool0"/>
+    <force name="left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_ft_frame"/>
+    <torque name="left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_ft_frame"/>
   </sensor>
   <sensor>
-    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_tool0"/>
-    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_tool0"/>
+    <force name="right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
+    <torque name="right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
   </sensor>
   <sensor>
     <framequat name="imu_sensor_quat" objtype="site" objname="imu_0_link"/>
@@ -760,4 +687,8 @@
   <sensor>
     <rangefinder name="lidar2d_0" site="lidar2d_0"/>
   </sensor>
+  <asset>
+    <material name="robotiq_black" specular="0.2" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="robotiq_gray" specular="0.2" shininess="1.0" rgba="0.8 0.8 0.8 1.0"/>
+  </asset>
 </mujoco>

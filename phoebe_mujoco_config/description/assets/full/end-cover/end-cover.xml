@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="new_mat_color.002" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_m2" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="end-cover.obj"/>
   </asset>
   <worldbody>
     <body name="end-cover">
-      <geom material="new_mat_color.002" mesh="end-cover" class="visual"/>
+      <geom material="mtl_m2" mesh="end-cover" class="visual"/>
       <geom mesh="end-cover" class="collision"/>
     </body>
   </worldbody>

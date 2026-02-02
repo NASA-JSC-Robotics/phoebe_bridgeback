@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="new_mat_color.014" specular="0.5" shininess="0.36" rgba="0.800000 0.800000 0.000000 1.000000"/>
+    <material name="mtl_m14" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.00000000 1.0"/>
     <mesh file="autec_receiver.obj"/>
   </asset>
   <worldbody>
     <body name="autec_receiver">
-      <geom material="new_mat_color.014" mesh="autec_receiver" class="visual"/>
+      <geom material="mtl_m14" mesh="autec_receiver" class="visual"/>
       <geom mesh="autec_receiver" class="collision"/>
     </body>
   </worldbody>

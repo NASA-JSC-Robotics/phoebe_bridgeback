@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="new_mat_color.018" specular="0.5" shininess="0.36" rgba="0.850000 0.850000 0.850000 1.000000"/>
+    <material name="mtl_m18" specular="0.20000000000000004" shininess="1.0" rgba="0.85098039 0.85098039 0.85098039 1.0"/>
     <mesh file="lift_mid_500mm.obj"/>
   </asset>
   <worldbody>
     <body name="lift_mid_500mm">
-      <geom material="new_mat_color.018" mesh="lift_mid_500mm" class="visual"/>
+      <geom material="mtl_m18" mesh="lift_mid_500mm" class="visual"/>
       <geom mesh="lift_mid_500mm" class="collision"/>
     </body>
   </worldbody>

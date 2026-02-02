@@ -8,15 +8,15 @@
     </default>
   </default>
   <asset>
-    <material name="black" specular="0.5" shininess="0.25" rgba="0.031505 0.031505 0.031505 1.000000"/>
-    <material name="grey" specular="0.5" shininess="0.25" rgba="0.799103 0.799103 0.799103 1.000000"/>
+    <material name="material_m32_0" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_m32_1" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="robotiq_base_0.obj"/>
     <mesh file="robotiq_base_1.obj"/>
   </asset>
   <worldbody>
     <body name="robotiq_base">
-      <geom mesh="robotiq_base_0" material="grey" class="visual"/>
-      <geom mesh="robotiq_base_1" material="black" class="visual"/>
+      <geom mesh="robotiq_base_0" material="material_m32_1" class="visual"/>
+      <geom mesh="robotiq_base_1" material="material_m32_0" class="visual"/>
       <geom mesh="robotiq_base_0" class="collision"/>
       <geom mesh="robotiq_base_1" class="collision"/>
     </body>
