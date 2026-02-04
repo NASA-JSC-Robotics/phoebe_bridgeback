@@ -13,6 +13,7 @@
 
   <visual>
     <rgba haze="0.15 0.25 0.35 1"/>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0"/>
     <!-- initial camera starting angle and elevation -->
     <global azimuth="-120" elevation="-30" offwidth="1280" offheight="720"/>
   </visual>

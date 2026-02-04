@@ -4,7 +4,7 @@
   <xacro:arg name="add_grasp_push_frames" default="true"/>
   <xacro:arg name="include_world_joints" default="false"/>
   <!-- uncomment to start from saved keyframe -->
-  <!-- <xacro:arg name="override_start_position_file" default="$(find cylinder_demo)/config/new_pre_place.xml"/> -->
+  <xacro:arg name="override_start_position_file" default="$(find phoebe_mujoco_pro_config)/config/perception_state.xml"/>
 
   <!-- Includes -->
   <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
@@ -22,7 +22,7 @@
       <param name="mujoco_model">$(find phoebe_mujoco_config)/description/scene.xml</param>
 
       <!-- uncomment to start from saved keyframe -->
-      <!-- <param name="override_start_position_file">$(arg override_start_position_file)</param> -->
+      <param name="override_start_position_file">$(arg override_start_position_file)</param>
 
       <!-- Increase this parameter to run the sim faster than realtime. -->
       <param name="sim_speed_factor">1.0</param>

@@ -42,6 +42,14 @@ def main(filepath: str) -> None:
         dirs_exist_ok=True,
     )
 
+    # copy the cylinder jig into the assets directory (folder bc it has several files bc it is decomposed)
+    os.mkdir(f"{filepath}/assets/cylinder_jig_open")
+    shutil.copytree(
+        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_jig_open',
+        f"{filepath}/assets/cylinder_jig_open",
+        dirs_exist_ok=True,
+    )
+
     # copy the april tags into the assets directory
     shutil.copy2(
         f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00000.png',
