@@ -22,7 +22,7 @@
       <param name="mujoco_model">$(find phoebe_mujoco_config)/description/scene.xml</param>
 
       <!-- uncomment to start from saved keyframe -->
-      <param name="override_start_position_file">$(arg override_start_position_file)</param>
+      <!-- <param name="override_start_position_file">$(arg override_start_position_file)</param> -->
 
       <!-- Increase this parameter to run the sim faster than realtime. -->
       <param name="sim_speed_factor">1.0</param>
