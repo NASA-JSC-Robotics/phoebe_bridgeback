@@ -71,5 +71,6 @@ def generate_launch_description():
     nodes.append(MakeControllerNode("right_admittance_controller", active=False))
     nodes.append(MakeControllerNode("right_admittance_jtc", active=False))
     nodes.append(MakeControllerNode("right_force_torque_sensor_broadcaster_admittance", active=False))
+    # nodes.append(MakeControllerNode("dual_arm_admittance_jtc", active=False))
 
     return LaunchDescription(declared_arguments + nodes)

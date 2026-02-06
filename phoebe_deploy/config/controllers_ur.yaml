@@ -48,6 +48,10 @@
       left_force_torque_sensor_broadcaster_admittance:
         type: force_torque_sensor_broadcaster_advanced/ForceTorqueSensorBroadcasterAdvanced
 
+      # dual arm admittance jtc
+      dual_arm_admittance_jtc:
+        type: joint_trajectory_controller/JointTrajectoryController
+
   # right controllers
   right_io_and_status_controller:
     ros__parameters:
@@ -179,7 +183,7 @@
         $(var tf_prefix)left_ur_arm_shoulder_pan_joint: { trajectory: 0.5, goal: 0.5 }
         $(var tf_prefix)left_ur_arm_shoulder_lift_joint: { trajectory: 0.5, goal: 0.5 }
         $(var tf_prefix)left_ur_arm_elbow_joint: { trajectory: 0.5, goal: 0.5 }
-        $(var tf_prefix)left_ur_arm_wrist_5_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)left_ur_arm_wrist_1_joint: { trajectory: 0.5, goal: 0.5 }
         $(var tf_prefix)left_ur_arm_wrist_2_joint: { trajectory: 0.5, goal: 0.5 }
         $(var tf_prefix)left_ur_arm_wrist_3_joint: { trajectory: 0.5, goal: 0.5 }
 
@@ -269,9 +273,9 @@
           - 470.0 # x
           - 470.0 # y
           - 470.0 # z
-          - 14.0 # rx
-          - 14.0 # ry
-          - 14.0 # rz
+          - 75.0 # rx
+          - 75.0 # ry
+          - 75.0 # rz
 
         stiffness:
           - 300.0 # x
@@ -349,6 +353,59 @@
       constraints:
         stopped_velocity_tolerance: 0.2
         goal_time: 0.0
+        $(var tf_prefix)right_ur_arm_shoulder_pan_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)right_ur_arm_shoulder_lift_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)right_ur_arm_elbow_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)right_ur_arm_wrist_1_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)right_ur_arm_wrist_2_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)right_ur_arm_wrist_3_joint: { trajectory: 0.5, goal: 0.5 }
+
+  dual_arm_admittance_jtc:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)left_ur_arm_elbow_joint
+        - $(var tf_prefix)left_ur_arm_wrist_1_joint
+        - $(var tf_prefix)left_ur_arm_wrist_2_joint
+        - $(var tf_prefix)left_ur_arm_wrist_3_joint
+        - $(var tf_prefix)right_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)right_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)right_ur_arm_elbow_joint
+        - $(var tf_prefix)right_ur_arm_wrist_1_joint
+        - $(var tf_prefix)right_ur_arm_wrist_2_joint
+        - $(var tf_prefix)right_ur_arm_wrist_3_joint
+      command_interfaces:
+        - position
+        - velocity
+      state_interfaces:
+        - position
+        - velocity
+      command_joints:
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_elbow_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_wrist_1_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_wrist_2_joint
+        - left_admittance_controller/$(var tf_prefix)left_ur_arm_wrist_3_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_shoulder_pan_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_shoulder_lift_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_elbow_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_wrist_1_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_wrist_2_joint
+        - right_admittance_controller/$(var tf_prefix)right_ur_arm_wrist_3_joint
+      state_publish_rate: 100.0
+      action_monitor_rate: 20.0
+      allow_partial_joints_goal: false
+      constraints:
+        stopped_velocity_tolerance: 0.2
+        goal_time: 0.0
+        $(var tf_prefix)left_ur_arm_shoulder_pan_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)left_ur_arm_shoulder_lift_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)left_ur_arm_elbow_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)left_ur_arm_wrist_1_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)left_ur_arm_wrist_2_joint: { trajectory: 0.5, goal: 0.5 }
+        $(var tf_prefix)left_ur_arm_wrist_3_joint: { trajectory: 0.5, goal: 0.5 }
         $(var tf_prefix)right_ur_arm_shoulder_pan_joint: { trajectory: 0.5, goal: 0.5 }
         $(var tf_prefix)right_ur_arm_shoulder_lift_joint: { trajectory: 0.5, goal: 0.5 }
         $(var tf_prefix)right_ur_arm_elbow_joint: { trajectory: 0.5, goal: 0.5 }
@@ -442,9 +499,9 @@
           - 1000.0 # x
           - 1000.0 # y
           - 1000.0 # z
-          - 14.0 # rx
-          - 14.0 # ry
-          - 14.0 # rz
+          - 75.0 # rx
+          - 75.0 # ry
+          - 75.0 # rz
 
         stiffness:
           - 300.0 # x
