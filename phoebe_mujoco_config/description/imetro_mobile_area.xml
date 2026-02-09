@@ -113,7 +113,7 @@
     <geom size="0.333 1.25 0.333" pos="-0.25 2.25 0.333" euler="0 0 1.57" type="box" material="desk_brown" class="visual"/>
     <geom size="0.333 1.25 0.333" pos="-0.25 2.25 0.333" euler="0 0 1.57" type="box" class="collision"/>
 
-    <body name="cylinder" pos="2.85 -0.666 0.665">
+    <body name="cylinder" pos="2.75 -0.666 0.665">
       <inertial pos="0 0 0.15" quat="1 0 0 0" mass="0.750" diaginertia="0.0005 0.0005 3e-5"/>
       <joint name="free_joint" type="free"/>
       <!-- Reference the mesh in a geom -->
