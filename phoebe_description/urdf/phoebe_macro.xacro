@@ -25,6 +25,7 @@
       generate_ros2_control_tag:='true'
       add_grasp_push_frames:='true'
       use_camera_mesh:='true'
+      use_left_static_pedestal:='false'
     "
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
@@ -432,34 +433,57 @@
   </joint>
 
   <!-- Left Ewellix mounting flange -->
-  <link name="${tf_prefix}left_ewellix_mount_flange_link">
-    <visual>
-      <geometry>
-        <box size="0.2 0.2 0.015"/>
-      </geometry>
-      <material name="clearpath_aluminum"/>
-      <origin rpy="0 0 0" xyz="0 0 0.0075"/>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.2 0.2 0.015"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0.0075"/>
-    </collision>
-  </link>
 
   <!-- load the liftkit mount calibration -->
-  <xacro:property name="liftkit_mount_calibration" value="${xacro.load_yaml(liftkit_mount_calibration_file)}"/>
-  <xacro:property name="left_edge_aligned_distance" value="${liftkit_mount_calibration['left_edge_aligned_distance']}"/>
-  <xacro:property name="right_edge_aligned_distance" value="${liftkit_mount_calibration['right_edge_aligned_distance']}"/>
-  <xacro:property name="left_liftkit_dist_from_edge" value="${liftkit_mount_calibration['left_liftkit_dist_from_edge']}"/>
-  <xacro:property name="right_liftkit_dist_from_edge" value="${liftkit_mount_calibration['right_liftkit_dist_from_edge']}"/>
+    <xacro:property name="liftkit_mount_calibration" value="${xacro.load_yaml(liftkit_mount_calibration_file)}"/>
+    <xacro:property name="left_edge_aligned_distance" value="${liftkit_mount_calibration['left_edge_aligned_distance']}"/>
+    <xacro:property name="right_edge_aligned_distance" value="${liftkit_mount_calibration['right_edge_aligned_distance']}"/>
+    <xacro:property name="left_liftkit_dist_from_edge" value="${liftkit_mount_calibration['left_liftkit_dist_from_edge']}"/>
+    <xacro:property name="right_liftkit_dist_from_edge" value="${liftkit_mount_calibration['right_liftkit_dist_from_edge']}"/>
 
-  <joint name="${tf_prefix}left_ewellix_mount_flange_joint" type="fixed">
-    <parent link="${tf_prefix}default_mount"/>
-    <child link="${tf_prefix}left_ewellix_mount_flange_link"/>
-    <origin xyz="0 ${left_edge_aligned_distance-left_liftkit_dist_from_edge} 0.04" rpy="0 0 0" />
-  </joint>
+  <xacro:unless value="${use_left_static_pedestal}">
+    <link name="${tf_prefix}left_ewellix_mount_flange_link">
+      <visual>
+        <geometry>
+          <box size="0.2 0.2 0.015"/>
+        </geometry>
+        <material name="clearpath_aluminum"/>
+        <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.2 0.2 0.015"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+      </collision>
+    </link>
+    <joint name="${tf_prefix}left_ewellix_mount_flange_joint" type="fixed">
+      <parent link="${tf_prefix}default_mount"/>
+      <child link="${tf_prefix}left_ewellix_mount_flange_link"/>
+      <origin xyz="0 ${left_edge_aligned_distance-left_liftkit_dist_from_edge} 0.04" rpy="0 0 0" />
+    </joint>
+  </xacro:unless>
+
+  <xacro:if value="${use_left_static_pedestal}">
+    <link name="${tf_prefix}left_static_pedestal_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/static_pedestal.stl" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+        <material name="clearpath_aluminum"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/static_pedestal.stl" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${tf_prefix}left_ewellix_pedestal_link_joint" type="fixed">
+      <parent link="${tf_prefix}default_mount"/>
+      <child link="${tf_prefix}left_static_pedestal_link"/>
+      <origin xyz="0 ${left_edge_aligned_distance-left_liftkit_dist_from_edge} 0.04" rpy="0 0 0" />
+    </joint>
+  </xacro:if>
 
   <!-- Right Ewellix mounting flange -->
   <link name="${tf_prefix}right_ewellix_mount_flange_link">
@@ -493,58 +517,93 @@
   <!-- <xacro:property name="left_liftkit_calibration_file" value="${left_liftkit_calibration_file}"/>
   <xacro:property name="right_liftkit_calibration_file" value="${right_liftkit_calibration_file}"/> -->
 
-  <xacro:ewellix_lift
-    name="${tf_prefix}left_ewellix"
-    is_700="false"
-    is_500="true"
-    tf_prefix="${tf_prefix}left_"
-    parent="${tf_prefix}left_ewellix_mount_flange_link"
-    height_limit="0.5"
-    initial_value="0.26644069061695785"
-    omit_plates="true"
-    use_fake_hardware="${use_fake_hardware}"
-    com_port="${left_ewellix_com_port}"
-    generate_ros2_control_tag="${generate_ros2_control_tag}"
-  >
-    <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
-  </xacro:ewellix_lift>
+  <xacro:unless value="${use_left_static_pedestal}">
+    <xacro:ewellix_lift
+      name="${tf_prefix}left_ewellix"
+      is_700="false"
+      is_500="true"
+      tf_prefix="${tf_prefix}left_"
+      parent="${tf_prefix}left_ewellix_mount_flange_link"
+      height_limit="0.5"
+      initial_value="0.26644069061695785"
+      omit_plates="true"
+      use_fake_hardware="${use_fake_hardware}"
+      com_port="${left_ewellix_com_port}"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
+    >
+      <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
+    </xacro:ewellix_lift>
+
+    <!-- Left arm mount plate -->
+    <link name="${tf_prefix}left_arm_mount_plate">
+      <visual>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount_collision.STL"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${tf_prefix}left_arm_mount_plate_joint" type="fixed">
+      <parent link="${tf_prefix}left_ewellix_lift_tip_link" />
+      <child link="${tf_prefix}left_arm_mount_plate" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+  </xacro:unless>
+
+  <xacro:if value="${use_left_static_pedestal}">
+  
+     <link name="${tf_prefix}left_ewellix_lift_tip_link">
+     </link>
+
+     <joint name="${tf_prefix}ewellix_lift_tip_joint" type="fixed">
+      <parent link="${tf_prefix}left_static_pedestal_link"/>
+      <child link="${tf_prefix}left_ewellix_lift_tip_link"/>
+      <origin xyz="0 0 0.6096" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Left arm mount plate -->
+    <link name="${tf_prefix}left_arm_mount_plate">
+      <visual>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
+        </geometry>
+        <material name="clearpath_black" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount_collision.STL"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${tf_prefix}left_arm_mount_plate_joint" type="fixed">
+      <parent link="${tf_prefix}left_ewellix_lift_tip_link" />
+      <child link="${tf_prefix}left_arm_mount_plate" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+  </xacro:if>
 
   <xacro:ewellix_lift
-    name="${tf_prefix}right_ewellix"
-    is_700="false"
-    is_500="true"
-    tf_prefix="${tf_prefix}right_"
-    parent="${tf_prefix}right_ewellix_mount_flange_link"
-    height_limit="0.5"
-    initial_value="0.259764889515653"
-    omit_plates="true"
-    use_fake_hardware="${use_fake_hardware}"
-    com_port="${right_ewellix_com_port}"
-    generate_ros2_control_tag="${generate_ros2_control_tag}"
-  >
-    <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
+      name="${tf_prefix}right_ewellix"
+      is_700="false"
+      is_500="true"
+      tf_prefix="${tf_prefix}right_"
+      parent="${tf_prefix}right_ewellix_mount_flange_link"
+      height_limit="0.5"
+      initial_value="0.259764889515653"
+      omit_plates="true"
+      use_fake_hardware="${use_fake_hardware}"
+      com_port="${right_ewellix_com_port}"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
+    >
+      <origin xyz="0 0 ${0.0075+0.2457}" rpy="0 0 0"/>
   </xacro:ewellix_lift>
-
-  <!-- Left arm mount plate -->
-  <link name="${tf_prefix}left_arm_mount_plate">
-    <visual>
-      <geometry>
-        <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
-      </geometry>
-      <material name="clearpath_black" />
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount_collision.STL"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="${tf_prefix}left_arm_mount_plate_joint" type="fixed">
-    <parent link="${tf_prefix}left_ewellix_lift_tip_link" />
-    <child link="${tf_prefix}left_arm_mount_plate" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </joint>
 
   <!-- Right arm mount plate -->
   <link name="${tf_prefix}right_arm_mount_plate">
