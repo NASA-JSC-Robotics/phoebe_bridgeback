@@ -468,20 +468,20 @@
     <link name="${tf_prefix}left_static_pedestal_link">
       <visual>
         <geometry>
-          <mesh filename="package://phoebe_description/meshes/visual/static_pedestal.stl" scale="0.0254 0.0254 0.0254"/>
+          <mesh filename="package://phoebe_description/meshes/visual/static_pedestal_with_mount.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
         <material name="clearpath_aluminum"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://phoebe_description/meshes/visual/static_pedestal.stl" scale="0.0254 0.0254 0.0254"/>
+          <mesh filename="package://phoebe_description/meshes/visual/static_pedestal_with_mount.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
       </collision>
     </link>
     <joint name="${tf_prefix}left_ewellix_pedestal_link_joint" type="fixed">
       <parent link="${tf_prefix}default_mount"/>
       <child link="${tf_prefix}left_static_pedestal_link"/>
-      <origin xyz="0 ${left_edge_aligned_distance-left_liftkit_dist_from_edge} 0.04" rpy="0 0 0" />
+      <origin xyz="0 ${left_edge_aligned_distance-left_liftkit_dist_from_edge} 0.04" rpy="0 0 1.5707963" />
     </joint>
   </xacro:if>
 
@@ -557,7 +557,7 @@
   </xacro:unless>
 
   <xacro:if value="${use_left_static_pedestal}">
-  
+
      <link name="${tf_prefix}left_ewellix_lift_tip_link">
      </link>
 
@@ -568,7 +568,7 @@
     </joint>
 
     <!-- Left arm mount plate -->
-    <link name="${tf_prefix}left_arm_mount_plate">
+    <!-- <link name="${tf_prefix}left_arm_mount_plate">
       <visual>
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
@@ -586,7 +586,7 @@
       <parent link="${tf_prefix}left_ewellix_lift_tip_link" />
       <child link="${tf_prefix}left_arm_mount_plate" />
       <origin xyz="0 0 0" rpy="0 0 0" />
-    </joint>
+    </joint> -->
   </xacro:if>
 
   <xacro:ewellix_lift
@@ -627,13 +627,25 @@
   </joint>
 
   <!-- calibration links -->
-  <link name="${tf_prefix}left_arm_cal_link"> </link>
+  <xacro:unless value="${use_left_static_pedestal}">
+    <link name="${tf_prefix}left_arm_cal_link"> </link>
 
-  <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
-    <parent link="${tf_prefix}left_arm_mount_plate" />
-    <child link="${tf_prefix}left_arm_cal_link" />
-    <origin xyz="0.00807 -0.00363 0.01019" rpy="0.01529 0.01951 -0.00426"/>
-  </joint>
+    <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
+      <parent link="${tf_prefix}left_arm_mount_plate" />
+      <child link="${tf_prefix}left_arm_cal_link" />
+      <origin xyz="0.00807 -0.00363 0.01019" rpy="0.01529 0.01951 -0.00426"/>
+    </joint>
+  </xacro:unless>
+
+  <xacro:if value="${use_left_static_pedestal}">
+    <link name="${tf_prefix}left_arm_cal_link"> </link>
+
+    <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
+      <parent link="${tf_prefix}left_static_pedestal_link" />
+      <child link="${tf_prefix}left_arm_cal_link" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
 
   <link name="${tf_prefix}right_arm_cal_link"> </link>
 
