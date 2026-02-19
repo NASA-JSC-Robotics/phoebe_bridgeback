@@ -56,11 +56,19 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+    DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
 
     # Initialize Arguments
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -71,6 +79,7 @@ def generate_launch_description():
             "ns": ns,
             "calibration_mode": calibration_mode,
             "include_world_joints": include_world_joints,
+            "use_left_static_pedestal": use_left_static_pedestal,
         }.items(),
     )
 
