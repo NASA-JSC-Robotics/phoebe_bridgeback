@@ -101,6 +101,13 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+    DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -111,6 +118,7 @@ def generate_launch_description():
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -122,6 +130,7 @@ def generate_launch_description():
         "robot_description_file": robot_description_file,
         "is_sim": use_fake_hardware,
         "include_world_joints": include_world_joints,
+        "use_left_static_pedestal": use_left_static_pedestal,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -208,6 +217,9 @@ def generate_launch_description():
             " ",
             "calibration_mode:=",
             calibration_mode,
+            " ",
+            "use_left_static_pedestal:=",
+            use_left_static_pedestal,
             " ",
         ]
     )
