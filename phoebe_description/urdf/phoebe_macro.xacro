@@ -730,7 +730,7 @@
       output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
       generate_ros2_control_tag="${generate_ros2_control_tag}"
       >
-      <origin xyz="0 0 0" rpy="0 0 ${-pi/4}" /> 
+      <origin xyz="0 0 0" rpy="0 0 ${-pi/4}" />
     </xacro:ur_robot>
   </xacro:unless>
 

@@ -64,16 +64,25 @@ def generate_launch_description():
             description="If the robot is running in simulation, use the published clock",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Whether to use the left static pedestal instead of the left lift",
+            choices=["true", "false"],
+        )
+    )
 
     rviz = LaunchConfiguration("rviz")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
     use_sim_time = LaunchConfiguration("use_sim_time")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     description_package = "phoebe_description"
     description_file = "phoebe.urdf.xacro"
     description_full_path = os.path.join(get_package_share_directory(description_package), "urdf", description_file)
-    description_mappings = {"calibration_mode": calibration_mode}
+    description_mappings = {"calibration_mode": calibration_mode, "use_left_static_pedestal": use_left_static_pedestal}
 
     moveit_config = (
         MoveItConfigsBuilder("phoebe", package_name="phoebe_moveit_config")
