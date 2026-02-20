@@ -70,7 +70,7 @@ def generate_launch_description():
         )
     )
     declared_arguments.append(
-    DeclareLaunchArgument(
+        DeclareLaunchArgument(
             "use_left_static_pedestal",
             default_value="false",
             description="Replaces the left liftkit with the static pedestal",
@@ -194,7 +194,7 @@ def generate_launch_description():
             condition=UnlessCondition(calibration_mode),
         )
     )
-    
+
     return LaunchDescription(
         declared_arguments
         + launches
