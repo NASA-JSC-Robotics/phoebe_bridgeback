@@ -432,14 +432,12 @@
     <origin xyz="0.0845 -0.384 0.22" rpy="0 0 0" />
   </joint>
 
-  <!-- Left Ewellix mounting flange -->
-
   <!-- load the liftkit mount calibration -->
-    <xacro:property name="liftkit_mount_calibration" value="${xacro.load_yaml(liftkit_mount_calibration_file)}"/>
-    <xacro:property name="left_edge_aligned_distance" value="${liftkit_mount_calibration['left_edge_aligned_distance']}"/>
-    <xacro:property name="right_edge_aligned_distance" value="${liftkit_mount_calibration['right_edge_aligned_distance']}"/>
-    <xacro:property name="left_liftkit_dist_from_edge" value="${liftkit_mount_calibration['left_liftkit_dist_from_edge']}"/>
-    <xacro:property name="right_liftkit_dist_from_edge" value="${liftkit_mount_calibration['right_liftkit_dist_from_edge']}"/>
+  <xacro:property name="liftkit_mount_calibration" value="${xacro.load_yaml(liftkit_mount_calibration_file)}"/>
+  <xacro:property name="left_edge_aligned_distance" value="${liftkit_mount_calibration['left_edge_aligned_distance']}"/>
+  <xacro:property name="right_edge_aligned_distance" value="${liftkit_mount_calibration['right_edge_aligned_distance']}"/>
+  <xacro:property name="left_liftkit_dist_from_edge" value="${liftkit_mount_calibration['left_liftkit_dist_from_edge']}"/>
+  <xacro:property name="right_liftkit_dist_from_edge" value="${liftkit_mount_calibration['right_liftkit_dist_from_edge']}"/>
 
   <xacro:unless value="${use_left_static_pedestal}">
     <link name="${tf_prefix}left_ewellix_mount_flange_link">
@@ -718,10 +716,23 @@
   </xacro:if>
 
   <!-- left ur -->
+
+  <xacro:unless value="${use_left_static_pedestal}">
+    <xacro:property name="parent" value="${tf_prefix}left_arm_mount_plate_2"/>
+    <xacro:property name="origin_xyz" value="0 0 0"/>
+    <xacro:property name="origin_rpy" value="0 0 ${-pi/4}"/>
+  </xacro:unless>
+
+  <xacro:if value="${use_left_static_pedestal}">
+    <xacro:property name="parent" value="${tf_prefix}left_arm_cal_link"/>
+    <xacro:property name="origin_xyz" value="0 0 0.649605"/>
+    <xacro:property name="origin_rpy" value="0 0 0"/>
+  </xacro:if>
+
   <xacro:ur_robot
     name="${tf_prefix}left_ur5e"
     tf_prefix="${tf_prefix}left_ur_arm_"
-    parent="${tf_prefix}left_arm_mount_plate_2"
+    parent="${parent}"
     kinematics_parameters_file="${left_ur_kinematics_file}"
     joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
     physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
@@ -730,7 +741,7 @@
     safety_pos_margin="0.15"
     safety_k_position="20"
     >
-    <origin xyz="0 0 0" rpy="0 0 ${-pi/4}" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
+    <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
   </xacro:ur_robot>
 
   <xacro:if value="${generate_ros2_control_tag}">
