@@ -432,14 +432,12 @@
     <origin xyz="0.0845 -0.384 0.22" rpy="0 0 0" />
   </joint>
 
-  <!-- Left Ewellix mounting flange -->
-
   <!-- load the liftkit mount calibration -->
-    <xacro:property name="liftkit_mount_calibration" value="${xacro.load_yaml(liftkit_mount_calibration_file)}"/>
-    <xacro:property name="left_edge_aligned_distance" value="${liftkit_mount_calibration['left_edge_aligned_distance']}"/>
-    <xacro:property name="right_edge_aligned_distance" value="${liftkit_mount_calibration['right_edge_aligned_distance']}"/>
-    <xacro:property name="left_liftkit_dist_from_edge" value="${liftkit_mount_calibration['left_liftkit_dist_from_edge']}"/>
-    <xacro:property name="right_liftkit_dist_from_edge" value="${liftkit_mount_calibration['right_liftkit_dist_from_edge']}"/>
+  <xacro:property name="liftkit_mount_calibration" value="${xacro.load_yaml(liftkit_mount_calibration_file)}"/>
+  <xacro:property name="left_edge_aligned_distance" value="${liftkit_mount_calibration['left_edge_aligned_distance']}"/>
+  <xacro:property name="right_edge_aligned_distance" value="${liftkit_mount_calibration['right_edge_aligned_distance']}"/>
+  <xacro:property name="left_liftkit_dist_from_edge" value="${liftkit_mount_calibration['left_liftkit_dist_from_edge']}"/>
+  <xacro:property name="right_liftkit_dist_from_edge" value="${liftkit_mount_calibration['right_liftkit_dist_from_edge']}"/>
 
   <xacro:unless value="${use_left_static_pedestal}">
     <link name="${tf_prefix}left_ewellix_mount_flange_link">
@@ -708,59 +706,42 @@
 
   <!-- LEFT ARM  -->
   <xacro:unless value="${use_left_static_pedestal}">
-    <xacro:ur_robot
-      name="${tf_prefix}left_ur5e"
-      tf_prefix="${tf_prefix}left_ur_arm_"
-      parent="${tf_prefix}left_arm_mount_plate_2"
-      kinematics_parameters_file="${left_ur_kinematics_file}"
-      joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
-      physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
-      visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
-      initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
-      use_fake_hardware="${use_fake_hardware}"
-      sim_ignition="${sim_ignition}"
-      robot_ip="${left_ur_ip_addr}"
-      reverse_port="50001"
-      script_sender_port="50002"
-      script_command_port="50004"
-      trajectory_port="50003"
-      use_tool_communication="false"
-      script_filename="$(find ur_client_library)/resources/external_control.urscript"
-      input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
-      output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-      generate_ros2_control_tag="${generate_ros2_control_tag}"
-      >
-      <origin xyz="0 0 0" rpy="0 0 ${-pi/4}" />
-    </xacro:ur_robot>
+    <xacro:property name="parent" value="${tf_prefix}left_arm_mount_plate_2"/>
+    <xacro:property name="origin_xyz" value="0 0 0"/>
+    <xacro:property name="origin_rpy" value="0 0 ${-pi/4}"/>
   </xacro:unless>
 
-  <xacro:if value="${use_left_static_pedestal}">
-    <xacro:ur_robot
-      name="${tf_prefix}left_ur5e"
-      tf_prefix="${tf_prefix}left_ur_arm_"
-      parent="${tf_prefix}left_arm_cal_link"
-      kinematics_parameters_file="${left_ur_kinematics_file}"
-      joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
-      physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
-      visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
-      initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
-      use_fake_hardware="${use_fake_hardware}"
-      sim_ignition="${sim_ignition}"
-      robot_ip="${left_ur_ip_addr}"
-      reverse_port="50001"
-      script_sender_port="50002"
-      script_command_port="50004"
-      trajectory_port="50003"
-      use_tool_communication="false"
-      script_filename="$(find ur_client_library)/resources/external_control.urscript"
-      input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
-      output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-      generate_ros2_control_tag="${generate_ros2_control_tag}"
-      >
-      <origin xyz="0 0 0.649605" rpy="0 0 0" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
-    </xacro:ur_robot>
+   <xacro:if value="${use_left_static_pedestal}">
+    <xacro:property name="parent" value="${tf_prefix}left_arm_cal_link"/>
+    <xacro:property name="origin_xyz" value="0 0 0.649605"/>
+    <xacro:property name="origin_rpy" value="0 0 0"/>
   </xacro:if>
 
+  <xacro:ur_robot
+    name="${tf_prefix}left_ur5e"
+    tf_prefix="${tf_prefix}left_ur_arm_"
+    parent="${parent}"
+    kinematics_parameters_file="${left_ur_kinematics_file}"
+    joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
+    physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
+    visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
+    initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
+    use_fake_hardware="${use_fake_hardware}"
+    sim_ignition="${sim_ignition}"
+    robot_ip="${left_ur_ip_addr}"
+    reverse_port="50001"
+    script_sender_port="50002"
+    script_command_port="50004"
+    trajectory_port="50003"
+    use_tool_communication="false"
+    script_filename="$(find ur_client_library)/resources/external_control.urscript"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    generate_ros2_control_tag="${generate_ros2_control_tag}"
+    >
+    <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+  </xacro:ur_robot>
+  
   <!-- end effector interface stack -->
   <xacro:unless value="${calibration_mode}">
     <xacro:include filename="$(find phoebe_description)/urdf/ee_interface.xacro"/>
