@@ -562,20 +562,20 @@
      <joint name="${tf_prefix}ewellix_lift_tip_joint" type="fixed">
       <parent link="${tf_prefix}left_static_pedestal_link"/>
       <child link="${tf_prefix}left_ewellix_lift_tip_link"/>
-      <origin xyz="0 0 0.6096" rpy="0 0 0"/>
+      <origin xyz="0 0 0.6496" rpy="0 0 0"/>
     </joint>
 
     <!-- Left arm mount plate -->
-    <!-- <link name="${tf_prefix}left_arm_mount_plate">
+    <link name="${tf_prefix}left_arm_mount_plate">
       <visual>
         <geometry>
-          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
+          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount_swivellink_new.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
         <material name="clearpath_black" />
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount_collision.STL"/>
+          <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount_swivellink_new.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
       </collision>
     </link>
@@ -584,7 +584,7 @@
       <parent link="${tf_prefix}left_ewellix_lift_tip_link" />
       <child link="${tf_prefix}left_arm_mount_plate" />
       <origin xyz="0 0 0" rpy="0 0 0" />
-    </joint> -->
+    </joint>
   </xacro:if>
 
   <xacro:ewellix_lift
@@ -625,26 +625,16 @@
   </joint>
 
   <!-- calibration links -->
-  <xacro:unless value="${use_left_static_pedestal}">
-    <link name="${tf_prefix}left_arm_cal_link"> </link>
+  <!-- LEFT -->
+  <link name="${tf_prefix}left_arm_cal_link"> </link>
 
-    <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
-      <parent link="${tf_prefix}left_arm_mount_plate" />
-      <child link="${tf_prefix}left_arm_cal_link" />
-      <origin xyz="0.00807 -0.00363 0.01019" rpy="0.01529 0.01951 -0.00426"/>
-    </joint>
-  </xacro:unless>
+  <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
+    <parent link="${tf_prefix}left_arm_mount_plate" />
+    <child link="${tf_prefix}left_arm_cal_link" />
+    <origin xyz="0.00807 -0.00363 0.01019" rpy="0.01529 0.01951 -0.00426"/>
+  </joint>
 
-  <xacro:if value="${use_left_static_pedestal}">
-    <link name="${tf_prefix}left_arm_cal_link"> </link>
-
-    <joint name="${tf_prefix}left_arm_cal_joint" type="fixed">
-      <parent link="${tf_prefix}left_static_pedestal_link" />
-      <child link="${tf_prefix}left_arm_cal_link" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-    </joint>
-  </xacro:if>
-
+  <!-- RIGHT -->
   <link name="${tf_prefix}right_arm_cal_link"> </link>
 
   <joint name="${tf_prefix}right_arm_cal_joint" type="fixed">
@@ -654,6 +644,7 @@
   </joint>
   <!-- end calibration links -->
 
+  <!-- LEFT -->
   <link name="${tf_prefix}left_arm_mount_plate_2"> </link>
 
   <joint name="${tf_prefix}left_arm_mount_joint" type="fixed">
@@ -662,6 +653,7 @@
     <origin xyz="0 0.01628 0.09117" rpy="-${pi/4} 0 0"/>
   </joint>
 
+  <!-- RIGHT -->
   <link name="${tf_prefix}right_arm_mount_plate_2"> </link>
 
   <joint name="${tf_prefix}right_arm_mount_joint" type="fixed">
@@ -711,10 +703,10 @@
     <xacro:property name="origin_rpy" value="0 0 ${-pi/4}"/>
   </xacro:unless>
 
-   <xacro:if value="${use_left_static_pedestal}">
-    <xacro:property name="parent" value="${tf_prefix}left_arm_cal_link"/>
-    <xacro:property name="origin_xyz" value="0 0 0.649605"/>
-    <xacro:property name="origin_rpy" value="0 0 0"/>
+  <xacro:if value="${use_left_static_pedestal}">
+    <xacro:property name="parent" value="${tf_prefix}left_arm_mount_plate"/>
+    <xacro:property name="origin_xyz" value="${1.8957*0.0254} 0 ${5.2763*0.0254}"/>
+    <xacro:property name="origin_rpy" value="0.7853 0 1.5708"/>
   </xacro:if>
 
   <xacro:ur_robot
@@ -741,7 +733,7 @@
     >
     <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
   </xacro:ur_robot>
-  
+
   <!-- end effector interface stack -->
   <xacro:unless value="${calibration_mode}">
     <xacro:include filename="$(find phoebe_description)/urdf/ee_interface.xacro"/>
