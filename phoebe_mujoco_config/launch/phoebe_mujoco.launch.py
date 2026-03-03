@@ -54,10 +54,19 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Whether to use the left static pedestal instead of the left lift",
+            choices=["true", "false"],
+        )
+    )
 
     point_clouds = LaunchConfiguration("point_clouds")
     polled_cameras = LaunchConfiguration("polled_cameras")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     # Include the control launch file with relevant configuration
     control_launch = IncludeLaunchDescription(
@@ -74,6 +83,7 @@ def generate_launch_description():
             "robot_description_file": "phoebe_xacro.urdf",
             "use_sim_time": "true",
             "include_world_joints": include_world_joints,
+            "use_left_static_pedestal": use_left_static_pedestal,
         }.items(),
     )
 

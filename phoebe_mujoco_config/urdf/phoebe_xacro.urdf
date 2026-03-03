@@ -3,6 +3,7 @@
   <!-- Args -->
   <xacro:arg name="add_grasp_push_frames" default="true"/>
   <xacro:arg name="include_world_joints" default="false"/>
+  <xacro:arg name="use_left_static_pedestal" default="false"/>
   <!-- uncomment to start from saved keyframe -->
   <!-- <xacro:arg name="override_start_position_file" default="$(find cylinder_demo)/config/new_pre_place.xml"/> -->
 
@@ -14,6 +15,7 @@
     add_grasp_push_frames="$(arg add_grasp_push_frames)"
     use_camera_mesh="false"
     include_world_joints="$(arg include_world_joints)"
+    use_left_static_pedestal="$(arg use_left_static_pedestal)"
   />
 
   <ros2_control name="MujocoSystem" type="system">
