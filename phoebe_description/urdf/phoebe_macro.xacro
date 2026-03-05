@@ -718,7 +718,7 @@
   <xacro:if value="${use_left_static_pedestal}">
     <xacro:property name="parent" value="${tf_prefix}left_arm_mount_plate"/>
     <xacro:property name="origin_xyz" value="${1.8957*0.0254} 0 ${5.2763*0.0254}"/>
-    <xacro:property name="origin_rpy" value="0.7853 0 1.5708"/>
+    <xacro:property name="origin_rpy" value="0 -0.7853 ${pi}"/>
   </xacro:if>
 
   <xacro:ur_robot

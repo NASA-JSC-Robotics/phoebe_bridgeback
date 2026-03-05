@@ -973,4 +973,13 @@
     <xacro:if value="$(arg calibration_mode)">
         <disable_collisions link1="front_shelf" link2="calibration_plate_target_side" reason="Adjacent"/>
     </xacro:if>
+
+    <xacro:if value="$(arg use_left_static_pedestal)">
+        <disable_collisions link1="front_scu" link2="left_static_pedestal_link" reason="Adjacent"/>
+        <disable_collisions link1="front_shelf" link2="left_static_pedestal_link" reason="Adjacent"/>
+        <disable_collisions link1="left_arm_mount_plate" link2="left_static_pedestal_link" reason="Adjacent"/>
+        <disable_collisions link1="left_static_pedestal_link" link2="rear_scu" reason="Adjacent"/>
+        <disable_collisions link1="left_static_pedestal_link" link2="rear_shelf" reason="Adjacent"/>
+    </xacro:if>
+
 </robot>
