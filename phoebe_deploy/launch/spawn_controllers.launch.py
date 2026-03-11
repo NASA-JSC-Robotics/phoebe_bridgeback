@@ -183,7 +183,6 @@ def generate_launch_description():
         MakeLaunchDescription(
             launch_file_ewellix_spawner,
             common_launch_args,
-            condition=UnlessCondition(use_left_static_pedestal),
         )
     )
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
