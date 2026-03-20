@@ -2,7 +2,7 @@
   controller_manager:
     ros__parameters:
       platform_velocity_controller:
-        type: clearpath_mecanum_drive_controller/MecanumDriveController
+        type: mecanum_drive_controller/MecanumDriveController
 
       odom_publisher:
         type: mecanum_drive_odom_publisher/MecanumDriveOdomPublisher

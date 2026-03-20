@@ -151,7 +151,7 @@ controllers:
   chain_connections: []
 - name: platform_velocity_controller
   state: 'active'
-  type: 'clearpath_mecanum_drive_controller/MecanumDriveController'
+  type: 'mecanum_drive_controller/MecanumDriveController'
   claimed_interfaces: ['front_left_wheel_joint/velocity', 'rear_left_wheel_joint/velocity', 'rear_right_wheel_joint/velocity', 'front_right_wheel_joint/velocity']
   required_command_interfaces: ['front_left_wheel_joint/velocity', 'rear_left_wheel_joint/velocity', 'rear_right_wheel_joint/velocity', 'front_right_wheel_joint/velocity']
   required_state_interfaces: ['front_left_wheel_joint/velocity', 'rear_left_wheel_joint/velocity', 'rear_right_wheel_joint/velocity', 'front_right_wheel_joint/velocity']
