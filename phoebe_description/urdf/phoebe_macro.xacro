@@ -607,8 +607,7 @@
   <xacro:property name="initial_positions_file_left" default="$(find phoebe_description)/config/left_ur_initial_positions.yaml"/>
   <xacro:property name="initial_positions_file_right" default="$(find phoebe_description)/config/right_ur_initial_positions.yaml"/>
 
-  <!-- TODO: need to integrate the motion on the rails. this used to be done like below -->
-  <!-- <origin xyz="$(optenv RIDGEBACK_RIGHT_UR_XYZ 0 0 0)" rpy="$(optenv RIDGEBACK_RIGHT_UR_RPY 0 0 0)" /> -->
+  <!-- right ur -->
   <xacro:ur_robot
     name="${tf_prefix}right_ur5e"
     tf_prefix="${tf_prefix}right_ur_arm_"
@@ -617,23 +616,37 @@
     joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
     physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
     visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
-    initial_positions="${xacro.load_yaml(initial_positions_file_right)}"
-    use_fake_hardware="${use_fake_hardware}"
-    sim_ignition="${sim_ignition}"
-    robot_ip="${right_ur_ip_addr}"
-    reverse_port="60001"
-    script_sender_port="60002"
-    script_command_port="60004"
-    trajectory_port="60003"
-    use_tool_communication="false"
-    script_filename="$(find ur_client_library)/resources/external_control.urscript"
-    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
-    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-    generate_ros2_control_tag="${generate_ros2_control_tag}"
+    safety_limits="false"
+    safety_pos_margin="0.15"
+    safety_k_position="20"
     >
     <origin xyz="0 0 0" rpy="0 0 ${5*pi/4}" />
   </xacro:ur_robot>
 
+  <xacro:if value="${generate_ros2_control_tag}">
+    <!-- only including the ros2_control files in this first UR block -->
+    <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro" />
+    <xacro:include filename="$(find ur_description)/urdf/inc/ur_transmissions.xacro" />
+
+    <xacro:ur_ros2_control
+      name="${tf_prefix}right_ur5e_ros2_control"
+      tf_prefix="${tf_prefix}right_ur_arm_"
+      kinematics_parameters_file="${right_ur_kinematics_file}"
+      use_mock_hardware="${use_fake_hardware}"
+      mock_sensor_commands="${use_fake_hardware}"
+      initial_positions="${xacro.load_yaml(initial_positions_file_right)}"
+      robot_ip="${right_ur_ip_addr}"
+      script_filename="$(find ur_client_library)/resources/external_control.urscript"
+      output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+      input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+      reverse_port="60001"
+      script_sender_port="60002"
+      trajectory_port="60003"
+      script_command_port="60004"
+    />
+  </xacro:if>
+
+  <!-- left ur -->
   <xacro:ur_robot
     name="${tf_prefix}left_ur5e"
     tf_prefix="${tf_prefix}left_ur_arm_"
@@ -642,22 +655,31 @@
     joint_limits_parameters_file="$(find ur_description)/config/ur5e/joint_limits.yaml"
     physical_parameters_file="$(find ur_description)/config/ur5e/physical_parameters.yaml"
     visual_parameters_file="$(find ur_description)/config/ur5e/visual_parameters.yaml"
-    initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
-    use_fake_hardware="${use_fake_hardware}"
-    sim_ignition="${sim_ignition}"
-    robot_ip="${left_ur_ip_addr}"
-    reverse_port="50001"
-    script_sender_port="50002"
-    script_command_port="50004"
-    trajectory_port="50003"
-    use_tool_communication="false"
-    script_filename="$(find ur_client_library)/resources/external_control.urscript"
-    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
-    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-    generate_ros2_control_tag="${generate_ros2_control_tag}"
+    safety_limits="false"
+    safety_pos_margin="0.15"
+    safety_k_position="20"
     >
     <origin xyz="0 0 0" rpy="0 0 ${-pi/4}" /> <!-- TODO: need to integrate the OPTENV RIGEBACK_RIGHT_UR_XYZ stuff-->
   </xacro:ur_robot>
+
+  <xacro:if value="${generate_ros2_control_tag}">
+    <xacro:ur_ros2_control
+      name="${tf_prefix}left_ur5e_ros2_control"
+      tf_prefix="${tf_prefix}left_ur_arm_"
+      kinematics_parameters_file="${left_ur_kinematics_file}"
+      use_mock_hardware="${use_fake_hardware}"
+      mock_sensor_commands="${use_fake_hardware}"
+      initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
+      robot_ip="${left_ur_ip_addr}"
+      script_filename="$(find ur_client_library)/resources/external_control.urscript"
+      output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+      input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+      reverse_port="50001"
+      script_sender_port="50002"
+      script_command_port="50004"
+      trajectory_port="50003"
+    />
+  </xacro:if>
 
   <!-- end effector interface stack -->
   <xacro:unless value="${calibration_mode}">
