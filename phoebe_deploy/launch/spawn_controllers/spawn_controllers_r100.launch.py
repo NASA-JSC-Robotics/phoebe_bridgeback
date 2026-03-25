@@ -95,7 +95,21 @@ def generate_launch_description():
             condition=UnlessCondition(is_sim),
         )
     )
-    nodes.append(MakeControllerNode("odom_publisher"))
+    nodes.append(
+        MakeControllerNode(
+            "odom_publisher",
+            condition=IfCondition(is_sim),
+            controller_ros_args=[
+                "--ros-args -p kinematics.wheels_radius:=0.063",
+            ],
+        )
+    )
+    nodes.append(
+        MakeControllerNode(
+            "odom_publisher",
+            condition=UnlessCondition(is_sim),
+        )
+    )
     nodes.append(
         MakeControllerNode(
             "imu_broadcaster",
