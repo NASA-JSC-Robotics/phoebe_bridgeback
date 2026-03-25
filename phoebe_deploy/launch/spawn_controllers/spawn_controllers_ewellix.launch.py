@@ -72,7 +72,9 @@ def generate_launch_description():
             condition=condition,
         )
 
-    nodes.append(MakeControllerNode("left_lift_joint_trajectory_controller", condition=UnlessCondition(use_left_static_pedestal)))
+    nodes.append(
+        MakeControllerNode("left_lift_joint_trajectory_controller", condition=UnlessCondition(use_left_static_pedestal))
+    )
     nodes.append(MakeControllerNode("right_lift_joint_trajectory_controller"))
 
     return LaunchDescription(declared_arguments + nodes)
