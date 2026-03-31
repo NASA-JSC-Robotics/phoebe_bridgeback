@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="phoebe_environment">
 
-  <!-- ===================== MATERIALS ===================== -->
+  <!-- ===================== MATERIALS/COLORS ===================== -->
   <material name="black">
     <color rgba="0.1 0.1 0.1 1"/>
   </material>
@@ -16,6 +16,10 @@
 
   <material name="gray">
     <color rgba="0.7 0.7 0.7 1"/>
+  </material>
+
+  <material name="bottle_blue">
+    <color rgba="0.1 0.4 0.9 1"/>
   </material>
 
   <!-- ===================== MACRO ===================== -->
@@ -180,6 +184,44 @@
     </joint>
 
   </xacro:macro>
+
+  <!-- ===================== CYLINDER ===================== -->
+    <link name="cylinder">
+     <visual>
+        <origin xyz="2.75 -0.666 0.665"/>
+        <geometry>
+            <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="bottle_blue"/>
+     </visual>
+     <collision>
+        <origin xyz="2.75 -0.666 0.665"/>
+        <geometry>
+            <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+     </collision>
+    </link>
+
+    <joint name="world_to_cylinder" type="fixed">
+      <parent link="world"/>
+      <child link="cylinder"/>
+  </joint>
+
+  <!-- ===================== CYLINDER JIG ===================== -->
+  <link name="cylinder_jig">
+    <visual>
+      <origin xyz="-2.1 -0.666 0.667" rpy="-1.57 3.14 -1.57"/>
+      <geometry>
+        <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <joint name="world_to_cylinder_jig" type="fixed">
+    <parent link="world"/>
+    <child link="cylinder_jig"/>
+  </joint>
 
   <!-- ===================== INSTANTIATE MACRO ===================== -->
   <xacro:phoebe_environment/>
