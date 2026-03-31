@@ -101,6 +101,14 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "extra_xacro_args",
+            default_value="",
+            description="Extra args to add for making a robot description. "
+            "Should be in the format of 'arg1:=value1 arg2:=value2'",
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -111,6 +119,7 @@ def generate_launch_description():
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    extra_xacro_args = LaunchConfiguration("extra_xacro_args")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -187,7 +196,6 @@ def generate_launch_description():
     controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
     # This is the main robot description for Phoebe.
-    # Unfortunately, we need the robot description for the controller manager to launch admittance controllers.
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -209,6 +217,7 @@ def generate_launch_description():
             "calibration_mode:=",
             calibration_mode,
             " ",
+            extra_xacro_args,  # this should always be last
         ]
     )
     robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}

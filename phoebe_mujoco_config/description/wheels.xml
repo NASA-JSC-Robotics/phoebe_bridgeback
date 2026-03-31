@@ -2,7 +2,7 @@
 <body name="rear_left_wheel_link" pos="-0.319 0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
     <joint name="rear_left_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
-
+    
 
     <geom size="0.0165" fromto="0.059399999999999994 -0.02722361107568208 0.0 0.04200214280248092 0.02722361107568208 0.042002142802480914" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
     <body name="rear_left_wheel_roller_0_link" pos="0.05070107140124046 0.0 0.021001071401240457" zaxis="-0.017397857197519073 0.05444722215136416 0.042002142802480914">
@@ -63,7 +63,7 @@
 <body name="rear_right_wheel_link" pos="-0.319 -0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
     <joint name="rear_right_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
-
+    
 
     <geom size="0.0165" fromto="0.059399999999999994 -0.02722361107568208 0.0 0.04200214280248091 0.02722361107568208 -0.04200214280248093" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
     <body name="rear_right_wheel_roller_0_link" pos="0.05070107140124045 0.0 -0.021001071401240464" zaxis="-0.017397857197519087 0.05444722215136416 -0.04200214280248093">
@@ -124,7 +124,7 @@
 <body name="front_left_wheel_link" pos="0.319 0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
     <joint name="front_left_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
-
+    
 
     <geom size="0.0165" fromto="0.059399999999999994 -0.02722361107568208 0.0 0.04200214280248091 0.02722361107568208 -0.04200214280248093" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
     <body name="front_left_wheel_roller_0_link" pos="0.05070107140124045 0.0 -0.021001071401240464" zaxis="-0.017397857197519087 0.05444722215136416 -0.04200214280248093">
@@ -185,7 +185,7 @@
 <body name="front_right_wheel_link" pos="0.319 -0.2755 0.05">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.5" diaginertia="0.00720101 0.00490071 0.00490071" />
     <joint name="front_right_wheel_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
-
+    
 
     <geom size="0.0165" fromto="0.059399999999999994 -0.02722361107568208 0.0 0.04200214280248092 0.02722361107568208 0.042002142802480914" quat="1 0 0 0" type="capsule" rgba="0.2 0.2 0.2 1" class="visual"/>
     <body name="front_right_wheel_roller_0_link" pos="0.05070107140124046 0.0 0.021001071401240457" zaxis="-0.017397857197519073 0.05444722215136416 0.042002142802480914">
