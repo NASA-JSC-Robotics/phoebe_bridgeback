@@ -156,7 +156,7 @@ class StringModifierNode(Node):
 
         self.publisher.publish(out_msg)
 
-        self.get_logger().info(f"Published post-processed mjcf to /mujoco_robot_description")
+        self.get_logger().info("Published post-processed mjcf to /mujoco_robot_description")
 
 
 def main(args=None):

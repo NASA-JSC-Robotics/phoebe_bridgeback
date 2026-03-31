@@ -3,24 +3,24 @@
     <include file="mujoco_description_formatted.xml"/>
     <statistic center="0.0 0 0.4" extent="5.0"/>
     <option gravity="0 0 -9.81">
-        
-        
+
+
         <flag contact="enable"/>
-        
-      
+
+
     </option>
     <visual>
-        
-        
+
+
         <rgba haze="0.15 0.25 0.35 1"/>
-        
-        
+
+
         <!-- initial camera starting angle and elevation -->
-        
-        
+
+
         <global azimuth="-120" elevation="-30" offheight="720" offwidth="1280"/>
-        
-      
+
+
     </visual>
     <!-- this stuff will go away once Zarrin gets the environment urdf-ified -->
     <compiler angle="radian" assetdir="assets"/>
@@ -30,8 +30,8 @@
             </default>
         </default> -->
     <asset>
-        
-        
+
+
         <!-- <texture type="2d" name="tag36_11_00000" file="tag36_11_00000.png"/>
             <texture type="2d" name="tag36_11_00001" file="tag36_11_00001.png"/>
             <texture type="2d" name="tag36_11_00004" file="tag36_11_00004.png"/>
@@ -40,32 +40,32 @@
             <material name="tag36h11-1" texture="tag36_11_00001" specular="0.5" shininess="0.25" texrepeat="-1 1"/>
             <material name="tag36h11-4" texture="tag36_11_00004" specular="0.5" shininess="0.25"/>
             <material name="tag36h11-6" texture="tag36_11_00006" specular="0.5" shininess="0.25"/> -->
-        
-        
+
+
         <texture builtin="gradient" height="3072" rgb1="0.3 0.5 0.7" rgb2="0 0 0" type="skybox" width="512"/>
-        
-        
+
+
         <material name="cabinet_black" reflectance="0.2" rgba="0.1 0.1 0.1 1.0"/>
-        
-        
+
+
         <material name="table_blue" reflectance="0.2" rgba="0.1 0.1 0.3 1.0"/>
-        
-        
+
+
         <material name="desk_brown" reflectance="0.2" rgba="0.42 0.22 0.16 1.0"/>
-        
-        
+
+
         <texture builtin="checker" height="300" mark="edge" markrgb="0.5 0.5 0.5" name="groundplane" rgb1="0.8 0.8 0.8" rgb2="0.8 0.8 0.8" type="2d" width="300"/>
-        
-        
+
+
         <material name="groundplane" reflectance="0.0" texrepeat="3.0 3.0" texture="groundplane" texuniform="true"/>
-        
-        
+
+
         <!-- <mesh name="cylinder" file="cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/> -->
-        
-        
+
+
         <!-- cylinder jig - decomposed bc convexity doesn't work well for it -->
-        
-        
+
+
         <!-- <mesh file="cylinder_jig/cylinder_jig.obj" scale="0.001 0.001 0.001"/>
             <mesh file="cylinder_jig/cylinder_jig_collision_0.obj" scale="0.001 0.001 0.001"/>
             <mesh file="cylinder_jig/cylinder_jig_collision_1.obj" scale="0.001 0.001 0.001"/>
@@ -90,89 +90,89 @@
             <mesh file="cylinder_jig/cylinder_jig_collision_20.obj" scale="0.001 0.001 0.001"/>
             <mesh file="cylinder_jig/cylinder_jig_collision_21.obj" scale="0.001 0.001 0.001"/>
             <mesh file="cylinder_jig/cylinder_jig_collision_22.obj" scale="0.001 0.001 0.001"/> -->
-        
-      
+
+
     </asset>
     <worldbody>
-        
-        
+
+
         <light castshadow="false" dir="0 0 -1" directional="true" pos="0 0 3"/>
-        
-        
+
+
         <geom material="groundplane" name="floor" size="0 0 0.05" type="plane"/>
-        
-        
+
+
         <!-- left bookshelf -->
-        
-        
+
+
         <geom class="visual" material="cabinet_black" pos="1.55 -2.25 0.75" quat="1 0 0 0" size="1.5 0.25 0.75" type="box"/>
-        
-        
+
+
         <geom class="collision" pos="1.55 -2.25 0.75" quat="1 0 0 0" size="1.5 0.25 0.75" type="box"/>
-        
-        
+
+
         <!-- right bookshelf -->
-        
-        
+
+
         <geom class="visual" material="cabinet_black" pos="-1.55 -2.25 0.75" quat="1 0 0 0" size="1.5 0.25 0.75" type="box"/>
-        
-        
+
+
         <geom class="collision" pos="-1.55 -2.25 0.75" quat="1 0 0 0" size="1.5 0.25 0.75" type="box"/>
-        
-        
+
+
         <!-- pick table -->
-        
-        
+
+
         <geom class="visual" material="table_blue" pos="3.0 -0.666 0.333" quat="1 0 0 0" size="0.333 0.666 0.333" type="box"/>
-        
-        
+
+
         <geom class="collision" pos="3.0 -0.666 0.333" quat="1 0 0 0" size="0.333 0.666 0.333" type="box"/>
-        
-        
+
+
         <!-- place table -->
-        
-        
+
+
         <geom class="visual" material="table_blue" pos="-2.25 -0.666 0.333" quat="1 0 0 0" size="0.333 0.333 0.333" type="box"/>
-        
-        
+
+
         <geom class="collision" pos="-2.25 -0.666 0.333" quat="1 0 0 0" size="0.333 0.333 0.333" type="box"/>
-        
-        
+
+
         <!-- left operator desk -->
-        
-        
+
+
         <geom class="visual" euler="0 0 0.523599" material="desk_brown" pos="3.0 1.0 0.333" size="0.333 0.666 0.333" type="box"/>
-        
-        
+
+
         <geom class="collision" euler="0 0 0.523599" pos="3.0 1.0 0.333" size="0.333 0.666 0.333" type="box"/>
-        
-        
+
+
         <!-- right operator desk -->
-        
-        
+
+
         <geom class="visual" euler="0 0 1.2" material="desk_brown" pos="1.85 2.0 0.333" size="0.333 0.666 0.333" type="box"/>
-        
-        
+
+
         <geom class="collision" euler="0 0 1.2" pos="1.85 2.0 0.333" size="0.333 0.666 0.333" type="box"/>
-        
-        
+
+
         <!-- extra operator desks -->
-        
-        
+
+
         <geom class="visual" euler="0 0 1.57" material="desk_brown" pos="-0.25 2.25 0.333" size="0.333 1.25 0.333" type="box"/>
-        
-        
+
+
         <geom class="collision" euler="0 0 1.57" pos="-0.25 2.25 0.333" size="0.333 1.25 0.333" type="box"/>
-        
-        
+
+
         <!-- <body name="cylinder" pos="2.75 -0.666 0.665">
             <inertial pos="0 0 0.19" quat="1 0 0 0" mass="0.750" diaginertia="0.0005 0.0005 3e-5"/>
             <joint name="free_joint" type="free"/>
             <geom name="cylinder_vis" type="mesh" mesh="cylinder" rgba="1.0 0.1 0.1 1" class="visual"/>
             <geom name="cylinder_col" type="mesh" mesh="cylinder" class="rubber"/>
             </body> -->
-        
-        
+
+
         <!-- <body name="cylinder_jig2" pos="0.8 2.2 1.1" euler="2.793 0 0">
             <geom mesh="cylinder_jig" class="visual" rgba="0.1 0.1 0.1 1"/>
             <geom mesh="cylinder_jig_collision_0" rgba="0.8900706191757303 0.9713592020957457 0.5780404029665048 1" class="cylinder_jig"/>
@@ -201,8 +201,8 @@
             <geom material="tag36h11-6" size="0.0365 0.0365 0.001" pos="0 0.175 0.12" euler="-1.57 0 0" type="box" class="visual"/>
             <geom material="tag36h11-0" size="0.0365 0.0365 0.001" pos="-0.088 0.068 0" euler="-1.5707963 -1.0471975 -1.5707963" type="box" class="visual"/>
             </body> -->
-        
-        
+
+
         <!-- <body name="cylinder_jig" pos="-2.1 -0.666 0.667" euler="1.57 1.57 0">
             <geom mesh="cylinder_jig" class="visual" rgba="0.1 0.1 0.1 1"/>
             <geom mesh="cylinder_jig_collision_0" rgba="0.8900706191757303 0.9713592020957457 0.5780404029665048 1" class="cylinder_jig"/>
@@ -231,13 +231,13 @@
             <geom material="tag36h11-4" size="0.0365 0.0365 0.001" pos="0 0.068 0.088" euler="-0.523599 0 0" type="box" class="visual"/>
             <geom material="tag36h11-0" size="0.0365 0.0365 0.001" pos="-0.088 0.068 0" euler="-1.5707963 -1.0471975 -1.5707963" type="box" class="visual"/>
             </body> -->
-        
-        
+
+
         <!-- april tag -->
-        
-        
+
+
         <!-- <geom material="tag36h11-1" size="0.107 0.107 0.001" pos="0.134059 -1.788736 2.822666" euler="0.785 0 3.14159" type="box" class="visual"/> -->
-        
-      
+
+
     </worldbody>
 </mujoco>
