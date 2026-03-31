@@ -242,51 +242,15 @@ def generate_launch_description():
             ParameterFile(controllers_hande, allow_substs=True),
             ParameterFile(controllers_moveit_pro, allow_substs=True),
             {"use_sim_time": use_sim_time},
-            robot_description,
         ],
         remappings=[
-            # remap to be able to use the global robot_description
-            ("~/robot_description", "robot_description"),
-            # Necessary remap for platform velocity controller. Preferably this would be done
-            # at spawn time. This is not supported in humble, but is supported in jazzy.
-            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
+            # This is throwing a deprecation warning, as ros2_control would
+            # prefer to have this tied to a controller, not the controller
+            # manager, but there is no controller for this to go to unfortunately
+            # when this is running in mujoco.
             ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
         output="both",
-        condition=UnlessCondition(use_fake_hardware),
-    )
-
-    # start the controller manager node with all of the controller config files
-    # this is the version for sim, which just sets the kinematics.wheel radius to a smaller value for mujoco
-    control_node_sim = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        namespace=ns,
-        # allow_substs allows tf_prefix to be pulled in
-        parameters=[
-            ParameterFile(controllers_common, allow_substs=True),
-            ParameterFile(controllers_r100, allow_substs=True),
-            ParameterFile(controllers_ewellix, allow_substs=True),
-            ParameterFile(controllers_ur, allow_substs=True),
-            ParameterFile(controllers_hande, allow_substs=True),
-            ParameterFile(controllers_moveit_pro, allow_substs=True),
-            robot_description,
-            # for some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically
-            {
-                "use_sim_time": use_sim_time,
-                "kinematics.wheels_radius": 0.063,
-            },
-        ],
-        remappings=[
-            # remap to be able to use the global robot_description
-            ("~/robot_description", "robot_description"),
-            # Necessary remap for platform velocity controller. Preferably this would be done
-            # at spawn time. This is not supported in humble, but is supported in jazzy.
-            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
-            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
-        ],
-        output="both",
-        condition=IfCondition(use_fake_hardware),
     )
 
     node_puma_throttle = Node(
@@ -305,9 +269,7 @@ def generate_launch_description():
     )
 
     ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)]
-        + launch_files
-        + [robot_state_publisher_node, control_node, control_node_sim, node_puma_throttle]
+        actions=[PushRosNamespace(ns)] + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle]
     )
 
     return LaunchDescription(declared_arguments + [ns_action])

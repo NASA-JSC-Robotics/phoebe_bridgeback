@@ -120,7 +120,7 @@ def generate_launch_description():
         namespace=ns,
         output="screen",
         remappings={
-            ("cmd_vel_out", "platform_velocity_controller/cmd_vel_unstamped"),
+            ("/cmd_vel_out", "platform_velocity_controller/reference"),
             ("/diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),

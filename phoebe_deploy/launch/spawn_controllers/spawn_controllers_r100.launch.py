@@ -24,7 +24,7 @@ from launch.substitutions import (
     LaunchConfiguration,
 )
 from launch_ros.actions import Node
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 
 
 def generate_launch_description():
@@ -52,7 +52,7 @@ def generate_launch_description():
     nodes = []
 
     # helper function to make controller nodes
-    def MakeControllerNode(controller_name, active=True, condition=None):
+    def MakeControllerNode(controller_name, active=True, condition=None, controller_ros_args=None):
         arguments = [
             "--controller-manager",
             "controller_manager",
@@ -64,6 +64,10 @@ def generate_launch_description():
         ]
         if not active:
             arguments.append("--inactive")
+        if controller_ros_args is not None:
+            for controller_ros_arg in controller_ros_args:
+                arguments.append("--controller-ros-args")
+                arguments.append(f"{controller_ros_arg}")
 
         return Node(
             package="controller_manager",
@@ -74,12 +78,45 @@ def generate_launch_description():
             condition=condition,
         )
 
-    nodes.append(MakeControllerNode("platform_velocity_controller"))
-    nodes.append(MakeControllerNode("odom_publisher"))
+    # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
+    # This should definitely be investigated further.
+    nodes.append(
+        MakeControllerNode(
+            "platform_velocity_controller",
+            condition=IfCondition(is_sim),
+            controller_ros_args=[
+                "--ros-args -p kinematics.wheels_radius:=0.063",
+            ],
+        )
+    )
+    nodes.append(
+        MakeControllerNode(
+            "platform_velocity_controller",
+            condition=UnlessCondition(is_sim),
+        )
+    )
+    nodes.append(
+        MakeControllerNode(
+            "odom_publisher",
+            condition=IfCondition(is_sim),
+            controller_ros_args=[
+                "--ros-args -p kinematics.wheels_radius:=0.063",
+            ],
+        )
+    )
+    nodes.append(
+        MakeControllerNode(
+            "odom_publisher",
+            condition=UnlessCondition(is_sim),
+        )
+    )
     nodes.append(
         MakeControllerNode(
             "imu_broadcaster",
             condition=IfCondition(is_sim),
+            controller_ros_args=[
+                "--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
+            ],
         )
     )
 
