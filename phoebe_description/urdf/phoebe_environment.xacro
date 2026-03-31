@@ -210,9 +210,9 @@
   <!-- ===================== CYLINDER JIG ===================== -->
   <link name="cylinder_jig">
     <visual>
-      <origin xyz="-2.1 -0.666 0.667" rpy="-1.57 3.14 -1.57"/>
+      <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 0"/>
       <geometry>
-        <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig.obj" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
