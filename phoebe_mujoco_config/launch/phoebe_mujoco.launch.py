@@ -132,6 +132,14 @@ def generate_launch_description():
                 ],
                 condition=UnlessCondition(use_pregenerated_mjcf),
             ),
+            # This waits for the topic /mujoco_robot_description_preprocessed to be published, then takes the data,
+            # post-processes it, and writes out the modified data to /mujoco_robot_description. This handles some special
+            # components like wheels, custom robotiq gripper mujoco representations, april tags, etc
+            Node(
+                package="phoebe_mujoco_config",
+                executable="post_process_mjcf_runtime.py",
+                name="post_process_mjcf_runtime",
+            ),
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
         ]
 
@@ -178,17 +186,6 @@ def generate_launch_description():
     )
 
     nodes = []
-
-    # This waits for the topic /mujoco_robot_description_preprocessed to be published, then takes the data,
-    # post-processes it, and writes out the modified data to /mujoco_robot_description. This handles some special
-    # components like wheels, custom robotiq gripper mujoco representations, april tags, etc
-    nodes.append(
-        Node(
-            package="phoebe_mujoco_config",
-            executable="post_process_mjcf_runtime.py",
-            name="post_process_mjcf_runtime",
-        )
-    )
 
     nodes.append(
         Node(
