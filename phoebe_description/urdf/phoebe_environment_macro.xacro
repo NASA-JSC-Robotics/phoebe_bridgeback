@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="phoebe_environment">
-  <xacro:macro name="phoebe_environment">
-  
-  <!-- Include color xacro -->
-  <xacro:include filename="$(find phoebe_description)/urdf/phoebe_environment_colors.xacro"/>
 
-    <!-- WORLD -->
-    <link name="world"/>
+  <xacro:macro name="phoebe_environment" params="parent">
+
+    <!-- Include color xacro -->
+    <xacro:include filename="$(find phoebe_description)/urdf/phoebe_environment_colors.xacro"/>
 
     <!-- ===================== BOOKSHELVES (CABINETS) ===================== -->
     <link name="bookshelves">
@@ -43,8 +41,8 @@
 
     </link>
 
-    <joint name="world_to_bookshelves" type="fixed">
-      <parent link="world"/>
+    <joint name="${parent}_to_bookshelves" type="fixed">
+      <parent link="${parent}"/>
       <child link="bookshelves"/>
     </joint>
 
@@ -83,8 +81,8 @@
 
     </link>
 
-    <joint name="world_to_tables" type="fixed">
-      <parent link="world"/>
+    <joint name="${parent}_to_tables" type="fixed">
+      <parent link="${parent}"/>
       <child link="tables"/>
     </joint>
 
@@ -138,52 +136,49 @@
 
     </link>
 
-    <joint name="world_to_desks" type="fixed">
-      <parent link="world"/>
+    <joint name="${parent}_to_desks" type="fixed">
+      <parent link="${parent}"/>
       <child link="desks"/>
     </joint>
 
+    <!-- ===================== CYLINDER ===================== -->
+    <link name="cylinder">
+       <visual>
+          <origin xyz="2.75 -0.666 0.665"/>
+          <geometry>
+              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <material name="cylinder_bottle_blue"/>
+       </visual>
+       <collision>
+          <origin xyz="2.75 -0.666 0.665"/>
+          <geometry>
+              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+       </collision>
+    </link>
+
+    <joint name="${parent}_to_cylinder" type="fixed">
+      <parent link="${parent}"/>
+      <child link="cylinder"/>
+    </joint>
+
+    <!-- ===================== CYLINDER JIG ===================== -->
+    <link name="cylinder_jig">
+      <visual>
+        <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 0"/>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="phoebe_environment_black"/>
+      </visual>
+    </link>
+
+    <joint name="${parent}_to_cylinder_jig" type="fixed">
+      <parent link="${parent}"/>
+      <child link="cylinder_jig"/>
+    </joint>
+
   </xacro:macro>
-
-  <!-- ===================== CYLINDER ===================== -->
-  <link name="cylinder">
-     <visual>
-        <origin xyz="2.75 -0.666 0.665"/>
-        <geometry>
-            <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="cylinder_bottle_blue"/>
-     </visual>
-     <collision>
-        <origin xyz="2.75 -0.666 0.665"/>
-        <geometry>
-            <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-     </collision>
-  </link>
-
-  <joint name="world_to_cylinder" type="fixed">
-    <parent link="world"/>
-    <child link="cylinder"/>
-  </joint>
-
-  <!-- ===================== CYLINDER JIG ===================== -->
-  <link name="cylinder_jig">
-    <visual>
-      <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 0"/>
-      <geometry>
-        <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="phoebe_environment_black"/>
-    </visual>
-  </link>
-
-  <joint name="world_to_cylinder_jig" type="fixed">
-    <parent link="world"/>
-    <child link="cylinder_jig"/>
-  </joint>
-
-  <!-- ===================== INSTANTIATE MACRO ===================== -->
-  <xacro:phoebe_environment/>
 
 </robot>
