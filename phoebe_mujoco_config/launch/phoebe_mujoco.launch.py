@@ -113,6 +113,8 @@ def generate_launch_description():
                 os.remove(tmp.name)
 
         return [
+            # Writing to /mujoco_robot_description_preprocessed instead of /mujoco_robot_description because the
+            # we need to do some post-processing before we can actually use the output. See node below for more details
             Node(
                 package="mujoco_ros2_control",
                 executable="make_mjcf_from_robot_description.py",
@@ -177,6 +179,9 @@ def generate_launch_description():
 
     nodes = []
 
+    # This waits for the topic /mujoco_robot_description_preprocessed to be published, then takes the data,
+    # post-processes it, and writes out the modified data to /mujoco_robot_description. This handles some special
+    # components like wheels, custom robotiq gripper mujoco representations, april tags, etc
     nodes.append(
         Node(
             package="phoebe_mujoco_config",
