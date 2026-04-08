@@ -2,19 +2,19 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="phoebe_colors">
 
   <!-- ===================== MATERIALS/COLORS ===================== -->
-  <material name="phoebe_environment_black">
+  <material name="imetro_mobile_environment_black">
     <color rgba="0.1 0.1 0.1 1"/>
   </material>
 
-  <material name="phoebe_environment_blue">
+  <material name="imetro_mobile_environment_blue">
     <color rgba="0.1 0.1 0.3 1"/>
   </material>
 
-  <material name="phoebe_environment_brown">
+  <material name="imetro_mobile_environment_brown">
     <color rgba="0.42 0.22 0.16 1"/>
   </material>
 
-  <material name="phoebe_environment_gray">
+  <material name="imetro_mobile_environment_gray">
     <color rgba="0.7 0.7 0.7 1"/>
   </material>
 

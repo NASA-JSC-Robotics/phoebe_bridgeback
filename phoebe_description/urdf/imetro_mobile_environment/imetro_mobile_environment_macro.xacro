@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro" name="phoebe_environment">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="imetro_mobile_environment">
 
-  <xacro:macro name="phoebe_environment" params="parent">
+  <xacro:macro name="imetro_mobile_environment" params="parent">
 
     <!-- Include color xacro -->
-    <xacro:include filename="$(find phoebe_description)/urdf/phoebe_environment_colors.xacro"/>
+    <xacro:include filename="$(find phoebe_description)/urdf/imetro_mobile_environment/imetro_mobile_environment_colors.xacro"/>
 
     <!-- ===================== BOOKSHELVES (CABINETS) ===================== -->
     <link name="bookshelves">
@@ -15,7 +15,7 @@
         <geometry>
           <box size="3.0 0.5 1.5"/>
         </geometry>
-        <material name="phoebe_environment_black"/>
+        <material name="imetro_mobile_environment_black"/>
       </visual>
       <collision>
         <origin xyz="1.55 -2.25 0.75"/>
@@ -30,7 +30,7 @@
         <geometry>
           <box size="3.0 0.5 1.5"/>
         </geometry>
-        <material name="phoebe_environment_black"/>
+        <material name="imetro_mobile_environment_black"/>
       </visual>
       <collision>
         <origin xyz="-1.55 -2.25 0.75"/>
@@ -55,7 +55,7 @@
         <geometry>
           <box size="0.666 1.332 0.666"/>
         </geometry>
-        <material name="phoebe_environment_blue"/>
+        <material name="imetro_mobile_environment_blue"/>
       </visual>
       <collision>
         <origin xyz="3.0 -0.666 0.333"/>
@@ -70,7 +70,7 @@
         <geometry>
           <box size="0.666 0.666 0.666"/>
         </geometry>
-        <material name="phoebe_environment_blue"/>
+        <material name="imetro_mobile_environment_blue"/>
       </visual>
       <collision>
         <origin xyz="-2.25 -0.666 0.333"/>
@@ -95,7 +95,7 @@
         <geometry>
           <box size="0.666 1.332 0.666"/>
         </geometry>
-        <material name="phoebe_environment_brown"/>
+        <material name="imetro_mobile_environment_brown"/>
       </visual>
       <collision>
         <origin xyz="3.0 1.0 0.333" rpy="0 0 0.523599"/>
@@ -110,7 +110,7 @@
         <geometry>
           <box size="0.666 1.332 0.666"/>
         </geometry>
-        <material name="phoebe_environment_brown"/>
+        <material name="imetro_mobile_environment_brown"/>
       </visual>
       <collision>
         <origin xyz="1.85 2.0 0.333" rpy="0 0 1.2"/>
@@ -125,7 +125,7 @@
         <geometry>
           <box size="0.666 2.5 0.666"/>
         </geometry>
-        <material name="phoebe_environment_brown"/>
+        <material name="imetro_mobile_environment_brown"/>
       </visual>
       <collision>
         <origin xyz="-0.25 2.25 0.333" rpy="0 0 1.57"/>
@@ -153,7 +153,7 @@
        <collision>
           <origin xyz="2.75 -0.666 0.665"/>
           <geometry>
-              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
+              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length_m.stl"/>
           </geometry>
        </collision>
     </link>
@@ -166,11 +166,11 @@
     <!-- ===================== CYLINDER JIG ===================== -->
     <link name="cylinder_jig">
       <visual>
-        <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 0"/>
+        <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 -1.57"/>
         <geometry>
-          <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig_m.stl"/>
         </geometry>
-        <material name="phoebe_environment_black"/>
+        <material name="imetro_mobile_environment_black"/>
       </visual>
     </link>
 

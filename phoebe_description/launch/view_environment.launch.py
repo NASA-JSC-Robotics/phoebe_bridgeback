@@ -29,7 +29,7 @@ def generate_launch_description():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare("phoebe_description"), "urdf", "phoebe_environment.urdf.xacro"]),
+            PathJoinSubstitution([FindPackageShare("phoebe_description"), "urdf", "imetro_mobile_environment", "imetro_mobile_environment.urdf.xacro"]),
             " ",
         ]
     )
