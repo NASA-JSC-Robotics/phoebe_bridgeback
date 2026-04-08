@@ -41,7 +41,7 @@
 
     </link>
 
-    <joint name="${parent}_to_bookshelves" type="fixed">
+    <joint name="bookshelves_joint" type="fixed">
       <parent link="${parent}"/>
       <child link="bookshelves"/>
     </joint>
@@ -81,7 +81,7 @@
 
     </link>
 
-    <joint name="${parent}_to_tables" type="fixed">
+    <joint name="tables_joint" type="fixed">
       <parent link="${parent}"/>
       <child link="tables"/>
     </joint>
@@ -136,7 +136,7 @@
 
     </link>
 
-    <joint name="${parent}_to_desks" type="fixed">
+    <joint name="desks_joint" type="fixed">
       <parent link="${parent}"/>
       <child link="desks"/>
     </joint>
@@ -158,7 +158,7 @@
        </collision>
     </link>
 
-    <joint name="${parent}_to_cylinder" type="fixed">
+    <joint name="cylinder_joint" type="fixed">
       <parent link="${parent}"/>
       <child link="cylinder"/>
     </joint>
@@ -174,7 +174,7 @@
       </visual>
     </link>
 
-    <joint name="${parent}_to_cylinder_jig" type="fixed">
+    <joint name="cylinder_jig_joint" type="fixed">
       <parent link="${parent}"/>
       <child link="cylinder_jig"/>
     </joint>
