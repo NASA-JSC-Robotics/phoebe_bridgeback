@@ -30,7 +30,7 @@
       wheel_separation_multiplier: 1.0
       wheel_radius_multiplier: 1.0
 
-      reference_timeout: 0.1
+      reference_timeout: 1.0
       cmd_vel_timeout: 0.5
       use_stamped_vel: False
 

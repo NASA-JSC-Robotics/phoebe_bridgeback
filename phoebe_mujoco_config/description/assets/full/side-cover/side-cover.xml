@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="new_mat_color.001" specular="0.5" shininess="0.36" rgba="0.800000 0.800000 0.000000 1.000000"/>
+    <material name="mtl_side-cover" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.00000000 1.0"/>
     <mesh file="side-cover.obj"/>
   </asset>
   <worldbody>
     <body name="side-cover">
-      <geom material="new_mat_color.001" mesh="side-cover" class="visual"/>
+      <geom material="mtl_side-cover" mesh="side-cover" class="visual"/>
       <geom mesh="side-cover" class="collision"/>
     </body>
   </worldbody>

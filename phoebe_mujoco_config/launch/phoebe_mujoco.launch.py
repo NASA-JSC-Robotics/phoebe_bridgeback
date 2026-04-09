@@ -19,13 +19,22 @@
 
 
 import os
+import tempfile
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, OpaqueFunction, IncludeLaunchDescription, RegisterEventHandler
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
-
+from launch.event_handlers import OnShutdown
+from launch.substitutions import (
+    PathJoinSubstitution,
+    LaunchConfiguration,
+    Command,
+    FindExecutable,
+)
+from launch_ros.substitutions import FindPackageShare
+from launch.conditions import UnlessCondition
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -54,10 +63,94 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_pregenerated_mjcf",
+            default_value="false",
+            description="Use pre-generated mjcf instead of converting it on the fly.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "sim_speed",
+            default_value="1.0",
+            description="Percentage speed to run the simulation at. 1.0 is 100 percent speed.",
+        )
+    )
 
     point_clouds = LaunchConfiguration("point_clouds")
     polled_cameras = LaunchConfiguration("polled_cameras")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    use_pregenerated_mjcf = LaunchConfiguration("use_pregenerated_mjcf")
+    sim_speed = LaunchConfiguration("sim_speed")
+
+    phoebe_mujoco_package_name = "phoebe_mujoco_config"
+    phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
+
+    mjcf_robot_description_content = Command(
+        [
+            PathJoinSubstitution([FindExecutable(name="xacro")]),
+            " ",
+            PathJoinSubstitution(
+                [FindPackageShare(phoebe_mujoco_package_name), "urdf", phoebe_mujoco_description_file]
+            ),
+            # Grasp frames should not be converted to MJCF objects
+            " add_grasp_push_frames:=false",
+            " include_scene_objects:=true",
+        ]
+    )
+
+    # Using an inline opaque function to write the URDF for mujoco to a tempfile...
+    # This prevents it from being dumped into the console on conversion errors.
+    def launch_mjcf_node(context):
+        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".urdf", delete=False)
+        tmp.write(mjcf_robot_description_content.perform(context))
+        tmp.close()
+
+        # Ensure the file gets deleted
+        def cleanup(event, context):
+            if os.path.exists(tmp.name):
+                os.remove(tmp.name)
+
+        return [
+            # Writing to /mujoco_robot_description_preprocessed instead of /mujoco_robot_description because the
+            # we need to do some post-processing before we can actually use the output. See node below for more details
+            Node(
+                package="mujoco_ros2_control",
+                executable="make_mjcf_from_robot_description.py",
+                output="both",
+                emulate_tty=True,
+                arguments=[
+                    "-f",
+                    "--publish_topic",
+                    "/mujoco_robot_description_preprocessed",
+                    "--urdf",
+                    tmp.name,
+                    "--convert_stl_to_obj",
+                    "--asset_dir",
+                    PathJoinSubstitution([FindPackageShare(phoebe_mujoco_package_name), "description", "assets"]),
+                ],
+                condition=UnlessCondition(use_pregenerated_mjcf),
+            ),
+            # This waits for the topic /mujoco_robot_description_preprocessed to be published, then takes the data,
+            # post-processes it, and writes out the modified data to /mujoco_robot_description. This handles some
+            # special components like wheels, custom robotiq gripper mujoco representations, april tags, etc
+            Node(
+                package="phoebe_mujoco_config",
+                executable="post_process_mjcf_runtime.py",
+                name="post_process_mjcf_runtime",
+            ),
+            RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
+        ]
+
+    generate_mjcf = OpaqueFunction(function=launch_mjcf_node)
+
+    extra_xacro_args = [
+        " use_pregenerated_mjcf:=",
+        use_pregenerated_mjcf,
+        " sim_speed:=",
+        sim_speed,
+    ]
 
     # Include the control launch file with relevant configuration
     control_launch = IncludeLaunchDescription(
@@ -71,9 +164,10 @@ def generate_launch_description():
         launch_arguments={
             "use_fake_hardware": "true",
             "robot_description_package": "phoebe_mujoco_config",
-            "robot_description_file": "phoebe_xacro.urdf",
+            "robot_description_file": "phoebe_mujoco_xacro.urdf",
             "use_sim_time": "true",
             "include_world_joints": include_world_joints,
+            "extra_xacro_args": extra_xacro_args,
         }.items(),
     )
 
@@ -187,4 +281,4 @@ def generate_launch_description():
         )
     )
 
-    return LaunchDescription(declared_arguments + [control_launch, teleop_launch] + nodes)
+    return LaunchDescription(declared_arguments + [generate_mjcf, control_launch, teleop_launch] + nodes)
