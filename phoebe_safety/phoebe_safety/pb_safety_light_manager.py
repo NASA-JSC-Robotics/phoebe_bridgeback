@@ -25,12 +25,13 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
 from phoebe_interfaces.msg import SafetyStatus
+from phoebe_interfaces.msg import SafetyCurrent
 import serial
 import time
+import struct
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 import datetime
 from enum import IntEnum
-
 
 class LightColor(IntEnum):
     RED = 1
@@ -54,8 +55,12 @@ class PhoebeSafetyManager(Node):
 
         # Use ROS 2 parameter system
         arduino_port_param = (
-            self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
+            self.declare_parameter("arduino_port", "/dev/ttyACM0").get_parameter_value().string_value
         )
+                
+#        arduino_port_param = (
+#            self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
+#        )
 
         # Assign parameters
         self.arduino_port = arduino_port_param
@@ -66,6 +71,9 @@ class PhoebeSafetyManager(Node):
         # Safety status publisher topic name
         self.safety_status_topic = "safety_status"
 
+        # Safety current publisher topic name
+        self.safety_current_topic = "safety_current"
+        
         # Service for listing controllers from the controller manager
         self.list_controllers_srv = "controller_manager/list_controllers"
 
@@ -83,7 +91,7 @@ class PhoebeSafetyManager(Node):
 
         # Wait time for checks (Seconds)
         self.wait_time = 5
-
+        
         while not self.arduino_connected and rclpy.ok():
             self.try_reconnect_arduino()
 
@@ -97,7 +105,11 @@ class PhoebeSafetyManager(Node):
         self.publisher = self.create_publisher(
             SafetyStatus, self.safety_status_topic, 10, callback_group=self.callback_group
         )
-
+        
+        # Publishing to "safety_current" topic with the custom SafetyCurrent message
+        self.current_publisher = self.create_publisher(
+            SafetyCurrent, self.safety_current_topic, 10, callback_group=self.callback_group
+        )
         # Timer to check system s￼tatus at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.check_system_safety, callback_group=self.callback_group)
@@ -171,6 +183,7 @@ class PhoebeSafetyManager(Node):
         )
 
         self.send_light_state(light_state)
+        self.read_currents()
 
     def publish_not_safe(self):
         """
@@ -218,6 +231,37 @@ class PhoebeSafetyManager(Node):
                 self.arduino_connected = False
                 self.arduino = None
                 self.publish_not_safe()
+                
+    def read_currents(self):
+        msg = SafetyCurrent()
+        if self.arduino and self.arduino.is_open:
+             buf_size = self.arduino.in_waiting
+             finish = True
+             while finish:
+                   if buf_size !=0:
+                      dummy = self.arduino.read(1)
+                      buf_size = buf_size -1                        
+                      if dummy[0] == 35 and buf_size != 0:
+                         dummy1 = self.arduino.read(1)
+                         buf_size = buf_size -1
+                         if dummy1[0] == 35 and buf_size >= 40:
+                            msg.current_0 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_1 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_2 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_3 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_4 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_5 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_6 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_7 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_8 = struct.unpack('<f',self.arduino.read(4))[0]
+                            msg.current_9 = struct.unpack('<f',self.arduino.read(4))[0]
+                            buf_size = buf_size - 40
+                            msg.timestamp = self.get_clock().now().to_msg()
+                            self.current_publisher.publish(msg)
+                         else:   
+                               finish = False
+                   else:
+                        finish = False                     
 
     def controller_manager_check(self):
         node_names = self.get_node_names_and_namespaces()
