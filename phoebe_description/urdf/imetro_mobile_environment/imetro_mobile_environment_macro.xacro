@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="imetro_mobile_environment">
+
+  <xacro:macro name="imetro_mobile_environment" params="parent *origin">
+
+  <link name="mobile_environment_base"/>
+
+  <joint name="mobile_environment_base_joint" type="fixed">
+    <parent link="${parent}"/>
+    <child link="mobile_environment_base"/>
+    <xacro:insert_block name="origin" />
+  </joint>
+
+    <!-- Include color xacro -->
+    <xacro:include filename="$(find phoebe_description)/urdf/imetro_mobile_environment/imetro_mobile_environment_colors.xacro"/>
+
+    <!-- ===================== BOOKSHELVES (CABINETS) ===================== -->
+    <link name="bookshelves">
+
+      <!-- right shelf -->
+      <visual>
+        <origin xyz="1.55 0 0.75"/>
+        <geometry>
+          <box size="3.0 0.5 1.5"/>
+        </geometry>
+        <material name="imetro_mobile_environment_black"/>
+      </visual>
+      <collision>
+        <origin xyz="1.55 0 0.75"/>
+        <geometry>
+          <box size="3.0 0.5 1.5"/>
+        </geometry>
+      </collision>
+
+      <!-- left shelf -->
+      <visual>
+        <origin xyz="-1.55 0 0.75"/>
+        <geometry>
+          <box size="3.0 0.5 1.5"/>
+        </geometry>
+        <material name="imetro_mobile_environment_black"/>
+      </visual>
+      <collision>
+        <origin xyz="-1.55 0 0.75"/>
+        <geometry>
+          <box size="3.0 0.5 1.5"/>
+        </geometry>
+      </collision>
+
+    </link>
+
+    <joint name="bookshelves_joint" type="fixed">
+      <parent link="mobile_environment_base"/>
+      <child link="bookshelves"/>
+      <origin xyz="0 -2.25 0"/>
+    </joint>
+
+    <!-- ===================== TABLES ===================== -->
+    <!-- pick table -->
+    <link name="pick_table">
+      <visual>
+        <origin xyz="0 0 0.333"/>
+        <geometry>
+          <box size="0.666 1.332 0.666"/>
+        </geometry>
+        <material name="imetro_mobile_environment_blue"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.333"/>
+        <geometry>
+          <box size="0.666 1.332 0.666"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="pick_table_joint" type="fixed">
+      <parent link="mobile_environment_base"/>
+      <child link="pick_table"/>
+      <origin xyz="3.0 -0.666 0" rpy="0 0 0"/>
+    </joint>
+
+      <!-- place table -->
+    <link name="place_table">
+      <visual>
+        <origin xyz="0 0 0.333"/>
+        <geometry>
+          <box size="0.666 0.666 0.666"/>
+        </geometry>
+        <material name="imetro_mobile_environment_blue"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.333"/>
+        <geometry>
+          <box size="0.666 0.666 0.666"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="place_table_joint" type="fixed">
+      <parent link="mobile_environment_base"/>
+      <child link="place_table"/>
+      <origin xyz="-2.25 -0.666 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- ===================== DESKS ===================== -->
+    <link name="desks">
+
+      <!-- desk 1 -->
+      <visual>
+        <origin xyz="1.15 -1.0 0.333" rpy="0 0 0.523599"/>
+        <geometry>
+          <box size="0.666 1.332 0.666"/>
+        </geometry>
+        <material name="imetro_mobile_environment_brown"/>
+      </visual>
+      <collision>
+        <origin xyz="1.15 -1.0 0.333" rpy="0 0 0.523599"/>
+        <geometry>
+          <box size="0.666 1.332 0.666"/>
+        </geometry>
+      </collision>
+
+      <!-- desk 2 -->
+      <visual>
+        <origin xyz="0 0 0.333" rpy="0 0 1.2"/>
+        <geometry>
+          <box size="0.666 1.332 0.666"/>
+        </geometry>
+        <material name="imetro_mobile_environment_brown"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.333" rpy="0 0 1.2"/>
+        <geometry>
+          <box size="0.666 1.332 0.666"/>
+        </geometry>
+      </collision>
+
+      <!-- desk 3 -->
+      <visual>
+        <origin xyz="-2.1 0.25 0.333" rpy="0 0 1.57"/>
+        <geometry>
+          <box size="0.666 2.5 0.666"/>
+        </geometry>
+        <material name="imetro_mobile_environment_brown"/>
+      </visual>
+      <collision>
+        <origin xyz="-2.1 0.25 0.333" rpy="0 0 1.57"/>
+        <geometry>
+          <box size="0.666 2.5 0.666"/>
+        </geometry>
+      </collision>
+
+    </link>
+
+    <joint name="desks_joint" type="fixed">
+     <parent link="mobile_environment_base"/>
+      <child link="desks"/>
+      <origin xyz="1.85 2.0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- ===================== CYLINDER ===================== -->
+    <link name="cylinder">
+       <visual>
+          <origin xyz="2.75 -0.666 0.665"/>
+          <geometry>
+              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <material name="cylinder_bottle_blue"/>
+       </visual>
+       <collision>
+          <origin xyz="2.75 -0.666 0.665"/>
+          <geometry>
+              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length_m.stl"/>
+          </geometry>
+       </collision>
+    </link>
+
+    <joint name="cylinder_joint" type="fixed">
+      <parent link="mobile_environment_base"/>
+      <child link="cylinder"/>
+    </joint>
+
+    <!-- ===================== CYLINDER JIG ===================== -->
+    <link name="cylinder_jig">
+      <visual>
+        <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 -1.57"/>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig_m.stl"/>
+        </geometry>
+        <material name="imetro_mobile_environment_black"/>
+      </visual>
+    </link>
+
+    <joint name="cylinder_jig_joint" type="fixed">
+      <parent link="mobile_environment_base"/>
+      <child link="cylinder_jig"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
