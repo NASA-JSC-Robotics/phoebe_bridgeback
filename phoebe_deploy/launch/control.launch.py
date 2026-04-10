@@ -101,6 +101,14 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "extra_xacro_args",
+            default_value="",
+            description="Extra args to add for making a robot description. "
+            "Should be in the format of 'arg1:=value1 arg2:=value2'",
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -111,6 +119,7 @@ def generate_launch_description():
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    extra_xacro_args = LaunchConfiguration("extra_xacro_args")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -187,7 +196,6 @@ def generate_launch_description():
     controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
     # This is the main robot description for Phoebe.
-    # Unfortunately, we need the robot description for the controller manager to launch admittance controllers.
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -209,6 +217,7 @@ def generate_launch_description():
             "calibration_mode:=",
             calibration_mode,
             " ",
+            extra_xacro_args,  # this should always be last
         ]
     )
     robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}
@@ -242,51 +251,15 @@ def generate_launch_description():
             ParameterFile(controllers_hande, allow_substs=True),
             ParameterFile(controllers_moveit_pro, allow_substs=True),
             {"use_sim_time": use_sim_time},
-            robot_description,
         ],
         remappings=[
-            # remap to be able to use the global robot_description
-            ("~/robot_description", "robot_description"),
-            # Necessary remap for platform velocity controller. Preferably this would be done
-            # at spawn time. This is not supported in humble, but is supported in jazzy.
-            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
+            # This is throwing a deprecation warning, as ros2_control would
+            # prefer to have this tied to a controller, not the controller
+            # manager, but there is no controller for this to go to unfortunately
+            # when this is running in mujoco.
             ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
         output="both",
-        condition=UnlessCondition(use_fake_hardware),
-    )
-
-    # start the controller manager node with all of the controller config files
-    # this is the version for sim, which just sets the kinematics.wheel radius to a smaller value for mujoco
-    control_node_sim = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        namespace=ns,
-        # allow_substs allows tf_prefix to be pulled in
-        parameters=[
-            ParameterFile(controllers_common, allow_substs=True),
-            ParameterFile(controllers_r100, allow_substs=True),
-            ParameterFile(controllers_ewellix, allow_substs=True),
-            ParameterFile(controllers_ur, allow_substs=True),
-            ParameterFile(controllers_hande, allow_substs=True),
-            ParameterFile(controllers_moveit_pro, allow_substs=True),
-            robot_description,
-            # for some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically
-            {
-                "use_sim_time": use_sim_time,
-                "kinematics.wheels_radius": 0.063,
-            },
-        ],
-        remappings=[
-            # remap to be able to use the global robot_description
-            ("~/robot_description", "robot_description"),
-            # Necessary remap for platform velocity controller. Preferably this would be done
-            # at spawn time. This is not supported in humble, but is supported in jazzy.
-            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
-            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
-        ],
-        output="both",
-        condition=IfCondition(use_fake_hardware),
     )
 
     node_puma_throttle = Node(
@@ -305,9 +278,7 @@ def generate_launch_description():
     )
 
     ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)]
-        + launch_files
-        + [robot_state_publisher_node, control_node, control_node_sim, node_puma_throttle]
+        actions=[PushRosNamespace(ns)] + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle]
     )
 
     return LaunchDescription(declared_arguments + [ns_action])

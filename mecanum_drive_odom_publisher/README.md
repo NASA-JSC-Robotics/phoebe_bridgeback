@@ -7,7 +7,7 @@ It basically just uses the odom portion of that controller, but the idea is that
 
 ## Usage
 
-* You should set up the controller config similarly to how you set up the clearpath_mecanum_drive_controller, because it uses all of the same odom information. An example is below for the ridgeback.
+* You should set up the controller config similarly to how you set up the mecanum_drive_controller, because it uses all of the same odom information. An example is below for the ridgeback.
 
 ```yaml
   controller_manager:

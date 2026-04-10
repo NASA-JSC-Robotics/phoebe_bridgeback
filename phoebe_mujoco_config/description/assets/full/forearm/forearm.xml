@@ -8,10 +8,10 @@
     </default>
   </default>
   <asset>
-    <material name="Black.003" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey.003" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
-    <material name="LinkGrey.001" specular="0.5" shininess="0.25" rgba="0.820392 0.820392 0.820392 1.000000"/>
-    <material name="URBlue.002" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <material name="material_forearm_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_forearm_1" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
+    <material name="material_forearm_2" specular="0.20000000000000004" shininess="1.0" rgba="0.81960784 0.81960784 0.81960784 1.0"/>
+    <material name="material_forearm_3" specular="0.20000000000000004" shininess="1.0" rgba="0.49019608 0.67843137 0.80000000 1.0"/>
     <mesh file="forearm_0.obj"/>
     <mesh file="forearm_1.obj"/>
     <mesh file="forearm_2.obj"/>
@@ -19,10 +19,10 @@
   </asset>
   <worldbody>
     <body name="forearm">
-      <geom mesh="forearm_0" material="URBlue.002" class="visual"/>
-      <geom mesh="forearm_1" material="LinkGrey.001" class="visual"/>
-      <geom mesh="forearm_2" material="Black.003" class="visual"/>
-      <geom mesh="forearm_3" material="JointGrey.003" class="visual"/>
+      <geom mesh="forearm_0" material="material_forearm_3" class="visual"/>
+      <geom mesh="forearm_1" material="material_forearm_2" class="visual"/>
+      <geom mesh="forearm_2" material="material_forearm_1" class="visual"/>
+      <geom mesh="forearm_3" material="material_forearm_0" class="visual"/>
       <geom mesh="forearm_0" class="collision"/>
       <geom mesh="forearm_1" class="collision"/>
       <geom mesh="forearm_2" class="collision"/>
