@@ -106,6 +106,8 @@ def generate_launch_description():
             # Grasp frames should not be converted to MJCF objects
             " add_grasp_push_frames:=false",
             " include_scene_objects:=true",
+            " use_left_static_pedestal:=",
+            use_left_static_pedestal,
         ]
     )
 

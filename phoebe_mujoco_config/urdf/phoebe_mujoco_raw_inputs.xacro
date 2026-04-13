@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="phoebe_mujoco_raw_inputs">
+  <xacro:macro name="phoebe_mujoco_raw_inputs" params="
+    use_left_static_pedestal:=false
+  ">
 
     <raw_inputs>
         <option integrator="implicitfast" impratio="20" cone="elliptic" noslip_iterations="5">
@@ -48,7 +50,9 @@
         </default>
 
         <actuator>
-            <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
+            <xacro:unless value="${use_left_static_pedestal}">
+                <position joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
+            </xacro:unless>
             <position joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
             <position tendon="right_split" name="right_robotiq_85_left_knuckle_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-20 20"/>
             <position tendon="left_split" name="left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
@@ -74,8 +78,10 @@
         </actuator>
 
         <contact>
-            <exclude body1="base_link" body2="left_ewellix_lift_higher_link"/>
-            <exclude body1="base_link" body2="left_ewellix_lift_middle_link"/>
+            <xacro:unless value="${use_left_static_pedestal}">
+                <exclude body1="base_link" body2="left_ewellix_lift_higher_link"/>
+                <exclude body1="base_link" body2="left_ewellix_lift_middle_link"/>\
+            </xacro:unless>
             <exclude body1="base_link" body2="right_ewellix_lift_higher_link"/>
             <exclude body1="base_link" body2="right_ewellix_lift_middle_link"/>
 
@@ -168,12 +174,14 @@
         </contact>
 
         <!-- Same logic as above... but for liftkits -->
-        <tendon>
-            <fixed name="left_lift_middle_mimic_higher">
-            <joint joint="left_ewellix_lift_lower_to_higher" coef="0.5"/>
-            <joint joint="left_middle_mimic_higher" coef="0.5"/>
-            </fixed>
-        </tendon>
+        <xacro:unless value="${use_left_static_pedestal}">
+            <tendon>
+                <fixed name="left_lift_middle_mimic_higher">
+                <joint joint="left_ewellix_lift_lower_to_higher" coef="0.5"/>
+                <joint joint="left_middle_mimic_higher" coef="0.5"/>
+                </fixed>
+            </tendon>
+        </xacro:unless>
         <tendon>
             <fixed name="right_lift_middle_mimic_higher">
             <joint joint="right_ewellix_lift_lower_to_higher" coef="0.5"/>
@@ -182,9 +190,11 @@
         </tendon>
 
         <!-- The mimic joint is scaled by 50% in the URDF -->
-        <equality>
-            <joint name="left_upper_mimic_lower" joint1="left_ewellix_lift_lower_to_higher" joint2="left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
-        </equality>
+        <xacro:unless value="${use_left_static_pedestal}">
+            <equality>
+                <joint name="left_upper_mimic_lower" joint1="left_ewellix_lift_lower_to_higher" joint2="left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
+            </equality>
+        </xacro:unless>
         <equality>
             <joint name="right_upper_mimic_lower" joint1="right_ewellix_lift_lower_to_higher" joint2="right_middle_mimic_higher" polycoef="0 2 0 0 0"/>
         </equality>
