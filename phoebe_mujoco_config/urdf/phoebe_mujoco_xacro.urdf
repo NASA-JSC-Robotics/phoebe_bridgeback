@@ -5,18 +5,30 @@
   <xacro:arg name="include_world_joints" default="false"/>
   <xacro:arg name="sim_speed" default="1.0"/>
   <xacro:arg name="use_pregenerated_mjcf" default="false"/>
+  <xacro:arg name="model_mobile_env" default="true"/>
   <!-- uncomment to start from saved keyframe -->
   <!-- <xacro:arg name="override_start_position_file" default="$(find cylinder_demo)/config/new_pre_place.xml"/> -->
+  
+  <xacro:property name="model_mobile_env" value="$(arg model_mobile_env)"/>
 
   <!-- Includes -->
   <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
+  <xacro:include filename="$(find phoebe_description)/urdf/imetro_mobile_enviornment/imetro_mobile_environment_macro.xacro" />
 
   <xacro:phoebe
     generate_ros2_control_tag="false"
     add_grasp_push_frames="$(arg add_grasp_push_frames)"
     use_camera_mesh="false"
     include_world_joints="$(arg include_world_joints)"
-  />
+  /> 
+
+  <link name="world"/>
+
+  <xacro:if value="${model_mobile_env}">
+    <xacro:imetro_mobile_environment parent="world">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:imetro_mobile_environment>
+  </xacro:if>
 
   <!-- special inputs for mujoco processing-->
   <xacro:include filename="$(find phoebe_mujoco_config)/urdf/phoebe_mujoco_raw_inputs.xacro"/>
