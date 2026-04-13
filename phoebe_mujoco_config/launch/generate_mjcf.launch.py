@@ -43,9 +43,18 @@ def generate_launch_description():
             description="Use pre-generated assets dir. This is useful if you are just modifying an existing structure",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Use pre-generated assets dir. This is useful if you are just modifying an existing structure",
+        )
+    )
 
     phoebe_mujoco_package_name = "phoebe_mujoco_config"
     phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
+
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     # main robot description for Phoebe
     robot_description_content = Command(
@@ -59,9 +68,9 @@ def generate_launch_description():
                     phoebe_mujoco_description_file,
                 ]
             ),
-            " ",
-            "add_grasp_push_frames:=",
-            "false",
+            " add_grasp_push_frames:=false",
+            " use_left_static_pedestal:=",
+            use_left_static_pedestal,
         ]
     )
 

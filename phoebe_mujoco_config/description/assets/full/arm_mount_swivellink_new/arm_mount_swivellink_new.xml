@@ -1,0 +1,20 @@
+<mujoco model="arm_mount_swivellink_new">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="mtl_arm_mount_swivellink_new" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
+    <mesh file="arm_mount_swivellink_new.obj"/>
+  </asset>
+  <worldbody>
+    <body name="arm_mount_swivellink_new">
+      <geom material="mtl_arm_mount_swivellink_new" mesh="arm_mount_swivellink_new" class="visual"/>
+      <geom mesh="arm_mount_swivellink_new" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>
