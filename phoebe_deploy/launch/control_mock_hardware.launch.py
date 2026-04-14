@@ -48,11 +48,18 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
 
     # Initialize Arguments
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
-
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("phoebe_deploy"), "launch", "control.launch.py")
@@ -61,6 +68,7 @@ def generate_launch_description():
             "use_fake_hardware": "true",
             "ns": ns,
             "calibration_mode": calibration_mode,
+            "use_left_static_pedestal": use_left_static_pedestal,
         }.items(),
     )
 

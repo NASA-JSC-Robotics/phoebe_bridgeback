@@ -103,6 +103,13 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "extra_xacro_args",
             default_value="",
             description="Extra args to add for making a robot description. "
@@ -119,6 +126,7 @@ def generate_launch_description():
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     extra_xacro_args = LaunchConfiguration("extra_xacro_args")
 
     # common launch args shared across different nodes
@@ -131,6 +139,7 @@ def generate_launch_description():
         "robot_description_file": robot_description_file,
         "is_sim": use_fake_hardware,
         "include_world_joints": include_world_joints,
+        "use_left_static_pedestal": use_left_static_pedestal,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -216,6 +225,9 @@ def generate_launch_description():
             " ",
             "calibration_mode:=",
             calibration_mode,
+            " ",
+            "use_left_static_pedestal:=",
+            use_left_static_pedestal,
             " ",
             extra_xacro_args,  # this should always be last
         ]

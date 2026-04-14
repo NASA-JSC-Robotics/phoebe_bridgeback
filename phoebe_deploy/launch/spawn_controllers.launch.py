@@ -69,17 +69,27 @@ def generate_launch_description():
             description="This is some kind of simulation environment",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
     ns = LaunchConfiguration("ns")
     calibration_mode = LaunchConfiguration("calibration_mode")
     is_sim = LaunchConfiguration("is_sim")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     # common launch args passed to each of the different launch files
     common_launch_args = {
         "tf_prefix": tf_prefix,
         "ns": ns,
+        "calibration_mode": calibration_mode,
         "is_sim": is_sim,
+        "use_left_static_pedestal": use_left_static_pedestal,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -169,7 +179,12 @@ def generate_launch_description():
     )
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
-    launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
+    launches.append(
+        MakeLaunchDescription(
+            launch_file_ewellix_spawner,
+            common_launch_args,
+        )
+    )
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
     launches.append(
         MakeLaunchDescription(

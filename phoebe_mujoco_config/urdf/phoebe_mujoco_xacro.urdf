@@ -6,6 +6,7 @@
   <xacro:arg name="sim_speed" default="1.0"/>
   <xacro:arg name="use_pregenerated_mjcf" default="false"/>
   <xacro:arg name="model_mobile_env" default="true"/>
+  <xacro:arg name="use_left_static_pedestal" default="false"/>
   <!-- uncomment to start from saved keyframe -->
   <!-- <xacro:arg name="override_start_position_file" default="$(find cylinder_demo)/config/new_pre_place.xml"/> -->
 
@@ -20,6 +21,7 @@
     add_grasp_push_frames="$(arg add_grasp_push_frames)"
     use_camera_mesh="false"
     include_world_joints="$(arg include_world_joints)"
+    use_left_static_pedestal="$(arg use_left_static_pedestal)"
   />
 
   <link name="world"/>
@@ -36,7 +38,7 @@
   <xacro:include filename="$(find phoebe_mujoco_config)/urdf/phoebe_mujoco_scene.xacro"/>
 
   <mujoco_inputs>
-    <xacro:phoebe_mujoco_raw_inputs/>
+    <xacro:phoebe_mujoco_raw_inputs use_left_static_pedestal="$(arg use_left_static_pedestal)"/>
     <xacro:phoebe_mujoco_processed_inputs/>
     <xacro:phoebe_mujoco_scene/>
   </mujoco_inputs>
@@ -97,14 +99,16 @@
       <state_interface name="linear_acceleration.z"/>
     </sensor>
 
-    <joint name="left_ewellix_lift_lower_to_higher">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.24</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
+    <xacro:unless value="$(arg use_left_static_pedestal)">
+      <joint name="left_ewellix_lift_lower_to_higher">
+        <command_interface name="position"/>
+        <state_interface name="position">
+          <param name="initial_value">0.24</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:unless>
     <joint name="right_ewellix_lift_lower_to_higher">
       <command_interface name="position"/>
       <state_interface name="position">
@@ -132,7 +136,12 @@
     <joint name="left_ur_arm_shoulder_pan_joint">
       <command_interface name="position"/>
       <state_interface name="position">
-        <param name="initial_value">${radians(-33)}</param>
+        <xacro:if value="$(arg use_left_static_pedestal)">
+          <param name="initial_value">${radians(8)}</param>
+        </xacro:if>
+        <xacro:unless value="$(arg use_left_static_pedestal)">
+          <param name="initial_value">${radians(-33)}</param>
+        </xacro:unless>
       </state_interface>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>

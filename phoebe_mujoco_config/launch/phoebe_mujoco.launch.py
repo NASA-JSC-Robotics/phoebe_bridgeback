@@ -77,12 +77,21 @@ def generate_launch_description():
             description="Percentage speed to run the simulation at. 1.0 is 100 percent speed.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Whether to use the left static pedestal instead of the left lift",
+            choices=["true", "false"],
+        )
+    )
 
     point_clouds = LaunchConfiguration("point_clouds")
     polled_cameras = LaunchConfiguration("polled_cameras")
     include_world_joints = LaunchConfiguration("include_world_joints")
     use_pregenerated_mjcf = LaunchConfiguration("use_pregenerated_mjcf")
     sim_speed = LaunchConfiguration("sim_speed")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     phoebe_mujoco_package_name = "phoebe_mujoco_config"
     phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
@@ -98,6 +107,8 @@ def generate_launch_description():
             " add_grasp_push_frames:=false",
             " model_mobile_env:=true",
             " include_scene_objects:=true",
+            " use_left_static_pedestal:=",
+            use_left_static_pedestal,
         ]
     )
 
@@ -168,6 +179,7 @@ def generate_launch_description():
             "robot_description_file": "phoebe_mujoco_xacro.urdf",
             "use_sim_time": "true",
             "include_world_joints": include_world_joints,
+            "use_left_static_pedestal": use_left_static_pedestal,
             "extra_xacro_args": extra_xacro_args,
         }.items(),
     )
