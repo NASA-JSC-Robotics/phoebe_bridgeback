@@ -51,11 +51,19 @@ def generate_launch_description():
             description="Enable headless mode for robot control",
         )
     )
+    arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
 
     # Initialize Arguments
     tf_prefix = LaunchConfiguration("tf_prefix")
     is_sim = LaunchConfiguration("is_sim")
     headless_mode = LaunchConfiguration("headless_mode")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     robot_description_content = Command(
         [
@@ -71,6 +79,9 @@ def generate_launch_description():
             " ",
             "headless_mode:=",
             headless_mode,
+            " ",
+            "use_left_static_pedestal:=",
+            use_left_static_pedestal,
             " ",
         ]
     )

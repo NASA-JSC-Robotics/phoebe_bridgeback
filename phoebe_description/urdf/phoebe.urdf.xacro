@@ -18,6 +18,7 @@
     <xacro:arg name="right_liftkit_calibration_file" default="$(find phoebe_description)/config/right_liftkit_calibration.yaml" />
     <xacro:arg name="liftkit_mount_calibration_file" default="$(find phoebe_description)/config/liftkit_mount_calibration.yaml" />
     <xacro:arg name="generate_ros2_control_tag" default="true" />
+    <xacro:arg name="use_left_static_pedestal" default="false" />
 
     <!-- Includes -->
     <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
@@ -40,5 +41,6 @@
         left_liftkit_calibration_file="$(arg left_liftkit_calibration_file)"
         right_liftkit_calibration_file="$(arg right_liftkit_calibration_file)"
         generate_ros2_control_tag="$(arg generate_ros2_control_tag)"
+        use_left_static_pedestal="$(arg use_left_static_pedestal)"
     />
 </robot>
