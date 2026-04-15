@@ -25,7 +25,7 @@
   <exec_depend>liftkit_hardware_interface</exec_depend>
   <exec_depend>kinematics_interface_kdl</exec_depend>
   <exec_depend>topic_tools</exec_depend>
-  <exec_depend>realsense_polled_camera</exec_depend>
+  <exec_depend>realsense2_camera</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>
