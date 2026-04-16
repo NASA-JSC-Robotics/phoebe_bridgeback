@@ -7,7 +7,6 @@ Panels:
         - /RobotModel1/Description Topic1
         - /TF1
         - /TF1/Tree1
-        - /TF1/Tree1/world1
       Splitter Ratio: 0.5
     Tree Height: 1144
   - Class: rviz_common/Selection
@@ -62,6 +61,21 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        apriltag_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        apriltag_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        apriltag_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         bookshelves:
           Alpha: 1
           Show Axes: false
@@ -86,7 +100,12 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        tables:
+        pick_table:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        place_table:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -108,6 +127,12 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        apriltag_0:
+          Value: true
+        apriltag_1:
+          Value: true
+        apriltag_4:
+          Value: true
         bookshelves:
           Value: true
         cylinder:
@@ -118,7 +143,9 @@ Visualization Manager:
           Value: true
         mobile_environment_base:
           Value: true
-        tables:
+        pick_table:
+          Value: true
+        place_table:
           Value: true
         world:
           Value: true
@@ -129,17 +156,24 @@ Visualization Manager:
       Show Names: false
       Tree:
         world:
-          cylinder:
-            {}
-          cylinder_jig:
-            {}
-          desks:
-            {}
           mobile_environment_base:
+            apriltag_1:
+              {}
             bookshelves:
               {}
-          tables:
-            {}
+            cylinder:
+              {}
+            cylinder_jig:
+              apriltag_0:
+                {}
+              apriltag_4:
+                {}
+            desks:
+              {}
+            pick_table:
+              {}
+            place_table:
+              {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -188,7 +222,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.493516445159912
+      Distance: 7.22540807723999
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -203,10 +237,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5003979802131653
+      Pitch: 0.3453980088233948
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.6603977680206299
+      Yaw: 0.7353982329368591
     Saved: ~
 Window Geometry:
   Displays:

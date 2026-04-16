@@ -161,9 +161,9 @@
     <!-- ===================== CYLINDER ===================== -->
     <link name="cylinder">
        <visual>
-          <origin xyz="2.75 -0.666 0.665"/>
+          <origin xyz="0 0 0"/>
           <geometry>
-              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length.stl" scale="0.001 0.001 0.001"/>
+              <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_mockup_full_length_m.stl"/>
           </geometry>
           <material name="cylinder_bottle_blue"/>
        </visual>
@@ -178,23 +178,82 @@
     <joint name="cylinder_joint" type="fixed">
       <parent link="mobile_environment_base"/>
       <child link="cylinder"/>
+      <origin xyz="2.75 -0.666 0.665" rpy="0 0 0"/>
     </joint>
 
-    <!-- ===================== CYLINDER JIG ===================== -->
+    <!-- ===================== CYLINDER JIG + APRIL TAGS ===================== -->
     <link name="cylinder_jig">
       <visual>
-        <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 -1.57"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig_m.stl"/>
         </geometry>
         <material name="imetro_mobile_environment_black"/>
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://phoebe_description/meshes/visual/cylinder/cylinder_jig/cylinder_jig_m.stl"/>
+        </geometry>
+      </collision>
     </link>
 
     <joint name="cylinder_jig_joint" type="fixed">
       <parent link="mobile_environment_base"/>
       <child link="cylinder_jig"/>
+      <origin xyz="-2.1 -0.666 0.667" rpy="3.14 3.14 -1.57"/>
     </joint>
+
+  <link name="apriltag_0">
+    <visual>
+      <origin xyz="-0.089 0 0.066" rpy="${1.57+0.53} ${0} ${1.57}"/>
+      <geometry>
+      <box size="0.073 0.073 0.002"/>
+      </geometry>
+    <material name="tag36h11-0">
+     <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00000.png"/>
+    </material>
+   </visual>
+ </link>
+
+   <joint name="apriltag_0_joint" type="fixed">
+     <parent link="cylinder_jig"/>
+     <child link="apriltag_0"/>
+   </joint>
+
+  <link name="apriltag_4">
+    <visual>
+      <origin xyz="0 -0.089 0.066" rpy="${-0.523599+1.57} 0 0"/>
+      <geometry>
+      <box size="0.073 0.073 0.002"/>
+      </geometry>
+    <material name="tag36h11-4">
+     <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00004.png"/>
+    </material>
+   </visual>
+ </link>
+
+   <joint name="apriltag_4_joint" type="fixed">
+     <parent link="cylinder_jig"/>
+     <child link="apriltag_4"/>
+   </joint>
+
+  <link name="apriltag_1">
+    <visual>
+      <origin xyz="0.134059 -1.788736 2.822666" rpy="-0.785 0 3.14159"/>
+      <geometry>
+        <box size="0.214 0.214 0.002"/>
+      </geometry>
+      <material name="tag36h11-1">
+        <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00001.png"/>
+      </material>
+    </visual>
+  </link>
+
+   <joint name="apriltag_1_joint" type="fixed">
+    <parent link="mobile_environment_base"/>
+    <child link="apriltag_1"/>
+   </joint>
 
   </xacro:macro>
 
