@@ -16,35 +16,38 @@
                 <position ctrlrange="-6.2831 6.2831"/>
                 <general biastype="affine" ctrlrange="-6.2831 6.2831"/>
                 <default class="size4">
-                <joint damping="10"/>
-                <general forcerange="-330 330" gainprm="100000" biasprm="0 -100000 -10000"/>
+                    <joint damping="10"/>
+                    <general forcerange="-330 330" gainprm="100000" biasprm="0 -100000 -10000"/>
                 </default>
                 <default class="size3">
-                <joint damping="5"/>
-                <general forcerange="-150 150" gainprm="100000" biasprm="0 -100000 -5000"/>
-                <default class="size3_limited">
-                    <joint range="-3.1415 3.1415"/>
-                    <general ctrlrange="-3.1415 3.1415"/>
-                </default>
+                    <joint damping="5"/>
+                    <general forcerange="-150 150" gainprm="100000" biasprm="0 -100000 -5000"/>
+                    <default class="size3_limited">
+                        <joint range="-3.1415 3.1415"/>
+                        <general ctrlrange="-3.1415 3.1415"/>
+                    </default>
                 </default>
                 <default class="size2">
-                <joint damping="2"/>
-                <general forcerange="-56 56" gainprm="100000" biasprm="0 -100000 -1000"/>
+                    <joint damping="2"/>
+                    <general forcerange="-56 56" gainprm="100000" biasprm="0 -100000 -1000"/>
                 </default>
                 <default class="visual">
-                <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+                    <geom group="2" type="mesh" contype="0" conaffinity="0"/>
                 </default>
                 <default class="collision">
-                <geom group="3" type="mesh"/>
-                <default class="rubber">
-                    <geom condim="4" friction="5 1.0 1.0" priority="1" solimp="0.9 0.95 0.001" solref="0.002 1" conaffinity="1"/>
-                </default>
+                    <geom group="3" type="mesh"/>
+                    <default class="wheels">
+                        <geom condim="3" friction="0.5 0.005 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+                    </default>
+                    <default class="rubber">
+                        <geom condim="4" friction="5 1.0 1.0" priority="1" solimp="0.9 0.95 0.001" solref="0.002 1" conaffinity="1"/>
+                    </default>
                 </default>
                 <default class="right_spring_link">
-                <joint range="-0.9 0.29670597283" armature="0.001" stiffness="0.05" springref="-2.62" damping="0.00125"/>
+                    <joint range="-0.9 0.29670597283" armature="0.001" stiffness="0.05" springref="-2.62" damping="0.00125"/>
                 </default>
                 <default class="left_spring_link">
-                <joint range="-0.29670597283 0.9" armature="0.001" stiffness="0.05" springref="2.62" damping="0.00125"/>
+                    <joint range="-0.29670597283 0.9" armature="0.001" stiffness="0.05" springref="2.62" damping="0.00125"/>
                 </default>
             </default>
         </default>
@@ -80,7 +83,7 @@
         <contact>
             <xacro:unless value="${use_left_static_pedestal}">
                 <exclude body1="base_link" body2="left_ewellix_lift_higher_link"/>
-                <exclude body1="base_link" body2="left_ewellix_lift_middle_link"/>\
+                <exclude body1="base_link" body2="left_ewellix_lift_middle_link"/>
             </xacro:unless>
             <exclude body1="base_link" body2="right_ewellix_lift_higher_link"/>
             <exclude body1="base_link" body2="right_ewellix_lift_middle_link"/>
