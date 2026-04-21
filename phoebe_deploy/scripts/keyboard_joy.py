@@ -27,7 +27,7 @@ import threading
 
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import TwistStamped
 
 
 # Simple script for converting keyboard key input to a twist message for driving the bridgeback
@@ -37,10 +37,10 @@ class KeyboardTeleopNode(Node):
         super().__init__("phoebe_teleop")
 
         # Publish twist commands at 10 hz
-        self.twist = Twist()
+        self.twist = TwistStamped()
         self.last_key_time = time.time() - 0.2
         self.reset_twist()
-        self.publisher_ = self.create_publisher(Twist, "/cmd_vel", 1)
+        self.publisher_ = self.create_publisher(TwistStamped, "/cmd_vel", 1)
         self.timer = self.create_timer(0.1, self.publish_twist)
         self.running = True
 
@@ -68,8 +68,8 @@ class KeyboardTeleopNode(Node):
         super().destroy_node()
 
     def reset_twist(self):
-        self.twist.linear.x = 0.0
-        self.twist.angular.z = 0.0
+        self.twist.twist.linear.x = 0.0
+        self.twist.twist.angular.z = 0.0
 
     def key_listener_loop(self):
         # Configures the shell to read raw input
@@ -87,17 +87,17 @@ class KeyboardTeleopNode(Node):
                 self.last_key_time = time.time()
                 key = sys.stdin.read(2)
                 if key == "[A":  # Up arrow
-                    self.twist.linear.x = 0.1
-                    self.twist.angular.z = 0.0
+                    self.twist.twist.linear.x = 0.1
+                    self.twist.twist.angular.z = 0.0
                 elif key == "[B":  # Down arrow
-                    self.twist.linear.x = -0.1
-                    self.twist.angular.z = 0.0
+                    self.twist.twist.linear.x = -0.1
+                    self.twist.twist.angular.z = 0.0
                 elif key == "[C":  # Right arrow
-                    self.twist.linear.x = 0.0
-                    self.twist.angular.z = -0.1
+                    self.twist.twist.linear.x = 0.0
+                    self.twist.twist.angular.z = -0.1
                 elif key == "[D":  # Left arrow
-                    self.twist.linear.x = 0.0
-                    self.twist.angular.z = 0.1
+                    self.twist.twist.linear.x = 0.0
+                    self.twist.twist.angular.z = 0.1
             else:
                 # Stop the robot on any other key
                 self.reset_twist()
