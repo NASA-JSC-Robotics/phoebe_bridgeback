@@ -9,6 +9,7 @@
       tf_prefix:=''
       use_fake_hardware:='false'
       sim_ignition:='false'
+      parent:='world'
       include_world_joints:='false'
       calibration_mode:='false'
       left_ewellix_com_port:='/dev/ewellix_left'

@@ -14,7 +14,14 @@
 
   <!-- Includes -->
   <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
-  <xacro:include filename="$(find phoebe_description)/urdf/imetro_mobile_enviornment/imetro_mobile_environment_macro.xacro" />
+  <xacro:include filename="$(find phoebe_description)/urdf/imetro_mobile_environment/imetro_mobile_environment_macro.xacro" />
+
+  <link name="world"/>
+
+  <joint name="floating_base_joint" type="floating">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
 
   <xacro:phoebe
     generate_ros2_control_tag="false"
@@ -24,7 +31,7 @@
     use_left_static_pedestal="$(arg use_left_static_pedestal)"
   />
 
-  <link name="world"/>
+
 
   <xacro:if value="${model_mobile_env}">
     <xacro:imetro_mobile_environment parent="world">

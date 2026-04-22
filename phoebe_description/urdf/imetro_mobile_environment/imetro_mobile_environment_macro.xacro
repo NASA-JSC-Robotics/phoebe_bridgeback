@@ -206,6 +206,7 @@
 
   <link name="apriltag_0">
     <visual>
+     <!-- pos="-0.088 0.068 0" euler="-1.5707963 -1.0471975 -1.5707963"  -->
       <origin xyz="-0.089 0 0.066" rpy="${1.57+0.53} ${0} ${1.57}"/>
       <geometry>
       <box size="0.073 0.073 0.002"/>
@@ -238,9 +239,10 @@
      <child link="apriltag_4"/>
    </joint>
 
+   <!-- ===================== WORLD APRIL TAG ===================== -->
+
   <link name="apriltag_1">
     <visual>
-      <origin xyz="0.134059 -1.788736 2.822666" rpy="-0.785 0 3.14159"/>
       <geometry>
         <box size="0.214 0.214 0.002"/>
       </geometry>
@@ -253,6 +255,7 @@
    <joint name="apriltag_1_joint" type="fixed">
     <parent link="mobile_environment_base"/>
     <child link="apriltag_1"/>
+    <origin xyz="0.134059 -1.788736 2.822666" rpy="-0.785 0 3.14159"/>
    </joint>
 
   </xacro:macro>

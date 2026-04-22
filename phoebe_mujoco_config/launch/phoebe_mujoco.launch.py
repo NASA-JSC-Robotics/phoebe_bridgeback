@@ -133,7 +133,7 @@ def generate_launch_description():
                 output="both",
                 emulate_tty=True,
                 arguments=[
-                    "-f",
+                    # "-f",
                     "--publish_topic",
                     "/mujoco_robot_description_preprocessed",
                     "--urdf",

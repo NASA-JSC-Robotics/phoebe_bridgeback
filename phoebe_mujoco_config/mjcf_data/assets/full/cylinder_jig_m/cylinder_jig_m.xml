@@ -1,0 +1,20 @@
+<mujoco model="cylinder_jig_m">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="mtl_m44" specular="0.20000000000000004" shininess="1.0" rgba="0.10196078 0.10196078 0.10196078 1.0"/>
+    <mesh file="cylinder_jig_m.obj"/>
+  </asset>
+  <worldbody>
+    <body name="cylinder_jig_m">
+      <geom material="mtl_m44" mesh="cylinder_jig_m" class="visual"/>
+      <geom mesh="cylinder_jig_m" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>
