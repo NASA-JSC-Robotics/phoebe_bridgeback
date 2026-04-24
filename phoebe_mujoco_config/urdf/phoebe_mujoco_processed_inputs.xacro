@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="phoebe_mujoco_processed_inputs_content">
+  <xacro:macro name="phoebe_mujoco_processed_inputs">
 
     <!-- Process arguments for the URDF -->
       <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
@@ -39,17 +39,4 @@
       <modify_element type="body" name="right_ur_arm_wrist_3_link" gravcomp="1.0"/>
   </xacro:macro>
 
-  <!-- Can use `skip_tags` to include the macro in other files without duplicating inputs -->
-  <xacro:macro name="phoebe_mujoco_processed_inputs" params="
-    skip_tags:=false
-  ">
-    <xacro:unless value="${skip_tags}">
-      <processed_inputs>
-        <xacro:phoebe_mujoco_processed_inputs_content />
-      </processed_inputs>
-    </xacro:unless>
-    <xacro:if value="${skip_tags}">
-      <xacro:phoebe_mujoco_processed_inputs_content />
-    </xacro:if>
-  </xacro:macro>
 </robot>

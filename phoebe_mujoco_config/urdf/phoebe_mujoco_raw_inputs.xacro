@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="phoebe_mujoco_raw_inputs_content" params="
+  <xacro:macro name="phoebe_mujoco_raw_inputs" params="
     use_left_static_pedestal:=false
   ">
 
@@ -222,22 +222,4 @@
 
   </xacro:macro>
 
-    <!-- Can use `skip_tags` to include the macro in other files without duplicating inputs -->
-    <xacro:macro name="phoebe_mujoco_raw_inputs" params="
-      use_left_static_pedestal:=false
-      skip_tags:=false
-    ">
-      <xacro:unless value="${skip_tags}">
-        <raw_inputs>
-          <xacro:phoebe_mujoco_raw_inputs_content
-            use_left_static_pedestal="${use_left_static_pedestal}"
-          />
-        </raw_inputs>
-      </xacro:unless>
-      <xacro:if value="${skip_tags}">
-        <xacro:phoebe_mujoco_raw_inputs_content
-          use_left_static_pedestal="${use_left_static_pedestal}"
-        />
-      </xacro:if>
-    </xacro:macro>
 </robot>
