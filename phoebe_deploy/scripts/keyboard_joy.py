@@ -117,6 +117,7 @@ class KeyboardTeleopNode(Node):
         if time.time() - self.last_key_time > KEY_TIMEOUT:
             self.reset_twist()
 
+        self.twist.header.stamp = self.get_clock().now().to_msg()
         self.publisher_.publish(self.twist)
 
 
