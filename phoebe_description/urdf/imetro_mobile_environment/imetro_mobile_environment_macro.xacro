@@ -210,6 +210,7 @@
       <origin xyz="-0.089 0 0.066" rpy="${1.57+0.53} ${0} ${1.57}"/>
       <geometry>
       <box size="0.073 0.073 0.002"/>
+          <!-- <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_000.dae"/> -->
       </geometry>
     <material name="tag36h11-0">
      <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00000.png"/>
@@ -227,6 +228,7 @@
       <origin xyz="0 -0.089 0.066" rpy="${-0.523599+1.57} 0 0"/>
       <geometry>
       <box size="0.073 0.073 0.002"/>
+        <!-- <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_004.dae"/> -->
       </geometry>
     <material name="tag36h11-4">
      <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00004.png"/>
@@ -245,6 +247,7 @@
     <visual>
       <geometry>
         <box size="0.214 0.214 0.002"/>
+        <!-- <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_001.dae"/> -->
       </geometry>
       <material name="tag36h11-1">
         <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00001.png"/>
