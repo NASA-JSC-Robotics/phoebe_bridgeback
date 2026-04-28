@@ -4,40 +4,39 @@
   <xacro:macro name="phoebe_mujoco_processed_inputs">
 
     <!-- Process arguments for the URDF -->
-    <processed_inputs>
-        <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
-        <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
+      <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
+      <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
 
-        <camera site="left_wrist_mounted_camera_color_optical_frame" name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
-        <camera site="right_wrist_mounted_camera_color_optical_frame" name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
+      <camera site="left_wrist_mounted_camera_color_optical_frame" name="left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
+      <camera site="right_wrist_mounted_camera_color_optical_frame" name="right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
 
-        <lidar ref_site="lidar2d_0_laser" sensor_name="lidar2d_0" min_angle="-2.3" max_angle="2.3" angle_increment="0.1" />    <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
+      <lidar ref_site="lidar2d_0_laser" sensor_name="lidar2d_0" min_angle="-2.3" max_angle="2.3" angle_increment="0.1" />    <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
 
-        <!-- Add frictionloss and armature to fingers to help with backdriving -->
-        <modify_element type="joint" name="left_finger_1_joint" armature="0.5" frictionloss="5.0" />
-        <modify_element type="joint" name="left_finger_2_joint" armature="0.5" frictionloss="5.0" />
-        <modify_element type="joint" name="right_finger_1_joint" armature="0.5" frictionloss="5.0" />
-        <modify_element type="joint" name="right_finger_2_joint" armature="0.5" frictionloss="5.0" />.
+      <!-- Add frictionloss and armature to fingers to help with backdriving -->
+      <modify_element type="joint" name="left_finger_1_joint" armature="0.5" frictionloss="5.0" />
+      <modify_element type="joint" name="left_finger_2_joint" armature="0.5" frictionloss="5.0" />
+      <modify_element type="joint" name="right_finger_1_joint" armature="0.5" frictionloss="5.0" />
+      <modify_element type="joint" name="right_finger_2_joint" armature="0.5" frictionloss="5.0" />.
 
-        <!-- Add gravcomp so that control will make the joints move about the desired position-->
-        <modify_element type="body" name="left_ewellix_lift_higher_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_ewellix_lift_middle_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_ur_arm_shoulder_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_ur_arm_upper_arm_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_ur_arm_forearm_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_ur_arm_wrist_1_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_ur_arm_wrist_2_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_ur_arm_wrist_3_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_finger_1_link" gravcomp="1.0"/>
-        <modify_element type="body" name="left_finger_2_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ewellix_lift_higher_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ewellix_lift_middle_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ur_arm_shoulder_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ur_arm_upper_arm_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ur_arm_forearm_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ur_arm_wrist_1_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ur_arm_wrist_2_link" gravcomp="1.0"/>
-        <modify_element type="body" name="right_ur_arm_wrist_3_link" gravcomp="1.0"/>
-    </processed_inputs>
+      <!-- Add gravcomp so that control will make the joints move about the desired position-->
+      <modify_element type="body" name="left_ewellix_lift_higher_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_ewellix_lift_middle_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_ur_arm_shoulder_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_ur_arm_upper_arm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_ur_arm_forearm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_ur_arm_wrist_1_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_ur_arm_wrist_2_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_ur_arm_wrist_3_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_finger_1_link" gravcomp="1.0"/>
+      <modify_element type="body" name="left_finger_2_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ewellix_lift_higher_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ewellix_lift_middle_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ur_arm_shoulder_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ur_arm_upper_arm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ur_arm_forearm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ur_arm_wrist_1_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ur_arm_wrist_2_link" gravcomp="1.0"/>
+      <modify_element type="body" name="right_ur_arm_wrist_3_link" gravcomp="1.0"/>
   </xacro:macro>
+
 </robot>
