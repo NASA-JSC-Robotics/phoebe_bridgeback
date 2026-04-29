@@ -207,10 +207,10 @@
   <link name="apriltag_0">
     <visual>
      <!-- pos="-0.088 0.068 0" euler="-1.5707963 -1.0471975 -1.5707963"  -->
-      <origin xyz="-0.089 0 0.066" rpy="${1.57+0.53} ${0} ${1.57}"/>
+      <origin xyz="-0.089 0 0.066" rpy="0 0.52360 0"/>
       <geometry>
-      <box size="0.073 0.073 0.002"/>
-          <!-- <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_000.dae"/> -->
+ <!--      <box size="0.073 0.073 0.002"/> -->
+          <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_0000.dae"/>
       </geometry>
     <material name="tag36h11-0">
      <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00000.png"/>
@@ -225,10 +225,10 @@
 
   <link name="apriltag_4">
     <visual>
-      <origin xyz="0 -0.089 0.066" rpy="${-0.523599+1.57} 0 0"/>
+      <origin xyz="0 -0.089 0.066" rpy="0 0.52360 1.57"/>
       <geometry>
-      <box size="0.073 0.073 0.002"/>
-        <!-- <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_004.dae"/> -->
+ <!--      <box size="0.073 0.073 0.002"/> -->
+        <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_0004.dae"/>
       </geometry>
     <material name="tag36h11-4">
      <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00004.png"/>
@@ -246,8 +246,8 @@
   <link name="apriltag_1">
     <visual>
       <geometry>
-        <box size="0.214 0.214 0.002"/>
-        <!-- <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_001.dae"/> -->
+        <!-- <box size="0.214 0.214 0.002"/> -->
+        <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_0001.dae"/>
       </geometry>
       <material name="tag36h11-1">
         <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00001.png"/>
@@ -258,7 +258,7 @@
    <joint name="apriltag_1_joint" type="fixed">
     <parent link="mobile_environment_base"/>
     <child link="apriltag_1"/>
-    <origin xyz="0.134059 -1.788736 2.822666" rpy="-0.785 0 3.14159"/>
+    <origin xyz="0.134059 -1.788736 2.822666" rpy="-3.14159 0.52360 1.57"/>
    </joint>
 
   </xacro:macro>
