@@ -6,7 +6,10 @@
 
   <xacro:include filename="$(find phoebe_moveit_config)/config/phoebe_macro.srdf.xacro"/>
 
-  <xacro:phoebe tf_prefix="$(arg tf_prefix)"/>
-  <xacro:phoebe tf_prefix="$(arg calibration_mode)"/>
-  <xacro:phoebe tf_prefix="$(arg use_left_static_pedestal)"/>
+  <xacro:phoebe 
+    tf_prefix="$(arg tf_prefix)"
+    calibration_mode="$(arg calibration_mode)"
+    use_left_static_pedestal="$(arg use_left_static_pedestal)"
+  />
+  
 </robot>
