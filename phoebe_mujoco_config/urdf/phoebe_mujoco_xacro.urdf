@@ -26,8 +26,12 @@
   <xacro:include filename="$(find phoebe_mujoco_config)/urdf/phoebe_mujoco_scene.xacro"/>
 
   <mujoco_inputs>
-    <xacro:phoebe_mujoco_raw_inputs use_left_static_pedestal="$(arg use_left_static_pedestal)"/>
-    <xacro:phoebe_mujoco_processed_inputs/>
+    <raw_inputs>
+      <xacro:phoebe_mujoco_raw_inputs use_left_static_pedestal="$(arg use_left_static_pedestal)"/>
+    </raw_inputs>
+    <processed_inputs>
+        <xacro:phoebe_mujoco_processed_inputs />
+    </processed_inputs>
     <xacro:phoebe_mujoco_scene/>
   </mujoco_inputs>
 
