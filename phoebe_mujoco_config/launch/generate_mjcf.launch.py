@@ -28,7 +28,7 @@ from launch.substitutions import (
     PathJoinSubstitution,
 )
 from launch_ros.substitutions import FindPackageShare
-from launch.event_handlers import OnProcessExit, OnShutdown
+from launch.event_handlers import OnShutdown
 from launch.actions import RegisterEventHandler, DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import IfCondition, UnlessCondition
 
@@ -75,7 +75,6 @@ def generate_launch_description():
             use_left_static_pedestal,
         ]
     )
-
 
     # this version can be run for general
     # make_mjcf_from_robot_description = Node(
@@ -131,7 +130,6 @@ def generate_launch_description():
             # This waits for the topic /mujoco_robot_description_preprocessed to be published, then takes the data,
             # post-processes it, and writes out the modified data to /mujoco_robot_description. This handles some
             # special components like wheels, custom robotiq gripper mujoco representations, april tags, etc
-
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
         ]
 
@@ -156,8 +154,8 @@ def generate_launch_description():
     return LaunchDescription(
         declared_arguments
         + [
-           generate_mjcf,
-           post_process_mjcf,
-           wheel_code_gen,
-        ] 
+            generate_mjcf,
+            post_process_mjcf,
+            wheel_code_gen,
+        ]
     )
