@@ -25,6 +25,7 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from moveit_configs_utils import MoveItConfigsBuilder
 
+
 def prefix_moveit_params(moveit_dict, tf_prefix):
     """Helper function to apply tf_prefixes to moveit config dicts on the fly
 
@@ -56,6 +57,7 @@ def prefix_moveit_params(moveit_dict, tf_prefix):
 
     return moveit_dict
 
+
 def launch_setup(context, *args, **kwargs):
 
     calibration_mode = LaunchConfiguration("calibration_mode")
@@ -65,7 +67,11 @@ def launch_setup(context, *args, **kwargs):
     use_sim_time = {"use_sim_time": LaunchConfiguration("use_sim_time")}
     namespace = LaunchConfiguration("namespace").perform(context)
     tf_prefix = LaunchConfiguration("tf_prefix").perform(context)
-    description_mappings = {"tf_prefix": tf_prefix, "calibration_mode": calibration_mode, "use_left_static_pedestal": use_left_static_pedestal}
+    description_mappings = {
+        "tf_prefix": tf_prefix,
+        "calibration_mode": calibration_mode,
+        "use_left_static_pedestal": use_left_static_pedestal,
+    }
     moveit_config_package = "phoebe_moveit_config"
 
     # Pull robot description from the topic
@@ -78,7 +84,7 @@ def launch_setup(context, *args, **kwargs):
         .to_moveit_configs()
     )
     moveit_params = prefix_moveit_params(moveit_config.to_dict(), tf_prefix)
-    
+
     move_group_node = Node(
         package="moveit_ros_move_group",
         executable="move_group",
@@ -116,6 +122,7 @@ def launch_setup(context, *args, **kwargs):
         ],
     )
     return [move_group_node, rviz_node]
+
 
 def generate_launch_description():
 
