@@ -16,10 +16,10 @@
       <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
 
       <xacro:if value="$(arg calibration_mode)">
-          <xacro:property name="tip_link_name" value="${tf_prefix}calibration_plate_robot_side"/>
+          <xacro:property name="tip_link_name" value="calibration_plate_robot_side"/>
       </xacro:if>
       <xacro:unless value="$(arg calibration_mode)">
-          <xacro:property name="tip_link_name" value="${tf_prefix}grasp_frame"/>
+          <xacro:property name="tip_link_name" value="grasp_frame"/>
       </xacro:unless>
 
       <group name="left_push1">
