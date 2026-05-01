@@ -23,8 +23,9 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import (
     LaunchConfiguration,
 )
-from launch_ros.actions import Node
 from launch.conditions import UnlessCondition
+
+from phoebe_deploy.launch_helpers import spawn_controller
 
 
 def generate_launch_description():
@@ -50,31 +51,11 @@ def generate_launch_description():
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     nodes = []
-
-    # helper function to make controller nodes
-    def MakeControllerNode(controller_name, condition=None):
-        arguments = [
-            "--controller-manager",
-            "controller_manager",
-            "--controller-manager-timeout",
-            "300",
-            "--namespace",
-            ns,
-            controller_name,
-        ]
-
-        return Node(
-            package="controller_manager",
-            executable="spawner",
-            name=controller_name,
-            arguments=arguments,
-            output="screen",
-            condition=condition,
-        )
-
     nodes.append(
-        MakeControllerNode("left_lift_joint_trajectory_controller", condition=UnlessCondition(use_left_static_pedestal))
+        spawn_controller(
+            "left_lift_joint_trajectory_controller", namespace=ns, condition=UnlessCondition(use_left_static_pedestal)
+        )
     )
-    nodes.append(MakeControllerNode("right_lift_joint_trajectory_controller"))
+    nodes.append(spawn_controller("right_lift_joint_trajectory_controller", namespace=ns))
 
     return LaunchDescription(declared_arguments + nodes)

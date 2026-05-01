@@ -20,10 +20,9 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import (
-    LaunchConfiguration,
-)
-from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
+
+from phoebe_deploy.launch_helpers import spawn_controller
 
 
 def generate_launch_description():
@@ -41,35 +40,11 @@ def generate_launch_description():
     ns = LaunchConfiguration("ns")
 
     nodes = []
-
-    # helper function to make controller nodes
-    def MakeControllerNode(controller_name, active=True, condition=None):
-        arguments = [
-            "--controller-manager",
-            "controller_manager",
-            "--controller-manager-timeout",
-            "300",
-            "--namespace",
-            ns,
-            controller_name,
-        ]
-        if not active:
-            arguments.append("--inactive")
-
-        return Node(
-            package="controller_manager",
-            executable="spawner",
-            name=controller_name,
-            arguments=arguments,
-            output="screen",
-            condition=condition,
-        )
-
-    nodes.append(MakeControllerNode("left_admittance_controller", active=False))
-    nodes.append(MakeControllerNode("left_admittance_jtc", active=False))
-    nodes.append(MakeControllerNode("left_force_torque_sensor_broadcaster_admittance", active=False))
-    nodes.append(MakeControllerNode("right_admittance_controller", active=False))
-    nodes.append(MakeControllerNode("right_admittance_jtc", active=False))
-    nodes.append(MakeControllerNode("right_force_torque_sensor_broadcaster_admittance", active=False))
+    nodes.append(spawn_controller("left_admittance_controller", inactive=True, namespace=ns))
+    nodes.append(spawn_controller("left_admittance_jtc", inactive=True, namespace=ns))
+    nodes.append(spawn_controller("left_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=ns))
+    nodes.append(spawn_controller("right_admittance_controller", inactive=True, namespace=ns))
+    nodes.append(spawn_controller("right_admittance_jtc", inactive=True, namespace=ns))
+    nodes.append(spawn_controller("right_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=ns))
 
     return LaunchDescription(declared_arguments + nodes)

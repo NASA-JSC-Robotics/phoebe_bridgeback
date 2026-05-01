@@ -25,13 +25,14 @@ from launch.actions import (
     ExecuteProcess,
     RegisterEventHandler,
 )
-from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.substitutions import FindPackagePrefix
 from launch.event_handlers import OnProcessExit
+
+from phoebe_deploy.launch_helpers import spawn_controller
 
 
 def generate_launch_description():
@@ -100,25 +101,7 @@ def generate_launch_description():
             condition=condition,
         )
 
-    # helper function to make controller nodes
-    def MakeControllerNode(controller_name):
-        return Node(
-            package="controller_manager",
-            executable="spawner",
-            name=controller_name,
-            arguments=[
-                "--controller-manager",
-                "controller_manager",
-                "--controller-manager-timeout",
-                "300",
-                "--namespace",
-                ns,
-                controller_name,
-            ],
-            output="screen",
-        )
-
-    joint_state_broadcaster = MakeControllerNode("joint_state_broadcaster")
+    joint_state_broadcaster = spawn_controller("joint_state_broadcaster")
 
     launches = []
 
