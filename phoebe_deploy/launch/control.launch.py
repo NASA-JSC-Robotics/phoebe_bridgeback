@@ -29,7 +29,7 @@ from launch.substitutions import (
     PathJoinSubstitution,
 )
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import Node, PushRosNamespace
+from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterFile
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.substitutions import FindPackageShare
@@ -289,8 +289,6 @@ def generate_launch_description():
         condition=UnlessCondition(use_fake_hardware),
     )
 
-    ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)] + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle]
-    )
+    ns_action = GroupAction(actions=launch_files + [robot_state_publisher_node, control_node, node_puma_throttle])
 
     return LaunchDescription(declared_arguments + [ns_action])
