@@ -34,7 +34,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -47,15 +47,15 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     nodes = []
     nodes.append(
         spawn_controller(
-            "left_lift_joint_trajectory_controller", namespace=ns, condition=UnlessCondition(use_left_static_pedestal)
+            "left_lift_joint_trajectory_controller", namespace=namespace, condition=UnlessCondition(use_left_static_pedestal)
         )
     )
-    nodes.append(spawn_controller("right_lift_joint_trajectory_controller", namespace=ns))
+    nodes.append(spawn_controller("right_lift_joint_trajectory_controller", namespace=namespace))
 
     return LaunchDescription(declared_arguments + nodes)

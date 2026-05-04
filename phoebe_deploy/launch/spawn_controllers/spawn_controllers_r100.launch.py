@@ -32,7 +32,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -45,7 +45,7 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
 
     nodes = []
@@ -55,7 +55,7 @@ def generate_launch_description():
     nodes.append(
         spawn_controller(
             "platform_velocity_controller",
-            namespace=ns,
+            namespace=namespace,
             condition=IfCondition(is_sim),
             controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
         )
@@ -63,14 +63,14 @@ def generate_launch_description():
     nodes.append(
         spawn_controller(
             "platform_velocity_controller",
-            namespace=ns,
+            namespace=namespace,
             condition=UnlessCondition(is_sim),
         )
     )
     nodes.append(
         spawn_controller(
             "odom_publisher",
-            namespace=ns,
+            namespace=namespace,
             condition=IfCondition(is_sim),
             controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
         )
@@ -78,14 +78,14 @@ def generate_launch_description():
     nodes.append(
         spawn_controller(
             "odom_publisher",
-            namespace=ns,
+            namespace=namespace,
             condition=UnlessCondition(is_sim),
         )
     )
     nodes.append(
         spawn_controller(
             "imu_broadcaster",
-            namespace=ns,
+            namespace=namespace,
             condition=IfCondition(is_sim),
             controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
         )

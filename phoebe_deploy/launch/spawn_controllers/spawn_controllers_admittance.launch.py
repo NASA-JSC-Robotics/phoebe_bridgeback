@@ -31,20 +31,20 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
 
     nodes = []
-    nodes.append(spawn_controller("left_admittance_controller", inactive=True, namespace=ns))
-    nodes.append(spawn_controller("left_admittance_jtc", inactive=True, namespace=ns))
-    nodes.append(spawn_controller("left_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=ns))
-    nodes.append(spawn_controller("right_admittance_controller", inactive=True, namespace=ns))
-    nodes.append(spawn_controller("right_admittance_jtc", inactive=True, namespace=ns))
-    nodes.append(spawn_controller("right_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=ns))
+    nodes.append(spawn_controller("left_admittance_controller", inactive=True, namespace=namespace))
+    nodes.append(spawn_controller("left_admittance_jtc", inactive=True, namespace=namespace))
+    nodes.append(spawn_controller("left_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace))
+    nodes.append(spawn_controller("right_admittance_controller", inactive=True, namespace=namespace))
+    nodes.append(spawn_controller("right_admittance_jtc", inactive=True, namespace=namespace))
+    nodes.append(spawn_controller("right_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace))
 
     return LaunchDescription(declared_arguments + nodes)

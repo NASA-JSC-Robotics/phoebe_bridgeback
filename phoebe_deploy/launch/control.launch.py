@@ -20,7 +20,7 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     Command,
@@ -65,7 +65,7 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -121,7 +121,7 @@ def generate_launch_description():
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     use_sim_time = LaunchConfiguration("use_sim_time")
     tf_prefix = LaunchConfiguration("tf_prefix")
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
@@ -133,7 +133,7 @@ def generate_launch_description():
     common_launch_args = {
         "use_fake_hardware": use_fake_hardware,
         "tf_prefix": tf_prefix,
-        "ns": ns,
+        "namespace": namespace,
         "calibration_mode": calibration_mode,
         "robot_description_package": robot_description_package,
         "robot_description_file": robot_description_file,
@@ -212,7 +212,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindPackageShare(robot_description_package), "urdf", robot_description_file]),
             " ",
             "ns:=",
-            ns,
+            namespace,
             " ",
             "tf_prefix:=",
             tf_prefix,
@@ -241,7 +241,7 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        namespace=ns,
+        namespace=namespace,
         output="both",
         parameters=[
             robot_description,
@@ -253,7 +253,7 @@ def generate_launch_description():
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        namespace=ns,
+        namespace=namespace,
         # allow_substs allows tf_prefix to be pulled in
         parameters=[
             ParameterFile(controllers_common, allow_substs=True),
@@ -272,13 +272,14 @@ def generate_launch_description():
             ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
         output="both",
+        arguments=['--ros-args', '--log-level', "info"]
     )
 
     node_puma_throttle = Node(
         name="puma_throttle",
         executable="throttle",
         package="topic_tools",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         arguments=[
             "messages",
@@ -289,6 +290,4 @@ def generate_launch_description():
         condition=UnlessCondition(use_fake_hardware),
     )
 
-    ns_action = GroupAction(actions=launch_files + [robot_state_publisher_node, control_node, node_puma_throttle])
-
-    return LaunchDescription(declared_arguments + [ns_action])
+    return LaunchDescription(declared_arguments + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle])

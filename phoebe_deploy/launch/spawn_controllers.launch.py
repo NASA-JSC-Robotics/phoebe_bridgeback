@@ -50,7 +50,7 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -79,7 +79,7 @@ def generate_launch_description():
     )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
     is_sim = LaunchConfiguration("is_sim")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
@@ -87,7 +87,7 @@ def generate_launch_description():
     # common launch args passed to each of the different launch files
     common_launch_args = {
         "tf_prefix": tf_prefix,
-        "ns": ns,
+        "namespace": namespace,
         "calibration_mode": calibration_mode,
         "is_sim": is_sim,
         "use_left_static_pedestal": use_left_static_pedestal,
@@ -101,7 +101,7 @@ def generate_launch_description():
             condition=condition,
         )
 
-    joint_state_broadcaster = spawn_controller("joint_state_broadcaster")
+    joint_state_broadcaster = spawn_controller("joint_state_broadcaster", namespace=namespace)
 
     launches = []
 

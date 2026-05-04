@@ -32,7 +32,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -45,20 +45,20 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
 
     nodes = []
 
     # need to fix name conflict by adding parameters before the activation controllers
     # can be added back in.
-    nodes.append(spawn_controller("right_robotiq_gripper_hande_controller", namespace=ns))
+    nodes.append(spawn_controller("right_robotiq_gripper_hande_controller", namespace=namespace))
     nodes.append(
-        spawn_controller("right_robotiq_activation_controller", namespace=ns, condition=UnlessCondition(is_sim))
+        spawn_controller("right_robotiq_activation_controller", namespace=namespace, condition=UnlessCondition(is_sim))
     )
-    nodes.append(spawn_controller("left_robotiq_gripper_hande_controller", namespace=ns))
+    nodes.append(spawn_controller("left_robotiq_gripper_hande_controller", namespace=namespace))
     nodes.append(
-        spawn_controller("left_robotiq_activation_controller", namespace=ns, condition=UnlessCondition(is_sim))
+        spawn_controller("left_robotiq_activation_controller", namespace=namespace, condition=UnlessCondition(is_sim))
     )
 
     return LaunchDescription(declared_arguments + nodes)

@@ -32,7 +32,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -45,25 +45,25 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
 
     nodes = []
 
-    nodes.append(spawn_controller("right_io_and_status_controller", namespace=ns, condition=UnlessCondition(is_sim)))
-    nodes.append(spawn_controller("right_force_torque_sensor_broadcaster", namespace=ns))
-    nodes.append(spawn_controller("right_ur_joint_trajectory_controller", namespace=ns))
+    nodes.append(spawn_controller("right_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim)))
+    nodes.append(spawn_controller("right_force_torque_sensor_broadcaster", namespace=namespace))
+    nodes.append(spawn_controller("right_ur_joint_trajectory_controller", namespace=namespace))
     nodes.append(
         spawn_controller(
-            "right_freedrive_mode_controller", namespace=ns, inactive=True, condition=UnlessCondition(is_sim)
+            "right_freedrive_mode_controller", namespace=namespace, inactive=True, condition=UnlessCondition(is_sim)
         )
     )
-    nodes.append(spawn_controller("left_io_and_status_controller", namespace=ns, condition=UnlessCondition(is_sim)))
-    nodes.append(spawn_controller("left_force_torque_sensor_broadcaster", namespace=ns))
-    nodes.append(spawn_controller("left_ur_joint_trajectory_controller", namespace=ns))
+    nodes.append(spawn_controller("left_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim)))
+    nodes.append(spawn_controller("left_force_torque_sensor_broadcaster", namespace=namespace))
+    nodes.append(spawn_controller("left_ur_joint_trajectory_controller", namespace=namespace))
     nodes.append(
         spawn_controller(
-            "left_freedrive_mode_controller", namespace=ns, inactive=True, condition=UnlessCondition(is_sim)
+            "left_freedrive_mode_controller", namespace=namespace, inactive=True, condition=UnlessCondition(is_sim)
         )
     )
 
