@@ -206,15 +206,13 @@
 
   <link name="apriltag_0">
     <visual>
-     <!-- pos="-0.088 0.068 0" euler="-1.5707963 -1.0471975 -1.5707963"  -->
       <geometry>
-          <!--<box size="0.073 0.073 0.002"/> -->
-          <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_0000.dae"/>
+        <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_0000.dae"/>
       </geometry>
-    <material name="tag36h11-0">
-     <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00000.png"/>
-    </material>
-   </visual>
+      <material name="tag36h11-0">
+        <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00000.png"/>
+     </material>
+    </visual>
  </link>
 
    <joint name="apriltag_0_joint" type="fixed">
@@ -226,13 +224,12 @@
   <link name="apriltag_4">
     <visual>
       <geometry>
-        <!--<box size="0.073 0.073 0.002"/> -->
         <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_0004.dae"/>
       </geometry>
-    <material name="tag36h11-4">
-     <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00004.png"/>
-    </material>
-   </visual>
+      <material name="tag36h11-4">
+        <texture filename="package://phoebe_description/meshes/visual/april_tags/tag36_11_00004.png"/>
+      </material>
+    </visual>
  </link>
 
    <joint name="apriltag_4_joint" type="fixed">
@@ -246,7 +243,6 @@
   <link name="apriltag_1">
     <visual>
       <geometry>
-        <!-- <box size="0.214 0.214 0.002"/> -->
         <mesh filename="package://phoebe_description/meshes/visual/april_tags/AprilTag_0001.dae"/>
       </geometry>
       <material name="tag36h11-1">
