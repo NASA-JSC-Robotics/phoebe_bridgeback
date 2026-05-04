@@ -42,9 +42,13 @@ def generate_launch_description():
     nodes = []
     nodes.append(spawn_controller("left_admittance_controller", inactive=True, namespace=namespace))
     nodes.append(spawn_controller("left_admittance_jtc", inactive=True, namespace=namespace))
-    nodes.append(spawn_controller("left_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace))
+    nodes.append(
+        spawn_controller("left_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace)
+    )
     nodes.append(spawn_controller("right_admittance_controller", inactive=True, namespace=namespace))
     nodes.append(spawn_controller("right_admittance_jtc", inactive=True, namespace=namespace))
-    nodes.append(spawn_controller("right_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace))
+    nodes.append(
+        spawn_controller("right_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace)
+    )
 
     return LaunchDescription(declared_arguments + nodes)

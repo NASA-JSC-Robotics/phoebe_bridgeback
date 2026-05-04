@@ -50,7 +50,9 @@ def generate_launch_description():
 
     nodes = []
 
-    nodes.append(spawn_controller("right_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim)))
+    nodes.append(
+        spawn_controller("right_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim))
+    )
     nodes.append(spawn_controller("right_force_torque_sensor_broadcaster", namespace=namespace))
     nodes.append(spawn_controller("right_ur_joint_trajectory_controller", namespace=namespace))
     nodes.append(
@@ -58,7 +60,9 @@ def generate_launch_description():
             "right_freedrive_mode_controller", namespace=namespace, inactive=True, condition=UnlessCondition(is_sim)
         )
     )
-    nodes.append(spawn_controller("left_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim)))
+    nodes.append(
+        spawn_controller("left_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim))
+    )
     nodes.append(spawn_controller("left_force_torque_sensor_broadcaster", namespace=namespace))
     nodes.append(spawn_controller("left_ur_joint_trajectory_controller", namespace=namespace))
     nodes.append(

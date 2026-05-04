@@ -53,7 +53,9 @@ def generate_launch_description():
     nodes = []
     nodes.append(
         spawn_controller(
-            "left_lift_joint_trajectory_controller", namespace=namespace, condition=UnlessCondition(use_left_static_pedestal)
+            "left_lift_joint_trajectory_controller",
+            namespace=namespace,
+            condition=UnlessCondition(use_left_static_pedestal),
         )
     )
     nodes.append(spawn_controller("right_lift_joint_trajectory_controller", namespace=namespace))

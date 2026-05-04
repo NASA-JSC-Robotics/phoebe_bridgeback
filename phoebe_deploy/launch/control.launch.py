@@ -272,7 +272,7 @@ def generate_launch_description():
             ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
         output="both",
-        arguments=['--ros-args', '--log-level', "info"]
+        arguments=["--ros-args", "--log-level", "info"],
     )
 
     node_puma_throttle = Node(
@@ -290,4 +290,6 @@ def generate_launch_description():
         condition=UnlessCondition(use_fake_hardware),
     )
 
-    return LaunchDescription(declared_arguments + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle])
+    return LaunchDescription(
+        declared_arguments + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle]
+    )
