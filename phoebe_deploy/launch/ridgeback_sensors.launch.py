@@ -33,7 +33,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -54,7 +54,7 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
     publish_tf = LaunchConfiguration("publish_tf")
     default_ns = "ridgeback"
@@ -129,6 +129,6 @@ def generate_launch_description():
         node_localization,
     ]
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launches + nodes)
+    ns_action = GroupAction(actions=[PushRosNamespace(namespace)] + launches + nodes)
 
     return LaunchDescription(declared_arguments + [ns_action])

@@ -9,12 +9,12 @@ system:
 manipulators:
   lifts:
     - model: ewellix
-      parent: default_mount
+      parent: $(var tf_prefix)default_mount
     - model: ewellix
-      parent: default_mount
+      parent: $(var tf_prefix)default_mount
   arms:
     - model: universal_robots
-      parent: default_mount
+      parent: $(var tf_prefix)default_mount
       xyz: [0.0, 0.0, 0.0]
       rpy: [0.0, 0.0, 0.0]
       ur_type: ur5e
@@ -32,7 +32,7 @@ manipulators:
           - name: custom
             joints: [0.0]
     - model: universal_robots
-      parent: default_mount
+      parent: $(var tf_prefix)default_mount
       xyz: [0.0, 0.0, 0.0]
       rpy: [0.0, 0.0, 0.0]
       ur_type: ur5e
@@ -54,7 +54,7 @@ sensors:
     - model: hokuyo_ust
       urdf_enabled: true
       launch_enabled: true
-      parent: base_link
+      parent: $(var tf_prefix)base_link
       xyz: [0.0, 0.0, 0.0]
       rpy: [0.0, 0.0, 0.0]
       ros_parameters:

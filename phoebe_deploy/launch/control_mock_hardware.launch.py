@@ -20,13 +20,12 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
 )
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import PushRosNamespace
 
 
 def generate_launch_description():
@@ -35,7 +34,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -57,7 +56,7 @@ def generate_launch_description():
     )
 
     # Initialize Arguments
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     control_launch = IncludeLaunchDescription(
@@ -66,12 +65,10 @@ def generate_launch_description():
         ),
         launch_arguments={
             "use_fake_hardware": "true",
-            "ns": ns,
+            "namespace": namespace,
             "calibration_mode": calibration_mode,
             "use_left_static_pedestal": use_left_static_pedestal,
         }.items(),
     )
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + [control_launch])
-
-    return LaunchDescription(declared_arguments + [ns_action])
+    return LaunchDescription(declared_arguments + [control_launch])

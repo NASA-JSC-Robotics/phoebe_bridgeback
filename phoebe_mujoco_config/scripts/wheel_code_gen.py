@@ -115,7 +115,7 @@ def return_wheel_description(
     <body name="{body_name}_link" pos="{str(pos[0])} {str(pos[1])} {str(pos[2])}" zaxis="{str(axis[0])} {str(axis[1])} {str(axis[2])}">
         <joint name="{joint_name}_joint" type="hinge" pos="0 0 0" axis="0 0 1" damping="0.1" limited="false" actuatorfrclimited="false"/>
         <inertial pos="0 0 0" quat="0.711549 0.711549 0 0 " mass="0.001" diaginertia="0.00001 0.00001 0.00001" />
-        <geom name="mecanum_wheel{counter}" mesh="mecanum_wheel_22" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="collision"/>
+        <geom name="mecanum_wheel{counter}" mesh="mecanum_wheel_22" quat="1 0 0 0" rgba="0.2 0.2 0.2 1" class="wheels"/>
     </body>"""
 
         counter = counter + 1

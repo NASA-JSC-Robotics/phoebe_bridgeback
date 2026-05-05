@@ -37,7 +37,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the robot.",
         )
@@ -57,7 +57,7 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     tf_prefix = LaunchConfiguration("tf_prefix")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
 
@@ -69,7 +69,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindPackageShare("phoebe_description"), "urdf", "r100", "r100.urdf.xacro"]),
             " ",
             "ns:=",
-            ns,
+            namespace,
             " ",
             "tf_prefix:=",
             tf_prefix,
@@ -84,7 +84,7 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        namespace=ns,
+        namespace=namespace,
         output="both",
         parameters=[robot_description],
     )

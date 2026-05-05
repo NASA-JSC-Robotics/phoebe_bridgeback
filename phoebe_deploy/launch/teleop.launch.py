@@ -30,7 +30,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the robot.",
         )
@@ -45,7 +45,7 @@ def generate_launch_description():
     )
 
     # Launch Configurations
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     use_sim_time = LaunchConfiguration("use_sim_time")
     joystick_dev = LaunchConfiguration("joystick_dev")
 
@@ -65,7 +65,7 @@ def generate_launch_description():
     node_joy = Node(
         package="joy_linux",
         executable="joy_linux_node",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         name="joy_node",
         parameters=[
@@ -87,7 +87,7 @@ def generate_launch_description():
     node_teleop_twist_joy = Node(
         package="teleop_twist_joy",
         executable="teleop_node",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         name="teleop_twist_joy_node",
         parameters=[
@@ -103,7 +103,7 @@ def generate_launch_description():
     node_interactive_marker_twist_server = Node(
         package="interactive_marker_twist_server",
         executable="marker_server",
-        namespace=ns,
+        namespace=namespace,
         name="twist_server_node",
         remappings=[
             ("cmd_vel", "twist_marker_server/cmd_vel"),
@@ -117,7 +117,7 @@ def generate_launch_description():
     node_twist_mux = Node(
         package="twist_mux",
         executable="twist_mux",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         remappings={
             ("/cmd_vel_out", "platform_velocity_controller/reference"),
@@ -131,7 +131,7 @@ def generate_launch_description():
     node_joystick_safing = Node(
         package="phoebe_safety",
         executable="pb_joystick_safing.py",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         name="pb_joystick_safing",
         parameters=[
