@@ -20,11 +20,10 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import (
-    LaunchConfiguration,
-)
-from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition, UnlessCondition
+
+from phoebe_deploy.launch_helpers import spawn_controller
 
 
 def generate_launch_description():
@@ -33,7 +32,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -46,77 +45,49 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
 
     nodes = []
 
-    # helper function to make controller nodes
-    def MakeControllerNode(controller_name, active=True, condition=None, controller_ros_args=None):
-        arguments = [
-            "--controller-manager",
-            "controller_manager",
-            "--controller-manager-timeout",
-            "300",
-            "--namespace",
-            ns,
-            controller_name,
-        ]
-        if not active:
-            arguments.append("--inactive")
-        if controller_ros_args is not None:
-            for controller_ros_arg in controller_ros_args:
-                arguments.append("--controller-ros-args")
-                arguments.append(f"{controller_ros_arg}")
-
-        return Node(
-            package="controller_manager",
-            executable="spawner",
-            name=controller_name,
-            arguments=arguments,
-            output="screen",
-            condition=condition,
-        )
-
     # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
     # This should definitely be investigated further.
     nodes.append(
-        MakeControllerNode(
+        spawn_controller(
             "platform_velocity_controller",
+            namespace=namespace,
             condition=IfCondition(is_sim),
-            controller_ros_args=[
-                "--ros-args -p kinematics.wheels_radius:=0.063",
-            ],
+            controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
         )
     )
     nodes.append(
-        MakeControllerNode(
+        spawn_controller(
             "platform_velocity_controller",
+            namespace=namespace,
             condition=UnlessCondition(is_sim),
         )
     )
     nodes.append(
-        MakeControllerNode(
+        spawn_controller(
             "odom_publisher",
+            namespace=namespace,
             condition=IfCondition(is_sim),
-            controller_ros_args=[
-                "--ros-args -p kinematics.wheels_radius:=0.063",
-            ],
+            controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
         )
     )
     nodes.append(
-        MakeControllerNode(
+        spawn_controller(
             "odom_publisher",
+            namespace=namespace,
             condition=UnlessCondition(is_sim),
         )
     )
     nodes.append(
-        MakeControllerNode(
+        spawn_controller(
             "imu_broadcaster",
+            namespace=namespace,
             condition=IfCondition(is_sim),
-            controller_ros_args=[
-                "--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
-            ],
+            controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
         )
     )
 
