@@ -17,7 +17,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-
+import os
+import tempfile
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import (
@@ -27,9 +28,8 @@ from launch.substitutions import (
     PathJoinSubstitution,
 )
 from launch_ros.substitutions import FindPackageShare
-from launch.event_handlers import OnProcessExit
-from launch.actions import RegisterEventHandler, DeclareLaunchArgument
-from launch.conditions import IfCondition, UnlessCondition
+from launch.event_handlers import OnShutdown, OnProcessExit
+from launch.actions import RegisterEventHandler, DeclareLaunchArgument, OpaqueFunction
 
 
 def generate_launch_description():
@@ -40,6 +40,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "use_pregenerated_assets_dir",
             default_value="false",
+            choices=["true", "false"],
             description="Use pre-generated assets dir. This is useful if you are just modifying an existing structure",
         )
     )
@@ -47,7 +48,8 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "use_left_static_pedestal",
             default_value="false",
-            description="Use pre-generated assets dir. This is useful if you are just modifying an existing structure",
+            choices=["true", "false"],
+            description="Replace left ewellix lift kit with static pedestal.",
         )
     )
 
@@ -55,6 +57,7 @@ def generate_launch_description():
     phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
 
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    use_pregenerated_assets_dir = LaunchConfiguration("use_pregenerated_assets_dir")
 
     # main robot description for Phoebe
     robot_description_content = Command(
@@ -74,58 +77,61 @@ def generate_launch_description():
         ]
     )
 
-    default_arguments = [
-        "-r",
-        robot_description_content,
-        "-c",  # convert stl to obj
-        "-f",
-        "--save_only",
-    ]
+    def launch_mjcf_node(context):
+        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".urdf", delete=False)
+        tmp.write(robot_description_content.perform(context))
+        tmp.close()
 
-    args_with_assets_dir = default_arguments + [
-        "--asset_dir",
-        PathJoinSubstitution([FindPackageShare(phoebe_mujoco_package_name), "description", "assets"]),
-    ]
+        default_arguments = [
+            "--urdf",
+            tmp.name,
+            "-c",  # convert stl to obj
+            "--save_only",
+        ]
 
-    # this version can be run for general
-    make_mjcf_from_robot_description = Node(
-        package="mujoco_ros2_control",
-        executable="make_mjcf_from_robot_description.py",
-        output="screen",
-        arguments=default_arguments,
-        condition=UnlessCondition(LaunchConfiguration("use_pregenerated_assets_dir")),
-    )
+        if use_pregenerated_assets_dir.perform(context) == "true":
+            default_arguments = default_arguments + [
+                "--asset_dir",
+                PathJoinSubstitution([FindPackageShare(phoebe_mujoco_package_name), "description", "assets"]),
+            ]
 
-    make_mjcf_from_robot_description_use_assets_dir = Node(
-        package="mujoco_ros2_control",
-        executable="make_mjcf_from_robot_description.py",
-        output="screen",
-        arguments=args_with_assets_dir,
-        condition=IfCondition(LaunchConfiguration("use_pregenerated_assets_dir")),
-    )
+        generate_mjcf = Node(
+            package="mujoco_ros2_control",
+            executable="make_mjcf_from_robot_description.py",
+            output="both",
+            emulate_tty=True,
+            arguments=default_arguments,
+        )
 
-    post_process_mjcf = Node(
-        package="phoebe_mujoco_config",
-        executable="post_process_mjcf.py",
-        output="screen",
-    )
+        post_process_mjcf = Node(
+            package="phoebe_mujoco_config",
+            executable="post_process_mjcf.py",
+            output="screen",
+        )
 
-    wheel_code_gen = Node(
-        package="phoebe_mujoco_config",
-        executable="wheel_code_gen.py",
-        output="screen",
-    )
+        wheel_code_gen = Node(
+            package="phoebe_mujoco_config",
+            executable="wheel_code_gen.py",
+            output="screen",
+        )
 
-    delay_post_process = RegisterEventHandler(
-        OnProcessExit(target_action=make_mjcf_from_robot_description, on_exit=[post_process_mjcf])
-    )
+        # Ensure the file gets deleted
+        def cleanup(event, context):
+            if os.path.exists(tmp.name):
+                os.remove(tmp.name)
+
+        return [
+            generate_mjcf,
+            wheel_code_gen,
+            RegisterEventHandler(OnProcessExit(target_action=generate_mjcf, on_exit=[post_process_mjcf])),
+            RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
+        ]
+
+    generate_mjcf = OpaqueFunction(function=launch_mjcf_node)
 
     return LaunchDescription(
         declared_arguments
         + [
-            make_mjcf_from_robot_description,
-            make_mjcf_from_robot_description_use_assets_dir,
-            delay_post_process,
-            wheel_code_gen,
+            generate_mjcf,
         ]
     )

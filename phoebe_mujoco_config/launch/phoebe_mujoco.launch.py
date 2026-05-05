@@ -105,6 +105,7 @@ def generate_launch_description():
             ),
             # Grasp frames should not be converted to MJCF objects
             " add_grasp_push_frames:=false",
+            " model_mobile_env:=true",
             " include_scene_objects:=true",
             " use_left_static_pedestal:=",
             use_left_static_pedestal,
@@ -132,7 +133,7 @@ def generate_launch_description():
                 output="both",
                 emulate_tty=True,
                 arguments=[
-                    "-f",
+                    # "-f",
                     "--publish_topic",
                     "/mujoco_robot_description_preprocessed",
                     "--urdf",
