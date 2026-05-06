@@ -138,7 +138,7 @@
         </fixed>
     </tendon>
     <equality>
-        <joint joint1="left_finger_1_joint" joint2="left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+        <joint joint1="${tf_prefix}left_finger_1_joint" joint2="${tf_prefix}left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
     </equality>
 
     <!-- right hand - 2f-85 -->
@@ -152,7 +152,7 @@
     <equality>
         <connect anchor="-0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
         <connect anchor="0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-        <joint joint1="right_robotiq_85_left_knuckle_joint" joint2="right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
+        <joint joint1="${tf_prefix}right_robotiq_85_left_knuckle_joint" joint2="${tf_prefix}right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
         solref="0.005 1"/>
     </equality>
 
@@ -200,26 +200,26 @@
         </equality>
     </xacro:unless>
     <equality>
-        <joint name="${tf_prefix}right_upper_mimic_lower" joint1="right_ewellix_lift_lower_to_higher" joint2="right_middle_mimic_higher" polycoef="0 2 0 0 0"/>
+        <joint name="${tf_prefix}right_upper_mimic_lower" joint1="${tf_prefix}right_ewellix_lift_lower_to_higher" joint2="${tf_prefix}right_middle_mimic_higher" polycoef="0 2 0 0 0"/>
     </equality>
 
     <sensor>
-        <force name="${tf_prefix}left_ur_arm_tcp_fts_sensor_force" site="left_ur_arm_ft_frame"/>
-        <torque name="${tf_prefix}left_ur_arm_tcp_fts_sensor_torque" site="left_ur_arm_ft_frame"/>
+        <force name="${tf_prefix}left_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}left_ur_arm_ft_frame"/>
+        <torque name="${tf_prefix}left_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}left_ur_arm_ft_frame"/>
     </sensor>
     <sensor>
-        <force name="${tf_prefix}right_ur_arm_tcp_fts_sensor_force" site="right_ur_arm_ft_frame"/>
-        <torque name="${tf_prefix}right_ur_arm_tcp_fts_sensor_torque" site="right_ur_arm_ft_frame"/>
-    </sensor>
-
-    <sensor>
-        <framequat name="${tf_prefix}imu_sensor_quat" objtype="site" objname="imu_0_link" />
-        <gyro name="${tf_prefix}imu_sensor_gyro" site="imu_0_link" />
-        <accelerometer name="${tf_prefix}imu_sensor_accel" site="imu_0_link" />
+        <force name="${tf_prefix}right_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}right_ur_arm_ft_frame"/>
+        <torque name="${tf_prefix}right_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}right_ur_arm_ft_frame"/>
     </sensor>
 
     <sensor>
-        <rangefinder name="${tf_prefix}lidar2d_0" site="lidar2d_0"/>
+        <framequat name="${tf_prefix}imu_sensor_quat" objtype="site" objname="${tf_prefix}imu_0_link" />
+        <gyro name="${tf_prefix}imu_sensor_gyro" site="${tf_prefix}imu_0_link" />
+        <accelerometer name="${tf_prefix}imu_sensor_accel" site="${tf_prefix}imu_0_link" />
+    </sensor>
+
+    <sensor>
+        <rangefinder name="${tf_prefix}lidar2d_0" site="${tf_prefix}lidar2d_0"/>
     </sensor>
 
   </xacro:macro>
