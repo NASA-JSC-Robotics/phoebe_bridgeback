@@ -34,10 +34,11 @@ from xml.dom import minidom
 
 
 class StringModifierNode(Node):
-    def __init__(self, tf_prefix=""):
+    def __init__(self, tf_prefix="", wheels_package="phoebe_mujoco_config"):
         super().__init__("string_modifier_node")
 
         self.tf_prefix = tf_prefix
+        self.wheels_package = wheels_package
 
         # Subscriber
         self.subscription = self.create_subscription(
@@ -45,7 +46,6 @@ class StringModifierNode(Node):
         )
 
         # Publisher
-
         qos_profile = QoSProfile(depth=1)
         qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
         qos_profile.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
@@ -117,7 +117,7 @@ class StringModifierNode(Node):
         include_element.setAttribute("file", f"{base_dir}/wheels.xml")
 
         shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/description/wheels.xml',
+            f"{get_package_share_directory(self.wheels_package)}/description/wheels.xml",
             f"{base_dir}",
         )
 
@@ -148,7 +148,7 @@ class StringModifierNode(Node):
 
         # copy in the robotiq_85 xml file into the main mujoco description directory
         # and process it through xacro to resolve the tf_prefix argument
-        robotiq_xacro_src = (f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml',)
+        robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
         robotiq_output = f"{base_dir}/right_robotiq_85.xml"
         subprocess.run(
             [
@@ -180,15 +180,18 @@ def main(args=None):
         description="Generate wheels for PB mujoco sim",
     )
     parser.add_argument("--tf-prefix", default="", help="tf_prefix for generated wheels")
+    parser.add_argument(
+        "--wheels-package",
+        default="phoebe_mujoco_config",
+        help="Package containing wheels.xml, should be the top level deploy package",
+    )
 
     # Skip ros args
-    args_without_filename = sys.argv[1:]
-    while "--ros-args" in args_without_filename:
-        args_without_filename.remove("--ros-args")
-    parsed_args = parser.parse_args(args_without_filename)
+    non_ros_args = rclpy.utilities.remove_ros_args(sys.argv)[1:]
+    parsed_args = parser.parse_args(non_ros_args)
 
     rclpy.init(args=args)
-    node = StringModifierNode(tf_prefix=parsed_args.tf_prefix)
+    node = StringModifierNode(tf_prefix=parsed_args.tf_prefix, wheels_package=parsed_args.wheels_package)
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
