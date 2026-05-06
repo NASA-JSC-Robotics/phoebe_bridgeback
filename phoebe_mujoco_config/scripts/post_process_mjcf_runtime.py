@@ -17,19 +17,27 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import String
-from xml.dom import minidom
+
+import argparse
 import os
 import shutil
-from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSDurabilityPolicy, QoSHistoryPolicy
+import subprocess
+import sys
+
+import rclpy
+
 from ament_index_python.packages import get_package_share_directory
+from rclpy.node import Node
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSDurabilityPolicy, QoSHistoryPolicy
+from std_msgs.msg import String
+from xml.dom import minidom
 
 
 class StringModifierNode(Node):
-    def __init__(self):
+    def __init__(self, tf_prefix=""):
         super().__init__("string_modifier_node")
+
+        self.tf_prefix = tf_prefix
 
         # Subscriber
         self.subscription = self.create_subscription(
@@ -139,9 +147,17 @@ class StringModifierNode(Node):
                     elem.parentNode.removeChild(elem)
 
         # copy in the robotiq_85 xml file into the main mujoco description directory
-        shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml',
-            f"{base_dir}",
+        # and process it through xacro to resolve the tf_prefix argument
+        robotiq_xacro_src = (f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml',)
+        robotiq_output = f"{base_dir}/right_robotiq_85.xml"
+        subprocess.run(
+            [
+                "xacro",
+                robotiq_xacro_src,
+                f"tf_prefix:={self.tf_prefix}",
+            ],
+            stdout=open(robotiq_output, "w"),
+            check=True,
         )
 
         xml_data = "\n".join([line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()])
@@ -160,8 +176,19 @@ class StringModifierNode(Node):
 
 
 def main(args=None):
+    parser = argparse.ArgumentParser(
+        description="Generate wheels for PB mujoco sim",
+    )
+    parser.add_argument("--tf-prefix", default="", help="tf_prefix for generated wheels")
+
+    # Skip ros args
+    args_without_filename = sys.argv[1:]
+    while "--ros-args" in args_without_filename:
+        args_without_filename.remove("--ros-args")
+    parsed_args = parser.parse_args(args_without_filename)
+
     rclpy.init(args=args)
-    node = StringModifierNode()
+    node = StringModifierNode(tf_prefix=parsed_args.tf_prefix)
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
