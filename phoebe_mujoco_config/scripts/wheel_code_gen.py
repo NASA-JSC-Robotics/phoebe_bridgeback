@@ -1,8 +1,27 @@
 #!/usr/bin/env python3
+#
+# Copyright (c) 2026, United States Government, as represented by the
+# Administrator of the National Aeronautics and Space Administration.
+#
+# All rights reserved.
+#
+# This software is licensed under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with the
+# License. You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
 
 # this file is modified from this repository with several modifications and fixes
 # https://github.com/JunHeonYoon/mujoco_mecanum/
 
+
+import argparse
 from math import (
     pi,
     sin,
@@ -11,6 +30,7 @@ from math import (
 )
 import numpy as np
 import os
+import sys
 
 n_roller = 8  # number of rollers of wheel
 pos = [
@@ -127,9 +147,22 @@ def return_wheel_description(
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Generate wheels for PB mujoco sim",
+    )
+    parser.add_argument("--tf-prefix", default="", help="tf_prefix for generated wheels")
+
+    # Skip ros args
+    args_without_filename = sys.argv[1:]
+    while "--ros-args" in args_without_filename:
+        args_without_filename.remove("--ros-args")
+    parsed_args = parser.parse_args(args_without_filename)
+
+    tf_prefix = parsed_args.tf_prefix
+
     total_description = "<mujoco>\n"
     total_description += return_wheel_description(
-        link_name="rear_left_wheel",
+        link_name=f"{tf_prefix}rear_left_wheel",
         pos=[
             -0.319,
             0.2755,
@@ -138,7 +171,7 @@ def main():
         wheel_type=0,
     )
     total_description += return_wheel_description(
-        link_name="rear_right_wheel",
+        link_name=f"{tf_prefix}rear_right_wheel",
         pos=[
             -0.319,
             -0.2755,
@@ -147,7 +180,7 @@ def main():
         wheel_type=1,
     )
     total_description += return_wheel_description(
-        link_name="front_left_wheel",
+        link_name=f"{tf_prefix}front_left_wheel",
         pos=[
             0.319,
             0.2755,
@@ -156,7 +189,7 @@ def main():
         wheel_type=1,
     )
     total_description += return_wheel_description(
-        link_name="front_right_wheel",
+        link_name=f"{tf_prefix}front_right_wheel",
         pos=[
             0.319,
             -0.2755,
