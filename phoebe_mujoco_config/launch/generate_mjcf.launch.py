@@ -72,6 +72,7 @@ def generate_launch_description():
                 ]
             ),
             " add_grasp_push_frames:=false",
+            " base_joint_type:=floating",
             " use_left_static_pedestal:=",
             use_left_static_pedestal,
         ]
