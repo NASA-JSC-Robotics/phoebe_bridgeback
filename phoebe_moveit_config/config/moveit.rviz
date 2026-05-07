@@ -25,7 +25,7 @@ Visualization Manager:
         Robot Alpha: 1
       Value: true
   Global Options:
-    Fixed Frame: base_link
+    Fixed Frame: world
   Tools:
     - Class: rviz_default_plugins/Interact
     - Class: rviz_default_plugins/MoveCamera

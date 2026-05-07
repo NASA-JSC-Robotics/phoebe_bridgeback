@@ -107,6 +107,7 @@ def generate_launch_description():
             " add_grasp_push_frames:=false",
             " model_mobile_env:=true",
             " include_scene_objects:=true",
+            " base_joint_type:=floating",
             " use_left_static_pedestal:=",
             use_left_static_pedestal,
         ]
@@ -162,6 +163,7 @@ def generate_launch_description():
         use_pregenerated_mjcf,
         " sim_speed:=",
         sim_speed,
+        " model_mobile_env:=false",
     ]
 
     # Include the control launch file with relevant configuration
