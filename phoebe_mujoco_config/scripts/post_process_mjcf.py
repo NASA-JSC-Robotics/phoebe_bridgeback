@@ -18,12 +18,16 @@
 # under the License.
 
 from xml.dom import minidom
+import argparse
 import os
 import shutil
+import subprocess
+import sys
+
 from ament_index_python.packages import get_package_share_directory
 
 
-def main(filepath):
+def main(filepath, tf_prefix=""):
     filepath_full = filepath + "/mujoco_description_formatted.xml"
     # Load your XML document
     dom = minidom.parse(filepath_full)
@@ -108,9 +112,17 @@ def main(filepath):
                 elem.parentNode.removeChild(elem)
 
     # copy in the robotiq_85 xml file into the main mujoco description directory
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml',
-        f"{filepath}",
+    # and process it through xacro to resolve the tf_prefix argument
+    robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
+    robotiq_output = f"{filepath}/right_robotiq_85.xml"
+    subprocess.run(
+        [
+            "xacro",
+            robotiq_xacro_src,
+            f"tf_prefix:={tf_prefix}",
+        ],
+        stdout=open(robotiq_output, "w"),
+        check=True,
     )
 
     print(f"writing to {filepath_full}")
@@ -122,5 +134,17 @@ def main(filepath):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Generate wheels for PB mujoco sim",
+    )
+    parser.add_argument("--tf-prefix", default="", help="tf_prefix for generated wheels")
+
+    # Skip ros args
+    args_without_filename = sys.argv[1:]
+    while "--ros-args" in args_without_filename:
+        args_without_filename.remove("--ros-args")
+    parsed_args = parser.parse_args(args_without_filename)
+
     filepath = "mjcf_data"
-    main(filepath)
+
+    main(filepath, tf_prefix=parsed_args.tf_prefix)

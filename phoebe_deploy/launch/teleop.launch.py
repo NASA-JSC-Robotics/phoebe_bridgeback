@@ -20,6 +20,7 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
@@ -43,11 +44,28 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument("joystick_dev", default_value="/dev/input/js0", description="dev location of joystick")
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "launch_joystick",
+            choices=["true", "false"],
+            default_value="true",
+            description="Whether or not to launch the joystick device",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "reference_topic",
+            default_value="platform_velocity_controller/reference",
+            description="Command outputs from the muxer",
+        )
+    )
 
     # Launch Configurations
     namespace = LaunchConfiguration("namespace")
     use_sim_time = LaunchConfiguration("use_sim_time")
     joystick_dev = LaunchConfiguration("joystick_dev")
+    launch_joystick = LaunchConfiguration("launch_joystick")
+    reference_topic = LaunchConfiguration("reference_topic")
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
@@ -82,6 +100,7 @@ def generate_launch_description():
             ("joy", "joy_teleop/joy"),
             ("joy/set_feedback", "joy_teleop/joy/set_feedback"),
         ],
+        condition=IfCondition(launch_joystick),
     )
 
     node_teleop_twist_joy = Node(
@@ -120,7 +139,7 @@ def generate_launch_description():
         namespace=namespace,
         output="screen",
         remappings={
-            ("/cmd_vel_out", "platform_velocity_controller/reference"),
+            ("/cmd_vel_out", reference_topic),
             ("/diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
@@ -137,6 +156,7 @@ def generate_launch_description():
         parameters=[
             {"actions_file": config_joystick_safing},
         ],
+        condition=IfCondition(launch_joystick),
     )
 
     nodes = [

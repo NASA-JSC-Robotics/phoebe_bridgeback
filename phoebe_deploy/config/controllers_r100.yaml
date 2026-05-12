@@ -70,5 +70,5 @@
   imu_broadcaster:
     ros__parameters:
       use_sim_time: False
-      sensor_name: "imu_sensor"
-      frame_id:  "imu_0_link"
+      sensor_name: "$(var tf_prefix)imu_sensor"
+      frame_id:  "$(var tf_prefix)imu_0_link"
