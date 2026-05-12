@@ -74,7 +74,7 @@
     </hardware>
 
     <xacro:phoebe_mujoco_ros2_control_sensors/>
-    <xacro:phoebe_mujoco_ros2_control_joint use_left_static_pedestal="$(arg use_left_static_pedestal)"/>
+    <xacro:phoebe_mujoco_ros2_control_joints use_left_static_pedestal="$(arg use_left_static_pedestal)"/>
 
   </ros2_control>
 </robot>
