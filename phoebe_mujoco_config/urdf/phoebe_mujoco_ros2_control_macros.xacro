@@ -238,3 +238,5 @@
     </joint>
 
   </xacro:macro>
+
+</robot>
