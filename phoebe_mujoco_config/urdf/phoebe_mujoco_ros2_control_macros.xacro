@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="phoebe_mujoco_ros2_control_macros" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="phoebe_mujoco_ros2_control_sensors">
     <sensor name="left_wrist_mounted_camera">
