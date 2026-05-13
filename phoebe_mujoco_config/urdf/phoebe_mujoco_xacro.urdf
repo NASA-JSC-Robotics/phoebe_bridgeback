@@ -6,6 +6,8 @@
   <xacro:arg name="sim_speed" default="1.0"/>
   <xacro:arg name="use_pregenerated_mjcf" default="false"/>
   <xacro:arg name="model_mobile_env" default="true"/>
+  <xacro:arg name="left_hand_type" default="hande" />
+  <xacro:arg name="right_hand_type" default="hande" />
   <xacro:arg name="use_left_static_pedestal" default="false"/>
   <xacro:arg name="base_joint_type" default="fixed"/>
   <!-- uncomment to start from saved keyframe -->
@@ -29,6 +31,8 @@
     add_grasp_push_frames="$(arg add_grasp_push_frames)"
     use_camera_mesh="false"
     include_world_joints="$(arg include_world_joints)"
+    left_hand_type="$(arg left_hand_type)"
+    right_hand_type="$(arg right_hand_type)"
     use_left_static_pedestal="$(arg use_left_static_pedestal)"
   />
 

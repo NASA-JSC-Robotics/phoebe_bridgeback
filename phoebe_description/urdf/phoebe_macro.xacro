@@ -799,7 +799,7 @@
     <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
 
     <!-- right hand - can be either hande or 2f85 -->
-    <xacro:if value="${right_hand_type == 'hande'}">   
+    <xacro:if value="${right_hand_type == 'hande'}">
         <xacro:dextivr_hande
         com_port="${right_hande_com_port}"
         use_fake_hardware="${use_fake_hardware}"
@@ -813,7 +813,7 @@
       </xacro:dextivr_hande>
     </xacro:if>
 
-    <xacro:if value="${right_hand_type == '2f85'}">   
+    <xacro:if value="${right_hand_type == '2f85'}">
       <xacro:robotiq_2f_85
         com_port="${right_hande_com_port}"
         use_fake_hardware="${use_fake_hardware}"
@@ -827,7 +827,7 @@
     </xacro:if>
 
     <!-- left hand - can be either hande or 2f85 -->
-    <xacro:if value="${left_hand_type == 'hande'}">   
+    <xacro:if value="${left_hand_type == 'hande'}">
       <xacro:dextivr_hande
         com_port="${left_hande_com_port}"
         use_fake_hardware="${use_fake_hardware}"
@@ -841,7 +841,7 @@
       </xacro:dextivr_hande>
     </xacro:if>
 
-    <xacro:if value="${left_hand_type == '2f85'}">   
+    <xacro:if value="${left_hand_type == '2f85'}">
       <xacro:robotiq_2f_85
         com_port="${left_hande_com_port}"
         use_fake_hardware="${use_fake_hardware}"

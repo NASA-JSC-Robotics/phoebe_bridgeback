@@ -4,6 +4,8 @@
   <xacro:macro name="phoebe_mujoco_raw_inputs" params="
     use_left_static_pedestal:=false
     tf_prefix:=''
+    left_hand_type:='hande'
+    right_hand_type:='hande'
     defaults_prefix:=''
   ">
 
@@ -58,8 +60,20 @@
             <position joint="${tf_prefix}left_ewellix_lift_lower_to_higher" name="${tf_prefix}left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
         </xacro:unless>
         <position joint="${tf_prefix}right_ewellix_lift_lower_to_higher" name="${tf_prefix}right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
-        <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_robotiq_85_left_knuckle_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-20 20"/>
-        <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
+
+        <xacro:if value="${right_hand_type == 'hande'}">
+            <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
+        </xacro:if>
+        <xacro:if value="${right_hand_type == '2f85'}">
+            <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_robotiq_85_left_knuckle_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-20 20"/>
+        </xacro:if>
+
+        <xacro:if value="${left_hand_type == 'hande'}">
+            <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
+        </xacro:if>
+        <xacro:if value="${left_hand_type == '2f85'}">
+            <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_robotiq_85_left_knuckle_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-20 20"/>
+        </xacro:if>
 
         <general class="size4" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" joint="${tf_prefix}left_ur_arm_shoulder_pan_joint"/>
         <general class="size4" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" joint="${tf_prefix}left_ur_arm_shoulder_lift_joint"/>
@@ -130,52 +144,103 @@
         <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_7_link"/>
     </contact>
 
-    <!-- let hand - hande -->
-    <tendon>
-        <fixed name="${tf_prefix}left_split">
-        <joint joint="${tf_prefix}left_finger_1_joint" coef="0.5"/>
-        <joint joint="${tf_prefix}left_finger_2_joint" coef="0.5"/>
-        </fixed>
-    </tendon>
-    <equality>
-        <joint joint1="${tf_prefix}left_finger_1_joint" joint2="${tf_prefix}left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-    </equality>
+    <!-- left hand - hande or 2f85 -->
+    <xacro:if value="${left_hand_type == 'hande'}">
+        <tendon>
+            <fixed name="${tf_prefix}left_split">
+            <joint joint="${tf_prefix}left_finger_1_joint" coef="0.5"/>
+            <joint joint="${tf_prefix}left_finger_2_joint" coef="0.5"/>
+            </fixed>
+        </tendon>
+        <equality>
+            <joint joint1="${tf_prefix}left_finger_1_joint" joint2="${tf_prefix}left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+        </equality>
+    </xacro:if>
+    <xacro:if value="${left_hand_type == '2f85'}">
+        <tendon>
+            <fixed name="${tf_prefix}left_split">
+            <joint joint="${tf_prefix}left_robotiq_85_left_knuckle_joint" coef="0.485"/>
+            <joint joint="${tf_prefix}left_robotiq_85_right_knuckle_joint" coef="-0.485"/>
+            </fixed>
+        </tendon>
 
-    <!-- right hand - 2f-85 -->
-    <tendon>
-        <fixed name="${tf_prefix}right_split">
-        <joint joint="${tf_prefix}right_robotiq_85_left_knuckle_joint" coef="0.485"/>
-        <joint joint="${tf_prefix}right_robotiq_85_right_knuckle_joint" coef="-0.485"/>
-        </fixed>
-    </tendon>
+        <equality>
+            <connect anchor="-0.0371575 0.0 0.043422" body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <connect anchor="0.0371575 0.0 0.043422" body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <joint joint1="${tf_prefix}left_robotiq_85_left_knuckle_joint" joint2="${tf_prefix}left_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
+            solref="0.005 1"/>
+        </equality>
 
-    <equality>
-        <connect anchor="-0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-        <connect anchor="0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
-        <joint joint1="${tf_prefix}right_robotiq_85_left_knuckle_joint" joint2="${tf_prefix}right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
-        solref="0.005 1"/>
-    </equality>
+        <contact>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_right_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_left_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_finger_tip_link" body2="${tf_prefix}left_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_finger_tip_link" body2="${tf_prefix}left_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_finger_tip_link" body2="${tf_prefix}left_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_finger_tip_link" body2="${tf_prefix}left_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_knuckle_link"/>
+        </contact>
+    </xacro:if>
 
-    <contact>
-        <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_inner_knuckle_link"/>
-        <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_inner_knuckle_link"/>
-        <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
-        <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
-        <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link"/>
-        <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_right_finger_tip_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_left_finger_tip_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_right_finger_tip_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_left_finger_tip_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_right_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_left_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
-        <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
-    </contact>
+    <!-- right hand - hande or 2f85 -->
+    <xacro:if value="${right_hand_type == 'hande'}">
+        <tendon>
+            <fixed name="${tf_prefix}right_split">
+            <joint joint="${tf_prefix}right_finger_1_joint" coef="0.5"/>
+            <joint joint="${tf_prefix}right_finger_2_joint" coef="0.5"/>
+            </fixed>
+        </tendon>
+        <equality>
+            <joint joint1="${tf_prefix}right_finger_1_joint" joint2="${tf_prefix}right_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+        </equality>
+    </xacro:if>
+    <xacro:if value="${right_hand_type == '2f85'}">
+        <tendon>
+            <fixed name="${tf_prefix}right_split">
+            <joint joint="${tf_prefix}right_robotiq_85_left_knuckle_joint" coef="0.485"/>
+            <joint joint="${tf_prefix}right_robotiq_85_right_knuckle_joint" coef="-0.485"/>
+            </fixed>
+        </tendon>
+
+        <equality>
+            <connect anchor="-0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <connect anchor="0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <joint joint1="${tf_prefix}right_robotiq_85_left_knuckle_joint" joint2="${tf_prefix}right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
+            solref="0.005 1"/>
+        </equality>
+
+        <contact>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_finger_tip_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_finger_tip_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_finger_tip_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_finger_tip_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
+        </contact>
+    </xacro:if>
 
     <!-- Same logic as above... but for liftkits -->
     <xacro:unless value="${use_left_static_pedestal}">

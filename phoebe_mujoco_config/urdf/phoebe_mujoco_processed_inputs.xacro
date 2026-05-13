@@ -3,6 +3,8 @@
 
   <xacro:macro name="phoebe_mujoco_processed_inputs" params="
     tf_prefix:=''
+    left_hand_type:='hande'
+    right_hand_type:='hande'
   ">
 
     <!-- Process arguments for the URDF -->
@@ -14,12 +16,6 @@
 
       <lidar ref_site="${tf_prefix}lidar2d_0_laser" sensor_name="${tf_prefix}lidar2d_0" min_angle="-2.3" max_angle="2.3" angle_increment="0.1" />    <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
 
-      <!-- Add frictionloss and armature to fingers to help with backdriving -->
-      <modify_element type="joint" name="${tf_prefix}left_finger_1_joint" armature="0.5" frictionloss="5.0" />
-      <modify_element type="joint" name="${tf_prefix}left_finger_2_joint" armature="0.5" frictionloss="5.0" />
-      <modify_element type="joint" name="${tf_prefix}right_finger_1_joint" armature="0.5" frictionloss="5.0" />
-      <modify_element type="joint" name="${tf_prefix}right_finger_2_joint" armature="0.5" frictionloss="5.0" />.
-
       <!-- Add gravcomp so that control will make the joints move about the desired position-->
       <modify_element type="body" name="${tf_prefix}left_ewellix_lift_higher_link" gravcomp="1.0"/>
       <modify_element type="body" name="${tf_prefix}left_ewellix_lift_middle_link" gravcomp="1.0"/>
@@ -29,6 +25,18 @@
       <modify_element type="body" name="${tf_prefix}left_ur_arm_wrist_1_link" gravcomp="1.0"/>
       <modify_element type="body" name="${tf_prefix}left_ur_arm_wrist_2_link" gravcomp="1.0"/>
       <modify_element type="body" name="${tf_prefix}left_ur_arm_wrist_3_link" gravcomp="1.0"/>
+      <xacro:if value="${left_hand_type == 'hande'}">
+        <modify_element type="joint" name="${tf_prefix}left_finger_1_joint" armature="0.5" frictionloss="5.0" />
+        <modify_element type="joint" name="${tf_prefix}left_finger_2_joint" armature="0.5" frictionloss="5.0" />
+        <modify_element type="body" name="${tf_prefix}left_finger_1_link" gravcomp="1.0"/>
+        <modify_element type="body" name="${tf_prefix}left_finger_2_link" gravcomp="1.0"/>
+      </xacro:if>
+      <xacro:if value="${right_hand_type == 'hande'}">
+        <modify_element type="joint" name="${tf_prefix}right_finger_1_joint" armature="0.5" frictionloss="5.0" />
+        <modify_element type="joint" name="${tf_prefix}right_finger_2_joint" armature="0.5" frictionloss="5.0" />
+        <modify_element type="body" name="${tf_prefix}right_finger_1_link" gravcomp="1.0"/>
+        <modify_element type="body" name="${tf_prefix}right_finger_2_link" gravcomp="1.0"/>
+      </xacro:if>
       <modify_element type="body" name="${tf_prefix}left_finger_1_link" gravcomp="1.0"/>
       <modify_element type="body" name="${tf_prefix}left_finger_2_link" gravcomp="1.0"/>
       <modify_element type="body" name="${tf_prefix}right_ewellix_lift_higher_link" gravcomp="1.0"/>
