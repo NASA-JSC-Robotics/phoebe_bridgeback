@@ -150,6 +150,8 @@ class PhoebeSafetyManager(Node):
         self.get_logger().info(f"This node has started: {self.get_name()}")
 
         # Set up sensors from sensor config file 
+        self.current_msg = SafetyCurrent()
+        self.raw_voltages_msg = SafetyRawVoltages()
         self.setup_sensors(self.sensor_config_file)
 
     def setup_sensors(self, config_file):
@@ -177,10 +179,15 @@ class PhoebeSafetyManager(Node):
 
         # Check arrays have the same number of values
 
-        raw_voltages_msg = SafetyRawVoltages()
-        if len(self.sensors) != raw_voltages_msg.NUM_FIRMWARE_VALUES:
-            self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages value says there should be {raw_voltages_msg.NUM_FIRMWARE_VALUES}")
+        if len(self.sensors) != self.raw_voltages_msg.NUM_FIRMWARE_VALUES:
+            self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}")
         
+        # Names and validity won't change, so prefill them
+        self.current_msg.names = [sensor["name"] for sensor in self.sensors]
+        self.raw_voltages_msg.names = self.current_msg.names
+
+        self.current_msg.is_valid = [sensor["is_valid"] for sensor in self.sensors]
+        self.raw_voltages_msg.is_valid = self.current_msg.is_valid
 
 
     def estop_callback(self, msg: Bool):
@@ -281,8 +288,6 @@ class PhoebeSafetyManager(Node):
                 self.publish_not_safe()
                 
     def read_currents(self):
-        current_msg = SafetyCurrent()
-        raw_voltages_msg = SafetyRawVoltages()
         if self.arduino and self.arduino.is_open:
              buf_size = self.arduino.in_waiting
              finish = True
@@ -294,19 +299,17 @@ class PhoebeSafetyManager(Node):
                          dummy1 = self.arduino.read(1)
                          buf_size = buf_size -1
                          if dummy1[0] == 35 and buf_size >= 40:
-                            for id in range(raw_voltages_msg.NUM_FIRMWARE_VALUES):
+                            for id in range(self.raw_voltages_msg.NUM_FIRMWARE_VALUES):
                                 # Must read regardless of whether the reading is valid
                                 raw_value = struct.unpack('<f',self.arduino.read(4))[0]
-                                is_valid_reading = self.sensors[id]["is_valid"]
-                                raw_voltages_msg.voltages[id] = raw_value if is_valid_reading else 0.0
-                                current_msg.currents[id] = self.compute_current(id, raw_voltages_msg.voltages[id])
-                                current_msg.is_valid[id] = raw_voltages_msg.is_valid[id]
+                                self.raw_voltages_msg.voltages[id] = raw_value if self.raw_voltages_msg.is_valid[id] else 0.0
+                                self.current_msg.currents[id] = self.compute_current(id, self.raw_voltages_msg.voltages[id])
 
                             # Set timestamp and publish messages
-                            raw_voltages_msg.timestamp = self.get_clock().now().to_msg()
-                            current_msg.timestamp = raw_voltages_msg.timestamp
-                            self.current_publisher.publish(current_msg)
-                            self.raw_voltages_publisher.publish(raw_voltages_msg)
+                            self.raw_voltages_msg.timestamp = self.get_clock().now().to_msg()
+                            self.current_msg.timestamp = self.raw_voltages_msg.timestamp
+                            self.current_publisher.publish(self.current_msg)
+                            self.raw_voltages_publisher.publish(self.raw_voltages_msg)
 
                             buf_size = buf_size - 40
                          else:   

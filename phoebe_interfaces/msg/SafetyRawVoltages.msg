@@ -8,4 +8,5 @@ builtin_interfaces/Time timestamp
 # Validity is configured for sensors in the current_sensors.yaml config file.
 int8 NUM_FIRMWARE_VALUES=10
 bool[10] is_valid
+string[10] names
 float32[10] voltages
