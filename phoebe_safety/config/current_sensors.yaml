@@ -1,4 +1,11 @@
 ---
+# Configuration for current sensors.
+# The approach is taken from https://www.pololu.com/product/5355
+# The voltage offset comes from empirically measuring voltage at no-load
+# The sensitivity is determined by passing a known current
+# Validity may be set false to indicate a sensor that is present and reported
+# by firmware, but is not fully connected or is malfunctioning.
+# The number of sensors here should match the number of values reported by the firmware
 sensors:
   - voltage_offset: 1.58900769443616
     name: "sensor_0"
