@@ -1,12 +1,7 @@
 builtin_interfaces/Time timestamp
 
-float32 current_0
-float32 current_1
-float32 current_2
-float32 current_3
-float32 current_4
-float32 current_5
-float32 current_6
-float32 current_7
-float32 current_8
-float32 current_9
+# Computed current values based on voltages from the STM board. Changes here must be 
+# coordinated with the firmware and the SafetyRawVoltages message.
+# The currents and is_valid values are computed from the raw voltages.
+bool[10] is_valid
+float32[10] currents

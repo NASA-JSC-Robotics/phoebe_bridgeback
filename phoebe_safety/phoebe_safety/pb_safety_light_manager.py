@@ -26,6 +26,7 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
 from phoebe_interfaces.msg import SafetyStatus
 from phoebe_interfaces.msg import SafetyCurrent
+from phoebe_interfaces.msg import SafetyRawVoltages
 import serial
 import time
 import struct
@@ -71,6 +72,9 @@ class PhoebeSafetyManager(Node):
         # Safety status publisher topic name
         self.safety_status_topic = "safety_status"
 
+        # Safety raw voltages publisher topic name
+        self.safety_raw_voltages_topic = "safety_raw_voltages"
+
         # Safety current publisher topic name
         self.safety_current_topic = "safety_current"
         
@@ -109,6 +113,11 @@ class PhoebeSafetyManager(Node):
         # Publishing to "safety_current" topic with the custom SafetyCurrent message
         self.current_publisher = self.create_publisher(
             SafetyCurrent, self.safety_current_topic, 10, callback_group=self.callback_group
+        )
+
+        # Publishing to "safety_raw_voltages" topic with the custom SafetyRawVoltages message
+        self.raw_voltages_publisher = self.create_publisher(
+            SafetyRawVoltages, self.safety_raw_voltages_topic, 10, callback_group=self.callback_group
         )
         # Timer to check system s￼tatus at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
@@ -233,7 +242,8 @@ class PhoebeSafetyManager(Node):
                 self.publish_not_safe()
                 
     def read_currents(self):
-        msg = SafetyCurrent()
+        current_msg = SafetyCurrent()
+        raw_voltages_msg = SafetyRawVoltages()
         if self.arduino and self.arduino.is_open:
              buf_size = self.arduino.in_waiting
              finish = True
@@ -245,23 +255,49 @@ class PhoebeSafetyManager(Node):
                          dummy1 = self.arduino.read(1)
                          buf_size = buf_size -1
                          if dummy1[0] == 35 and buf_size >= 40:
-                            msg.current_0 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_1 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_2 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_3 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_4 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_5 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_6 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_7 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_8 = struct.unpack('<f',self.arduino.read(4))[0]
-                            msg.current_9 = struct.unpack('<f',self.arduino.read(4))[0]
+                            for id in range(raw_voltages_msg.NUM_FIRMWARE_VALUES):
+                                raw_value = struct.unpack('<f',self.arduino.read(4))[0]
+                                raw_voltages_msg.voltages[id] = raw_value if raw_voltages_msg.is_valid[id] else 0.0
+                                current_msg.currents[id] = self.compute_current(id, raw_voltages_msg.voltages[id])
+                                current_msg.is_valid[id] = raw_voltages_msg.is_valid[id]
+
+                            # Set timestamp and publish messages
+                            raw_voltages_msg.timestamp = self.get_clock().now().to_msg()
+                            current_msg.timestamp = raw_voltages_msg.timestamp
+                            self.current_publisher.publish(current_msg)
+                            self.raw_voltages_publisher.publish(raw_voltages_msg)
+
                             buf_size = buf_size - 40
-                            msg.timestamp = self.get_clock().now().to_msg()
-                            self.current_publisher.publish(msg)
                          else:   
                                finish = False
                    else:
                         finish = False                     
+
+    def compute_current(self, index, voltage):
+        """
+        Compute current for the index'th sensor based on empirical values from testing
+        The approach is described for this board at: https://www.pololu.com/product/5355
+        """
+
+        # Voltage offsets based on no-load testing
+        voltage_offsets = [
+                            1.58900769443616,	
+                            1.57526290157567,
+                            1.58059249818325,
+                            1.55932673164036,
+                            1.50045582004215,
+                            1.46644462256328,
+                            1.63564164483029,
+                            1.49719495358674,
+                            1.48355541540229,
+                            0.0 
+                           ]
+
+        # Current gain for each sensor based on empirical values from known-current testing
+        sensitivity = [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 ]
+
+        return (voltage - voltage_offsets[index]) / sensitivity[index]
+
 
     def controller_manager_check(self):
         node_names = self.get_node_names_and_namespaces()
