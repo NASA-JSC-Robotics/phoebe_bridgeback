@@ -107,10 +107,10 @@
     <joint name="${tf_prefix}left_ur_arm_shoulder_pan_joint">
       <command_interface name="position"/>
       <state_interface name="position">
-        <xacro:if value="$(arg use_left_static_pedestal)">
+        <xacro:if value="${use_left_static_pedestal}">
           <param name="initial_value">${radians(8)}</param>
         </xacro:if>
-        <xacro:unless value="$(arg use_left_static_pedestal)">
+        <xacro:unless value="${use_left_static_pedestal}">
           <param name="initial_value">${radians(-33)}</param>
         </xacro:unless>
       </state_interface>
