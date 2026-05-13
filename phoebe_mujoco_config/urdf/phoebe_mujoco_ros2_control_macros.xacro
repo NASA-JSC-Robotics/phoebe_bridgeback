@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<robot name="phoebe_mujoco_ros2_control_macros" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="phoebe_mujoco_ros2_control_sensors" params="
+    tf_prefix:=''
+  ">
+    <sensor name="${tf_prefix}left_wrist_mounted_camera">
+      <param name="frame_name">${tf_prefix}left_wrist_mounted_camera_color_optical_frame</param>
+      <param name="info_topic">/${tf_prefix}left_wrist_mounted_camera_/color/camera_info</param>
+      <param name="image_topic">/${tf_prefix}left_wrist_mounted_camera_/color/image_raw</param>
+      <param name="depth_topic">/${tf_prefix}left_wrist_mounted_camera_/aligned_depth_to_color/image_raw</param>
+    </sensor>
+    <sensor name="${tf_prefix}right_wrist_mounted_camera">
+      <param name="frame_name">${tf_prefix}right_wrist_mounted_camera_color_optical_frame</param>
+      <param name="info_topic">/${tf_prefix}right_wrist_mounted_camera_/color/camera_info</param>
+      <param name="image_topic">/${tf_prefix}right_wrist_mounted_camera_/color/image_raw</param>
+      <param name="depth_topic">/${tf_prefix}right_wrist_mounted_camera_/aligned_depth_to_color/image_raw</param>
+    </sensor>
+
+    <sensor name="${tf_prefix}lidar2d_0">
+      <param name="frame_name">${tf_prefix}lidar2d_0_laser</param>
+      <param name="angle_increment">0.1</param>
+      <param name="min_angle">-2.3</param>
+      <param name="max_angle">2.3</param>
+      <param name="range_min">0.05</param>
+      <param name="range_max">10</param>
+      <param name="laserscan_topic">${tf_prefix}lidar2d_0_laser/scan</param>
+    </sensor>
+
+    <sensor name="${tf_prefix}imu_sensor">
+      <param name="mujoco_type">imu</param>
+      <param name="mujoco_sensor_name">${tf_prefix}imu_sensor</param>
+      <state_interface name="orientation.x"/>
+      <state_interface name="orientation.y"/>
+      <state_interface name="orientation.z"/>
+      <state_interface name="orientation.w"/>
+      <state_interface name="angular_velocity.x"/>
+      <state_interface name="angular_velocity.y"/>
+      <state_interface name="angular_velocity.z"/>
+      <state_interface name="linear_acceleration.x"/>
+      <state_interface name="linear_acceleration.y"/>
+      <state_interface name="linear_acceleration.z"/>
+    </sensor>
+
+    <sensor name="${tf_prefix}right_ur_arm_tcp_fts_sensor">
+      <param name="mujoco_type">fts</param>
+      <param name="mujoco_sensor_name">${tf_prefix}right_ur_arm_tcp_fts_sensor</param>
+      <state_interface name="force.x"/>
+      <state_interface name="force.y"/>
+      <state_interface name="force.z"/>
+      <state_interface name="torque.x"/>
+      <state_interface name="torque.y"/>
+      <state_interface name="torque.z"/>
+    </sensor>
+    <sensor name="${tf_prefix}left_ur_arm_tcp_fts_sensor">
+      <param name="mujoco_type">fts</param>
+      <param name="mujoco_sensor_name">${tf_prefix}left_ur_arm_tcp_fts_sensor</param>
+      <state_interface name="force.x"/>
+      <state_interface name="force.y"/>
+      <state_interface name="force.z"/>
+      <state_interface name="torque.x"/>
+      <state_interface name="torque.y"/>
+      <state_interface name="torque.z"/>
+    </sensor>
+
+  </xacro:macro>
+
+  <xacro:macro name="phoebe_mujoco_ros2_control_joints" params="
+    tf_prefix:=''
+    use_left_static_pedestal:=false
+  ">
+
+    <xacro:unless value="${use_left_static_pedestal}">
+      <joint name="${tf_prefix}left_ewellix_lift_lower_to_higher">
+        <command_interface name="position"/>
+        <state_interface name="position">
+          <param name="initial_value">0.24</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:unless>
+    <joint name="${tf_prefix}right_ewellix_lift_lower_to_higher">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.24</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+<joint name="${tf_prefix}left_finger_1_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.02</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}right_robotiq_85_left_knuckle_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}left_ur_arm_shoulder_pan_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <xacro:if value="${use_left_static_pedestal}">
+          <param name="initial_value">${radians(8)}</param>
+        </xacro:if>
+        <xacro:unless value="${use_left_static_pedestal}">
+          <param name="initial_value">${radians(-33)}</param>
+        </xacro:unless>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}left_ur_arm_shoulder_lift_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(11)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}left_ur_arm_elbow_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-137)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}left_ur_arm_wrist_1_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(15)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}left_ur_arm_wrist_2_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(91)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}left_ur_arm_wrist_3_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-197)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}right_ur_arm_shoulder_pan_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-123)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}right_ur_arm_shoulder_lift_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(11)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}right_ur_arm_elbow_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(-137)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}right_ur_arm_wrist_1_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(25)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}right_ur_arm_wrist_2_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(91)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}right_ur_arm_wrist_3_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${radians(163)}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="${tf_prefix}front_left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}front_right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}rear_left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}rear_right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
