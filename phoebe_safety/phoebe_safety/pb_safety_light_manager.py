@@ -30,6 +30,7 @@ from phoebe_interfaces.msg import SafetyRawVoltages
 import serial
 import time
 import struct
+import yaml
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 import datetime
 from enum import IntEnum
@@ -57,6 +58,10 @@ class PhoebeSafetyManager(Node):
         # Use ROS 2 parameter system
         arduino_port_param = (
             self.declare_parameter("arduino_port", "/dev/ttyACM0").get_parameter_value().string_value
+        )
+
+        self.sensor_config_file = (
+            self.declare_parameter("current_sensor_config_file").get_parameter_value().string_value
         )
                 
 #        arduino_port_param = (
@@ -143,6 +148,29 @@ class PhoebeSafetyManager(Node):
 
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
+
+        # Set up sensors from sensor config file 
+        self.setup_sensors(self.sensor_config_file)
+
+    def setup_sensors(self, config_file):
+        # Read the sensor config file and parse the content it contains into member variables
+        try:
+            with open(config_file) as stream:
+                content = yaml.safe_load(stream)
+
+                sensor_config = content["sensors"]
+                self.voltage_offsets = sensor_config["voltage_offsets"]
+                self.sensitivity = sensor_config["sensitivity"]
+                self.is_valid = sensor_config["is_valid"]
+
+                self.get_logger().info(f"Read sensor voltage offsets: {self.voltage_offsets}")
+                self.get_logger().info(f"Read sensor sensitivity: {self.sensitivity}")
+                self.get_logger().info(f"Read sensor validity: {self.is_valid}")
+
+        except FileNotFoundError:
+            self.get_logger().fatal(f"Cannot open sensor config file: {self.sensor_config_file}")
+        except yaml.YAMLError as e:
+            self.get_logger().fatal(f"Unable to parse sensor config file {self.sensor_config_file}: {e}")
 
     def estop_callback(self, msg: Bool):
         """
@@ -278,25 +306,7 @@ class PhoebeSafetyManager(Node):
         Compute current for the index'th sensor based on empirical values from testing
         The approach is described for this board at: https://www.pololu.com/product/5355
         """
-
-        # Voltage offsets based on no-load testing
-        voltage_offsets = [
-                            1.58900769443616,	
-                            1.57526290157567,
-                            1.58059249818325,
-                            1.55932673164036,
-                            1.50045582004215,
-                            1.46644462256328,
-                            1.63564164483029,
-                            1.49719495358674,
-                            1.48355541540229,
-                            0.0 
-                           ]
-
-        # Current gain for each sensor based on empirical values from known-current testing
-        sensitivity = [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 ]
-
-        return (voltage - voltage_offsets[index]) / sensitivity[index]
+        return (voltage - self.voltage_offsets[index]) / self.sensitivity[index]
 
 
     def controller_manager_check(self):
