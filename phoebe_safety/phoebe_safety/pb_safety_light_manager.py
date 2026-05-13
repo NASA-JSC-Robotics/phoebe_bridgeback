@@ -35,6 +35,7 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy
 import datetime
 from enum import IntEnum
 
+
 class LightColor(IntEnum):
     RED = 1
     YELLOW = 2
@@ -63,10 +64,6 @@ class PhoebeSafetyManager(Node):
         self.sensor_config_file = (
             self.declare_parameter("current_sensor_config_file").get_parameter_value().string_value
         )
-                
-#        arduino_port_param = (
-#            self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
-#        )
 
         # Assign parameters
         self.arduino_port = arduino_port_param
@@ -82,7 +79,7 @@ class PhoebeSafetyManager(Node):
 
         # Safety current publisher topic name
         self.safety_current_topic = "safety_current"
-        
+
         # Service for listing controllers from the controller manager
         self.list_controllers_srv = "controller_manager/list_controllers"
 
@@ -100,7 +97,7 @@ class PhoebeSafetyManager(Node):
 
         # Wait time for checks (Seconds)
         self.wait_time = 5
-        
+
         while not self.arduino_connected and rclpy.ok():
             self.try_reconnect_arduino()
 
@@ -114,7 +111,7 @@ class PhoebeSafetyManager(Node):
         self.publisher = self.create_publisher(
             SafetyStatus, self.safety_status_topic, 10, callback_group=self.callback_group
         )
-        
+
         # Publishing to "safety_current" topic with the custom SafetyCurrent message
         self.current_publisher = self.create_publisher(
             SafetyCurrent, self.safety_current_topic, 10, callback_group=self.callback_group
@@ -149,7 +146,7 @@ class PhoebeSafetyManager(Node):
         # Logger
         self.get_logger().info(f"This node has started: {self.get_name()}")
 
-        # Set up sensors from sensor config file 
+        # Set up sensors from sensor config file
         self.current_msg = SafetyCurrent()
         self.raw_voltages_msg = SafetyRawVoltages()
         self.setup_sensors(self.sensor_config_file)
@@ -180,15 +177,15 @@ class PhoebeSafetyManager(Node):
         # Check arrays have the same number of values
 
         if len(self.sensors) != self.raw_voltages_msg.NUM_FIRMWARE_VALUES:
-            self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}")
-        
+            self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages "
+                                  "value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}")
+
         # Names and validity won't change, so prefill them
         self.current_msg.names = [sensor["name"] for sensor in self.sensors]
         self.raw_voltages_msg.names = self.current_msg.names
 
         self.current_msg.is_valid = [sensor["is_valid"] for sensor in self.sensors]
         self.raw_voltages_msg.is_valid = self.current_msg.is_valid
-
 
     def estop_callback(self, msg: Bool):
         """
@@ -286,24 +283,28 @@ class PhoebeSafetyManager(Node):
                 self.arduino_connected = False
                 self.arduino = None
                 self.publish_not_safe()
-                
+
     def read_currents(self):
         if self.arduino and self.arduino.is_open:
-             buf_size = self.arduino.in_waiting
-             finish = True
-             while finish:
-                   if buf_size !=0:
-                      dummy = self.arduino.read(1)
-                      buf_size = buf_size -1                        
-                      if dummy[0] == 35 and buf_size != 0:
-                         dummy1 = self.arduino.read(1)
-                         buf_size = buf_size -1
-                         if dummy1[0] == 35 and buf_size >= 40:
+            buf_size = self.arduino.in_waiting
+            finish = True
+            while finish:
+                if buf_size != 0:
+                    dummy = self.arduino.read(1)
+                    buf_size = buf_size - 1
+                    if dummy[0] == 35 and buf_size != 0:
+                        dummy1 = self.arduino.read(1)
+                        buf_size = buf_size - 1
+                        if dummy1[0] == 35 and buf_size >= 40:
                             for id in range(self.raw_voltages_msg.NUM_FIRMWARE_VALUES):
                                 # Must read regardless of whether the reading is valid
-                                raw_value = struct.unpack('<f',self.arduino.read(4))[0]
-                                self.raw_voltages_msg.voltages[id] = raw_value if self.raw_voltages_msg.is_valid[id] else 0.0
-                                self.current_msg.currents[id] = self.compute_current(id, self.raw_voltages_msg.voltages[id])
+                                raw_value = struct.unpack('<f', self.arduino.read(4))[0]
+                                if self.raw_voltages_msg.is_valid[id]:
+                                    self.raw_voltages_msg.voltages[id] = raw_value
+                                else:
+                                    self.raw_voltages_msg.voltages[id] = 0.0
+                                self.current_msg.currents[id] = \
+                                    self.compute_current(id, self.raw_voltages_msg.voltages[id])
 
                             # Set timestamp and publish messages
                             self.raw_voltages_msg.timestamp = self.get_clock().now().to_msg()
@@ -312,10 +313,10 @@ class PhoebeSafetyManager(Node):
                             self.raw_voltages_publisher.publish(self.raw_voltages_msg)
 
                             buf_size = buf_size - 40
-                         else:   
-                               finish = False
-                   else:
-                        finish = False                     
+                        else:
+                            finish = False
+                else:
+                    finish = False
 
     def compute_current(self, index, voltage):
         """
@@ -323,7 +324,6 @@ class PhoebeSafetyManager(Node):
         The approach is described for this board at: https://www.pololu.com/product/5355
         """
         return (voltage - self.sensors[index]["voltage_offset"]) / self.sensors[index]["sensitivity"]
-
 
     def controller_manager_check(self):
         node_names = self.get_node_names_and_namespaces()
