@@ -1,40 +1,42 @@
 ---
 sensors:
-  # Voltage offsets based on no-load testing
-  voltage_offsets:
-  - 1.58900769443616
-  - 1.57526290157567
-  - 1.58059249818325
-  - 1.55932673164036
-  - 1.50045582004215
-  - 1.46644462256328
-  - 1.63564164483029
-  - 1.49719495358674
-  - 1.48355541540229
-  - 0.0
+  - voltage_offset: 1.58900769443616
+    sensitivity: 1.0
+    is_valid: true
 
-  # Current gain for each sensor based on empirical values from known-current testing
-  sensitivity:
-  - 1.0
-  - 1.0
-  - 1.0
-  - 1.0
-  - 1.0
-  - 1.0
-  - 1.0
-  - 1.0
-  - 1.0
-  - 1.0
+  - voltage_offset: 1.57526290157567
+    sensitivity: 1.0
+    is_valid: true
 
-  # Whether each of the sensors is valid
-  is_valid:
-  - true
-  - true
-  - true
-  - true
-  - true
-  - true
-  - true
-  - true
-  - true
-  - false
+  - voltage_offset: 1.58059249818325
+    sensitivity: 1.0
+    is_valid: true
+
+  - voltage_offset: 1.55932673164036
+    sensitivity: 1.0
+    is_valid: true
+
+  - voltage_offset: 1.50045582004215
+    sensitivity: 1.0
+    is_valid: true
+
+  - voltage_offset: 1.46644462256328
+    sensitivity: 1.0
+    is_valid: true
+
+  - voltage_offset: 1.63564164483029
+    sensitivity: 1.0
+    is_valid: true
+
+  - voltage_offset: 1.49719495358674
+    sensitivity: 1.0
+    is_valid: true
+
+  - voltage_offset: 1.48355541540229
+    sensitivity: 1.0
+    is_valid: true
+
+  - voltage_offset: 0.0
+    sensitivity: 1.0
+    is_valid: false
+  

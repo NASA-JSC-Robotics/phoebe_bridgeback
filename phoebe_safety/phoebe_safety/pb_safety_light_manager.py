@@ -158,19 +158,30 @@ class PhoebeSafetyManager(Node):
             with open(config_file) as stream:
                 content = yaml.safe_load(stream)
 
-                sensor_config = content["sensors"]
-                self.voltage_offsets = sensor_config["voltage_offsets"]
-                self.sensitivity = sensor_config["sensitivity"]
-                self.is_valid = sensor_config["is_valid"]
+                self.sensors = content["sensors"]
 
-                self.get_logger().info(f"Read sensor voltage offsets: {self.voltage_offsets}")
-                self.get_logger().info(f"Read sensor sensitivity: {self.sensitivity}")
-                self.get_logger().info(f"Read sensor validity: {self.is_valid}")
+                # sensor_config = content["sensors"]
+                # self.voltage_offsets = sensor_config["voltage_offsets"]
+                # self.sensitivity = sensor_config["sensitivity"]
+                # self.is_valid = sensor_config["is_valid"]
+
+                # self.get_logger().info(f"Read sensor voltage offsets: {self.voltage_offsets}")
+                # self.get_logger().info(f"Read sensor sensitivity: {self.sensitivity}")
+                # self.get_logger().info(f"Read sensor validity: {self.is_valid}")
+                self.get_logger().info(f"Read sensor configs: {self.sensors}")
 
         except FileNotFoundError:
             self.get_logger().fatal(f"Cannot open sensor config file: {self.sensor_config_file}")
         except yaml.YAMLError as e:
             self.get_logger().fatal(f"Unable to parse sensor config file {self.sensor_config_file}: {e}")
+
+        # Check arrays have the same number of values
+
+        raw_voltages_msg = SafetyRawVoltages()
+        if len(self.sensors) != raw_voltages_msg.NUM_FIRMWARE_VALUES:
+            self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages value says there should be {raw_voltages_msg.NUM_FIRMWARE_VALUES}")
+        
+
 
     def estop_callback(self, msg: Bool):
         """
@@ -284,8 +295,10 @@ class PhoebeSafetyManager(Node):
                          buf_size = buf_size -1
                          if dummy1[0] == 35 and buf_size >= 40:
                             for id in range(raw_voltages_msg.NUM_FIRMWARE_VALUES):
+                                # Must read regardless of whether the reading is valid
                                 raw_value = struct.unpack('<f',self.arduino.read(4))[0]
-                                raw_voltages_msg.voltages[id] = raw_value if raw_voltages_msg.is_valid[id] else 0.0
+                                is_valid_reading = self.sensors[id]["is_valid"]
+                                raw_voltages_msg.voltages[id] = raw_value if is_valid_reading else 0.0
                                 current_msg.currents[id] = self.compute_current(id, raw_voltages_msg.voltages[id])
                                 current_msg.is_valid[id] = raw_voltages_msg.is_valid[id]
 
@@ -306,7 +319,7 @@ class PhoebeSafetyManager(Node):
         Compute current for the index'th sensor based on empirical values from testing
         The approach is described for this board at: https://www.pololu.com/product/5355
         """
-        return (voltage - self.voltage_offsets[index]) / self.sensitivity[index]
+        return (voltage - self.sensors[index]["voltage_offset"]) / self.sensors[index]["sensitivity"]
 
 
     def controller_manager_check(self):
