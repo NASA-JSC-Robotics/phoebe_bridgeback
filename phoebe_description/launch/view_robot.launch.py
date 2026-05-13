@@ -62,6 +62,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "left_hand_type",
             default_value="hande",
+            choices=["hande", "2f85"],
             description="Hand type to put on the left arm of phoebe",
         )
     )
@@ -69,6 +70,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "right_hand_type",
             default_value="hande",
+            choices=["hande", "2f85"],
             description="Hand type to put on the right arm of phoebe",
         )
     )
