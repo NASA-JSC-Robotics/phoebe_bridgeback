@@ -62,6 +62,8 @@ def launch_setup(context, *args, **kwargs):
 
     calibration_mode = LaunchConfiguration("calibration_mode")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
     launch_moveit = LaunchConfiguration("launch_moveit")
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = {"use_sim_time": LaunchConfiguration("use_sim_time")}
@@ -71,6 +73,8 @@ def launch_setup(context, *args, **kwargs):
         "tf_prefix": tf_prefix,
         "calibration_mode": calibration_mode,
         "use_left_static_pedestal": use_left_static_pedestal,
+        "left_hand_type": left_hand_type,
+        "right_hand_type": right_hand_type,
     }
     moveit_config_package = "phoebe_moveit_config"
 
@@ -178,6 +182,22 @@ def generate_launch_description():
             "launch_rviz",
             default_value="true",
             description="Launch rviz?",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the left arm of phoebe",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the right arm of phoebe",
         )
     )
 
