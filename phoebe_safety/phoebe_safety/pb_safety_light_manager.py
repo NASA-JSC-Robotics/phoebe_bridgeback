@@ -58,7 +58,7 @@ class PhoebeSafetyManager(Node):
 
         # Use ROS 2 parameter system
         arduino_port_param = (
-            self.declare_parameter("arduino_port", "/dev/ttyACM0").get_parameter_value().string_value
+            self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
         )
 
         self.sensor_config_file = (
@@ -156,17 +156,7 @@ class PhoebeSafetyManager(Node):
         try:
             with open(config_file) as stream:
                 content = yaml.safe_load(stream)
-
                 self.sensors = content["sensors"]
-
-                # sensor_config = content["sensors"]
-                # self.voltage_offsets = sensor_config["voltage_offsets"]
-                # self.sensitivity = sensor_config["sensitivity"]
-                # self.is_valid = sensor_config["is_valid"]
-
-                # self.get_logger().info(f"Read sensor voltage offsets: {self.voltage_offsets}")
-                # self.get_logger().info(f"Read sensor sensitivity: {self.sensitivity}")
-                # self.get_logger().info(f"Read sensor validity: {self.is_valid}")
                 self.get_logger().info(f"Read sensor configs: {self.sensors}")
 
         except FileNotFoundError:
@@ -178,7 +168,7 @@ class PhoebeSafetyManager(Node):
 
         if len(self.sensors) != self.raw_voltages_msg.NUM_FIRMWARE_VALUES:
             self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages "
-                                  "value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}")
+                                  f"value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}")
 
         # Names and validity won't change, so prefill them
         self.current_msg.names = [sensor["name"] for sensor in self.sensors]
@@ -235,7 +225,7 @@ class PhoebeSafetyManager(Node):
         )
 
         self.send_light_state(light_state)
-        self.read_currents()
+        self.read_and_publish_currents()
 
     def publish_not_safe(self):
         """
@@ -284,7 +274,7 @@ class PhoebeSafetyManager(Node):
                 self.arduino = None
                 self.publish_not_safe()
 
-    def read_currents(self):
+    def read_and_publish_currents(self):
         if self.arduino and self.arduino.is_open:
             buf_size = self.arduino.in_waiting
             finish = True
