@@ -54,7 +54,7 @@
     </body>
     <body name="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" pos="0.0127 0 0.10842" quat="-1 0 0 0">
         <inertial pos="0.018977 0.00015001 0.022471" quat="0.939613 0 0.342237 0" mass="0.0296938" diaginertia="1.28757e-05 8.69056e-06 4.88712e-06"/>
-        <joint name="${tf_prefix}lik_right_robotiq_85_left_inner_knuckle_joint" pos="0 0 0" axis="0 -1 0" class="left_spring_link"/>
+        <joint name="${tf_prefix}right_robotiq_85_left_inner_knuckle_joint" pos="0 0 0" axis="0 -1 0" class="left_spring_link"/>
         <geom mesh="left_inner_knuckle_0" material="material_left_finger_0" class="visual" pos="" quat=""/>
         <geom mesh="left_inner_knuckle_1" material="material_left_finger_1" class="visual" pos="" quat=""/>
         <geom mesh="left_inner_knuckle_0" class="rubber" pos="" quat=""/>
@@ -63,7 +63,7 @@
     </body>
     <body name="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" pos="-0.0127 0 0.10842" quat="-1 0 0 0">
         <inertial pos="-0.0192682 5.001e-05 0.0222218" quat="0.936371 0 -0.351012 0" mass="0.0296938" diaginertia="1.2882e-05 8.69056e-06 4.88076e-06"/>
-        <joint name="${tf_prefix}rik_right_robotiq_85_right_inner_knuckle_joint" pos="0 0 0" axis="0 -1 0" class="right_spring_link"/>
+        <joint name="${tf_prefix}right_robotiq_85_right_inner_knuckle_joint" pos="0 0 0" axis="0 -1 0" class="right_spring_link"/>
         <geom mesh="right_inner_knuckle_0" material="material_left_finger_0" class="visual" pos="" quat=""/>
         <geom mesh="right_inner_knuckle_1" material="material_left_finger_1" class="visual" pos="" quat=""/>
         <geom mesh="right_inner_knuckle_0" class="rubber" pos="" quat=""/>

@@ -8,7 +8,9 @@
   ">
 
     <!-- Process arguments for the URDF -->
-      <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
+      <xacro:if value="${left_hand_type == 'hande' or right_hand_type == 'hande'}">
+        <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
+      </xacro:if>
       <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
 
       <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>

@@ -133,30 +133,52 @@ class StringModifierNode(Node):
 
         # replace the right hand with the custom modified xml that
         # has working 2f-85 mechanism
-        include_element = dom.createElement("include")
-        include_element.setAttribute("file", f"{base_dir}/right_robotiq_85.xml")
+        right_include_element = dom.createElement("include")
+        right_include_element.setAttribute("file", f"{base_dir}/right_robotiq_85.xml")
+        left_include_element = dom.createElement("include")
+        left_include_element.setAttribute("file", f"{base_dir}/left_robotiq_85.xml")
 
         # Filter by attribute value containing a substring
-        first_time = True
+        first_time_left = True
+        first_time_right = True
         for elem in body_elements:
             if "right_robotiq_85" in elem.getAttribute("name"):
-                if first_time:
-                    elem.parentNode.replaceChild(include_element, elem)
-                    first_time = False
+                if first_time_right:
+                    elem.parentNode.replaceChild(right_include_element, elem)
+                    first_time_right = False
+                else:
+                    elem.parentNode.removeChild(elem)
+            if "left_robotiq_85" in elem.getAttribute("name"):
+                if first_time_left:
+                    elem.parentNode.replaceChild(left_include_element, elem)
+                    first_time_left = False
                 else:
                     elem.parentNode.removeChild(elem)
 
         # copy in the robotiq_85 xml file into the main mujoco description directory
         # and process it through xacro to resolve the tf_prefix argument
-        robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
-        robotiq_output = f"{base_dir}/right_robotiq_85.xml"
+        right_robotiq_xacro_src = (
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
+        )
+        right_robotiq_output = f"{base_dir}/right_robotiq_85.xml"
         subprocess.run(
             [
                 "xacro",
-                robotiq_xacro_src,
+                right_robotiq_xacro_src,
                 f"tf_prefix:={self.tf_prefix}",
             ],
-            stdout=open(robotiq_output, "w"),
+            stdout=open(right_robotiq_output, "w"),
+            check=True,
+        )
+        left_robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/left_robotiq_85.xml'
+        left_robotiq_output = f"{base_dir}/left_robotiq_85.xml"
+        subprocess.run(
+            [
+                "xacro",
+                left_robotiq_xacro_src,
+                f"tf_prefix:={self.tf_prefix}",
+            ],
+            stdout=open(left_robotiq_output, "w"),
             check=True,
         )
 
