@@ -285,6 +285,7 @@ class PhoebeSafetyManager(Node):
             """
             finish = True
             packet_start_token = 35
+            packet_size = 40;
             while finish:
             
                 if buf_size != 0:
@@ -302,7 +303,7 @@ class PhoebeSafetyManager(Node):
                         """
                          Checking if the next byte is a start_token and the buffer has 40 bytes in buffer then process the packet 
                         """
-                        if dummy1[0] == packet_start_token and buf_size >= 40:
+                        if dummy1[0] == packet_start_token and buf_size >= packet_size:
                             for id in range(self.raw_voltages_msg.NUM_FIRMWARE_VALUES):
                                 # Must read regardless of whether the reading is valid
                                 raw_value = struct.unpack('<f', self.arduino.read(4))[0]
@@ -319,7 +320,7 @@ class PhoebeSafetyManager(Node):
                             self.current_publisher.publish(self.current_msg)
                             self.raw_voltages_publisher.publish(self.raw_voltages_msg)
 
-                            buf_size = buf_size - 40
+                            buf_size = buf_size - packet_size
                         else:
                             finish = False
                 else:
