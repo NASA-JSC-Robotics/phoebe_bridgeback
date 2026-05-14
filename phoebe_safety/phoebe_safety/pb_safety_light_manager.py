@@ -276,16 +276,33 @@ class PhoebeSafetyManager(Node):
 
     def read_and_publish_currents(self):
         if self.arduino and self.arduino.is_open:
+            """
+            Get the size of serial buffer
+            """
             buf_size = self.arduino.in_waiting
+            """
+             finish is use to stop the while loop when the serial buffer empty or doesn't have a full packet
+            """
             finish = True
+            packet_start_token = 35
             while finish:
+            
                 if buf_size != 0:
+                   """
+                    Read a byte from the buffer
+                   """
                     dummy = self.arduino.read(1)
                     buf_size = buf_size - 1
-                    if dummy[0] == 35 and buf_size != 0:
+                    """
+                     Checking if the byte is a start_token, if not and buffer size is not 0 set finish to false to break out the loop
+                    """
+                    if dummy[0] == packet_start_token and buf_size != 0:
                         dummy1 = self.arduino.read(1)
                         buf_size = buf_size - 1
-                        if dummy1[0] == 35 and buf_size >= 40:
+                        """
+                         Checking if the next byte is a start_token and the buffer has 40 bytes in buffer then process the packet 
+                        """
+                        if dummy1[0] == packet_start_token and buf_size >= 40:
                             for id in range(self.raw_voltages_msg.NUM_FIRMWARE_VALUES):
                                 # Must read regardless of whether the reading is valid
                                 raw_value = struct.unpack('<f', self.arduino.read(4))[0]
