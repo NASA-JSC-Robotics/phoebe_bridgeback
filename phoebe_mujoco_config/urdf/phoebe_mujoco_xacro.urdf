@@ -6,8 +6,8 @@
   <xacro:arg name="sim_speed" default="1.0"/>
   <xacro:arg name="use_pregenerated_mjcf" default="false"/>
   <xacro:arg name="model_mobile_env" default="true"/>
-  <xacro:arg name="left_hand_type" default="2f85" />
-  <xacro:arg name="right_hand_type" default="2f85" />
+  <xacro:arg name="left_hand_type" default="hande" />
+  <xacro:arg name="right_hand_type" default="hande" />
   <xacro:arg name="use_left_static_pedestal" default="false"/>
   <xacro:arg name="base_joint_type" default="fixed"/>
   <!-- uncomment to start from saved keyframe -->

@@ -2,26 +2,41 @@
   controller_manager:
     ros__parameters:
 
+      right_robotiq_gripper_2f85_controller:
+        type: position_controllers/GripperActionController
       right_robotiq_gripper_hande_controller:
         type: position_controllers/GripperActionController
       right_robotiq_activation_controller:
         type: robotiq_controllers/RobotiqActivationController
 
+      left_robotiq_gripper_2f85_controller:
+        type: position_controllers/GripperActionController
       left_robotiq_gripper_hande_controller:
         type: position_controllers/GripperActionController
       left_robotiq_activation_controller:
         type: robotiq_controllers/RobotiqActivationController
 
-  right_robotiq_gripper_hande_controller:
+  right_robotiq_gripper_2f85_controller:
     ros__parameters:
       default: true
       goal_tolerance: 0.5
       joint: $(var tf_prefix)right_robotiq_85_left_knuckle_joint
 
+  right_robotiq_gripper_hande_controller:
+    ros__parameters:
+      default: true
+      goal_tolerance: 0.5
+      joint: $(var tf_prefix)right_finger_1_joint
+
   right_robotiq_activation_controller:
     ros__parameters:
       tf_prefix: $(var tf_prefix)right_
       default: true
+
+  left_robotiq_gripper_2f85_controller:
+    ros__parameters:
+      default: true
+      joint: $(var tf_prefix)left_robotiq_85_left_knuckle_joint
 
   left_robotiq_gripper_hande_controller:
     ros__parameters:

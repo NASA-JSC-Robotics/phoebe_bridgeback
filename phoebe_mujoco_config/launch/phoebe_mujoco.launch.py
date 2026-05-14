@@ -85,6 +85,22 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the left arm of phoebe",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the right arm of phoebe",
+        )
+    )
 
     point_clouds = LaunchConfiguration("point_clouds")
     polled_cameras = LaunchConfiguration("polled_cameras")
@@ -92,6 +108,8 @@ def generate_launch_description():
     use_pregenerated_mjcf = LaunchConfiguration("use_pregenerated_mjcf")
     sim_speed = LaunchConfiguration("sim_speed")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
 
     phoebe_mujoco_package_name = "phoebe_mujoco_config"
     phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
@@ -110,6 +128,10 @@ def generate_launch_description():
             " base_joint_type:=floating",
             " use_left_static_pedestal:=",
             use_left_static_pedestal,
+            " left_hand_type:=",
+            left_hand_type,
+            " right_hand_type:=",
+            right_hand_type,
         ]
     )
 
@@ -183,6 +205,8 @@ def generate_launch_description():
             "include_world_joints": include_world_joints,
             "use_left_static_pedestal": use_left_static_pedestal,
             "extra_xacro_args": extra_xacro_args,
+            "left_hand_type": left_hand_type,
+            "right_hand_type": right_hand_type,
         }.items(),
     )
 
