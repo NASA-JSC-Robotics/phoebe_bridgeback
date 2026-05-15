@@ -261,7 +261,7 @@
     <!-- The mimic joint is scaled by 50% in the URDF -->
     <xacro:unless value="${use_left_static_pedestal}">
         <equality>
-            <joint name="${tf_prefix}left_upper_mimic_lower" joint1="left_ewellix_lift_lower_to_higher" joint2="left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
+            <joint name="${tf_prefix}left_upper_mimic_lower" joint1="${tf_prefix}left_ewellix_lift_lower_to_higher" joint2="${tf_prefix}left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
         </equality>
     </xacro:unless>
     <equality>
