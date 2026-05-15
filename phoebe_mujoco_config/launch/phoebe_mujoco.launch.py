@@ -80,7 +80,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_left_static_pedestal",
-            default_value="false",
+            default_value="true",
             description="Whether to use the left static pedestal instead of the left lift",
             choices=["true", "false"],
         )
@@ -96,7 +96,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "right_hand_type",
-            default_value="hande",
+            default_value="2f85",
             choices=["hande", "2f85"],
             description="Hand type to put on the right arm of phoebe",
         )
