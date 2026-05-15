@@ -174,6 +174,12 @@ def generate_launch_description():
                 package="phoebe_mujoco_config",
                 executable="post_process_mjcf_runtime.py",
                 name="post_process_mjcf_runtime",
+                arguments=[
+                    "--left-gripper",
+                    left_hand_type,
+                    "--right-gripper",
+                    right_hand_type,
+                ],
             ),
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
         ]
