@@ -80,7 +80,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_left_static_pedestal",
-            default_value="false",
+            default_value="true",
             description="Whether to use the left static pedestal instead of the left lift",
             choices=["true", "false"],
         )
@@ -96,7 +96,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "right_hand_type",
-            default_value="hande",
+            default_value="2f85",
             choices=["hande", "2f85"],
             description="Hand type to put on the right arm of phoebe",
         )
@@ -174,6 +174,12 @@ def generate_launch_description():
                 package="phoebe_mujoco_config",
                 executable="post_process_mjcf_runtime.py",
                 name="post_process_mjcf_runtime",
+                arguments=[
+                    "--left-gripper",
+                    left_hand_type,
+                    "--right-gripper",
+                    right_hand_type,
+                ],
             ),
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
         ]

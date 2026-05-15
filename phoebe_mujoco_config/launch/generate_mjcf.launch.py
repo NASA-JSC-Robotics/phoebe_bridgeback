@@ -52,12 +52,30 @@ def generate_launch_description():
             description="Replace left ewellix lift kit with static pedestal.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the left arm of phoebe",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the right arm of phoebe",
+        )
+    )
 
     phoebe_mujoco_package_name = "phoebe_mujoco_config"
     phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
 
-    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     use_pregenerated_assets_dir = LaunchConfiguration("use_pregenerated_assets_dir")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
 
     # main robot description for Phoebe
     robot_description_content = Command(
@@ -75,6 +93,10 @@ def generate_launch_description():
             " base_joint_type:=floating",
             " use_left_static_pedestal:=",
             use_left_static_pedestal,
+            " left_hand_type:=",
+            left_hand_type,
+            " right_hand_type:=",
+            right_hand_type,
         ]
     )
 
@@ -108,6 +130,12 @@ def generate_launch_description():
             package="phoebe_mujoco_config",
             executable="post_process_mjcf.py",
             output="screen",
+            arguments=[
+                "--left-gripper",
+                left_hand_type,
+                "--right-gripper",
+                right_hand_type,
+            ],
         )
 
         wheel_code_gen = Node(

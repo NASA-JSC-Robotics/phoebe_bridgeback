@@ -65,14 +65,14 @@
             <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
         </xacro:if>
         <xacro:if value="${right_hand_type == '2f85'}">
-            <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_robotiq_85_left_knuckle_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-20 20"/>
+            <general biastype="affine" name="${tf_prefix}right_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}right_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
         </xacro:if>
 
         <xacro:if value="${left_hand_type == 'hande'}">
             <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
         </xacro:if>
         <xacro:if value="${left_hand_type == '2f85'}">
-            <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_robotiq_85_left_knuckle_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.8" forcerange="-20 20"/>
+            <general biastype="affine" name="${tf_prefix}left_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}left_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
         </xacro:if>
 
         <general class="size4" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" joint="${tf_prefix}left_ur_arm_shoulder_pan_joint"/>
@@ -261,7 +261,7 @@
     <!-- The mimic joint is scaled by 50% in the URDF -->
     <xacro:unless value="${use_left_static_pedestal}">
         <equality>
-            <joint name="${tf_prefix}left_upper_mimic_lower" joint1="left_ewellix_lift_lower_to_higher" joint2="left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
+            <joint name="${tf_prefix}left_upper_mimic_lower" joint1="${tf_prefix}left_ewellix_lift_lower_to_higher" joint2="${tf_prefix}left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
         </equality>
     </xacro:unless>
     <equality>

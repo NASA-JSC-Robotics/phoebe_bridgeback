@@ -596,7 +596,7 @@
   <actuator>
     <position ctrlrange="0.0 0.7" dampratio="1.0" joint="left_ewellix_lift_lower_to_higher" kp="75000" name="left_ewellix_lift_lower_to_higher"/>
     <position ctrlrange="0.0 0.7" dampratio="1.0" joint="right_ewellix_lift_lower_to_higher" kp="75000" name="right_ewellix_lift_lower_to_higher"/>
-    <position ctrlrange="0.0 0.8" dampratio="10.0" forcerange="-20 20" kp="100000" name="right_robotiq_85_left_knuckle_joint" tendon="right_split"/>
+    <general biasprm="0 -100 -25" biastype="affine" ctrlrange="0 0.8" forcerange="-10 10" gainprm="100 0 0" name="right_robotiq_85_left_knuckle_joint" tendon="right_split"/>
     <position ctrlrange="0.0 0.025" dampratio="10.0" forcerange="-130 130" kp="10000" name="left_finger_1_joint" tendon="left_split"/>
     <general class="size4" joint="left_ur_arm_shoulder_pan_joint" name="left_ur_arm_shoulder_pan_joint"/>
     <general class="size4" joint="left_ur_arm_shoulder_lift_joint" name="left_ur_arm_shoulder_lift_joint"/>
