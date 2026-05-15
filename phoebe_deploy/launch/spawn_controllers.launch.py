@@ -132,12 +132,12 @@ def generate_launch_description():
             "spawn_controllers_ur.launch.py",
         ]
     )
-    launch_file_hande_spawner = PathJoinSubstitution(
+    launch_file_grippers_spawner = PathJoinSubstitution(
         [
             pkg_phoebe_deploy,
             "launch",
             "spawn_controllers",
-            "spawn_controllers_hande.launch.py",
+            "spawn_controllers_grippers.launch.py",
         ]
     )
 
@@ -171,7 +171,7 @@ def generate_launch_description():
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
     launches.append(
         MakeLaunchDescription(
-            launch_file_hande_spawner,
+            launch_file_grippers_spawner,
             common_launch_args,
             condition=UnlessCondition(calibration_mode),
         )
