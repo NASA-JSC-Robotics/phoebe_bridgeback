@@ -59,7 +59,8 @@ def generate_launch_description():
             "left_hand_type",
             default_value="hande",
             choices=["hande"],
-            description="Hand type to put on the left arm of phoebe. Only hande is supported for mock_hardware at this moment",
+            description="Hand type to put on the left arm of phoebe. "
+            "Only hande is supported for mock_hardware at this moment",
         )
     )
     declared_arguments.append(
@@ -67,7 +68,8 @@ def generate_launch_description():
             "right_hand_type",
             default_value="hande",
             choices=["hande"],
-            description="Hand type to put on the right arm of phoebe. Only hande is supported for mock_hardware at this moment",
+            description="Hand type to put on the right arm of phoebe. "
+            "Only hande is supported for mock_hardware at this moment",
         )
     )
 
