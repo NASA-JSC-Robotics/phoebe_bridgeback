@@ -54,11 +54,29 @@ def generate_launch_description():
             description="Replaces the left liftkit with the static pedestal",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande"],
+            description="Hand type to put on the left arm of phoebe. Only hande is supported for mock_hardware at this moment",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande"],
+            description="Hand type to put on the right arm of phoebe. Only hande is supported for mock_hardware at this moment",
+        )
+    )
 
     # Initialize Arguments
     namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("phoebe_deploy"), "launch", "control.launch.py")
@@ -68,6 +86,8 @@ def generate_launch_description():
             "namespace": namespace,
             "calibration_mode": calibration_mode,
             "use_left_static_pedestal": use_left_static_pedestal,
+            "left_hand_type": left_hand_type,
+            "right_hand_type": right_hand_type,
         }.items(),
     )
 
