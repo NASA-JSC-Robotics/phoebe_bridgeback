@@ -18,6 +18,11 @@ joint_limits:
     max_velocity: 0.15
     has_acceleration_limits: true
     max_acceleration: 1.0
+  left_robotiq_85_left_knuckle_joint:
+    has_velocity_limits: true
+    max_velocity: 0.15
+    has_acceleration_limits: true
+    max_acceleration: 1.0
   left_ur_arm_elbow_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
@@ -54,6 +59,11 @@ joint_limits:
     has_acceleration_limits: true
     max_acceleration: 0.02
   right_finger_1_joint:
+    has_velocity_limits: true
+    max_velocity: 0.15
+    has_acceleration_limits: true
+    max_acceleration: 1.0
+  right_robotiq_85_left_knuckle_joint:
     has_velocity_limits: true
     max_velocity: 0.15
     has_acceleration_limits: true

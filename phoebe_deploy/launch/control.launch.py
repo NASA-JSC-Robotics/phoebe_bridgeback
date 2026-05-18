@@ -110,6 +110,22 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the left arm of phoebe",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the right arm of phoebe",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "extra_xacro_args",
             default_value="",
             description="Extra args to add for making a robot description. "
@@ -127,6 +143,8 @@ def generate_launch_description():
     robot_description_file = LaunchConfiguration("robot_description_file")
     include_world_joints = LaunchConfiguration("include_world_joints")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
     extra_xacro_args = LaunchConfiguration("extra_xacro_args")
 
     # common launch args shared across different nodes
@@ -140,6 +158,8 @@ def generate_launch_description():
         "is_sim": use_fake_hardware,
         "include_world_joints": include_world_joints,
         "use_left_static_pedestal": use_left_static_pedestal,
+        "left_hand_type": left_hand_type,
+        "right_hand_type": right_hand_type,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -228,6 +248,12 @@ def generate_launch_description():
             " ",
             "use_left_static_pedestal:=",
             use_left_static_pedestal,
+            " ",
+            "left_hand_type:=",
+            left_hand_type,
+            " ",
+            "right_hand_type:=",
+            right_hand_type,
             " ",
             extra_xacro_args,  # this should always be last
         ]

@@ -58,12 +58,30 @@ def generate_launch_description():
             description="Replaces the left liftkit with the static pedestal",
         )
     )
+    arguments.append(
+        DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the left arm of phoebe",
+        )
+    )
+    arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the right arm of phoebe",
+        )
+    )
 
     # Initialize Arguments
     tf_prefix = LaunchConfiguration("tf_prefix")
     is_sim = LaunchConfiguration("is_sim")
     headless_mode = LaunchConfiguration("headless_mode")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
 
     robot_description_content = Command(
         [
@@ -82,6 +100,12 @@ def generate_launch_description():
             " ",
             "use_left_static_pedestal:=",
             use_left_static_pedestal,
+            " ",
+            "left_hand_type:=",
+            left_hand_type,
+            " ",
+            "right_hand_type:=",
+            right_hand_type,
             " ",
         ]
     )

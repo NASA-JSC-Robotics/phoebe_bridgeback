@@ -27,7 +27,7 @@ import sys
 from ament_index_python.packages import get_package_share_directory
 
 
-def main(filepath, tf_prefix=""):
+def main(filepath, tf_prefix, left_gripper, right_gripper):
     filepath_full = filepath + "/mujoco_description_formatted.xml"
     # Load your XML document
     dom = minidom.parse(filepath_full)
@@ -96,37 +96,68 @@ def main(filepath, tf_prefix=""):
             else:
                 elem.parentNode.removeChild(elem)
 
-    # replace the right hand with the custom modified xml that
-    # has working 2f-85 mechanism
-    include_element = dom.createElement("include")
-    include_element.setAttribute("file", "right_robotiq_85.xml")
+    if right_gripper == "2f85":
+        # replace the right hand with the custom modified xml that
+        # has working 2f-85 mechanism
+        include_element = dom.createElement("include")
+        include_element.setAttribute("file", "right_robotiq_85.xml")
 
-    # Filter by attribute value containing a substring
-    first_time = True
-    for elem in body_elements:
-        if "right_robotiq_85" in elem.getAttribute("name"):
-            if first_time:
-                elem.parentNode.replaceChild(include_element, elem)
-                first_time = False
-            else:
-                elem.parentNode.removeChild(elem)
+        # Filter by attribute value containing a substring
+        first_time = True
+        for elem in body_elements:
+            if "right_robotiq_85" in elem.getAttribute("name"):
+                if first_time:
+                    elem.parentNode.replaceChild(include_element, elem)
+                    first_time = False
+                else:
+                    elem.parentNode.removeChild(elem)
 
-    # copy in the robotiq_85 xml file into the main mujoco description directory
-    # and process it through xacro to resolve the tf_prefix argument
-    robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
-    robotiq_output = f"{filepath}/right_robotiq_85.xml"
-    subprocess.run(
-        [
-            "xacro",
-            robotiq_xacro_src,
-            f"tf_prefix:={tf_prefix}",
-        ],
-        stdout=open(robotiq_output, "w"),
-        check=True,
-    )
+        # copy in the robotiq_85 xml file into the main mujoco description directory
+        # and process it through xacro to resolve the tf_prefix argument
+        robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
+        robotiq_output = f"{filepath}/right_robotiq_85.xml"
+        subprocess.run(
+            [
+                "xacro",
+                robotiq_xacro_src,
+                f"tf_prefix:={tf_prefix}",
+            ],
+            stdout=open(robotiq_output, "w"),
+            check=True,
+        )
 
+    if left_gripper == "2f85":
+        # replace the right hand with the custom modified xml that
+        # has working 2f-85 mechanism
+        include_element = dom.createElement("include")
+        include_element.setAttribute("file", "right_robotiq_85.xml")
+
+        # Filter by attribute value containing a substring
+        first_time = True
+        for elem in body_elements:
+            if "right_robotiq_85" in elem.getAttribute("name"):
+                if first_time:
+                    elem.parentNode.replaceChild(include_element, elem)
+                    first_time = False
+                else:
+                    elem.parentNode.removeChild(elem)
+
+        # copy in the robotiq_85 xml file into the main mujoco description directory
+        # and process it through xacro to resolve the tf_prefix argument
+        robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/left_robotiq_85.xml'
+        robotiq_output = f"{filepath}/right_robotiq_85.xml"
+        subprocess.run(
+            [
+                "xacro",
+                robotiq_xacro_src,
+                f"tf_prefix:={tf_prefix}",
+            ],
+            stdout=open(robotiq_output, "w"),
+            check=True,
+        )
+
+    # Write the result
     print(f"writing to {filepath_full}")
-
     with open(filepath_full, "w") as file:
         # Remove extra newlines that minidom adds after each tag
         xml_data = "\n".join([line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()])
@@ -138,6 +169,10 @@ if __name__ == "__main__":
         description="Generate wheels for PB mujoco sim",
     )
     parser.add_argument("--tf-prefix", default="", help="tf_prefix for generated wheels")
+    parser.add_argument("--left-gripper", default="hande", help="gripper type for the left side (either hande or 2f85)")
+    parser.add_argument(
+        "--right-gripper", default="hande", help="gripper type for the right side (either hande or 2f85)"
+    )
 
     # Skip ros args
     args_without_filename = sys.argv[1:]
@@ -145,6 +180,10 @@ if __name__ == "__main__":
         args_without_filename.remove("--ros-args")
     parsed_args = parser.parse_args(args_without_filename)
 
+    tf_prefix = parsed_args.tf_prefix
+    left_gripper = parsed_args.left_gripper
+    right_gripper = parsed_args.right_gripper
+
     filepath = "mjcf_data"
 
-    main(filepath, tf_prefix=parsed_args.tf_prefix)
+    main(filepath, tf_prefix, left_gripper, right_gripper)

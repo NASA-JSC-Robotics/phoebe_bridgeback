@@ -14,6 +14,8 @@
       calibration_mode:='false'
       left_ewellix_com_port:='/dev/ewellix_left'
       right_ewellix_com_port:='/dev/ewellix_right'
+      left_hand_type:='hande'
+      right_hand_type:='hande'
       left_hande_com_port:='/tmp/hande_left'
       right_hande_com_port:='/tmp/hande_right'
       left_ur_ip_addr:='192.168.131.40'
@@ -793,32 +795,64 @@
       <origin xyz="-6.4777232475001029e-02 1.1461581058038600e-04 1.2884814853441564e-02" rpy="-9.9487205554735336e-02 -1.4520756449714673e+00 1.0569277772629829e-01"/>
     </xacro:sensor_d435>
 
-    <!-- right gripper - 2F-85 -->
     <xacro:include filename="$(find phoebe_description)/urdf/robotiq_2f_85_macro.xacro"/>
-    <xacro:robotiq_2f_85
-      com_port="${right_hande_com_port}"
-      use_fake_hardware="${use_fake_hardware}"
-      name="${tf_prefix}right_dextivr_hande"
-      tf_prefix="${tf_prefix}right_"
-      parent="${tf_prefix}right_ur_realsense_mount"
-      generate_ros2_control_tag="${generate_ros2_control_tag}"
-      add_grasp_push_frames="${add_grasp_push_frames}">
-      <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
-    </xacro:robotiq_2f_85>
-
-    <!-- Left gripper - Hand-E -->
     <xacro:include filename="$(find dextivr_hande_description)/urdf/dextivr_hande.xacro"/>
-    <xacro:dextivr_hande
-      com_port="${left_hande_com_port}"
-      use_fake_hardware="${use_fake_hardware}"
-      name="${tf_prefix}left_dextivr_hande"
-      tf_prefix="${tf_prefix}left_"
-      parent="${tf_prefix}left_ur_realsense_mount"
-      generate_ros2_control_tag="${generate_ros2_control_tag}"
-      add_grasp_push_frames="${add_grasp_push_frames}"
-      finger_xacro="fngr_original">
-      <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
-    </xacro:dextivr_hande>
+
+    <!-- right hand - can be either hande or 2f85 -->
+    <xacro:if value="${right_hand_type == 'hande'}">
+        <xacro:dextivr_hande
+        com_port="${right_hande_com_port}"
+        use_fake_hardware="${use_fake_hardware}"
+        name="${tf_prefix}right_dextivr_hande"
+        tf_prefix="${tf_prefix}right_"
+        parent="${tf_prefix}right_ur_realsense_mount"
+        generate_ros2_control_tag="${generate_ros2_control_tag}"
+        add_grasp_push_frames="${add_grasp_push_frames}"
+        finger_xacro="fngr_original">
+        <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
+      </xacro:dextivr_hande>
+    </xacro:if>
+
+    <xacro:if value="${right_hand_type == '2f85'}">
+      <xacro:robotiq_2f_85
+        com_port="${right_hande_com_port}"
+        use_fake_hardware="${use_fake_hardware}"
+        name="${tf_prefix}right_dextivr_hande"
+        tf_prefix="${tf_prefix}right_"
+        parent="${tf_prefix}right_ur_realsense_mount"
+        generate_ros2_control_tag="${generate_ros2_control_tag}"
+        add_grasp_push_frames="${add_grasp_push_frames}">
+        <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
+      </xacro:robotiq_2f_85>
+    </xacro:if>
+
+    <!-- left hand - can be either hande or 2f85 -->
+    <xacro:if value="${left_hand_type == 'hande'}">
+      <xacro:dextivr_hande
+        com_port="${left_hande_com_port}"
+        use_fake_hardware="${use_fake_hardware}"
+        name="${tf_prefix}left_dextivr_hande"
+        tf_prefix="${tf_prefix}left_"
+        parent="${tf_prefix}left_ur_realsense_mount"
+        generate_ros2_control_tag="${generate_ros2_control_tag}"
+        add_grasp_push_frames="${add_grasp_push_frames}"
+        finger_xacro="fngr_original">
+        <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
+      </xacro:dextivr_hande>
+    </xacro:if>
+
+    <xacro:if value="${left_hand_type == '2f85'}">
+      <xacro:robotiq_2f_85
+        com_port="${left_hande_com_port}"
+        use_fake_hardware="${use_fake_hardware}"
+        name="${tf_prefix}left_dextivr_hande"
+        tf_prefix="${tf_prefix}left_"
+        parent="${tf_prefix}left_ur_realsense_mount"
+        generate_ros2_control_tag="${generate_ros2_control_tag}"
+        add_grasp_push_frames="${add_grasp_push_frames}">
+        <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
+      </xacro:robotiq_2f_85>
+    </xacro:if>
 
   </xacro:unless>
 

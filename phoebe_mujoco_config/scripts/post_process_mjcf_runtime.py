@@ -34,11 +34,15 @@ from xml.dom import minidom
 
 
 class StringModifierNode(Node):
-    def __init__(self, tf_prefix="", wheels_package="phoebe_mujoco_config"):
+    def __init__(
+        self, tf_prefix="", wheels_package="phoebe_mujoco_config", left_gripper="hande", right_gripper="hande"
+    ):
         super().__init__("string_modifier_node")
 
         self.tf_prefix = tf_prefix
         self.wheels_package = wheels_package
+        self.left_gripper = left_gripper
+        self.right_gripper = right_gripper
 
         # Subscriber
         self.subscription = self.create_subscription(
@@ -133,32 +137,65 @@ class StringModifierNode(Node):
 
         # replace the right hand with the custom modified xml that
         # has working 2f-85 mechanism
-        include_element = dom.createElement("include")
-        include_element.setAttribute("file", f"{base_dir}/right_robotiq_85.xml")
+        if self.right_gripper == "2f85":
+            right_include_element = dom.createElement("include")
+            right_include_element.setAttribute("file", f"{base_dir}/right_robotiq_85.xml")
 
-        # Filter by attribute value containing a substring
-        first_time = True
-        for elem in body_elements:
-            if "right_robotiq_85" in elem.getAttribute("name"):
-                if first_time:
-                    elem.parentNode.replaceChild(include_element, elem)
-                    first_time = False
-                else:
-                    elem.parentNode.removeChild(elem)
+            # Filter by attribute value containing a substring
+            first_time_right = True
+            for elem in body_elements:
+                if "right_robotiq_85" in elem.getAttribute("name"):
+                    if first_time_right:
+                        elem.parentNode.replaceChild(right_include_element, elem)
+                        first_time_right = False
+                    else:
+                        elem.parentNode.removeChild(elem)
 
-        # copy in the robotiq_85 xml file into the main mujoco description directory
-        # and process it through xacro to resolve the tf_prefix argument
-        robotiq_xacro_src = f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
-        robotiq_output = f"{base_dir}/right_robotiq_85.xml"
-        subprocess.run(
-            [
-                "xacro",
-                robotiq_xacro_src,
-                f"tf_prefix:={self.tf_prefix}",
-            ],
-            stdout=open(robotiq_output, "w"),
-            check=True,
-        )
+            # copy in the robotiq_85 xml file into the main mujoco description directory
+            # and process it through xacro to resolve the tf_prefix argument
+            right_robotiq_xacro_src = (
+                f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
+            )
+            right_robotiq_output = f"{base_dir}/right_robotiq_85.xml"
+            subprocess.run(
+                [
+                    "xacro",
+                    right_robotiq_xacro_src,
+                    f"tf_prefix:={self.tf_prefix}",
+                ],
+                stdout=open(right_robotiq_output, "w"),
+                check=True,
+            )
+
+        if self.left_gripper == "2f85":
+            left_include_element = dom.createElement("include")
+            left_include_element.setAttribute("file", f"{base_dir}/left_robotiq_85.xml")
+
+            # Filter by attribute value containing a substring
+            first_time_left = True
+            for elem in body_elements:
+                if "left_robotiq_85" in elem.getAttribute("name"):
+                    if first_time_left:
+                        elem.parentNode.replaceChild(left_include_element, elem)
+                        first_time_left = False
+                    else:
+                        elem.parentNode.removeChild(elem)
+
+            # copy in the robotiq_85 xml file into the main mujoco description directory
+            # and process it through xacro to resolve the tf_prefix argument
+            left_robotiq_xacro_src = (
+                f'{get_package_share_directory("phoebe_mujoco_config")}/resources/left_robotiq_85.xml'
+            )
+            left_robotiq_output = f"{base_dir}/left_robotiq_85.xml"
+            subprocess.run(
+                [
+                    "xacro",
+                    left_robotiq_xacro_src,
+                    f"tf_prefix:={self.tf_prefix}",
+                ],
+                stdout=open(left_robotiq_output, "w"),
+                check=True,
+            )
 
         xml_data = "\n".join([line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()])
 
@@ -185,13 +222,22 @@ def main(args=None):
         default="phoebe_mujoco_config",
         help="Package containing wheels.xml, should be the top level deploy package",
     )
+    parser.add_argument("--left-gripper", default="hande", help="gripper type for the left side (either hande or 2f85)")
+    parser.add_argument(
+        "--right-gripper", default="hande", help="gripper type for the right side (either hande or 2f85)"
+    )
 
     # Skip ros args
     non_ros_args = rclpy.utilities.remove_ros_args(sys.argv)[1:]
     parsed_args = parser.parse_args(non_ros_args)
 
+    tf_prefix = parsed_args.tf_prefix
+    wheels_package = parsed_args.wheels_package
+    left_gripper = parsed_args.left_gripper
+    right_gripper = parsed_args.right_gripper
+
     rclpy.init(args=args)
-    node = StringModifierNode(tf_prefix=parsed_args.tf_prefix, wheels_package=parsed_args.wheels_package)
+    node = StringModifierNode(tf_prefix, wheels_package, left_gripper, right_gripper)
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()

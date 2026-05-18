@@ -8,6 +8,8 @@
     <xacro:arg name="include_world_joints" default="false"/>
     <xacro:arg name="left_ewellix_com_port" default="/dev/ewellix_left" />
     <xacro:arg name="right_ewellix_com_port" default="/dev/ewellix_right" />
+    <xacro:arg name="left_hand_type" default="hande" />
+    <xacro:arg name="right_hand_type" default="hande" />
     <xacro:arg name="left_hande_com_port" default="/tmp/hande_left" />
     <xacro:arg name="right_hande_com_port" default="/tmp/hande_right" />
     <xacro:arg name="left_ur_ip_addr" default="192.168.131.40" />
@@ -32,6 +34,8 @@
         include_world_joints="$(arg include_world_joints)"
         left_ewellix_com_port="$(arg left_ewellix_com_port)"
         right_ewellix_com_port="$(arg right_ewellix_com_port)"
+        left_hand_type="$(arg left_hand_type)"
+        right_hand_type="$(arg right_hand_type)"
         left_hande_com_port="$(arg left_hande_com_port)"
         right_hande_com_port="$(arg right_hande_com_port)"
         left_ur_ip_addr="$(arg left_ur_ip_addr)"

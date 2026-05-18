@@ -67,6 +67,8 @@
 
   <xacro:macro name="phoebe_mujoco_ros2_control_joints" params="
     tf_prefix:=''
+    left_hand_type:='hande'
+    right_hand_type:='hande'
     use_left_static_pedestal:=false
   ">
 
@@ -88,22 +90,46 @@
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
-<joint name="${tf_prefix}left_finger_1_joint">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.02</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
-    <joint name="${tf_prefix}right_robotiq_85_left_knuckle_joint">
-      <command_interface name="position"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
+    <xacro:if value="${left_hand_type == 'hande'}">
+      <joint name="${tf_prefix}left_finger_1_joint">
+        <command_interface name="position"/>
+        <state_interface name="position">
+          <param name="initial_value">0.02</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:if>
+    <xacro:if value="${left_hand_type == '2f85'}">
+      <joint name="${tf_prefix}left_robotiq_85_left_knuckle_joint">
+        <command_interface name="position"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:if>
+    <xacro:if value="${right_hand_type == 'hande'}">
+      <joint name="${tf_prefix}right_finger_1_joint">
+        <command_interface name="position"/>
+        <state_interface name="position">
+          <param name="initial_value">0.02</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:if>
+    <xacro:if value="${right_hand_type == '2f85'}">
+      <joint name="${tf_prefix}right_robotiq_85_left_knuckle_joint">
+        <command_interface name="position"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:if>
     <joint name="${tf_prefix}left_ur_arm_shoulder_pan_joint">
       <command_interface name="position"/>
       <state_interface name="position">
