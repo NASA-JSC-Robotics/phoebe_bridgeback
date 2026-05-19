@@ -25,8 +25,7 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from controller_manager_msgs.srv import ListControllers
 from phoebe_interfaces.msg import SafetyStatus
-from phoebe_interfaces.msg import SafetyCurrent
-from phoebe_interfaces.msg import SafetyRawVoltages
+from phoebe_interfaces.msg import CurrentSensor
 import serial
 import time
 import struct
@@ -60,7 +59,6 @@ class PhoebeSafetyManager(Node):
         arduino_port_param = (
             self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
         )
-
         self.sensor_config_file = (
             self.declare_parameter("current_sensor_config_file").get_parameter_value().string_value
         )
@@ -74,11 +72,8 @@ class PhoebeSafetyManager(Node):
         # Safety status publisher topic name
         self.safety_status_topic = "safety_status"
 
-        # Safety raw voltages publisher topic name
-        self.safety_raw_voltages_topic = "safety_raw_voltages"
-
         # Safety current publisher topic name
-        self.safety_current_topic = "safety_current"
+        self.current_sensor_topic = "current_sensor"
 
         # Service for listing controllers from the controller manager
         self.list_controllers_srv = "controller_manager/list_controllers"
@@ -114,13 +109,9 @@ class PhoebeSafetyManager(Node):
 
         # Publishing to "safety_current" topic with the custom SafetyCurrent message
         self.current_publisher = self.create_publisher(
-            SafetyCurrent, self.safety_current_topic, 10, callback_group=self.callback_group
+            CurrentSensor, self.current_sensor_topic, 10, callback_group=self.callback_group
         )
 
-        # Publishing to "safety_raw_voltages" topic with the custom SafetyRawVoltages message
-        self.raw_voltages_publisher = self.create_publisher(
-            SafetyRawVoltages, self.safety_raw_voltages_topic, 10, callback_group=self.callback_group
-        )
         # Timer to check system s￼tatus at 5 Hz (every 0.2 seconds)
         self.rate_hz = 5
         self.timer = self.create_timer(1 / self.rate_hz, self.check_system_safety, callback_group=self.callback_group)
@@ -147,8 +138,7 @@ class PhoebeSafetyManager(Node):
         self.get_logger().info(f"This node has started: {self.get_name()}")
 
         # Set up sensors from sensor config file
-        self.current_msg = SafetyCurrent()
-        self.raw_voltages_msg = SafetyRawVoltages()
+        self.current_msg = CurrentSensor()
         self.setup_sensors(self.sensor_config_file)
 
     def setup_sensors(self, config_file):
@@ -166,16 +156,14 @@ class PhoebeSafetyManager(Node):
 
         # Check arrays have the same number of values
 
-        if len(self.sensors) != self.raw_voltages_msg.NUM_FIRMWARE_VALUES:
+        if len(self.sensors) != self.current_msg.NUM_FIRMWARE_VALUES:
             self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages "
                                   f"value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}")
 
         # Names and validity won't change, so prefill them
         self.current_msg.names = [sensor["name"] for sensor in self.sensors]
-        self.raw_voltages_msg.names = self.current_msg.names
 
         self.current_msg.is_valid = [sensor["is_valid"] for sensor in self.sensors]
-        self.raw_voltages_msg.is_valid = self.current_msg.is_valid
 
     def estop_callback(self, msg: Bool):
         """
@@ -283,15 +271,15 @@ class PhoebeSafetyManager(Node):
             """
              finish is use to stop the while loop when the serial buffer empty or doesn't have a full packet
             """
-            finish = True
+            finish_process_serial_buffer = False
             packet_start_token = 35
             packet_size = 40;
-            while finish:
+            while finish_process_serial_buffer == False:
             
                 if buf_size != 0:
-                   """
-                    Read a byte from the buffer
-                   """
+                    """
+                     Read a byte from the buffer
+                    """
                     dummy = self.arduino.read(1)
                     buf_size = buf_size - 1
                     """
@@ -304,27 +292,25 @@ class PhoebeSafetyManager(Node):
                          Checking if the next byte is a start_token and the buffer has 40 bytes in buffer then process the packet 
                         """
                         if dummy1[0] == packet_start_token and buf_size >= packet_size:
-                            for id in range(self.raw_voltages_msg.NUM_FIRMWARE_VALUES):
+                            for id in range(self.current_msg.NUM_FIRMWARE_VALUES):
                                 # Must read regardless of whether the reading is valid
                                 raw_value = struct.unpack('<f', self.arduino.read(4))[0]
-                                if self.raw_voltages_msg.is_valid[id]:
-                                    self.raw_voltages_msg.voltages[id] = raw_value
+                                if self.current_msg.is_valid[id]:
+                                    self.current_msg.raw_voltages[id] = raw_value
                                 else:
-                                    self.raw_voltages_msg.voltages[id] = 0.0
+                                    self.current_msg.raw_voltages[id] = 0.0
                                 self.current_msg.currents[id] = \
-                                    self.compute_current(id, self.raw_voltages_msg.voltages[id])
+                                    self.compute_current(id, self.current_msg.raw_voltages[id])
 
                             # Set timestamp and publish messages
-                            self.raw_voltages_msg.timestamp = self.get_clock().now().to_msg()
-                            self.current_msg.timestamp = self.raw_voltages_msg.timestamp
+                            self.current_msg.timestamp = self.get_clock().now().to_msg()
                             self.current_publisher.publish(self.current_msg)
-                            self.raw_voltages_publisher.publish(self.raw_voltages_msg)
 
                             buf_size = buf_size - packet_size
                         else:
-                            finish = False
+                            finish_process_serial_buffer = True
                 else:
-                    finish = False
+                    finish_process_serial_buffer = True
 
     def compute_current(self, index, voltage):
         """
