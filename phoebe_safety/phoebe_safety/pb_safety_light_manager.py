@@ -157,8 +157,10 @@ class PhoebeSafetyManager(Node):
         # Check arrays have the same number of values
 
         if len(self.sensors) != self.current_msg.NUM_FIRMWARE_VALUES:
-            self.get_logger.fatal(f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages "
-                                  f"value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}")
+            self.get_logger.fatal(
+                f"Sensor config has {len(self.sensors)} values but the SafetyRawVoltages "
+                f"value says there should be {self.raw_voltages_msg.NUM_FIRMWARE_VALUES}"
+            )
 
         # Names and validity won't change, so prefill them
         self.current_msg.names = [sensor["name"] for sensor in self.sensors]
@@ -269,38 +271,42 @@ class PhoebeSafetyManager(Node):
             """
             buf_size = self.arduino.in_waiting
             """
-             finish is use to stop the while loop when the serial buffer empty or doesn't have a full packet
+             finish is use to stop the while loop when the serial
+             buffer empty or doesn't have a full packet
             """
             finish_process_serial_buffer = False
             packet_start_token = 35
-            packet_size = 40;
-            while finish_process_serial_buffer == False:
-            
+            packet_size = 40
+            while not finish_process_serial_buffer:
+
                 if buf_size != 0:
                     """
-                     Read a byte from the buffer
+                    Read a byte from the buffer
                     """
                     dummy = self.arduino.read(1)
                     buf_size = buf_size - 1
                     """
-                     Checking if the byte is a start_token, if not and buffer size is not 0 set finish to false to break out the loop
+                     Checking if the byte is a start_token, if not and
+                     buffer size is not 0 set finish to false to break out the loop
                     """
                     if dummy[0] == packet_start_token and buf_size != 0:
                         dummy1 = self.arduino.read(1)
                         buf_size = buf_size - 1
                         """
-                         Checking if the next byte is a start_token and the buffer has 40 bytes in buffer then process the packet 
+                         Checking if the next byte is a start_token and the
+                         buffer has 40 bytes in buffer then process the packet
                         """
                         if dummy1[0] == packet_start_token and buf_size >= packet_size:
                             for id in range(self.current_msg.NUM_FIRMWARE_VALUES):
                                 # Must read regardless of whether the reading is valid
-                                raw_value = struct.unpack('<f', self.arduino.read(4))[0]
+                                raw_value = struct.unpack("<f", self.arduino.read(4))[0]
                                 if self.current_msg.is_valid[id]:
                                     self.current_msg.raw_voltages[id] = raw_value
                                 else:
                                     self.current_msg.raw_voltages[id] = 0.0
-                                self.current_msg.currents[id] = \
-                                    self.compute_current(id, self.current_msg.raw_voltages[id])
+                                self.current_msg.currents[id] = self.compute_current(
+                                    id, self.current_msg.raw_voltages[id]
+                                )
 
                             # Set timestamp and publish messages
                             self.current_msg.timestamp = self.get_clock().now().to_msg()

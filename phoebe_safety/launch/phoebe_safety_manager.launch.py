@@ -45,9 +45,8 @@ def generate_launch_description():
             DeclareLaunchArgument(
                 "current_sensor_config_file",
                 default_value=current_sensor_config,
-                description="Path to current sensor configuration file"
+                description="Path to current sensor configuration file",
             ),
-
             # Start the safety manager node
             Node(
                 package="phoebe_safety",  # <-- Replace with your actual package name

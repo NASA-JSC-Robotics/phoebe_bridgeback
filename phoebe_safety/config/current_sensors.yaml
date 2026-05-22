@@ -13,7 +13,7 @@ sensors:
     is_valid: true
 
   - voltage_offset: 1.57526290157567
-    name: "sensor_1"  
+    name: "sensor_1"
     sensitivity: 1.0
     is_valid: true
 
@@ -23,37 +23,36 @@ sensors:
     is_valid: true
 
   - voltage_offset: 1.55932673164036
-    name: "sensor_3"  
+    name: "sensor_3"
     sensitivity: 1.0
     is_valid: true
 
   - voltage_offset: 1.50045582004215
-    name: "sensor_4"  
+    name: "sensor_4"
     sensitivity: 1.0
     is_valid: true
 
   - voltage_offset: 1.46644462256328
-    name: "sensor_5"  
+    name: "sensor_5"
     sensitivity: 1.0
     is_valid: true
 
   - voltage_offset: 1.63564164483029
-    name: "sensor_6"  
+    name: "sensor_6"
     sensitivity: 1.0
     is_valid: true
 
   - voltage_offset: 1.49719495358674
-    name: "sensor_7"  
+    name: "sensor_7"
     sensitivity: 1.0
     is_valid: true
 
   - voltage_offset: 1.48355541540229
-    name: "sensor_8"  
+    name: "sensor_8"
     sensitivity: 1.0
     is_valid: true
 
   - voltage_offset: 0.0
-    name: "sensor_9"  
+    name: "sensor_9"
     sensitivity: 1.0
     is_valid: false
-  
