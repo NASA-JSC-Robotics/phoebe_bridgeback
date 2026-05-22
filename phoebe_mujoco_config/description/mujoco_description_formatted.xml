@@ -541,11 +541,6 @@
       <site name="left_ur_arm_base_link" pos="0 0.24915078 1.1036180199999999" quat="0.6532947543107872 -0.2705659892071649 -0.2705659819573773 -0.6532947718157529"/>
       <site name="left_ur_arm_base_link_inertia" pos="0 0.24915078 1.1036180199999999" quat="0.6532947718157529 -0.27056598195737736 0.2705659892071649 0.6532947543107873"/>
       <site name="left_ur_arm_base" pos="0 0.24915078 1.1036180199999999" quat="0.6532947718157529 -0.27056598195737736 0.2705659892071649 0.6532947543107873"/>
-      <body name="lidar2d_0_laser_lidar_body" pos="0.4 0 0.25" quat="0.6606256905723392 0.6606256905723392 -0.25213824968818177 -0.25213824968818177">
-        <replicate site="lidar2d_0_laser" count="46" sep="-" offset="0 0 0" euler="0 0.1 0">
-          <site name="lidar2d_0" pos="0.0 0.0 0.0" quat="0.0 0.0 0.0 1.0"/>
-        </replicate>
-      </body>
     </body>
     <geom material="mtl_cylinder_mockup_full_length_m" mesh="cylinder_mockup_full_length_m" class="visual" pos="2.75 -0.666 0.665" quat="1 0 0 0"/>
     <geom mesh="cylinder_mockup_full_length_m" class="collision" pos="2.75 -0.666 0.665" quat="1 0 0 0"/>
@@ -751,7 +746,19 @@
     <gyro name="imu_sensor_gyro" site="imu_0_link"/>
     <accelerometer name="imu_sensor_accel" site="imu_0_link"/>
   </sensor>
+  <extension>
+    <plugin plugin="mujoco.plugin.lidar">
+      <instance name="lidar2d_0">
+        <config key="resolution" value="184 1"/>
+        <config key="azimuth_range" value="-2.3 2.3"/>
+        <config key="elevation_range" value="0.0"/>
+        <config key="max_range" value="10.0"/>
+        <config key="min_range" value="0.05"/>
+        <config key="update_rate" value="10.0"/>
+      </instance>
+    </plugin>
+  </extension>
   <sensor>
-    <rangefinder name="lidar2d_0" site="lidar2d_0"/>
+    <plugin instance="lidar2d_0" name="lidar2d_0" objname="lidar2d_0_laser" objtype="site"/>
   </sensor>
 </mujoco>
