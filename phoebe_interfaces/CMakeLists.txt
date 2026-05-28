@@ -13,6 +13,7 @@ find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/SafetyStatus.msg"
+  "msg/CurrentSensor.msg"
   "srv/SetWorld.srv"
   DEPENDENCIES std_msgs builtin_interfaces geometry_msgs
 )

@@ -22,11 +22,17 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
+from launch_ros.substitutions import FindPackageShare
+from launch.substitutions import PathJoinSubstitution
 
 
 def generate_launch_description():
     # Launch configurations
+    pkg_phoebe_safety = FindPackageShare("phoebe_safety")
+    current_sensor_config_file = PathJoinSubstitution([pkg_phoebe_safety, "config", "current_sensors.yaml"])
+
     arduino_port = LaunchConfiguration("arduino_port", default="/dev/safety_light")
+    current_sensor_config = LaunchConfiguration("current_sensor_config_file", default=current_sensor_config_file)
 
     return LaunchDescription(
         [
@@ -36,6 +42,11 @@ def generate_launch_description():
                 default_value="/dev/safety_light",
                 description="Serial port for Arduino (default: /dev/safety_light)",
             ),
+            DeclareLaunchArgument(
+                "current_sensor_config_file",
+                default_value=current_sensor_config,
+                description="Path to current sensor configuration file",
+            ),
             # Start the safety manager node
             Node(
                 package="phoebe_safety",  # <-- Replace with your actual package name
@@ -43,6 +54,7 @@ def generate_launch_description():
                 output="both",
                 parameters=[
                     {"arduino_port": arduino_port},
+                    {"current_sensor_config_file": current_sensor_config},
                 ],
             ),
         ]
