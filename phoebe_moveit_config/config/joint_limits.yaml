@@ -9,6 +9,8 @@ default_acceleration_scaling_factor: 0.1
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
   left_ewellix_lift_lower_to_higher:
+    has_position_limits: true
+    min_position: -0.001
     has_velocity_limits: true
     max_velocity: 0.1
     has_acceleration_limits: true
@@ -54,6 +56,8 @@ joint_limits:
     has_acceleration_limits: true
     max_acceleration: 3.0
   right_ewellix_lift_lower_to_higher:
+    has_position_limits: true
+    min_position: -0.001
     has_velocity_limits: true
     max_velocity: 0.1
     has_acceleration_limits: true
