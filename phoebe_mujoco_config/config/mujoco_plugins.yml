@@ -5,4 +5,4 @@
         type: "mujoco_ros2_control_plugins/Mujoco3dLidarPlugin"
         lidar2d_0:
           frame_name: "lidar2d_0_laser"
-          topic: "lidar2d_0_laser/scan"
+          topic: "/lidar2d_0_laser/scan"
