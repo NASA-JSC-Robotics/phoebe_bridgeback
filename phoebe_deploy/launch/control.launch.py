@@ -132,6 +132,13 @@ def generate_launch_description():
             "Should be in the format of 'arg1:=value1 arg2:=value2'",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "extra_controller_params_file",
+            default_value=None,
+            description="Path to additional parameter file to be loaded into the control node.",
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -146,6 +153,7 @@ def generate_launch_description():
     left_hand_type = LaunchConfiguration("left_hand_type")
     right_hand_type = LaunchConfiguration("right_hand_type")
     extra_xacro_args = LaunchConfiguration("extra_xacro_args")
+    extra_controller_params_file = LaunchConfiguration("extra_controller_params_file")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -288,6 +296,7 @@ def generate_launch_description():
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
             ParameterFile(controllers_moveit_pro, allow_substs=True),
+            ParameterFile(extra_controller_params_file, allow_substs=True),
             {"use_sim_time": use_sim_time},
         ],
         remappings=[
