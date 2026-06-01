@@ -195,7 +195,7 @@ def generate_launch_description():
     ]
 
     extra_controller_params_file = PathJoinSubstitution(
-        [FindPackageShare(phoebe_mujoco_package_name), "config", "mujoco_plugins.yml"]
+        [FindPackageShare(phoebe_mujoco_package_name), "config", "mujoco_plugins.yaml"]
     )
 
     # Include the control launch file with relevant configuration

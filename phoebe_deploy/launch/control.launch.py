@@ -135,7 +135,9 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "extra_controller_params_file",
-            default_value=None,
+            default_value=PathJoinSubstitution(
+                [FindPackageShare("phoebe_deploy"), "config", "empty_config.yaml"]
+            ),
             description="Path to additional parameter file to be loaded into the control node.",
         )
     )
