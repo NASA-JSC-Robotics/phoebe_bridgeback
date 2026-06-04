@@ -8,21 +8,21 @@
 # The number of sensors here should match the number of values reported by the firmware.
 sensors:
   - voltage_offset: 1.58900769443616
-    name: "Whole robot"
-    description: "Main robot current feed"
-    sensitivity: -0.052
+    name: "Charger"
+    description: "Current in from the charger"
+    sensitivity: 0.052
     is_valid: true
 
   - voltage_offset: 1.57526290157567
     name: "Battery"
     description: "Current from the battery"
-    sensitivity: 1.0
+    sensitivity: 0.013
     is_valid: true
 
   - voltage_offset: 1.58059249818325
     name: "Inverter"
     description: "Current to the inverter for the onboard PCs and WiFi"
-    sensitivity: 0.054
+    sensitivity: 0.041
     is_valid: true
 
   - voltage_offset: 1.55932673164036
@@ -32,8 +32,8 @@ sensors:
     is_valid: true
 
   - voltage_offset: 1.50045582004215
-    name: "Charger"
-    description: "Current in from the charger"
+    name: "Whole Robot"
+    description: "Main robot current feed"
     sensitivity: 0.039
     is_valid: true
 
@@ -46,7 +46,7 @@ sensors:
   - voltage_offset: 1.63564164483029
     name: "MCU"
     description: "Current to the MCU"
-    sensitivity: 0.059
+    sensitivity: 0.038
     is_valid: true
 
   - voltage_offset: 1.49719495358674
@@ -55,10 +55,10 @@ sensors:
     sensitivity: 0.061
     is_valid: true
 
-  - voltage_offset: 1.48355541540229
+  - voltage_offset: 1.49341
     name: "Right UR"
     description: "Current to the right UR"
-    sensitivity: 0.0064
+    sensitivity: 0.061
     is_valid: true
 
   - voltage_offset: 1.485
