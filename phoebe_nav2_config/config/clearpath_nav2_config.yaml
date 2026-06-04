@@ -2,8 +2,8 @@ bt_navigator:
   ros__parameters:
     enable_stamped_cmd_vel: true
     global_frame: map
-    robot_base_frame: base_link
-    odom_topic: ridgeback/odometry/filtered
+    robot_base_frame: phoebe_base_link
+    odom_topic: /phoebe/ridgeback/odometry/filtered
     bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
@@ -88,7 +88,7 @@ local_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: odom
-      robot_base_frame: base_link
+      robot_base_frame: phoebe_base_link
       rolling_window: true
       width: 5
       height: 5
@@ -105,7 +105,7 @@ local_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: /ridgeback/sensors/lidar2d_0/scan
+          topic: /phoebe_lidar2d_0_laser/scan
           max_obstacle_height: 2.0
           clearing: true
           marking: true
@@ -125,7 +125,7 @@ global_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: base_link
+      robot_base_frame: phoebe_base_link
       footprint: "[ [0.480, 0.3965], [0.480, -0.3965], [-0.480, -0.3965], [-0.480, 0.3965] ]"
       width: 15
       height: 15
@@ -140,7 +140,7 @@ global_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: /ridgeback/sensors/lidar2d_0/scan
+          topic: /phoebe_lidar2d_0_laser/scan
           max_obstacle_height: 2.0
           clearing: true
           marking: true
@@ -199,7 +199,7 @@ behavior_server:
       plugin: "nav2_behaviors::AssistedTeleop"
     global_frame: map
     local_frame: odom
-    robot_base_frame: base_link
+    robot_base_frame: phoebe_base_link
     transform_tolerance: 0.1
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
@@ -230,7 +230,7 @@ velocity_smoother:
     # max_accel: [0.05, 0.05, 0.05]
     max_decel: [-0.2, -0.2, -0.2]
     # max_decel: [-0.05, -0.05, -0.05]
-    odom_topic: "ridgeback/odometry/filtered"
+    odom_topic: "/phoebe/ridgeback/odometry/filtered"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
@@ -238,11 +238,11 @@ velocity_smoother:
 collision_monitor:
   ros__parameters:
     enable_stamped_cmd_vel: true
-    base_frame_id: "base_link"
+    base_frame_id: "phoebe_base_link"
     odom_frame_id: "odom"
-    cmd_vel_in_topic: "cmd_vel_smoothed"
-    cmd_vel_out_topic: "cmd_vel"
-    state_topic: "collision_monitor_state"
+    cmd_vel_in_topic: "/cmd_vel_smoothed"
+    cmd_vel_out_topic: "/cmd_vel"
+    state_topic: "/collision_monitor_state"
     transform_tolerance: 0.2
     source_timeout: 1.0
     base_shift_correction: True
@@ -262,7 +262,7 @@ collision_monitor:
     observation_sources: ["scan"]
     scan:
       type: "scan"
-      topic: "/ridgeback/sensors/lidar2d_0/scan"
+      topic: "/phoebe_lidar2d_0_laser/scan"
       min_height: 0.15
       max_height: 2.0
       enabled: True
@@ -277,7 +277,7 @@ docking_server:
     undock_linear_tolerance: 0.05
     undock_angular_tolerance: 0.1
     max_retries: 3
-    base_frame: "base_link"
+    base_frame: "phoebe_base_link"
     fixed_frame: "odom"
     dock_backwards: false
     dock_prestaging_tolerance: 0.5

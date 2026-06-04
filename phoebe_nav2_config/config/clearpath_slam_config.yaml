@@ -12,8 +12,8 @@ slam_toolbox:
     # ROS Parameters
     odom_frame: odom
     map_frame: map
-    base_frame: base_link
-    scan_topic: ridgeback/sensors/lidar2d_0/scan
+    base_frame: phoebe_base_link
+    scan_topic: /phoebe_lidar2d_0_laser/scan
     mode: mapping
 
     debug_logging: false

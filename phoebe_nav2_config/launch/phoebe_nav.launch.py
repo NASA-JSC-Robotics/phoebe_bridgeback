@@ -38,18 +38,28 @@ def generate_launch_description():
 
     # Use static map in sim because sensor data is not available.
 
-    declared_arguments = [
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "namespace",
+            default_value="",
+            description="Namespace for the hardware robot",
+        )
+    )
+    declared_arguments.append(
         DeclareLaunchArgument(
             "launch_rviz",
             default_value="true",
             description="Launch rviz or nah",
-        ),
+        )
+    )
+    declared_arguments.append(
         DeclareLaunchArgument(
             "use_sim_time",
             default_value="false",
             description="This is some kind of simulation environment",
-        ),
-    ]
+        )
+    )
     declared_arguments.append(
         DeclareLaunchArgument(
             "publish_tf",
@@ -59,6 +69,7 @@ def generate_launch_description():
         )
     )
 
+    namespace = LaunchConfiguration("namespace")
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_tf = LaunchConfiguration("publish_tf")
@@ -72,6 +83,7 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
+                # "namespace": namespace,
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
@@ -82,6 +94,7 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
+                # "namespace": namespace,
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
@@ -92,6 +105,7 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_nav2_bringup), "launch", "navigation_launch.py"])]
             ),
             launch_arguments={
+                # "namespace": namespace,
                 "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
@@ -101,6 +115,7 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_phoebe_deploy), "launch", "ridgeback_sensors.launch.py"])]
             ),
             launch_arguments={
+                # "namespace": namespace,
                 "is_sim": use_sim_time,
                 "publish_tf": publish_tf,
             }.items(),

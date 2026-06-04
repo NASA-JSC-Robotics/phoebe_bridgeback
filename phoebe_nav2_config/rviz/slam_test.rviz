@@ -4,9 +4,10 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /TF1/Frames1
-      Splitter Ratio: 0.5
-    Tree Height: 358
+        - /Global Options1
+        - /RobotModel1/Status1
+      Splitter Ratio: 0.7939698696136475
+    Tree Height: 321
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -78,7 +79,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /ridgeback/sensors/lidar2d_0/scan
+        Value: /phoebe_lidar2d_0_laser/scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -92,7 +93,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /robot_description
+        Value: /phoebe/robot_description
       Enabled: true
       Links:
         All Links Enabled: true
@@ -100,553 +101,537 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        autec_antenna:
+        phoebe_autec_antenna:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        autec_receiver:
+        phoebe_autec_receiver:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        axle_link:
+        phoebe_axle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_link:
+        phoebe_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        chassis_link:
+        phoebe_chassis_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        default_mount:
+        phoebe_default_mount:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        front_cover_link:
+        phoebe_front_cover_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_left_wheel_link:
+        phoebe_front_left_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_lights_link:
+        phoebe_front_lights_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_right_wheel_link:
+        phoebe_front_right_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_rocker_link:
+        phoebe_front_rocker_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_scu:
+        phoebe_front_scu:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_shelf:
+        phoebe_front_shelf:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        imu_0_link:
+        phoebe_imu_0_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_arm_cal_link:
+        phoebe_left_arm_cal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_arm_mount_plate:
+        phoebe_left_arm_mount_plate:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_arm_mount_plate_2:
+        phoebe_left_arm_mount_plate_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ewellix_lift_higher_link:
+        phoebe_left_ewellix_lift_higher_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ewellix_lift_lower_link:
+        phoebe_left_ewellix_lift_lower_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ewellix_lift_middle_link:
+        phoebe_left_ewellix_lift_middle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ewellix_lift_tip_link:
+        phoebe_left_ewellix_lift_tip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ewellix_mount_flange_link:
+        phoebe_left_ewellix_mount_flange_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_finger_1_link:
+        phoebe_left_finger_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_finger_2_link:
+        phoebe_left_finger_2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_grasp_frame:
+        phoebe_left_grasp_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_gripper_base_link:
+        phoebe_left_gripper_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_gripper_palm_link:
+        phoebe_left_gripper_palm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_monitor:
+        phoebe_left_monitor:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_mtc_effector_side:
+        phoebe_left_mtc_effector_side:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_mtc_robot_side:
+        phoebe_left_mtc_robot_side:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_push_frame_1:
+        phoebe_left_push_frame_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_push_frame_2:
+        phoebe_left_push_frame_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_robotiq_hande_cb_adapter:
+        phoebe_left_robotiq_hande_cb_adapter:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_side_cover_link:
+        phoebe_left_side_cover_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_arm_base:
+        phoebe_left_ur_arm_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ur_arm_base_link:
+        phoebe_left_ur_arm_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ur_arm_base_link_inertia:
+        phoebe_left_ur_arm_base_link_inertia:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_arm_flange:
+        phoebe_left_ur_arm_flange:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ur_arm_forearm_link:
+        phoebe_left_ur_arm_forearm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_arm_ft_frame:
+        phoebe_left_ur_arm_ft_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ur_arm_shoulder_link:
+        phoebe_left_ur_arm_shoulder_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_arm_tool0:
+        phoebe_left_ur_arm_tool0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ur_arm_upper_arm_link:
+        phoebe_left_ur_arm_upper_arm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_arm_wrist_1_link:
+        phoebe_left_ur_arm_wrist_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_arm_wrist_2_link:
+        phoebe_left_ur_arm_wrist_2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_arm_wrist_3_link:
+        phoebe_left_ur_arm_wrist_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_ur_realsense_mount:
+        phoebe_left_ur_realsense_mount:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_wifi_antenna:
+        phoebe_left_wifi_antenna:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_wrist_mounted_camera_bottom_screw_frame:
+        phoebe_left_wrist_mounted_camera_bottom_screw_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_color_frame:
+        phoebe_left_wrist_mounted_camera_color_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_color_optical_frame:
+        phoebe_left_wrist_mounted_camera_color_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_depth_frame:
+        phoebe_left_wrist_mounted_camera_depth_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_depth_optical_frame:
+        phoebe_left_wrist_mounted_camera_depth_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_infra1_frame:
+        phoebe_left_wrist_mounted_camera_infra1_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_infra1_optical_frame:
+        phoebe_left_wrist_mounted_camera_infra1_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_infra2_frame:
+        phoebe_left_wrist_mounted_camera_infra2_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_infra2_optical_frame:
+        phoebe_left_wrist_mounted_camera_infra2_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wrist_mounted_camera_link:
+        phoebe_left_wrist_mounted_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        lidar2d_0_laser:
+        phoebe_lidar2d_0_laser:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        lift_rails:
+        phoebe_lift_rails:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        monitor_hinge_base:
+        phoebe_monitor_hinge_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        monitor_hinge_top:
+        phoebe_monitor_hinge_top:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_cover_link:
+        phoebe_rear_cover_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_left_wheel_link:
+        phoebe_rear_left_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_lights_link:
+        phoebe_rear_lights_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_right_wheel_link:
+        phoebe_rear_right_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_rocker_link:
+        phoebe_rear_rocker_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_scu:
+        phoebe_rear_scu:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_shelf:
+        phoebe_rear_shelf:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_arm_cal_link:
+        phoebe_right_arm_cal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_arm_mount_plate:
+        phoebe_right_arm_mount_plate:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_arm_mount_plate_2:
+        phoebe_right_arm_mount_plate_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_ewellix_lift_higher_link:
+        phoebe_right_ewellix_lift_higher_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ewellix_lift_lower_link:
+        phoebe_right_ewellix_lift_lower_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ewellix_lift_middle_link:
+        phoebe_right_ewellix_lift_middle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ewellix_lift_tip_link:
+        phoebe_right_ewellix_lift_tip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_ewellix_mount_flange_link:
+        phoebe_right_ewellix_mount_flange_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_grasp_frame:
+        phoebe_right_finger_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_monitor:
+        phoebe_right_finger_2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_mtc_effector_side:
+        phoebe_right_grasp_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_mtc_robot_side:
+        phoebe_right_gripper_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_robotiq_85_base_link:
+        phoebe_right_gripper_palm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        right_robotiq_85_left_finger_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_robotiq_85_left_finger_tip_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_robotiq_85_left_inner_knuckle_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_robotiq_85_left_knuckle_link:
+        phoebe_right_monitor:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_robotiq_85_right_finger_link:
+        phoebe_right_mtc_effector_side:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_robotiq_85_right_finger_tip_link:
+        phoebe_right_mtc_robot_side:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_robotiq_85_right_inner_knuckle_link:
+        phoebe_right_push_frame_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_robotiq_85_right_knuckle_link:
+        phoebe_right_push_frame_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_robotiq_hande_cb_adapter:
+        phoebe_right_robotiq_hande_cb_adapter:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_side_cover_link:
+        phoebe_right_side_cover_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_arm_base:
+        phoebe_right_ur_arm_base:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_ur_arm_base_link:
+        phoebe_right_ur_arm_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_ur_arm_base_link_inertia:
+        phoebe_right_ur_arm_base_link_inertia:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_arm_flange:
+        phoebe_right_ur_arm_flange:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_ur_arm_forearm_link:
+        phoebe_right_ur_arm_forearm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_arm_ft_frame:
+        phoebe_right_ur_arm_ft_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_ur_arm_shoulder_link:
+        phoebe_right_ur_arm_shoulder_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_arm_tool0:
+        phoebe_right_ur_arm_tool0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_ur_arm_upper_arm_link:
+        phoebe_right_ur_arm_upper_arm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_arm_wrist_1_link:
+        phoebe_right_ur_arm_wrist_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_arm_wrist_2_link:
+        phoebe_right_ur_arm_wrist_2_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_arm_wrist_3_link:
+        phoebe_right_ur_arm_wrist_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_ur_realsense_mount:
+        phoebe_right_ur_realsense_mount:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_wifi_antenna:
+        phoebe_right_wifi_antenna:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_wrist_mounted_camera_bottom_screw_frame:
+        phoebe_right_wrist_mounted_camera_bottom_screw_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_color_frame:
+        phoebe_right_wrist_mounted_camera_color_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_color_optical_frame:
+        phoebe_right_wrist_mounted_camera_color_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_depth_frame:
+        phoebe_right_wrist_mounted_camera_depth_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_depth_optical_frame:
+        phoebe_right_wrist_mounted_camera_depth_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_infra1_frame:
+        phoebe_right_wrist_mounted_camera_infra1_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_infra1_optical_frame:
+        phoebe_right_wrist_mounted_camera_infra1_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_infra2_frame:
+        phoebe_right_wrist_mounted_camera_infra2_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_infra2_optical_frame:
+        phoebe_right_wrist_mounted_camera_infra2_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wrist_mounted_camera_link:
+        phoebe_right_wrist_mounted_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        riser_link:
+        phoebe_riser_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        top_link:
+        phoebe_top_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -661,433 +646,634 @@ Visualization Manager:
       Visual Enabled: true
     - Class: rviz_default_plugins/TF
       Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        autec_antenna:
+        clr_base:
           Value: false
-        autec_receiver:
+        clr_base_link:
           Value: false
-        axle_link:
+        clr_base_link_inertia:
           Value: false
-        base_link:
-          Value: true
-        chassis_link:
+        clr_center_push_frame:
           Value: false
-        default_mount:
+        clr_clr_base:
           Value: false
-        front_cover_link:
+        clr_clr_carriage:
           Value: false
-        front_left_wheel_link:
+        clr_end_estop_light:
           Value: false
-        front_lights_link:
+        clr_ewellix_lift_higher_link:
           Value: false
-        front_right_wheel_link:
+        clr_ewellix_lift_lower_link:
           Value: false
-        front_rocker_link:
+        clr_ewellix_lift_middle_link:
           Value: false
-        front_scu:
+        clr_ewellix_lift_tip_link:
           Value: false
-        front_shelf:
+        clr_finger_1_link:
           Value: false
-        imu_0_link:
+        clr_finger_2_link:
           Value: false
-        left_arm_cal_link:
+        clr_flange:
           Value: false
-        left_arm_mount_plate:
+        clr_forearm_link:
           Value: false
-        left_arm_mount_plate_2:
+        clr_ft_frame:
           Value: false
-        left_ewellix_lift_higher_link:
+        clr_grasp_frame:
           Value: false
-        left_ewellix_lift_lower_link:
+        clr_gripper_base_link:
           Value: false
-        left_ewellix_lift_middle_link:
+        clr_gripper_palm_link:
           Value: false
-        left_ewellix_lift_tip_link:
+        clr_lift_camera_bottom_screw_frame:
           Value: false
-        left_ewellix_mount_flange_link:
+        clr_lift_camera_color_frame:
           Value: false
-        left_finger_1_link:
+        clr_lift_camera_color_optical_frame:
           Value: false
-        left_finger_2_link:
+        clr_lift_camera_depth_frame:
           Value: false
-        left_grasp_frame:
+        clr_lift_camera_depth_optical_frame:
           Value: false
-        left_gripper_base_link:
+        clr_lift_camera_infra1_frame:
           Value: false
-        left_gripper_palm_link:
+        clr_lift_camera_infra1_optical_frame:
           Value: false
-        left_monitor:
+        clr_lift_camera_infra2_frame:
           Value: false
-        left_mtc_effector_side:
+        clr_lift_camera_infra2_optical_frame:
           Value: false
-        left_mtc_robot_side:
+        clr_lift_camera_link:
           Value: false
-        left_push_frame_1:
+        clr_lift_camera_mount:
           Value: false
-        left_push_frame_2:
+        clr_lower_lift_plate:
           Value: false
-        left_robotiq_hande_cb_adapter:
+        clr_motor_side_estop_light:
           Value: false
-        left_side_cover_link:
+        clr_mtc_effector_side:
           Value: false
-        left_ur_arm_base:
+        clr_mtc_robot_side:
           Value: false
-        left_ur_arm_base_link:
+        clr_push_frame_1:
           Value: false
-        left_ur_arm_base_link_inertia:
+        clr_push_frame_2:
           Value: false
-        left_ur_arm_flange:
+        clr_right_angle_mount:
           Value: false
-        left_ur_arm_forearm_link:
+        clr_robotiq_hande_cb_adapter:
           Value: false
-        left_ur_arm_ft_frame:
+        clr_shoulder_link:
           Value: false
-        left_ur_arm_shoulder_link:
+        clr_tool0:
           Value: false
-        left_ur_arm_tool0:
+        clr_upper_arm_link:
           Value: false
-        left_ur_arm_upper_arm_link:
+        clr_upper_lift_plate:
           Value: false
-        left_ur_arm_wrist_1_link:
+        clr_ur10e_mount_link:
           Value: false
-        left_ur_arm_wrist_2_link:
+        clr_ur10e_mount_plate:
           Value: false
-        left_ur_arm_wrist_3_link:
+        clr_ur_realsense_mount:
           Value: false
-        left_ur_realsense_mount:
+        clr_vention_rail_base_link:
           Value: false
-        left_wifi_antenna:
+        clr_vention_rail_cable_0:
           Value: false
-        left_wrist_mounted_camera_bottom_screw_frame:
+        clr_vention_rail_cable_1:
           Value: false
-        left_wrist_mounted_camera_color_frame:
+        clr_vention_rail_cable_collision:
           Value: false
-        left_wrist_mounted_camera_color_optical_frame:
+        clr_vention_rail_carriage:
           Value: false
-        left_wrist_mounted_camera_depth_frame:
+        clr_vention_rail_gearbox:
           Value: false
-        left_wrist_mounted_camera_depth_optical_frame:
+        clr_vention_rail_motor:
           Value: false
-        left_wrist_mounted_camera_infra1_frame:
+        clr_wrist_1_link:
           Value: false
-        left_wrist_mounted_camera_infra1_optical_frame:
+        clr_wrist_2_link:
           Value: false
-        left_wrist_mounted_camera_infra2_frame:
+        clr_wrist_3_link:
           Value: false
-        left_wrist_mounted_camera_infra2_optical_frame:
+        clr_wrist_mounted_camera_bottom_screw_frame:
           Value: false
-        left_wrist_mounted_camera_link:
+        clr_wrist_mounted_camera_color_frame:
           Value: false
-        lidar2d_0_laser:
+        clr_wrist_mounted_camera_color_optical_frame:
           Value: false
-        lift_rails:
+        clr_wrist_mounted_camera_depth_frame:
+          Value: false
+        clr_wrist_mounted_camera_depth_optical_frame:
+          Value: false
+        clr_wrist_mounted_camera_infra1_frame:
+          Value: false
+        clr_wrist_mounted_camera_infra1_optical_frame:
+          Value: false
+        clr_wrist_mounted_camera_infra2_frame:
+          Value: false
+        clr_wrist_mounted_camera_infra2_optical_frame:
+          Value: false
+        clr_wrist_mounted_camera_link:
           Value: false
         map:
           Value: true
-        monitor_hinge_base:
-          Value: false
-        monitor_hinge_top:
-          Value: false
-        nav_target_pose:
-          Value: true
         odom:
           Value: true
-        rear_cover_link:
+        phoebe_autec_antenna:
           Value: false
-        rear_left_wheel_link:
+        phoebe_autec_receiver:
           Value: false
-        rear_lights_link:
+        phoebe_axle_link:
           Value: false
-        rear_right_wheel_link:
-          Value: false
-        rear_rocker_link:
-          Value: false
-        rear_scu:
-          Value: false
-        rear_shelf:
-          Value: false
-        right_arm_cal_link:
-          Value: false
-        right_arm_mount_plate:
-          Value: false
-        right_arm_mount_plate_2:
-          Value: false
-        right_ewellix_lift_higher_link:
-          Value: false
-        right_ewellix_lift_lower_link:
-          Value: false
-        right_ewellix_lift_middle_link:
-          Value: false
-        right_ewellix_lift_tip_link:
-          Value: false
-        right_ewellix_mount_flange_link:
-          Value: false
-        right_grasp_frame:
-          Value: false
-        right_monitor:
-          Value: false
-        right_mtc_effector_side:
-          Value: false
-        right_mtc_robot_side:
-          Value: false
-        right_robotiq_85_base_link:
-          Value: false
-        right_robotiq_85_left_finger_link:
-          Value: false
-        right_robotiq_85_left_finger_tip_link:
-          Value: false
-        right_robotiq_85_left_inner_knuckle_link:
-          Value: false
-        right_robotiq_85_left_knuckle_link:
-          Value: false
-        right_robotiq_85_right_finger_link:
-          Value: false
-        right_robotiq_85_right_finger_tip_link:
-          Value: false
-        right_robotiq_85_right_inner_knuckle_link:
-          Value: false
-        right_robotiq_85_right_knuckle_link:
-          Value: false
-        right_robotiq_hande_cb_adapter:
-          Value: false
-        right_side_cover_link:
-          Value: false
-        right_ur_arm_base:
-          Value: false
-        right_ur_arm_base_link:
-          Value: false
-        right_ur_arm_base_link_inertia:
-          Value: false
-        right_ur_arm_flange:
-          Value: false
-        right_ur_arm_forearm_link:
-          Value: false
-        right_ur_arm_ft_frame:
-          Value: false
-        right_ur_arm_shoulder_link:
-          Value: false
-        right_ur_arm_tool0:
-          Value: false
-        right_ur_arm_upper_arm_link:
-          Value: false
-        right_ur_arm_wrist_1_link:
-          Value: false
-        right_ur_arm_wrist_2_link:
-          Value: false
-        right_ur_arm_wrist_3_link:
-          Value: false
-        right_ur_realsense_mount:
-          Value: false
-        right_wifi_antenna:
-          Value: false
-        right_wrist_mounted_camera_bottom_screw_frame:
-          Value: false
-        right_wrist_mounted_camera_color_frame:
-          Value: false
-        right_wrist_mounted_camera_color_optical_frame:
-          Value: false
-        right_wrist_mounted_camera_depth_frame:
-          Value: false
-        right_wrist_mounted_camera_depth_optical_frame:
-          Value: false
-        right_wrist_mounted_camera_infra1_frame:
-          Value: false
-        right_wrist_mounted_camera_infra1_optical_frame:
-          Value: false
-        right_wrist_mounted_camera_infra2_frame:
-          Value: false
-        right_wrist_mounted_camera_infra2_optical_frame:
-          Value: false
-        right_wrist_mounted_camera_link:
-          Value: false
-        riser_link:
-          Value: false
-        tag36h11:1:
+        phoebe_base_link:
           Value: true
-        top_link:
+        phoebe_chassis_link:
+          Value: false
+        phoebe_default_mount:
+          Value: false
+        phoebe_front_cover_link:
+          Value: false
+        phoebe_front_left_wheel_link:
+          Value: false
+        phoebe_front_lights_link:
+          Value: false
+        phoebe_front_right_wheel_link:
+          Value: false
+        phoebe_front_rocker_link:
+          Value: false
+        phoebe_front_scu:
+          Value: false
+        phoebe_front_shelf:
+          Value: false
+        phoebe_imu_0_link:
+          Value: false
+        phoebe_left_arm_cal_link:
+          Value: false
+        phoebe_left_arm_mount_plate:
+          Value: false
+        phoebe_left_arm_mount_plate_2:
+          Value: false
+        phoebe_left_ewellix_lift_higher_link:
+          Value: false
+        phoebe_left_ewellix_lift_lower_link:
+          Value: false
+        phoebe_left_ewellix_lift_middle_link:
+          Value: false
+        phoebe_left_ewellix_lift_tip_link:
+          Value: false
+        phoebe_left_ewellix_mount_flange_link:
+          Value: false
+        phoebe_left_finger_1_link:
+          Value: true
+        phoebe_left_finger_2_link:
+          Value: false
+        phoebe_left_grasp_frame:
+          Value: false
+        phoebe_left_gripper_base_link:
+          Value: false
+        phoebe_left_gripper_palm_link:
+          Value: false
+        phoebe_left_monitor:
+          Value: false
+        phoebe_left_mtc_effector_side:
+          Value: false
+        phoebe_left_mtc_robot_side:
+          Value: false
+        phoebe_left_push_frame_1:
+          Value: false
+        phoebe_left_push_frame_2:
+          Value: false
+        phoebe_left_robotiq_hande_cb_adapter:
+          Value: false
+        phoebe_left_side_cover_link:
+          Value: false
+        phoebe_left_ur_arm_base:
+          Value: false
+        phoebe_left_ur_arm_base_link:
+          Value: false
+        phoebe_left_ur_arm_base_link_inertia:
+          Value: false
+        phoebe_left_ur_arm_flange:
+          Value: false
+        phoebe_left_ur_arm_forearm_link:
+          Value: false
+        phoebe_left_ur_arm_ft_frame:
+          Value: false
+        phoebe_left_ur_arm_shoulder_link:
+          Value: false
+        phoebe_left_ur_arm_tool0:
+          Value: false
+        phoebe_left_ur_arm_upper_arm_link:
+          Value: false
+        phoebe_left_ur_arm_wrist_1_link:
+          Value: false
+        phoebe_left_ur_arm_wrist_2_link:
+          Value: false
+        phoebe_left_ur_arm_wrist_3_link:
+          Value: false
+        phoebe_left_ur_realsense_mount:
+          Value: false
+        phoebe_left_wifi_antenna:
+          Value: false
+        phoebe_left_wrist_mounted_camera_bottom_screw_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_color_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_color_optical_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_depth_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_depth_optical_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_infra1_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_infra1_optical_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_infra2_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_infra2_optical_frame:
+          Value: false
+        phoebe_left_wrist_mounted_camera_link:
+          Value: false
+        phoebe_lidar2d_0_laser:
+          Value: false
+        phoebe_lift_rails:
+          Value: false
+        phoebe_monitor_hinge_base:
+          Value: false
+        phoebe_monitor_hinge_top:
+          Value: false
+        phoebe_rear_cover_link:
+          Value: false
+        phoebe_rear_left_wheel_link:
+          Value: false
+        phoebe_rear_lights_link:
+          Value: false
+        phoebe_rear_right_wheel_link:
+          Value: false
+        phoebe_rear_rocker_link:
+          Value: false
+        phoebe_rear_scu:
+          Value: false
+        phoebe_rear_shelf:
+          Value: false
+        phoebe_right_arm_cal_link:
+          Value: false
+        phoebe_right_arm_mount_plate:
+          Value: false
+        phoebe_right_arm_mount_plate_2:
+          Value: false
+        phoebe_right_ewellix_lift_higher_link:
+          Value: false
+        phoebe_right_ewellix_lift_lower_link:
+          Value: false
+        phoebe_right_ewellix_lift_middle_link:
+          Value: false
+        phoebe_right_ewellix_lift_tip_link:
+          Value: false
+        phoebe_right_ewellix_mount_flange_link:
+          Value: false
+        phoebe_right_finger_1_link:
+          Value: true
+        phoebe_right_finger_2_link:
+          Value: false
+        phoebe_right_grasp_frame:
+          Value: false
+        phoebe_right_gripper_base_link:
+          Value: false
+        phoebe_right_gripper_palm_link:
+          Value: false
+        phoebe_right_monitor:
+          Value: false
+        phoebe_right_mtc_effector_side:
+          Value: false
+        phoebe_right_mtc_robot_side:
+          Value: false
+        phoebe_right_push_frame_1:
+          Value: false
+        phoebe_right_push_frame_2:
+          Value: false
+        phoebe_right_robotiq_hande_cb_adapter:
+          Value: false
+        phoebe_right_side_cover_link:
+          Value: false
+        phoebe_right_ur_arm_base:
+          Value: false
+        phoebe_right_ur_arm_base_link:
+          Value: false
+        phoebe_right_ur_arm_base_link_inertia:
+          Value: false
+        phoebe_right_ur_arm_flange:
+          Value: false
+        phoebe_right_ur_arm_forearm_link:
+          Value: false
+        phoebe_right_ur_arm_ft_frame:
+          Value: false
+        phoebe_right_ur_arm_shoulder_link:
+          Value: false
+        phoebe_right_ur_arm_tool0:
+          Value: false
+        phoebe_right_ur_arm_upper_arm_link:
+          Value: false
+        phoebe_right_ur_arm_wrist_1_link:
+          Value: false
+        phoebe_right_ur_arm_wrist_2_link:
+          Value: false
+        phoebe_right_ur_arm_wrist_3_link:
+          Value: false
+        phoebe_right_ur_realsense_mount:
+          Value: false
+        phoebe_right_wifi_antenna:
+          Value: false
+        phoebe_right_wrist_mounted_camera_bottom_screw_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_color_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_color_optical_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_depth_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_depth_optical_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_infra1_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_infra1_optical_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_infra2_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_infra2_optical_frame:
+          Value: false
+        phoebe_right_wrist_mounted_camera_link:
+          Value: false
+        phoebe_riser_link:
+          Value: false
+        phoebe_top_link:
           Value: false
         world:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 0.4000000059604645
       Name: TF
       Show Arrows: false
       Show Axes: true
       Show Names: true
       Tree:
         map:
-          nav_target_pose:
-            {}
           odom:
-            base_link:
-              chassis_link:
-                axle_link:
-                  front_rocker_link:
-                    front_left_wheel_link:
+            phoebe_base_link:
+              phoebe_chassis_link:
+                phoebe_axle_link:
+                  phoebe_front_rocker_link:
+                    phoebe_front_left_wheel_link:
                       {}
-                    front_right_wheel_link:
+                    phoebe_front_right_wheel_link:
                       {}
-                  rear_rocker_link:
-                    rear_left_wheel_link:
+                  phoebe_rear_rocker_link:
+                    phoebe_rear_left_wheel_link:
                       {}
-                    rear_right_wheel_link:
+                    phoebe_rear_right_wheel_link:
                       {}
-                front_cover_link:
+                phoebe_front_cover_link:
                   {}
-                front_lights_link:
+                phoebe_front_lights_link:
                   {}
-                imu_0_link:
+                phoebe_imu_0_link:
                   {}
-                left_side_cover_link:
+                phoebe_left_side_cover_link:
                   {}
-                rear_cover_link:
+                phoebe_rear_cover_link:
                   {}
-                rear_lights_link:
+                phoebe_rear_lights_link:
                   {}
-                right_side_cover_link:
+                phoebe_right_side_cover_link:
                   {}
-                riser_link:
-                  default_mount:
-                    autec_antenna:
+                phoebe_riser_link:
+                  phoebe_default_mount:
+                    phoebe_autec_antenna:
                       {}
-                    autec_receiver:
+                    phoebe_autec_receiver:
                       {}
-                    front_scu:
+                    phoebe_front_scu:
                       {}
-                    front_shelf:
+                    phoebe_front_shelf:
                       {}
-                    left_ewellix_mount_flange_link:
-                      left_ewellix_lift_lower_link:
-                        left_ewellix_lift_higher_link:
-                          left_ewellix_lift_middle_link:
+                    phoebe_left_ewellix_mount_flange_link:
+                      phoebe_left_ewellix_lift_lower_link:
+                        phoebe_left_ewellix_lift_higher_link:
+                          phoebe_left_ewellix_lift_middle_link:
                             {}
-                          left_ewellix_lift_tip_link:
-                            left_arm_mount_plate:
-                              left_arm_cal_link:
-                                left_arm_mount_plate_2:
-                                  left_ur_arm_base_link:
-                                    left_ur_arm_base:
+                          phoebe_left_ewellix_lift_tip_link:
+                            phoebe_left_arm_mount_plate:
+                              phoebe_left_arm_cal_link:
+                                phoebe_left_arm_mount_plate_2:
+                                  phoebe_left_ur_arm_base_link:
+                                    phoebe_left_ur_arm_base:
                                       {}
-                                    left_ur_arm_base_link_inertia:
-                                      left_ur_arm_shoulder_link:
-                                        left_ur_arm_upper_arm_link:
-                                          left_ur_arm_forearm_link:
-                                            left_ur_arm_wrist_1_link:
-                                              left_ur_arm_wrist_2_link:
-                                                left_ur_arm_wrist_3_link:
-                                                  left_ur_arm_flange:
-                                                    left_ur_arm_tool0:
-                                                      left_mtc_robot_side:
-                                                        left_mtc_effector_side:
-                                                          left_ur_realsense_mount:
-                                                            left_robotiq_hande_cb_adapter:
-                                                              left_gripper_base_link:
-                                                                left_finger_1_link:
-                                                                  left_push_frame_1:
+                                    phoebe_left_ur_arm_base_link_inertia:
+                                      phoebe_left_ur_arm_shoulder_link:
+                                        phoebe_left_ur_arm_upper_arm_link:
+                                          phoebe_left_ur_arm_forearm_link:
+                                            phoebe_left_ur_arm_wrist_1_link:
+                                              phoebe_left_ur_arm_wrist_2_link:
+                                                phoebe_left_ur_arm_wrist_3_link:
+                                                  phoebe_left_ur_arm_flange:
+                                                    phoebe_left_ur_arm_tool0:
+                                                      phoebe_left_mtc_robot_side:
+                                                        phoebe_left_mtc_effector_side:
+                                                          phoebe_left_ur_realsense_mount:
+                                                            phoebe_left_robotiq_hande_cb_adapter:
+                                                              phoebe_left_gripper_base_link:
+                                                                phoebe_left_finger_1_link:
+                                                                  phoebe_left_push_frame_1:
                                                                     {}
-                                                                left_finger_2_link:
-                                                                  left_push_frame_2:
+                                                                phoebe_left_finger_2_link:
+                                                                  phoebe_left_push_frame_2:
                                                                     {}
-                                                                left_grasp_frame:
+                                                                phoebe_left_grasp_frame:
                                                                   {}
-                                                                left_gripper_palm_link:
+                                                                phoebe_left_gripper_palm_link:
                                                                   {}
-                                                            left_wrist_mounted_camera_bottom_screw_frame:
-                                                              left_wrist_mounted_camera_link:
-                                                                left_wrist_mounted_camera_color_frame:
-                                                                  left_wrist_mounted_camera_color_optical_frame:
+                                                            phoebe_left_wrist_mounted_camera_bottom_screw_frame:
+                                                              phoebe_left_wrist_mounted_camera_link:
+                                                                phoebe_left_wrist_mounted_camera_color_frame:
+                                                                  phoebe_left_wrist_mounted_camera_color_optical_frame:
                                                                     {}
-                                                                left_wrist_mounted_camera_depth_frame:
-                                                                  left_wrist_mounted_camera_depth_optical_frame:
+                                                                phoebe_left_wrist_mounted_camera_depth_frame:
+                                                                  phoebe_left_wrist_mounted_camera_depth_optical_frame:
                                                                     {}
-                                                                left_wrist_mounted_camera_infra1_frame:
-                                                                  left_wrist_mounted_camera_infra1_optical_frame:
+                                                                phoebe_left_wrist_mounted_camera_infra1_frame:
+                                                                  phoebe_left_wrist_mounted_camera_infra1_optical_frame:
                                                                     {}
-                                                                left_wrist_mounted_camera_infra2_frame:
-                                                                  left_wrist_mounted_camera_infra2_optical_frame:
+                                                                phoebe_left_wrist_mounted_camera_infra2_frame:
+                                                                  phoebe_left_wrist_mounted_camera_infra2_optical_frame:
                                                                     {}
-                                                  left_ur_arm_ft_frame:
+                                                  phoebe_left_ur_arm_ft_frame:
                                                     {}
-                    left_wifi_antenna:
+                    phoebe_left_wifi_antenna:
                       {}
-                    lidar2d_0_laser:
+                    phoebe_lidar2d_0_laser:
                       {}
-                    lift_rails:
+                    phoebe_lift_rails:
                       {}
-                    monitor_hinge_base:
-                      monitor_hinge_top:
-                        left_monitor:
+                    phoebe_monitor_hinge_base:
+                      phoebe_monitor_hinge_top:
+                        phoebe_left_monitor:
                           {}
-                        right_monitor:
+                        phoebe_right_monitor:
                           {}
-                    rear_scu:
+                    phoebe_rear_scu:
                       {}
-                    rear_shelf:
+                    phoebe_rear_shelf:
                       {}
-                    right_ewellix_mount_flange_link:
-                      right_ewellix_lift_lower_link:
-                        right_ewellix_lift_higher_link:
-                          right_ewellix_lift_middle_link:
+                    phoebe_right_ewellix_mount_flange_link:
+                      phoebe_right_ewellix_lift_lower_link:
+                        phoebe_right_ewellix_lift_higher_link:
+                          phoebe_right_ewellix_lift_middle_link:
                             {}
-                          right_ewellix_lift_tip_link:
-                            right_arm_mount_plate:
-                              right_arm_cal_link:
-                                right_arm_mount_plate_2:
-                                  right_ur_arm_base_link:
-                                    right_ur_arm_base:
+                          phoebe_right_ewellix_lift_tip_link:
+                            phoebe_right_arm_mount_plate:
+                              phoebe_right_arm_cal_link:
+                                phoebe_right_arm_mount_plate_2:
+                                  phoebe_right_ur_arm_base_link:
+                                    phoebe_right_ur_arm_base:
                                       {}
-                                    right_ur_arm_base_link_inertia:
-                                      right_ur_arm_shoulder_link:
-                                        right_ur_arm_upper_arm_link:
-                                          right_ur_arm_forearm_link:
-                                            right_ur_arm_wrist_1_link:
-                                              right_ur_arm_wrist_2_link:
-                                                right_ur_arm_wrist_3_link:
-                                                  right_ur_arm_flange:
-                                                    right_ur_arm_tool0:
-                                                      right_mtc_robot_side:
-                                                        right_mtc_effector_side:
-                                                          right_ur_realsense_mount:
-                                                            right_robotiq_hande_cb_adapter:
-                                                              right_robotiq_85_base_link:
-                                                                right_grasp_frame:
-                                                                  {}
-                                                                right_robotiq_85_left_inner_knuckle_link:
-                                                                  {}
-                                                                right_robotiq_85_left_knuckle_link:
-                                                                  right_robotiq_85_left_finger_link:
-                                                                    right_robotiq_85_left_finger_tip_link:
-                                                                      {}
-                                                                right_robotiq_85_right_inner_knuckle_link:
-                                                                  {}
-                                                                right_robotiq_85_right_knuckle_link:
-                                                                  right_robotiq_85_right_finger_link:
-                                                                    right_robotiq_85_right_finger_tip_link:
-                                                                      {}
-                                                            right_wrist_mounted_camera_bottom_screw_frame:
-                                                              right_wrist_mounted_camera_link:
-                                                                right_wrist_mounted_camera_color_frame:
-                                                                  right_wrist_mounted_camera_color_optical_frame:
-                                                                    tag36h11:1:
-                                                                      {}
-                                                                right_wrist_mounted_camera_depth_frame:
-                                                                  right_wrist_mounted_camera_depth_optical_frame:
+                                    phoebe_right_ur_arm_base_link_inertia:
+                                      phoebe_right_ur_arm_shoulder_link:
+                                        phoebe_right_ur_arm_upper_arm_link:
+                                          phoebe_right_ur_arm_forearm_link:
+                                            phoebe_right_ur_arm_wrist_1_link:
+                                              phoebe_right_ur_arm_wrist_2_link:
+                                                phoebe_right_ur_arm_wrist_3_link:
+                                                  phoebe_right_ur_arm_flange:
+                                                    phoebe_right_ur_arm_tool0:
+                                                      phoebe_right_mtc_robot_side:
+                                                        phoebe_right_mtc_effector_side:
+                                                          phoebe_right_ur_realsense_mount:
+                                                            phoebe_right_robotiq_hande_cb_adapter:
+                                                              phoebe_right_gripper_base_link:
+                                                                phoebe_right_finger_1_link:
+                                                                  phoebe_right_push_frame_1:
                                                                     {}
-                                                                right_wrist_mounted_camera_infra1_frame:
-                                                                  right_wrist_mounted_camera_infra1_optical_frame:
+                                                                phoebe_right_finger_2_link:
+                                                                  phoebe_right_push_frame_2:
                                                                     {}
-                                                                right_wrist_mounted_camera_infra2_frame:
-                                                                  right_wrist_mounted_camera_infra2_optical_frame:
+                                                                phoebe_right_grasp_frame:
+                                                                  {}
+                                                                phoebe_right_gripper_palm_link:
+                                                                  {}
+                                                            phoebe_right_wrist_mounted_camera_bottom_screw_frame:
+                                                              phoebe_right_wrist_mounted_camera_link:
+                                                                phoebe_right_wrist_mounted_camera_color_frame:
+                                                                  phoebe_right_wrist_mounted_camera_color_optical_frame:
                                                                     {}
-                                                  right_ur_arm_ft_frame:
+                                                                phoebe_right_wrist_mounted_camera_depth_frame:
+                                                                  phoebe_right_wrist_mounted_camera_depth_optical_frame:
+                                                                    {}
+                                                                phoebe_right_wrist_mounted_camera_infra1_frame:
+                                                                  phoebe_right_wrist_mounted_camera_infra1_optical_frame:
+                                                                    {}
+                                                                phoebe_right_wrist_mounted_camera_infra2_frame:
+                                                                  phoebe_right_wrist_mounted_camera_infra2_optical_frame:
+                                                                    {}
+                                                  phoebe_right_ur_arm_ft_frame:
                                                     {}
-                    right_wifi_antenna:
+                    phoebe_right_wifi_antenna:
                       {}
-                  top_link:
+                  phoebe_top_link:
                     {}
-          world:
-            {}
+        world:
+          clr_clr_base:
+            clr_end_estop_light:
+              {}
+            clr_motor_side_estop_light:
+              {}
+            clr_vention_rail_base_link:
+              clr_vention_rail_carriage:
+                clr_clr_carriage:
+                  clr_lower_lift_plate:
+                    clr_ewellix_lift_lower_link:
+                      clr_ewellix_lift_higher_link:
+                        clr_ewellix_lift_middle_link:
+                          {}
+                        clr_ewellix_lift_tip_link:
+                          {}
+                        clr_upper_lift_plate:
+                          clr_right_angle_mount:
+                            clr_ur10e_mount_plate:
+                              clr_ur10e_mount_link:
+                                clr_base_link:
+                                  clr_base:
+                                    {}
+                                  clr_base_link_inertia:
+                                    clr_shoulder_link:
+                                      clr_upper_arm_link:
+                                        clr_forearm_link:
+                                          clr_wrist_1_link:
+                                            clr_wrist_2_link:
+                                              clr_wrist_3_link:
+                                                clr_flange:
+                                                  clr_tool0:
+                                                    clr_mtc_robot_side:
+                                                      clr_mtc_effector_side:
+                                                        clr_ur_realsense_mount:
+                                                          clr_robotiq_hande_cb_adapter:
+                                                            clr_gripper_base_link:
+                                                              clr_finger_1_link:
+                                                                clr_push_frame_1:
+                                                                  {}
+                                                              clr_finger_2_link:
+                                                                clr_push_frame_2:
+                                                                  {}
+                                                              clr_grasp_frame:
+                                                                {}
+                                                              clr_gripper_palm_link:
+                                                                clr_center_push_frame:
+                                                                  {}
+                                                          clr_wrist_mounted_camera_bottom_screw_frame:
+                                                            clr_wrist_mounted_camera_link:
+                                                              clr_wrist_mounted_camera_color_frame:
+                                                                clr_wrist_mounted_camera_color_optical_frame:
+                                                                  {}
+                                                              clr_wrist_mounted_camera_depth_frame:
+                                                                clr_wrist_mounted_camera_depth_optical_frame:
+                                                                  {}
+                                                              clr_wrist_mounted_camera_infra1_frame:
+                                                                clr_wrist_mounted_camera_infra1_optical_frame:
+                                                                  {}
+                                                              clr_wrist_mounted_camera_infra2_frame:
+                                                                clr_wrist_mounted_camera_infra2_optical_frame:
+                                                                  {}
+                                                clr_ft_frame:
+                                                  {}
+                      clr_lift_camera_mount:
+                        {}
+                    clr_lift_camera_bottom_screw_frame:
+                      clr_lift_camera_link:
+                        clr_lift_camera_color_frame:
+                          clr_lift_camera_color_optical_frame:
+                            {}
+                        clr_lift_camera_depth_frame:
+                          clr_lift_camera_depth_optical_frame:
+                            {}
+                        clr_lift_camera_infra1_frame:
+                          clr_lift_camera_infra1_optical_frame:
+                            {}
+                        clr_lift_camera_infra2_frame:
+                          clr_lift_camera_infra2_optical_frame:
+                            {}
+              clr_vention_rail_gearbox:
+                clr_vention_rail_motor:
+                  clr_vention_rail_cable_0:
+                    {}
+                  clr_vention_rail_cable_1:
+                    {}
+                  clr_vention_rail_cable_collision:
+                    {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -1132,6 +1318,8 @@ Visualization Manager:
         Value: /plan
       Value: true
     - Alpha: 0.699999988079071
+      Binary representation: false
+      Binary threshold: 100
       Class: rviz_default_plugins/Map
       Color Scheme: map
       Draw Behind: false
@@ -1153,6 +1341,8 @@ Visualization Manager:
       Use Timestamp: false
       Value: false
     - Alpha: 0.699999988079071
+      Binary representation: false
+      Binary threshold: 100
       Class: rviz_default_plugins/Map
       Color Scheme: costmap
       Draw Behind: false
@@ -1219,25 +1409,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 6.6452436447143555
+      Distance: 6.244723320007324
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.32960745692253113
-        Y: 0.349721759557724
-        Z: 0.21889184415340424
+        X: 0.5700362324714661
+        Y: -0.004418719094246626
+        Z: 0.05247247964143753
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 0.6147975325584412
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.5554004907608032
+      Yaw: 1.575402021408081
     Saved: ~
 Window Geometry:
   Displays:
@@ -1247,7 +1437,7 @@ Window Geometry:
   Hide Right Dock: false
   Navigation 2:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000016700000331fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000007c00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730200000780000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000004b000001af0000010f00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018004e0061007600690067006100740069006f006e0020003201000002020000017a0000016300ffffff000000010000010f00000306fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b00000306000000d400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000077c00000040fc0100000002fb0000000800540069006d006501000000000000077c0000032b00fffffffb0000000800540069006d006501000000000000045000000000000000000000060d0000033100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001c000000349fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730200000780000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b0000017c000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018004e0061007600690067006100740069006f006e0020003201000001bd000001c7000001c700ffffff000000010000010f00000306fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b00000306000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000077c00000040fc0100000002fb0000000800540069006d006501000000000000077c0000025300fffffffb0000000800540069006d00650100000000000004500000000000000000000005b60000034900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -1257,5 +1447,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1916
-  X: 3842
+  X: 644
   Y: 45
