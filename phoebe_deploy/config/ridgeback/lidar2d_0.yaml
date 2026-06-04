@@ -8,7 +8,7 @@
         ip_port: 10940
         serial_port: '/dev/ttyACM0'
         serial_baud: 115200
-        laser_frame_id: 'lidar2d_0_laser'
+        laser_frame_id: 'phoebe_lidar2d_0_laser'
         calibrate_time: False
         synchronize_time: False # does not seem to exist
         default_user_latency: 0.0
