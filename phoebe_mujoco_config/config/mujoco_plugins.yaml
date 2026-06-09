@@ -6,3 +6,18 @@
         lidar2d_0:
           frame_name: "lidar2d_0_laser"
           topic: "/lidar2d_0_laser/scan"
+      mujoco_camera_plugin:
+        type: "mujoco_ros2_control_plugins/CameraPlugin"
+        camera_publish_rate: 2.0
+        # These are republished by the mock polled camera, so we suffix these topics
+        # with `_` to mark them as such.
+        left_wrist_mounted_camera:
+          frame_name: left_wrist_mounted_camera_color_optical_frame
+          info_topic: /left_wrist_mounted_camera_/color/camera_info
+          image_topic: /left_wrist_mounted_camera_/color/image_raw
+          depth_topic: /left_wrist_mounted_camera_/aligned_depth_to_color/image_raw
+        right_wrist_mounted_camera:
+          frame_name: right_wrist_mounted_camera_color_optical_frame
+          info_topic: /right_wrist_mounted_camera_/color/camera_info
+          image_topic: /right_wrist_mounted_camera_/color/image_raw
+          depth_topic: /right_wrist_mounted_camera_/aligned_depth_to_color/image_raw

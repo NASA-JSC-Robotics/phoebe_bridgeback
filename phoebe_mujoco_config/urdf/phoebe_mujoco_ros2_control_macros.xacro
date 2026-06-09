@@ -4,18 +4,6 @@
   <xacro:macro name="phoebe_mujoco_ros2_control_sensors" params="
     tf_prefix:=''
   ">
-    <sensor name="${tf_prefix}left_wrist_mounted_camera">
-      <param name="frame_name">${tf_prefix}left_wrist_mounted_camera_color_optical_frame</param>
-      <param name="info_topic">/${tf_prefix}left_wrist_mounted_camera_/color/camera_info</param>
-      <param name="image_topic">/${tf_prefix}left_wrist_mounted_camera_/color/image_raw</param>
-      <param name="depth_topic">/${tf_prefix}left_wrist_mounted_camera_/aligned_depth_to_color/image_raw</param>
-    </sensor>
-    <sensor name="${tf_prefix}right_wrist_mounted_camera">
-      <param name="frame_name">${tf_prefix}right_wrist_mounted_camera_color_optical_frame</param>
-      <param name="info_topic">/${tf_prefix}right_wrist_mounted_camera_/color/camera_info</param>
-      <param name="image_topic">/${tf_prefix}right_wrist_mounted_camera_/color/image_raw</param>
-      <param name="depth_topic">/${tf_prefix}right_wrist_mounted_camera_/aligned_depth_to_color/image_raw</param>
-    </sensor>
 
     <sensor name="${tf_prefix}imu_sensor">
       <param name="mujoco_type">imu</param>
