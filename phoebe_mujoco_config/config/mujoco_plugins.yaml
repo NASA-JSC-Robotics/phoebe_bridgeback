@@ -16,7 +16,7 @@
           info_topic: /$(var tf_prefix)left_wrist_mounted_camera_/color/camera_info
           image_topic: /$(var tf_prefix)left_wrist_mounted_camera_/color/image_raw
           depth_topic: /$(var tf_prefix)left_wrist_mounted_camera_/aligned_depth_to_color/image_raw
-        right_wrist_mounted_camera:
+        $(var tf_prefix)right_wrist_mounted_camera:
           frame_name: $(var tf_prefix)right_wrist_mounted_camera_color_optical_frame
           info_topic: /$(var tf_prefix)right_wrist_mounted_camera_/color/camera_info
           image_topic: /$(var tf_prefix)right_wrist_mounted_camera_/color/image_raw
