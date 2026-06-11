@@ -68,12 +68,21 @@ def generate_launch_description():
             "If False, users must manually handle map -> odom -> base_link transforms.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "reference_topic",
+            default_value="phoebe/phoebe_platform_velocity_controller/reference",
+            description="Command outputs from the muxer",
+        )
+    )
 
     namespace = LaunchConfiguration("namespace")
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_tf = LaunchConfiguration("publish_tf")
+    reference_topic = LaunchConfiguration("reference_topic")
 
+    config_twist_mux = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "twist_mux.yaml"])
     rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
     rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
 
@@ -143,6 +152,19 @@ def generate_launch_description():
             parameters=[{"use_sim_time": use_sim_time}],
             condition=UnlessCondition(publish_tf),
         ),
+        Node(
+            package="twist_mux",
+            executable="twist_mux",
+            namespace=namespace,
+            output="screen",
+            remappings={
+                ("/cmd_vel_out", reference_topic),
+                ("/diagnostics", "diagnostics"),
+                ("/tf", "tf"),
+                ("/tf_static", "tf_static"),
+            },
+            parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
+        )
     ]
 
     return LaunchDescription(declared_arguments + nodes_to_start)
