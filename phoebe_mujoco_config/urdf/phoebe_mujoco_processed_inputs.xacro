@@ -16,8 +16,6 @@
       <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
       <camera site="${tf_prefix}right_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
 
-      <lidar ref_site="${tf_prefix}lidar2d_0_laser" sensor_name="${tf_prefix}lidar2d_0" min_angle="-2.3" max_angle="2.3" angle_increment="0.1" />    <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
-
       <!-- Add gravcomp so that control will make the joints move about the desired position-->
       <modify_element type="body" name="${tf_prefix}left_ewellix_lift_higher_link" gravcomp="1.0"/>
       <modify_element type="body" name="${tf_prefix}left_ewellix_lift_middle_link" gravcomp="1.0"/>

@@ -3,52 +3,52 @@
     <include file="mujoco_description_formatted.xml"/>
     <statistic center="0.0 0 0.4" extent="5.0"/>
     <option gravity="0 0 -9.81">
-
-
+        
+        
         <flag contact="enable"/>
-
-
+        
+      
     </option>
     <visual>
-
-
+        
+        
         <rgba haze="0.15 0.25 0.35 1"/>
-
-
+        
+        
         <!-- initial camera starting angle and elevation -->
-
-
+        
+        
         <global azimuth="-120" elevation="-30" offheight="720" offwidth="1280"/>
-
-
+        
+      
     </visual>
     <!-- [In progress] this stuff will go away once Zarrin gets the environment urdf-ified -->
     <compiler angle="radian"/>
     <!-- assetdir="assets" /> -->
     <asset>
-
-
+        
+        
         <texture builtin="gradient" height="3072" rgb1="0.3 0.5 0.7" rgb2="0 0 0" type="skybox" width="512"/>
-
-
+        
+        
         <texture builtin="checker" height="300" mark="edge" markrgb="0.5 0.5 0.5" name="groundplane" rgb1="0.8 0.8 0.8" rgb2="0.8 0.8 0.8" type="2d" width="300"/>
-
-
+        
+        
         <material name="groundplane" reflectance="0.0" texrepeat="3.0 3.0" texture="groundplane" texuniform="true"/>
-
-
+        
+      
     </asset>
     <worldbody>
-
-
+        
+        
         <light castshadow="false" dir="0 0 -1" directional="true" pos="0 0 3"/>
-
-
+        
+        
         <!-- Keeping the floor because the floor isn't defined in the URDF -->
-
-
+        
+        
         <geom material="groundplane" name="floor" size="0 0 0.05" type="plane"/>
-
-
+        
+      
     </worldbody>
 </mujoco>

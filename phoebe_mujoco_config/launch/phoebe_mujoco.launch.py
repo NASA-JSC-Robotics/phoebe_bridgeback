@@ -194,6 +194,10 @@ def generate_launch_description():
         " model_mobile_env:=false",
     ]
 
+    extra_controller_params_file = PathJoinSubstitution(
+        [FindPackageShare(phoebe_mujoco_package_name), "config", "mujoco_plugins.yaml"]
+    )
+
     # Include the control launch file with relevant configuration
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -213,6 +217,7 @@ def generate_launch_description():
             "extra_xacro_args": extra_xacro_args,
             "left_hand_type": left_hand_type,
             "right_hand_type": right_hand_type,
+            "extra_controller_params_file": extra_controller_params_file,
         }.items(),
     )
 
