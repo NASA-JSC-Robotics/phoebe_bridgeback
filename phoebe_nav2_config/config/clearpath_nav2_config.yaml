@@ -3,7 +3,7 @@ bt_navigator:
     enable_stamped_cmd_vel: true
     global_frame: map
     robot_base_frame: $(var tf_prefix)base_link
-    odom_topic: /$(var ns)/ridgeback/odometry/filtered
+    odom_topic: ridgeback/odometry/filtered
     bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
@@ -230,7 +230,7 @@ velocity_smoother:
     # max_accel: [0.05, 0.05, 0.05]
     max_decel: [-0.2, -0.2, -0.2]
     # max_decel: [-0.05, -0.05, -0.05]
-    odom_topic: "/$(var ns)/ridgeback/odometry/filtered"
+    odom_topic: "ridgeback/odometry/filtered"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
@@ -240,9 +240,9 @@ collision_monitor:
     enable_stamped_cmd_vel: true
     base_frame_id: "$(var tf_prefix)base_link"
     odom_frame_id: "odom"
-    cmd_vel_in_topic: "/cmd_vel_smoothed"
-    cmd_vel_out_topic: "/cmd_vel"
-    state_topic: "/collision_monitor_state"
+    cmd_vel_in_topic: "cmd_vel_smoothed"
+    cmd_vel_out_topic: "cmd_vel"
+    state_topic: "collision_monitor_state"
     transform_tolerance: 0.2
     source_timeout: 1.0
     base_shift_correction: True

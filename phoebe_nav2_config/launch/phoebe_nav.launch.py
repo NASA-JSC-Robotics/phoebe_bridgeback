@@ -20,7 +20,6 @@
 
 import os
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import Node
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
@@ -29,6 +28,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node, PushRosNamespace, SetRemap
+
 
 def generate_launch_description():
     pkg_phoebe_nav2_config = get_package_share_directory("phoebe_nav2_config")
@@ -80,8 +80,8 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "reference_topic",
-            default_value="phoebe/phoebe_platform_velocity_controller/reference",
-            description="Command outputs from the muxer",
+            default_value="phoebe_platform_velocity_controller/reference",
+            description="Command outputs from the muxer. Namespace is applied on top of it.",
         )
     )
 
@@ -170,18 +170,20 @@ def generate_launch_description():
             # namespace=namespace,
             output="screen",
             remappings={
-                ("/cmd_vel_out", reference_topic),
+                ("cmd_vel_out", reference_topic),
                 ("/diagnostics", "diagnostics"),
-                ("/tf", "tf"),
-                ("/tf_static", "tf_static"),
             },
             parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
         ),
-
     ]
 
-    ns_action = GroupAction(actions=[PushRosNamespace(namespace),
-                                     SetRemap(src="tf_static", dst='/tf_static'),
-                                     SetRemap(src="tf", dst='/tf'),] + nodes_to_start)
+    ns_action = GroupAction(
+        actions=[
+            PushRosNamespace(namespace),
+            SetRemap(src="tf_static", dst="/tf_static"),
+            SetRemap(src="tf", dst="/tf"),
+        ]
+        + nodes_to_start
+    )
 
     return LaunchDescription(declared_arguments + [ns_action])
