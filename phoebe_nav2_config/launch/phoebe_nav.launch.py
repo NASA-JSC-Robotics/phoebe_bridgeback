@@ -28,6 +28,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
@@ -41,9 +42,18 @@ def generate_launch_description():
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
-            "namespace",
+            "ns",
             default_value="",
             description="Namespace for the hardware robot",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
         )
     )
     declared_arguments.append(
@@ -76,7 +86,8 @@ def generate_launch_description():
         )
     )
 
-    namespace = LaunchConfiguration("namespace")
+    namespace = LaunchConfiguration("ns")
+    tf_prefix = LaunchConfiguration("tf_prefix")
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_tf = LaunchConfiguration("publish_tf")
@@ -93,6 +104,8 @@ def generate_launch_description():
             ),
             launch_arguments={
                 # "namespace": namespace,
+                "ns": namespace,
+                "tf_prefix": tf_prefix,
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
@@ -104,6 +117,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 # "namespace": namespace,
+                "tf_prefix": tf_prefix,
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
@@ -115,6 +129,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 # "namespace": namespace,
+                "tf_prefix": tf_prefix,
                 "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml"),
                 "use_sim_time": use_sim_time,
             }.items(),
@@ -155,7 +170,7 @@ def generate_launch_description():
         Node(
             package="twist_mux",
             executable="twist_mux",
-            namespace=namespace,
+            # namespace=namespace,
             output="screen",
             remappings={
                 ("/cmd_vel_out", reference_topic),

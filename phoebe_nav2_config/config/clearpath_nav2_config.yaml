@@ -2,8 +2,8 @@ bt_navigator:
   ros__parameters:
     enable_stamped_cmd_vel: true
     global_frame: map
-    robot_base_frame: phoebe_base_link
-    odom_topic: /phoebe/ridgeback/odometry/filtered
+    robot_base_frame: $(var tf_prefix)base_link
+    odom_topic: $(var ns)ridgeback/odometry/filtered
     bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
@@ -88,7 +88,7 @@ local_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: odom
-      robot_base_frame: phoebe_base_link
+      robot_base_frame: $(var tf_prefix)base_link
       rolling_window: true
       width: 5
       height: 5
@@ -125,7 +125,7 @@ global_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: phoebe_base_link
+      robot_base_frame: $(var tf_prefix)base_link
       footprint: "[ [0.480, 0.3965], [0.480, -0.3965], [-0.480, -0.3965], [-0.480, 0.3965] ]"
       width: 15
       height: 15
@@ -230,7 +230,7 @@ velocity_smoother:
     # max_accel: [0.05, 0.05, 0.05]
     max_decel: [-0.2, -0.2, -0.2]
     # max_decel: [-0.05, -0.05, -0.05]
-    odom_topic: "/phoebe/ridgeback/odometry/filtered"
+    odom_topic: "/$(var ns)/ridgeback/odometry/filtered"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
@@ -238,7 +238,7 @@ velocity_smoother:
 collision_monitor:
   ros__parameters:
     enable_stamped_cmd_vel: true
-    base_frame_id: "phoebe_base_link"
+    base_frame_id: "$(var tf_prefix)base_link"
     odom_frame_id: "odom"
     cmd_vel_in_topic: "/cmd_vel_smoothed"
     cmd_vel_out_topic: "/cmd_vel"
@@ -277,7 +277,7 @@ docking_server:
     undock_linear_tolerance: 0.05
     undock_angular_tolerance: 0.1
     max_retries: 3
-    base_frame: "phoebe_base_link"
+    base_frame: "$(var tf_prefix)base_link"
     fixed_frame: "odom"
     dock_backwards: false
     dock_prestaging_tolerance: 0.5
