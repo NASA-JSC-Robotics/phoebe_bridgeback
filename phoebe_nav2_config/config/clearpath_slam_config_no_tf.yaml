@@ -10,6 +10,7 @@ slam_toolbox:
     ceres_loss_function: None
 
     # ROS Parameters
+    # Note - cannot use namespacing variables as slam_toolbox yaml substitutions is not in jazzy
     odom_frame: odom
     map_frame: map
     base_frame: phoebe_base_link
