@@ -84,3 +84,9 @@ repos:
       - id: codespell
         exclude: \.(svg|stl|dae)
         args: ["--ignore-words-list", "hande, Hart"]
+
+# Exclude generated assests
+exclude: |
+  (?x)^(
+    phoebe_mujoco_config/description/.*
+  )$

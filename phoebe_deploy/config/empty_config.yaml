@@ -1,0 +1,4 @@
+# Stand-in empty configuration file for the controller manager that can
+# be overridden at runtime.
+/**:
+  ros__parameters: {}

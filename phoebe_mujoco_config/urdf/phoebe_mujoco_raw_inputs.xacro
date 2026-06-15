@@ -283,8 +283,20 @@
         <accelerometer name="${tf_prefix}imu_sensor_accel" site="${tf_prefix}imu_0_link" />
     </sensor>
 
+    <extension>
+        <plugin plugin="mujoco.plugin.lidar">
+            <instance name="${tf_prefix}lidar2d_0">
+                <config key="resolution" value="1080 1"/>
+                <config key="azimuth_range" value="-2.35 2.35"/>
+                <config key="elevation_range" value="0.0"/>
+                <config key="max_range" value="10.0"/>
+                <config key="min_range" value="0.05"/>
+                <config key="update_rate" value="4.0"/>
+            </instance>
+        </plugin>
+        </extension>
     <sensor>
-        <rangefinder name="${tf_prefix}lidar2d_0" site="${tf_prefix}lidar2d_0"/>
+        <plugin name="${tf_prefix}lidar2d_0" instance="${tf_prefix}lidar2d_0" objtype="site" objname="${tf_prefix}lidar2d_0_laser"/>
     </sensor>
 
   </xacro:macro>

@@ -23,19 +23,27 @@ import os
 import shutil
 import subprocess
 import sys
+from xml.dom import minidom
 
 import rclpy
-
 from ament_index_python.packages import get_package_share_directory
 from rclpy.node import Node
-from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSDurabilityPolicy, QoSHistoryPolicy
+from rclpy.qos import (
+    QoSDurabilityPolicy,
+    QoSHistoryPolicy,
+    QoSProfile,
+    QoSReliabilityPolicy,
+)
 from std_msgs.msg import String
-from xml.dom import minidom
 
 
 class StringModifierNode(Node):
     def __init__(
-        self, tf_prefix="", wheels_package="phoebe_mujoco_config", left_gripper="hande", right_gripper="hande"
+        self,
+        tf_prefix="",
+        wheels_package="phoebe_mujoco_config",
+        left_gripper="hande",
+        right_gripper="hande",
     ):
         super().__init__("string_modifier_node")
 
@@ -44,16 +52,18 @@ class StringModifierNode(Node):
         self.left_gripper = left_gripper
         self.right_gripper = right_gripper
 
-        # Subscriber
-        self.subscription = self.create_subscription(
-            String, "/mujoco_robot_description_preprocessed", self.listener_callback, 10
-        )
-
-        # Publisher
+        # Set up robot description publisher/subscriber with the same QoS.
         qos_profile = QoSProfile(depth=1)
         qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
         qos_profile.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
         qos_profile.durability = QoSHistoryPolicy.KEEP_LAST
+
+        self.subscription = self.create_subscription(
+            String,
+            "/mujoco_robot_description_preprocessed",
+            self.listener_callback,
+            qos_profile=qos_profile,
+        )
         self.publisher = self.create_publisher(String, "/mujoco_robot_description", qos_profile=qos_profile)
 
         self.get_logger().info("Waiting for /mujoco_robot_description_preprocessed topic.")
@@ -68,33 +78,33 @@ class StringModifierNode(Node):
 
         # copy the cylinder mockup into the assets directory
         shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_mockup_full_length.stl',
+            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/cylinder_mockup_full_length.stl",
             f"{asset_dir}",
         )
 
         # copy the cylinder jig into the assets directory (folder bc it has several files bc it is decomposed)
         os.mkdir(f"{asset_dir}/cylinder_jig")
         shutil.copytree(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_jig',
+            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/cylinder_jig",
             f"{asset_dir}/cylinder_jig",
             dirs_exist_ok=True,
         )
 
         # copy the april tags into the assets directory
         shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00000.png',
+            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00000.png",
             f"{asset_dir}",
         )
         shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00001.png',
+            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00001.png",
             f"{asset_dir}",
         )
         shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00004.png',
+            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00004.png",
             f"{asset_dir}",
         )
         shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00006.png',
+            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00006.png",
             f"{asset_dir}",
         )
 
@@ -109,7 +119,7 @@ class StringModifierNode(Node):
 
         # copy the mecanum wheel 22 mesh into the assets directory
         shutil.copy2(
-            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/mecanum_wheel_22.stl',
+            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/mecanum_wheel_22.stl",
             f"{asset_dir}",
         )
 
@@ -154,7 +164,7 @@ class StringModifierNode(Node):
             # copy in the robotiq_85 xml file into the main mujoco description directory
             # and process it through xacro to resolve the tf_prefix argument
             right_robotiq_xacro_src = (
-                f'{get_package_share_directory("phoebe_mujoco_config")}/resources/right_robotiq_85.xml'
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/right_robotiq_85.xml"
             )
             right_robotiq_output = f"{base_dir}/right_robotiq_85.xml"
             subprocess.run(
@@ -184,7 +194,7 @@ class StringModifierNode(Node):
             # copy in the robotiq_85 xml file into the main mujoco description directory
             # and process it through xacro to resolve the tf_prefix argument
             left_robotiq_xacro_src = (
-                f'{get_package_share_directory("phoebe_mujoco_config")}/resources/left_robotiq_85.xml'
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/left_robotiq_85.xml"
             )
             left_robotiq_output = f"{base_dir}/left_robotiq_85.xml"
             subprocess.run(
@@ -222,9 +232,15 @@ def main(args=None):
         default="phoebe_mujoco_config",
         help="Package containing wheels.xml, should be the top level deploy package",
     )
-    parser.add_argument("--left-gripper", default="hande", help="gripper type for the left side (either hande or 2f85)")
     parser.add_argument(
-        "--right-gripper", default="hande", help="gripper type for the right side (either hande or 2f85)"
+        "--left-gripper",
+        default="hande",
+        help="gripper type for the left side (either hande or 2f85)",
+    )
+    parser.add_argument(
+        "--right-gripper",
+        default="hande",
+        help="gripper type for the right side (either hande or 2f85)",
     )
 
     # Skip ros args
