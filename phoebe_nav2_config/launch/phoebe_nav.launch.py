@@ -102,7 +102,6 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
-                # "namespace": namespace,
                 "ns": namespace,
                 "tf_prefix": tf_prefix,
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
@@ -115,7 +114,6 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
-                # "namespace": namespace,
                 "tf_prefix": tf_prefix,
                 "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"),
                 "use_sim_time": use_sim_time,
@@ -127,7 +125,6 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_nav2_bringup), "launch", "navigation_launch.py"])]
             ),
             launch_arguments={
-                # "namespace": namespace,
                 "tf_prefix": tf_prefix,
                 "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml"),
                 "use_sim_time": use_sim_time,
@@ -138,7 +135,8 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_phoebe_deploy), "launch", "ridgeback_sensors.launch.py"])]
             ),
             launch_arguments={
-                # "namespace": namespace,
+                "ns": namespace,
+                "tf_prefix": tf_prefix,
                 "is_sim": use_sim_time,
                 "publish_tf": publish_tf,
             }.items(),
