@@ -27,6 +27,7 @@ from xml.dom import minidom
 
 import rclpy
 from ament_index_python.packages import get_package_share_directory
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import (
     QoSDurabilityPolicy,
@@ -254,9 +255,13 @@ def main(args=None):
 
     rclpy.init(args=args)
     node = StringModifierNode(tf_prefix, wheels_package, left_gripper, right_gripper)
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.try_shutdown()
 
 
 if __name__ == "__main__":
