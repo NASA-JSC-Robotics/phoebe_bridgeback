@@ -28,7 +28,6 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
-from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
@@ -179,7 +178,7 @@ def generate_launch_description():
                 ("/tf_static", "tf_static"),
             },
             parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
-        )
+        ),
     ]
 
     return LaunchDescription(declared_arguments + nodes_to_start)
