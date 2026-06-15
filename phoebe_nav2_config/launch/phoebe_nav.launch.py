@@ -24,11 +24,11 @@ from launch_ros.actions import Node
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
-
+from launch_ros.actions import Node, PushRosNamespace, SetRemap
 
 def generate_launch_description():
     pkg_phoebe_nav2_config = get_package_share_directory("phoebe_nav2_config")
@@ -41,7 +41,7 @@ def generate_launch_description():
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -85,7 +85,7 @@ def generate_launch_description():
         )
     )
 
-    namespace = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     tf_prefix = LaunchConfiguration("tf_prefix")
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
@@ -177,6 +177,11 @@ def generate_launch_description():
             },
             parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
         ),
+
     ]
 
-    return LaunchDescription(declared_arguments + nodes_to_start)
+    ns_action = GroupAction(actions=[PushRosNamespace(namespace),
+                                     SetRemap(src="tf_static", dst='/tf_static'),
+                                     SetRemap(src="tf", dst='/tf'),] + nodes_to_start)
+
+    return LaunchDescription(declared_arguments + [ns_action])
