@@ -18,7 +18,6 @@
 # under the License.
 
 
-import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
@@ -34,8 +33,6 @@ from launch_ros.parameter_descriptions import ParameterFile
 def generate_launch_description():
     pkg_phoebe_nav2_config = get_package_share_directory("phoebe_nav2_config")
     pkg_phoebe_deploy = get_package_share_directory("phoebe_deploy")
-
-    # Use static map in sim because sensor data is not available.
 
     declared_arguments = []
     declared_arguments.append(
@@ -63,6 +60,13 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
+            "rviz_config_file",
+            default_value="slam_test.rviz",
+            description="Which RViz config file to use",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "use_sim_time",
             default_value="false",
             description="This is some kind of simulation environment",
@@ -83,27 +87,54 @@ def generate_launch_description():
             description="Command outputs from the muxer. Namespace is applied on top of it.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "nav2_config_file",
+            default_value="clearpath_nav2_config.yaml",
+            description="File name for nav2 config yaml file",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "localization_config_file",
+            default_value="localization.yaml",
+            description="File name for the localization yaml config file, use the namespaced/prefixed if necessary",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "slam_config_file",
+            default_value="clearpath_slam_config.yaml",
+            description="Filename for a slam config yaml file, only used when publishing tf",
+        )
+    )
 
     namespace = LaunchConfiguration("namespace")
     tf_prefix = LaunchConfiguration("tf_prefix")
     launch_rviz = LaunchConfiguration("launch_rviz")
+    rviz_config_file = LaunchConfiguration("rviz_config_file")
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_tf = LaunchConfiguration("publish_tf")
     reference_topic = LaunchConfiguration("reference_topic")
+    nav2_config_file = LaunchConfiguration("nav2_config_file")
+    localization_config_file = LaunchConfiguration("localization_config_file")
+    slam_config_file = LaunchConfiguration("slam_config_file")
 
+    localization_config = (PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", localization_config_file]),)
     config_twist_mux = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "twist_mux.yaml"])
-    rviz_config_file = os.path.join(get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz")
-    rviz_qss_file = os.path.join(get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss")
+    rviz_config_file = PathJoinSubstitution(
+        [get_package_share_directory("phoebe_nav2_config"), "rviz", rviz_config_file]
+    )
+    rviz_qss_file = PathJoinSubstitution([get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss"])
 
     nodes_to_start = [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "online_async_launch.py"])]
+                [PathJoinSubstitution([pkg_phoebe_nav2_config, "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
-                "ns": namespace,
                 "tf_prefix": tf_prefix,
-                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config.yaml"),
+                "slam_params_file": PathJoinSubstitution([pkg_phoebe_nav2_config, "config/", slam_config_file]),
                 "use_sim_time": use_sim_time,
             }.items(),
             condition=IfCondition(publish_tf),
@@ -114,7 +145,9 @@ def generate_launch_description():
             ),
             launch_arguments={
                 "tf_prefix": tf_prefix,
-                "slam_params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"),
+                "slam_params_file": PathJoinSubstitution(
+                    [pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"]
+                ),
                 "use_sim_time": use_sim_time,
             }.items(),
             condition=UnlessCondition(publish_tf),
@@ -125,8 +158,9 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "navigation_launch.py"])]
             ),
             launch_arguments={
+                "namespace": "",
                 "tf_prefix": tf_prefix,
-                "params_file": os.path.join(pkg_phoebe_nav2_config, "config/clearpath_nav2_config.yaml"),
+                "params_file": PathJoinSubstitution([pkg_phoebe_nav2_config, "config", nav2_config_file]),
                 "use_sim_time": use_sim_time,
             }.items(),
         ),
@@ -135,10 +169,11 @@ def generate_launch_description():
                 [PathJoinSubstitution([(pkg_phoebe_deploy), "launch", "ridgeback_sensors.launch.py"])]
             ),
             launch_arguments={
-                "ns": namespace,
+                "namespace": "",
                 "tf_prefix": tf_prefix,
                 "is_sim": use_sim_time,
                 "publish_tf": publish_tf,
+                "localization_config": localization_config,
             }.items(),
         ),
         Node(
@@ -167,8 +202,8 @@ def generate_launch_description():
         Node(
             package="twist_mux",
             executable="twist_mux",
-            namespace=namespace,
-            output="screen",
+            namespace="",
+            output="both",
             remappings={
                 ("cmd_vel_out", reference_topic),
                 ("/diagnostics", "diagnostics"),
@@ -180,6 +215,8 @@ def generate_launch_description():
         ),
     ]
 
+    # Namespaces are pushed down by this group action, so don't namespace anything directly
+    # above or you end up with duplicates.
     ns_action = GroupAction(
         actions=[
             PushRosNamespace(namespace),

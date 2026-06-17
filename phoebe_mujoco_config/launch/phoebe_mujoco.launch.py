@@ -101,6 +101,14 @@ def generate_launch_description():
             description="Hand type to put on the right arm of phoebe",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "launch_teleop",
+            default_value="false",
+            description="Whether or not to launch teleop nodes, which can step on nav2",
+            choices=["true", "false"],
+        )
+    )
 
     point_clouds = LaunchConfiguration("point_clouds")
     polled_cameras = LaunchConfiguration("polled_cameras")
@@ -110,6 +118,7 @@ def generate_launch_description():
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     left_hand_type = LaunchConfiguration("left_hand_type")
     right_hand_type = LaunchConfiguration("right_hand_type")
+    launch_teleop = LaunchConfiguration("launch_teleop")
 
     phoebe_mujoco_package_name = "phoebe_mujoco_config"
     phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
@@ -233,6 +242,7 @@ def generate_launch_description():
         launch_arguments={
             "joystick_dev": "/dev/input/js0",
         }.items(),
+        condition=IfCondition(launch_teleop),
     )
 
     nodes = []

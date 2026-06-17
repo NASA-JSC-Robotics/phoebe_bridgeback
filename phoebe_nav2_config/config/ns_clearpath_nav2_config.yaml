@@ -4,7 +4,7 @@
       enable_stamped_cmd_vel: true
       global_frame: map
       robot_base_frame: $(var tf_prefix)base_link
-      odom_topic: ridgeback/odometry/filtered
+      odom_topic: /phoebe/ridgeback/odometry/filtered
       bt_loop_duration: 10
       default_server_timeout: 20
       wait_for_service_timeout: 1000
@@ -106,7 +106,7 @@
           enabled: true
           observation_sources: scan
           scan:
-            topic: /ridgeback/sensors/lidar2d_0/scan
+            topic: /phoebe/ridgeback/sensors/lidar2d_0/scan
             max_obstacle_height: 2.0
             clearing: true
             marking: true
@@ -263,7 +263,7 @@
       observation_sources: ["scan"]
       scan:
         type: "scan"
-        topic: "/ridgeback/sensors/lidar2d_0/scan"
+        topic: "/phoebe/ridgeback/sensors/lidar2d_0/scan"
         min_height: 0.15
         max_height: 2.0
         enabled: True

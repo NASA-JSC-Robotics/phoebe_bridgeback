@@ -1,0 +1,18 @@
+/**:
+  ekf_node:
+    ros__parameters:
+      odom_frame: 'odom'
+      base_link_frame: '$(var tf_prefix)base_link'
+      world_frame: 'odom'
+      two_d_mode: True
+      use_sim_time: False
+      frequency: 50.0
+      odom0: '/phoebe/phoebe_odom_publisher/odom'
+      odom0_config: [True, True, False, False, False, True, True, True, False, False, False, True, False, False, False]
+      odom0_differential: False
+      odom0_queue_size: 10
+      imu0: 'sensors/imu_0/data_raw'
+      imu0_config: [False, False, False, False, False, False, False, False, False, False, False, True, False, False, False]
+      imu0_differential: False
+      imu0_queue_size: 10
+      imu0_remove_gravitational_acceleration: True

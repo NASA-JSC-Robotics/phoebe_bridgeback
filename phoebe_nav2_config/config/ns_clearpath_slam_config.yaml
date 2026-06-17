@@ -15,7 +15,7 @@
       odom_frame: odom
       map_frame: map
       base_frame: $(var tf_prefix)base_link
-      scan_topic: /ridgeback/sensors/lidar2d_0/scan
+      scan_topic: /phoebe/ridgeback/sensors/lidar2d_0/scan
       mode: mapping
 
       debug_logging: false
