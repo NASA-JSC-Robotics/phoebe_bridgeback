@@ -120,9 +120,10 @@ def generate_launch_description():
             }.items(),
             condition=UnlessCondition(publish_tf),
         ),
+        # Use custom nav launch file for tf prefixing fix
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([(pkg_nav2_bringup), "launch", "navigation_launch.py"])]
+                [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "navigation_launch.py"])]
             ),
             launch_arguments={
                 "tf_prefix": tf_prefix,
