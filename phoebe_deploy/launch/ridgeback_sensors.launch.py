@@ -23,8 +23,9 @@ from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, Grou
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace
-from launch_ros.substitutions import FindPackageShare
 from launch.conditions import UnlessCondition
+from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
@@ -95,7 +96,7 @@ def generate_launch_description():
             ("/tf", "tf"),
         ],
         parameters=[
-            config_imu_filter,
+            ParameterFile(config_imu_filter, allow_substs=True),
         ],
         condition=UnlessCondition(is_sim),
     )
@@ -107,7 +108,7 @@ def generate_launch_description():
         namespace=default_ns,
         output="screen",
         parameters=[
-            config_localization,
+            ParameterFile(config_localization, allow_substs=True),
             {
                 "use_sim_time": is_sim,
                 "publish_tf": publish_tf,

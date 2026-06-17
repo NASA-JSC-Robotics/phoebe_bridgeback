@@ -28,12 +28,11 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node, PushRosNamespace, SetRemap
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
     pkg_phoebe_nav2_config = get_package_share_directory("phoebe_nav2_config")
-    pkg_slam_toolbox = get_package_share_directory("slam_toolbox")
-    pkg_nav2_bringup = get_package_share_directory("nav2_bringup")
     pkg_phoebe_deploy = get_package_share_directory("phoebe_deploy")
 
     # Use static map in sim because sensor data is not available.
@@ -80,7 +79,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "reference_topic",
-            default_value="phoebe_platform_velocity_controller/reference",
+            default_value="platform_velocity_controller/reference",
             description="Command outputs from the muxer. Namespace is applied on top of it.",
         )
     )
@@ -99,7 +98,7 @@ def generate_launch_description():
     nodes_to_start = [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
+                [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
                 "ns": namespace,
@@ -111,7 +110,7 @@ def generate_launch_description():
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([(pkg_slam_toolbox), "launch", "online_async_launch.py"])]
+                [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "online_async_launch.py"])]
             ),
             launch_arguments={
                 "tf_prefix": tf_prefix,
@@ -168,13 +167,16 @@ def generate_launch_description():
         Node(
             package="twist_mux",
             executable="twist_mux",
-            # namespace=namespace,
+            namespace=namespace,
             output="screen",
             remappings={
                 ("cmd_vel_out", reference_topic),
                 ("/diagnostics", "diagnostics"),
             },
-            parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
+            parameters=[
+                ParameterFile(config_twist_mux, allow_substs=True),
+                {"use_sim_time": use_sim_time},
+            ],
         ),
     ]
 
