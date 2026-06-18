@@ -61,7 +61,9 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "rviz_config_file",
-            default_value=PathJoinSubstitution([get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz"]),
+            default_value=PathJoinSubstitution(
+                [get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz"]
+            ),
             description="Full path to an rviz config file for bringup",
         )
     )
