@@ -1,3 +1,7 @@
+# Copied version of https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py,
+# as the upstream does not support yaml param substitutions. Added as part of namespace / tf_prefix support for
+# nav2 launches in: https://github.com/NASA-JSC-Robotics/phoebe_bridgeback/pull/43/
+
 import os
 
 from ament_index_python.packages import get_package_share_directory

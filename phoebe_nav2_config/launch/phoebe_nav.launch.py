@@ -124,6 +124,9 @@ def generate_launch_description():
     rviz_qss_file = PathJoinSubstitution([get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss"])
 
     nodes_to_start = [
+        # Use a copied version of https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py,
+        # as the upstream does not support yaml param substitutions. Added as part of namespace / tf_prefix support for
+        # nav2 launches in: https://github.com/NASA-JSC-Robotics/phoebe_bridgeback/pull/43/
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [PathJoinSubstitution([pkg_phoebe_nav2_config, "launch", "online_async_launch.py"])]
