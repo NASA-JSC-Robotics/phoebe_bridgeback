@@ -4,7 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /RobotModel1/Status1
         - /TF1/Frames1
+        - /Local Map1/Status1
       Splitter Ratio: 0.5
     Tree Height: 232
   - Class: rviz_common/Selection
@@ -180,30 +182,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ewellix_lift_higher_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ewellix_lift_lower_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_ewellix_lift_middle_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         left_ewellix_lift_tip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_ewellix_mount_flange_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         left_finger_1_link:
           Alpha: 1
           Show Axes: false
@@ -259,6 +241,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         left_side_cover_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_static_pedestal_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -460,30 +447,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_finger_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_finger_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         right_grasp_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_gripper_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_gripper_palm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         right_monitor:
           Alpha: 1
           Show Axes: false
@@ -499,12 +467,47 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_push_frame_1:
+        right_robotiq_85_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_push_frame_2:
+        right_robotiq_85_left_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_left_finger_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_left_inner_knuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_left_knuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_finger_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_inner_knuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_robotiq_85_right_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -688,15 +691,7 @@ Visualization Manager:
           Value: false
         left_arm_mount_plate_2:
           Value: false
-        left_ewellix_lift_higher_link:
-          Value: false
-        left_ewellix_lift_lower_link:
-          Value: false
-        left_ewellix_lift_middle_link:
-          Value: false
         left_ewellix_lift_tip_link:
-          Value: false
-        left_ewellix_mount_flange_link:
           Value: false
         left_finger_1_link:
           Value: false
@@ -722,6 +717,8 @@ Visualization Manager:
           Value: false
         left_side_cover_link:
           Value: false
+        left_static_pedestal_link:
+          Value: true
         left_ur_arm_base:
           Value: false
         left_ur_arm_base_link:
@@ -812,26 +809,32 @@ Visualization Manager:
           Value: false
         right_ewellix_mount_flange_link:
           Value: false
-        right_finger_1_link:
-          Value: true
-        right_finger_2_link:
-          Value: true
         right_grasp_frame:
           Value: false
-        right_gripper_base_link:
-          Value: true
-        right_gripper_palm_link:
-          Value: true
         right_monitor:
           Value: false
         right_mtc_effector_side:
           Value: false
         right_mtc_robot_side:
           Value: false
-        right_push_frame_1:
-          Value: true
-        right_push_frame_2:
-          Value: true
+        right_robotiq_85_base_link:
+          Value: false
+        right_robotiq_85_left_finger_link:
+          Value: false
+        right_robotiq_85_left_finger_tip_link:
+          Value: false
+        right_robotiq_85_left_inner_knuckle_link:
+          Value: false
+        right_robotiq_85_left_knuckle_link:
+          Value: false
+        right_robotiq_85_right_finger_link:
+          Value: false
+        right_robotiq_85_right_finger_tip_link:
+          Value: false
+        right_robotiq_85_right_inner_knuckle_link:
+          Value: false
+        right_robotiq_85_right_knuckle_link:
+          Value: false
         right_robotiq_hande_cb_adapter:
           Value: false
         right_side_cover_link:
@@ -935,58 +938,55 @@ Visualization Manager:
                       {}
                     front_shelf:
                       {}
-                    left_ewellix_mount_flange_link:
-                      left_ewellix_lift_lower_link:
-                        left_ewellix_lift_higher_link:
-                          left_ewellix_lift_middle_link:
-                            {}
-                          left_ewellix_lift_tip_link:
-                            left_arm_mount_plate:
-                              left_arm_cal_link:
-                                left_arm_mount_plate_2:
-                                  left_ur_arm_base_link:
-                                    left_ur_arm_base:
-                                      {}
-                                    left_ur_arm_base_link_inertia:
-                                      left_ur_arm_shoulder_link:
-                                        left_ur_arm_upper_arm_link:
-                                          left_ur_arm_forearm_link:
-                                            left_ur_arm_wrist_1_link:
-                                              left_ur_arm_wrist_2_link:
-                                                left_ur_arm_wrist_3_link:
-                                                  left_ur_arm_flange:
-                                                    left_ur_arm_tool0:
-                                                      left_mtc_robot_side:
-                                                        left_mtc_effector_side:
-                                                          left_ur_realsense_mount:
-                                                            left_robotiq_hande_cb_adapter:
-                                                              left_gripper_base_link:
-                                                                left_finger_1_link:
-                                                                  left_push_frame_1:
-                                                                    {}
-                                                                left_finger_2_link:
-                                                                  left_push_frame_2:
-                                                                    {}
-                                                                left_grasp_frame:
-                                                                  {}
-                                                                left_gripper_palm_link:
-                                                                  {}
-                                                            left_wrist_mounted_camera_bottom_screw_frame:
-                                                              left_wrist_mounted_camera_link:
-                                                                left_wrist_mounted_camera_color_frame:
-                                                                  left_wrist_mounted_camera_color_optical_frame:
-                                                                    {}
-                                                                left_wrist_mounted_camera_depth_frame:
-                                                                  left_wrist_mounted_camera_depth_optical_frame:
-                                                                    {}
-                                                                left_wrist_mounted_camera_infra1_frame:
-                                                                  left_wrist_mounted_camera_infra1_optical_frame:
-                                                                    {}
-                                                                left_wrist_mounted_camera_infra2_frame:
-                                                                  left_wrist_mounted_camera_infra2_optical_frame:
-                                                                    {}
-                                                  left_ur_arm_ft_frame:
-                                                    {}
+                    left_static_pedestal_link:
+                      left_ewellix_lift_tip_link:
+                        left_arm_mount_plate:
+                          left_arm_cal_link:
+                            left_arm_mount_plate_2:
+                              {}
+                          left_ur_arm_base_link:
+                            left_ur_arm_base:
+                              {}
+                            left_ur_arm_base_link_inertia:
+                              left_ur_arm_shoulder_link:
+                                left_ur_arm_upper_arm_link:
+                                  left_ur_arm_forearm_link:
+                                    left_ur_arm_wrist_1_link:
+                                      left_ur_arm_wrist_2_link:
+                                        left_ur_arm_wrist_3_link:
+                                          left_ur_arm_flange:
+                                            left_ur_arm_tool0:
+                                              left_mtc_robot_side:
+                                                left_mtc_effector_side:
+                                                  left_ur_realsense_mount:
+                                                    left_robotiq_hande_cb_adapter:
+                                                      left_gripper_base_link:
+                                                        left_finger_1_link:
+                                                          left_push_frame_1:
+                                                            {}
+                                                        left_finger_2_link:
+                                                          left_push_frame_2:
+                                                            {}
+                                                        left_grasp_frame:
+                                                          {}
+                                                        left_gripper_palm_link:
+                                                          {}
+                                                    left_wrist_mounted_camera_bottom_screw_frame:
+                                                      left_wrist_mounted_camera_link:
+                                                        left_wrist_mounted_camera_color_frame:
+                                                          left_wrist_mounted_camera_color_optical_frame:
+                                                            {}
+                                                        left_wrist_mounted_camera_depth_frame:
+                                                          left_wrist_mounted_camera_depth_optical_frame:
+                                                            {}
+                                                        left_wrist_mounted_camera_infra1_frame:
+                                                          left_wrist_mounted_camera_infra1_optical_frame:
+                                                            {}
+                                                        left_wrist_mounted_camera_infra2_frame:
+                                                          left_wrist_mounted_camera_infra2_optical_frame:
+                                                            {}
+                                          left_ur_arm_ft_frame:
+                                            {}
                     left_wifi_antenna:
                       {}
                     lidar2d_0_laser:
@@ -1028,17 +1028,21 @@ Visualization Manager:
                                                         right_mtc_effector_side:
                                                           right_ur_realsense_mount:
                                                             right_robotiq_hande_cb_adapter:
-                                                              right_gripper_base_link:
-                                                                right_finger_1_link:
-                                                                  right_push_frame_1:
-                                                                    {}
-                                                                right_finger_2_link:
-                                                                  right_push_frame_2:
-                                                                    {}
+                                                              right_robotiq_85_base_link:
                                                                 right_grasp_frame:
                                                                   {}
-                                                                right_gripper_palm_link:
+                                                                right_robotiq_85_left_inner_knuckle_link:
                                                                   {}
+                                                                right_robotiq_85_left_knuckle_link:
+                                                                  right_robotiq_85_left_finger_link:
+                                                                    right_robotiq_85_left_finger_tip_link:
+                                                                      {}
+                                                                right_robotiq_85_right_inner_knuckle_link:
+                                                                  {}
+                                                                right_robotiq_85_right_knuckle_link:
+                                                                  right_robotiq_85_right_finger_link:
+                                                                    right_robotiq_85_right_finger_tip_link:
+                                                                      {}
                                                             right_wrist_mounted_camera_bottom_screw_frame:
                                                               right_wrist_mounted_camera_link:
                                                                 right_wrist_mounted_camera_color_frame:
@@ -1106,7 +1110,7 @@ Visualization Manager:
       Binary representation: false
       Binary threshold: 100
       Class: rviz_default_plugins/Map
-      Color Scheme: map
+      Color Scheme: costmap
       Draw Behind: false
       Enabled: true
       Name: Local Map
@@ -1194,7 +1198,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 7.449626922607422
+      Distance: 6.6452436447143555
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -1212,7 +1216,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.5304003953933716
+      Yaw: 1.5554004907608032
     Saved: ~
 Window Geometry:
   Displays:
