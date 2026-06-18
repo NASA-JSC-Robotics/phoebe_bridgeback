@@ -61,8 +61,8 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "rviz_config_file",
-            default_value="slam_test.rviz",
-            description="Which RViz config file to use",
+            default_value=PathJoinSubstitution([get_package_share_directory("phoebe_nav2_config"), "rviz", "slam_test.rviz"]),
+            description="Full path to an rviz config file for bringup",
         )
     )
     declared_arguments.append(
@@ -90,22 +90,22 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "nav2_config_file",
-            default_value="clearpath_nav2_config.yaml",
-            description="File name for nav2 config yaml file",
+            default_value=PathJoinSubstitution([pkg_phoebe_nav2_config, "config", "clearpath_nav2_config.yaml"]),
+            description="Full path for the nav2 stack config file.",
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             "localization_config_file",
-            default_value="localization.yaml",
-            description="File name for the localization yaml config file, use the namespaced/prefixed if necessary",
+            default_value=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"]),
+            description="Full path for the localization yaml config file.",
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             "slam_config_file",
-            default_value="clearpath_slam_config.yaml",
-            description="Filename for a slam config yaml file, only used when publishing tf",
+            default_value=PathJoinSubstitution([pkg_phoebe_nav2_config, "config/", "clearpath_slam_config.yaml"]),
+            description="Full path for a slam config yaml file, only used when publishing tf",
         )
     )
 
@@ -120,11 +120,7 @@ def generate_launch_description():
     localization_config_file = LaunchConfiguration("localization_config_file")
     slam_config_file = LaunchConfiguration("slam_config_file")
 
-    localization_config = (PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", localization_config_file]),)
     config_twist_mux = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "twist_mux.yaml"])
-    rviz_config_file = PathJoinSubstitution(
-        [get_package_share_directory("phoebe_nav2_config"), "rviz", rviz_config_file]
-    )
     rviz_qss_file = PathJoinSubstitution([get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss"])
 
     nodes_to_start = [
@@ -134,7 +130,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 "tf_prefix": tf_prefix,
-                "slam_params_file": PathJoinSubstitution([pkg_phoebe_nav2_config, "config/", slam_config_file]),
+                "slam_params_file": slam_config_file,
                 "use_sim_time": use_sim_time,
             }.items(),
             condition=IfCondition(publish_tf),
@@ -160,7 +156,7 @@ def generate_launch_description():
             launch_arguments={
                 "namespace": "",
                 "tf_prefix": tf_prefix,
-                "params_file": PathJoinSubstitution([pkg_phoebe_nav2_config, "config", nav2_config_file]),
+                "params_file": nav2_config_file,
                 "use_sim_time": use_sim_time,
             }.items(),
         ),
@@ -173,7 +169,7 @@ def generate_launch_description():
                 "tf_prefix": tf_prefix,
                 "is_sim": use_sim_time,
                 "publish_tf": publish_tf,
-                "localization_config": localization_config,
+                "localization_config": localization_config_file,
             }.items(),
         ),
         Node(
