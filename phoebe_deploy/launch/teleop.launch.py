@@ -144,10 +144,7 @@ def generate_launch_description():
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
         },
-        parameters=[
-            ParameterFile(config_twist_mux, allow_substs=True),
-            {"use_sim_time": use_sim_time}
-        ],
+        parameters=[ParameterFile(config_twist_mux, allow_substs=True), {"use_sim_time": use_sim_time}],
     )
 
     node_joystick_safing = Node(
