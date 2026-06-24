@@ -95,7 +95,7 @@ def generate_launch_description():
             },
         ],
         remappings=[
-            ("/diagnostics", "diagnostics"),
+            ("diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
             ("joy", "joy_teleop/joy"),
@@ -139,8 +139,8 @@ def generate_launch_description():
         namespace=namespace,
         output="screen",
         remappings={
-            ("/cmd_vel_out", reference_topic),
-            ("/diagnostics", "diagnostics"),
+            ("cmd_vel_out", reference_topic),
+            ("diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
         },
