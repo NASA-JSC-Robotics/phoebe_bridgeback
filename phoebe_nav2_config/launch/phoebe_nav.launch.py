@@ -27,7 +27,6 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node, PushRosNamespace, SetRemap
-from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
@@ -84,13 +83,6 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "reference_topic",
-            default_value="platform_velocity_controller/reference",
-            description="Command outputs from the muxer. Namespace is applied on top of it.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "nav2_config_file",
             default_value=PathJoinSubstitution([pkg_phoebe_nav2_config, "config", "clearpath_nav2_config.yaml"]),
             description="Full path for the nav2 stack config file.",
@@ -117,12 +109,10 @@ def generate_launch_description():
     rviz_config_file = LaunchConfiguration("rviz_config_file")
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_tf = LaunchConfiguration("publish_tf")
-    reference_topic = LaunchConfiguration("reference_topic")
     nav2_config_file = LaunchConfiguration("nav2_config_file")
     localization_config_file = LaunchConfiguration("localization_config_file")
     slam_config_file = LaunchConfiguration("slam_config_file")
 
-    config_twist_mux = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "twist_mux.yaml"])
     rviz_qss_file = PathJoinSubstitution([get_package_share_directory("phoebe_moveit_config"), "config", "dark.qss"])
 
     nodes_to_start = [
@@ -199,20 +189,6 @@ def generate_launch_description():
             name="odometry_joint_state_publisher",
             parameters=[{"use_sim_time": use_sim_time}],
             condition=UnlessCondition(publish_tf),
-        ),
-        Node(
-            package="twist_mux",
-            executable="twist_mux",
-            namespace="",
-            output="both",
-            remappings={
-                ("cmd_vel_out", reference_topic),
-                ("/diagnostics", "diagnostics"),
-            },
-            parameters=[
-                ParameterFile(config_twist_mux, allow_substs=True),
-                {"use_sim_time": use_sim_time},
-            ],
         ),
     ]
 
