@@ -43,13 +43,6 @@ def generate_launch_description():
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
-            "polled_cameras",
-            default_value="True",
-            description="If true, run the mock polled cameras to 'simulate' real hardware",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "point_clouds",
             default_value="True",
             description="Whether or not to include the point cloud republishers, must be using polled cameras",
@@ -103,7 +96,6 @@ def generate_launch_description():
     )
 
     point_clouds = LaunchConfiguration("point_clouds")
-    polled_cameras = LaunchConfiguration("polled_cameras")
     include_world_joints = LaunchConfiguration("include_world_joints")
     use_pregenerated_mjcf = LaunchConfiguration("use_pregenerated_mjcf")
     sim_speed = LaunchConfiguration("sim_speed")
@@ -239,58 +231,6 @@ def generate_launch_description():
 
     nodes.append(
         Node(
-            package="phoebe_mujoco_config",
-            executable="mock_polled_camera.py",
-            name="mock_polled_camera_left",
-            parameters=[
-                {
-                    "input_color_image_topic": "left_wrist_mounted_camera_/color/image_raw",
-                    "input_depth_image_topic": "left_wrist_mounted_camera_/aligned_depth_to_color/image_raw",
-                    "input_camera_info_topic": "left_wrist_mounted_camera_/color/camera_info",
-                    "output_color_image_topic": "left_wrist_mounted_camera/color/image_raw",
-                    "output_depth_image_topic": "left_wrist_mounted_camera/depth/image_raw",
-                    "output_camera_info_topic": "left_wrist_mounted_camera/color/camera_info",
-                    "use_sim_time": True,
-                }
-            ],
-            remappings=[
-                (
-                    "trigger_capture",
-                    "/left_wrist_mounted_camera/request_images",
-                ),
-            ],
-            condition=IfCondition(polled_cameras),
-        )
-    )
-
-    nodes.append(
-        Node(
-            package="phoebe_mujoco_config",
-            executable="mock_polled_camera.py",
-            name="mock_polled_camera_right",
-            parameters=[
-                {
-                    "input_color_image_topic": "right_wrist_mounted_camera_/color/image_raw",
-                    "input_depth_image_topic": "right_wrist_mounted_camera_/aligned_depth_to_color/image_raw",
-                    "input_camera_info_topic": "right_wrist_mounted_camera_/color/camera_info",
-                    "output_color_image_topic": "right_wrist_mounted_camera/color/image_raw",
-                    "output_depth_image_topic": "right_wrist_mounted_camera/depth/image_raw",
-                    "output_camera_info_topic": "right_wrist_mounted_camera/color/camera_info",
-                    "use_sim_time": True,
-                }
-            ],
-            remappings=[
-                (
-                    "trigger_capture",
-                    "/right_wrist_mounted_camera/request_images",
-                ),
-            ],
-            condition=IfCondition(polled_cameras),
-        )
-    )
-
-    nodes.append(
-        Node(
             package="depth_image_proc",
             executable="point_cloud_xyzrgb_node",
             name="left_point_cloud_proc_node",
@@ -303,7 +243,7 @@ def generate_launch_description():
             remappings=[
                 ("rgb/image_rect_color", "/left_wrist_mounted_camera/color/image_raw"),
                 ("rgb/camera_info", "/left_wrist_mounted_camera/color/camera_info"),
-                ("depth_registered/image_rect", "/left_wrist_mounted_camera/depth/image_raw"),
+                ("depth_registered/image_rect", "/left_wrist_mounted_camera/aligned_depth_to_color/image_raw"),
                 ("points", "/left_wrist_mounted_camera/depth/color/points"),
             ],
             condition=IfCondition(point_clouds),
@@ -324,7 +264,7 @@ def generate_launch_description():
             remappings=[
                 ("rgb/image_rect_color", "/right_wrist_mounted_camera/color/image_raw"),
                 ("rgb/camera_info", "/right_wrist_mounted_camera/color/camera_info"),
-                ("depth_registered/image_rect", "/right_wrist_mounted_camera/depth/image_raw"),
+                ("depth_registered/image_rect", "/right_wrist_mounted_camera/aligned_depth_to_color/image_raw"),
                 ("points", "/right_wrist_mounted_camera/depth/color/points"),
             ],
             condition=IfCondition(point_clouds),
