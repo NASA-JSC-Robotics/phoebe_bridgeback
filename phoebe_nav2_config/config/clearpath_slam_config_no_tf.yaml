@@ -10,10 +10,11 @@ slam_toolbox:
     ceres_loss_function: None
 
     # ROS Parameters
+    # Note - cannot use namespacing variables as slam_toolbox yaml substitutions is not in jazzy
     odom_frame: odom
     map_frame: map
-    base_frame: base_link
-    scan_topic: ridgeback/sensors/lidar2d_0/scan
+    base_frame: $(var tf_prefix)base_link
+    scan_topic: /ridgeback/sensors/lidar2d_0/scan
     mode: mapping
 
     debug_logging: false

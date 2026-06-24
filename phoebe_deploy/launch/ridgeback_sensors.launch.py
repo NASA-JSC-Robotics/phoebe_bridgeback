@@ -23,11 +23,16 @@ from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, Grou
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace
-from launch_ros.substitutions import FindPackageShare
 from launch.conditions import UnlessCondition
+from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
+
+    # Include Packages
+    pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
+    pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
 
     declared_arguments = []
 
@@ -53,18 +58,21 @@ def generate_launch_description():
             "If False, users must manually handle map -> odom -> base_link transforms.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "localization_config",
+            default_value=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"]),
+            description="Full path to the localization config file",
+        )
+    )
 
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
     publish_tf = LaunchConfiguration("publish_tf")
+    localization_config = LaunchConfiguration("localization_config")
     default_ns = "ridgeback"
 
-    # Include Packages
-    pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
-    pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
-
     config_imu_filter = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"])
-    config_localization = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"])
     config_lidar2d = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"])
 
     launch_file_hokuyo_ust = PathJoinSubstitution([pkg_clearpath_sensors, "launch", "hokuyo_ust.launch.py"])
@@ -95,7 +103,7 @@ def generate_launch_description():
             ("/tf", "tf"),
         ],
         parameters=[
-            config_imu_filter,
+            ParameterFile(config_imu_filter, allow_substs=True),
         ],
         condition=UnlessCondition(is_sim),
     )
@@ -107,7 +115,7 @@ def generate_launch_description():
         namespace=default_ns,
         output="screen",
         parameters=[
-            config_localization,
+            ParameterFile(localization_config, allow_substs=True),
             {
                 "use_sim_time": is_sim,
                 "publish_tf": publish_tf,

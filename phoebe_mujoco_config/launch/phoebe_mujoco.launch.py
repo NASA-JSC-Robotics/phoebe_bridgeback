@@ -221,7 +221,7 @@ def generate_launch_description():
         }.items(),
     )
 
-    # Optionally launch teleoperation for joystick control
+    # Launch teleoperation for joystick control
     teleop_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(

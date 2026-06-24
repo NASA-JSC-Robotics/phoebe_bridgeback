@@ -299,13 +299,6 @@ def generate_launch_description():
             ParameterFile(extra_controller_params_file, allow_substs=True),
             {"use_sim_time": use_sim_time},
         ],
-        remappings=[
-            # This is throwing a deprecation warning, as ros2_control would
-            # prefer to have this tied to a controller, not the controller
-            # manager, but there is no controller for this to go to unfortunately
-            # when this is running in mujoco.
-            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
-        ],
         output="both",
         arguments=["--ros-args", "--log-level", "info"],
     )

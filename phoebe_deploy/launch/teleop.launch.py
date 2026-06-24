@@ -24,6 +24,7 @@ from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
@@ -94,7 +95,7 @@ def generate_launch_description():
             },
         ],
         remappings=[
-            ("/diagnostics", "diagnostics"),
+            ("diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
             ("joy", "joy_teleop/joy"),
@@ -132,19 +133,18 @@ def generate_launch_description():
         parameters=[config_teleop_interactive_markers, {"use_sim_time": use_sim_time}],
         output="screen",
     )
-
     node_twist_mux = Node(
         package="twist_mux",
         executable="twist_mux",
         namespace=namespace,
         output="screen",
         remappings={
-            ("/cmd_vel_out", reference_topic),
-            ("/diagnostics", "diagnostics"),
+            ("cmd_vel_out", reference_topic),
+            ("diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
         },
-        parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
+        parameters=[ParameterFile(config_twist_mux, allow_substs=True), {"use_sim_time": use_sim_time}],
     )
 
     node_joystick_safing = Node(
