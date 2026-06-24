@@ -43,6 +43,14 @@ def generate_launch_description():
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
+            "camera_policy",
+            default_value="polled",
+            description="Run cameras in polled modes or streaming modes, defaults to polled",
+            choices=["polled", "streaming"],
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "point_clouds",
             default_value="True",
             description="Whether or not to include the point cloud republishers, must be using polled cameras",
