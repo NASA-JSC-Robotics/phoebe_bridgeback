@@ -1,7 +1,7 @@
 right_drt_ur_gui:
   ros__parameters:
     dashboard_client_name: "right_dashboard_client"
-    freedrive_direction: "right"
+    freedrive_direction: "right_"
     window.name: "PB Remote Commander: Right Arm"
     window.stylesheet: "background-color: #f7937d;"
     robot.name: "PB"
