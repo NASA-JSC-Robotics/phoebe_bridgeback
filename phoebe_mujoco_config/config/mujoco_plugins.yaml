@@ -8,16 +8,19 @@
           topic: "/ridgeback/sensors/lidar2d_0/scan"
       mujoco_camera_plugin:
         type: "mujoco_ros2_control_plugins/CameraPlugin"
+        # Will be ignored if the cameras are configured to be polled (as is the default)
         camera_publish_rate: 2.0
-        # These are republished by the mock polled camera, so we suffix these topics
-        # with `_` to mark them as such.
         $(var tf_prefix)left_wrist_mounted_camera:
+          policy: $(var camera_policy)
           frame_name: $(var tf_prefix)left_wrist_mounted_camera_color_optical_frame
-          info_topic: /$(var tf_prefix)left_wrist_mounted_camera_/color/camera_info
-          image_topic: /$(var tf_prefix)left_wrist_mounted_camera_/color/image_raw
-          depth_topic: /$(var tf_prefix)left_wrist_mounted_camera_/aligned_depth_to_color/image_raw
+          info_topic: /$(var tf_prefix)left_wrist_mounted_camera/color/camera_info
+          image_topic: /$(var tf_prefix)left_wrist_mounted_camera/color/image_raw
+          depth_topic: /$(var tf_prefix)left_wrist_mounted_camera/aligned_depth_to_color/image_raw
+          trigger_service_name: /$(var tf_prefix)left_wrist_mounted_camera/request_images
         $(var tf_prefix)right_wrist_mounted_camera:
+          policy: $(var camera_policy)
           frame_name: $(var tf_prefix)right_wrist_mounted_camera_color_optical_frame
-          info_topic: /$(var tf_prefix)right_wrist_mounted_camera_/color/camera_info
-          image_topic: /$(var tf_prefix)right_wrist_mounted_camera_/color/image_raw
-          depth_topic: /$(var tf_prefix)right_wrist_mounted_camera_/aligned_depth_to_color/image_raw
+          info_topic: /$(var tf_prefix)right_wrist_mounted_camera/color/camera_info
+          image_topic: /$(var tf_prefix)right_wrist_mounted_camera/color/image_raw
+          depth_topic: /$(var tf_prefix)right_wrist_mounted_camera/aligned_depth_to_color/image_raw
+          trigger_service_name: /$(var tf_prefix)right_wrist_mounted_camera/request_images

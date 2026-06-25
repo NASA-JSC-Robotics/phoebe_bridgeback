@@ -24,7 +24,6 @@ install(PROGRAMS
   scripts/wheel_code_gen.py
   scripts/post_process_mjcf.py
   scripts/post_process_mjcf_runtime.py
-  scripts/mock_polled_camera.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
