@@ -18,6 +18,8 @@
       right_hand_type:='hande'
       left_hande_com_port:='/tmp/hande_left'
       right_hande_com_port:='/tmp/hande_right'
+      left_hande_finger_type:='fngr_v6'
+      right_hande_finger_type:='fngr_v6'
       left_ur_ip_addr:='192.168.131.40'
       right_ur_ip_addr:='192.168.131.41'
       left_ur_kinematics_file:='$(find phoebe_description)/config/left_ur_calibration.yaml'
@@ -808,7 +810,7 @@
         parent="${tf_prefix}right_ur_realsense_mount"
         generate_ros2_control_tag="${generate_ros2_control_tag}"
         add_grasp_push_frames="${add_grasp_push_frames}"
-        finger_xacro="fngr_original">
+        finger_xacro="${right_hande_finger_type}">
         <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
       </xacro:dextivr_hande>
     </xacro:if>
@@ -836,7 +838,7 @@
         parent="${tf_prefix}left_ur_realsense_mount"
         generate_ros2_control_tag="${generate_ros2_control_tag}"
         add_grasp_push_frames="${add_grasp_push_frames}"
-        finger_xacro="fngr_original">
+        finger_xacro="${left_hande_finger_type}">
         <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
       </xacro:dextivr_hande>
     </xacro:if>
