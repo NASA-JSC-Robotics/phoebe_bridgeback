@@ -5,16 +5,38 @@
     tf_prefix:=''
     left_hand_type:='hande'
     right_hand_type:='hande'
+    left_hande_finger_type:='fngr_v6'
+    right_hande_finger_type:='fngr_v6'
   ">
 
     <!-- Process arguments for the URDF -->
+
+      <!-- Decompose the finger meshes based on the finger types available. hw2-->
       <xacro:if value="${left_hand_type == 'hande' or right_hand_type == 'hande'}">
-        <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
+        <xacro:if value="${left_hande_finger_type == 'fngr_original' or right_hande_finger_type == 'fngr_original'}">
+          <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
+        </xacro:if>
+        <xacro:if value="${left_hande_finger_type == 'fngr_nail_v2' or right_hande_finger_type == 'fngr_nail_v2'}">
+          <decompose_mesh mesh_name="hande_fngr_nail_v2" threshold="0.05"/>
+        </xacro:if>
+        <xacro:if value="${left_hande_finger_type == 'fngr_v2_m' or right_hande_finger_type == 'fngr_v2_m'}">
+          <decompose_mesh mesh_name="imetro_finger_v2_m_vis" threshold="0.05"/>
+        </xacro:if>
+        <xacro:if value="${left_hande_finger_type == 'fngr_v6' or right_hande_finger_type == 'fngr_v6'}">
+          <decompose_mesh mesh_name="finger_v6" threshold="0.05"/>
+        </xacro:if>
       </xacro:if>
-      <!-- <decompose_mesh mesh_name="finger_v6" threshold="0.05"/> -->
 
       <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
       <camera site="${tf_prefix}right_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
+
+      <!-- Apply default classes to Phoebe joints -->
+      <modify_element type="joint" name="${tf_prefix}shoulder_pan_joint" class="size4"/>
+      <modify_element type="joint" name="${tf_prefix}shoulder_lift_joint" class="size4"/>
+      <modify_element type="joint" name="${tf_prefix}elbow_joint" class="size3_limited"/>
+      <modify_element type="joint" name="${tf_prefix}wrist_1_joint" class="size2"/>
+      <modify_element type="joint" name="${tf_prefix}wrist_2_joint" class="size2"/>
+      <modify_element type="joint" name="${tf_prefix}wrist_3_joint" class="size2"/>
 
       <!-- Add gravcomp so that control will make the joints move about the desired position-->
       <modify_element type="body" name="${tf_prefix}left_ewellix_lift_higher_link" gravcomp="1.0"/>

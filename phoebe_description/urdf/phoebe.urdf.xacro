@@ -12,6 +12,8 @@
     <xacro:arg name="right_hand_type" default="hande" />
     <xacro:arg name="left_hande_com_port" default="/tmp/hande_left" />
     <xacro:arg name="right_hande_com_port" default="/tmp/hande_right" />
+    <xacro:arg name="left_hande_finger_type" default="fngr_v6" />
+    <xacro:arg name="right_hande_finger_type" default="fngr_v6" />
     <xacro:arg name="left_ur_ip_addr" default="192.168.131.40" />
     <xacro:arg name="right_ur_ip_addr" default="192.168.131.41" />
     <xacro:arg name="left_ur_kinematics_file" default="$(find phoebe_description)/config/left_ur_calibration.yaml" />
@@ -38,6 +40,8 @@
         right_hand_type="$(arg right_hand_type)"
         left_hande_com_port="$(arg left_hande_com_port)"
         right_hande_com_port="$(arg right_hande_com_port)"
+        left_hande_finger_type="$(arg left_hande_finger_type)"
+        right_hande_finger_type="$(arg right_hande_finger_type)"
         left_ur_ip_addr="$(arg left_ur_ip_addr)"
         right_ur_ip_addr="$(arg right_ur_ip_addr)"
         left_ur_kinematics_file="$(arg left_ur_kinematics_file)"

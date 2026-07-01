@@ -8,6 +8,8 @@
   <xacro:arg name="model_mobile_env" default="true"/>
   <xacro:arg name="left_hand_type" default="hande" />
   <xacro:arg name="right_hand_type" default="hande" />
+  <xacro:arg name="left_hande_finger_type" default="fngr_v6" />
+  <xacro:arg name="right_hande_finger_type" default="fngr_v6" />
   <xacro:arg name="use_left_static_pedestal" default="false"/>
   <xacro:arg name="base_joint_type" default="fixed"/>
   <!-- uncomment to start from saved keyframe -->
@@ -33,6 +35,8 @@
     include_world_joints="$(arg include_world_joints)"
     left_hand_type="$(arg left_hand_type)"
     right_hand_type="$(arg right_hand_type)"
+    left_hande_finger_type="$(arg left_hande_finger_type)"
+    right_hande_finger_type="$(arg right_hande_finger_type)"
     use_left_static_pedestal="$(arg use_left_static_pedestal)"
   />
 
@@ -60,6 +64,8 @@
         <xacro:phoebe_mujoco_processed_inputs
           left_hand_type="$(arg left_hand_type)"
           right_hand_type="$(arg right_hand_type)"
+          left_hande_finger_type="$(arg left_hande_finger_type)"
+          right_hande_finger_type="$(arg right_hande_finger_type)"
         />
     </processed_inputs>
     <xacro:phoebe_mujoco_scene/>

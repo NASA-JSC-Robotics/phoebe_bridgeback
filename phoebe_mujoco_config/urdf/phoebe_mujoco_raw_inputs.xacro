@@ -32,7 +32,7 @@
             </default>
             <default class="size2">
                 <joint damping="2"/>
-                <general forcerange="-56 56" gainprm="100000" biasprm="0 -100000 -1000"/>
+                <general forcerange="-56 56" gainprm="10000" biasprm="0 -10000 -1000"/>
             </default>
             <default class="${defaults_prefix}visual">
                 <geom group="2" type="mesh" contype="0" conaffinity="0"/>
@@ -294,7 +294,7 @@
                 <config key="update_rate" value="4.0"/>
             </instance>
         </plugin>
-        </extension>
+    </extension>
     <sensor>
         <plugin name="${tf_prefix}lidar2d_0" instance="${tf_prefix}lidar2d_0" objtype="site" objname="${tf_prefix}lidar2d_0_laser"/>
     </sensor>
