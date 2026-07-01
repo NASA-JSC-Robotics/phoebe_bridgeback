@@ -20,7 +20,7 @@
           <decompose_mesh mesh_name="hande_fngr_nail_v2" threshold="0.05"/>
         </xacro:if>
         <xacro:if value="${left_hande_finger_type == 'fngr_v2_m' or right_hande_finger_type == 'fngr_v2_m'}">
-          <decompose_mesh mesh_name="imetro_finger_v2_m_col" threshold="0.05"/>
+          <decompose_mesh mesh_name="imetro_finger_v2_m_vis" threshold="0.05"/>
         </xacro:if>
         <xacro:if value="${left_hande_finger_type == 'fngr_v6' or right_hande_finger_type == 'fngr_v6'}">
           <decompose_mesh mesh_name="finger_v6" threshold="0.05"/>
