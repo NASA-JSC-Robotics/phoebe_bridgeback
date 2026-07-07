@@ -37,6 +37,9 @@
 
       left_freedrive_mode_controller:
         type: ur_controllers/FreedriveModeController
+      
+      left_forward_effort_controller:
+        type: forward_command_controller/ForwardCommandController
 
       # admittance controllers
       left_admittance_controller:
@@ -146,6 +149,16 @@
     ros__parameters:
       tf_prefix: $(var tf_prefix)left_ur_arm_
 
+  left_forward_effort_controller:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)left_ur_arm_elbow_joint
+        - $(var tf_prefix)left_ur_arm_wrist_1_joint
+        - $(var tf_prefix)left_ur_arm_wrist_2_joint
+        - $(var tf_prefix)left_ur_arm_wrist_3_joint
+      interface_name: effort
 
   # Putting admittance controllers down here because they are a ton
   left_admittance_jtc:
