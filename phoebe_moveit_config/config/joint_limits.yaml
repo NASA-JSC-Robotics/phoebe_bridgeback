@@ -30,32 +30,32 @@ joint_limits:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 0.3
+    max_acceleration: 5.0
   left_ur_arm_shoulder_lift_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 0.18
+    max_acceleration: 5.0
   left_ur_arm_shoulder_pan_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 0.18
+    max_acceleration: 5.0
   left_ur_arm_wrist_1_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 3.0
+    max_acceleration: 10.0
   left_ur_arm_wrist_2_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 3.0
+    max_acceleration: 10.0
   left_ur_arm_wrist_3_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 3.0
+    max_acceleration: 10.0
   right_ewellix_lift_lower_to_higher:
     # Slightly expand the lower position limits to prevent issues outside state bounds.
     has_position_limits: true
@@ -78,22 +78,22 @@ joint_limits:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 0.3
+    max_acceleration: 5.0
   right_ur_arm_shoulder_lift_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 0.18
+    max_acceleration: 5.0
   right_ur_arm_shoulder_pan_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 0.18
+    max_acceleration: 5.0
   right_ur_arm_wrist_1_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
     has_acceleration_limits: true
-    max_acceleration: 3.0
+    max_acceleration: 10.0
   right_ur_arm_wrist_2_joint:
     has_velocity_limits: true
     max_velocity: 3.1415926535897931
