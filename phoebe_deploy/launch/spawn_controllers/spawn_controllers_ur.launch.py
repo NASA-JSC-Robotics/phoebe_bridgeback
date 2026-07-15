@@ -84,5 +84,6 @@ def generate_launch_description():
     nodes.append(MakeControllerNode("left_freedrive_mode_controller", active=False, condition=UnlessCondition(is_sim)))
     nodes.append(MakeControllerNode("left_forward_effort_controller", active=False))
     nodes.append(MakeControllerNode("left_friction_model_controller", active=False))
-
+    nodes.append(MakeControllerNode("right_forward_effort_controller", active=False))
+    nodes.append(MakeControllerNode("right_friction_model_controller", active=False))
     return LaunchDescription(declared_arguments + nodes)

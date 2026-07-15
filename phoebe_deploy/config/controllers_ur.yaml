@@ -15,6 +15,12 @@
       right_freedrive_mode_controller:
         type: ur_controllers/FreedriveModeController
 
+      right_forward_effort_controller:
+        type: forward_command_controller/ForwardCommandController
+
+      right_friction_model_controller:
+        type: ur_controllers/FrictionModelController
+
       # admittance controllers
       right_admittance_controller:
         type: drt_admittance_controller/DrtAdmittanceController
@@ -37,10 +43,10 @@
 
       left_freedrive_mode_controller:
         type: ur_controllers/FreedriveModeController
-      
+
       left_forward_effort_controller:
         type: forward_command_controller/ForwardCommandController
-      
+
       left_friction_model_controller:
         type: ur_controllers/FrictionModelController
 
@@ -103,6 +109,21 @@
     ros__parameters:
       tf_prefix: $(var tf_prefix)right_ur_arm_
 
+  right_forward_effort_controller:
+    ros__parameters:
+      joints:
+        - $(var tf_prefix)left_ur_arm_shoulder_pan_joint
+        - $(var tf_prefix)left_ur_arm_shoulder_lift_joint
+        - $(var tf_prefix)left_ur_arm_elbow_joint
+        - $(var tf_prefix)left_ur_arm_wrist_1_joint
+        - $(var tf_prefix)left_ur_arm_wrist_2_joint
+        - $(var tf_prefix)left_ur_arm_wrist_3_joint
+      interface_name: effort
+
+  right_friction_model_controller:
+    ros__parameters:
+      tf_prefix: $(var tf_prefix)right_ur_arm_
+
   # left controllers
   left_io_and_status_controller:
     ros__parameters:
@@ -162,7 +183,7 @@
         - $(var tf_prefix)left_ur_arm_wrist_2_joint
         - $(var tf_prefix)left_ur_arm_wrist_3_joint
       interface_name: effort
-  
+
   left_friction_model_controller:
     ros__parameters:
       tf_prefix: $(var tf_prefix)left_ur_arm_
