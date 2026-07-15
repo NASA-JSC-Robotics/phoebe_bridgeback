@@ -40,6 +40,9 @@
       
       left_forward_effort_controller:
         type: forward_command_controller/ForwardCommandController
+      
+      left_friction_model_controller:
+        type: ur_controllers/FrictionModelController
 
       # admittance controllers
       left_admittance_controller:
@@ -159,6 +162,10 @@
         - $(var tf_prefix)left_ur_arm_wrist_2_joint
         - $(var tf_prefix)left_ur_arm_wrist_3_joint
       interface_name: effort
+  
+  left_friction_model_controller:
+    ros__parameters:
+      tf_prefix: $(var tf_prefix)left_ur_arm_
 
   # Putting admittance controllers down here because they are a ton
   left_admittance_jtc:
