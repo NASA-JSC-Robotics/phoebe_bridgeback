@@ -126,11 +126,11 @@ class StringModifierNode(Node):
             f"{asset_dir}",
         )
 
+        # Get all elements with the tag name body
+        body_elements = dom.getElementsByTagName("body")
+
         # Replace the wheels with the custom wheels xml if specified
         if not self.magic_carpet:
-            # Get all elements with the tag name body
-            body_elements = dom.getElementsByTagName("body")
-
             include_element = dom.createElement("include")
             include_element.setAttribute("file", f"{base_dir}/wheels.xml")
 
