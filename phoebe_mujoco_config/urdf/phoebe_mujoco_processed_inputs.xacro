@@ -7,6 +7,7 @@
     right_hand_type:='hande'
     left_hande_finger_type:='fngr_v6'
     right_hande_finger_type:='fngr_v6'
+    use_left_static_pedestal:=false
   ">
 
     <!-- Process arguments for the URDF -->
@@ -31,13 +32,16 @@
       <camera site="${tf_prefix}right_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
 
       <!-- Apply default classes to Phoebe joints. -->
-      <modify_element type="joint" name="${tf_prefix}left_ewellix_lift_lower_to_higher" class="size5"/>
+      <xacro:unless value="${use_left_static_pedestal}">
+        <modify_element type="joint" name="${tf_prefix}left_ewellix_lift_lower_to_higher" class="size5"/>
+      </xacro:unless>
       <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" class="size4"/>
       <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" class="size4"/>
       <modify_element type="joint" name="${tf_prefix}left_ur_arm_elbow_joint" class="size3_limited"/>
       <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_1_joint" class="size2"/>
       <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_2_joint" class="size2"/>
       <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_3_joint" class="size2"/>
+
       <modify_element type="joint" name="${tf_prefix}right_ewellix_lift_lower_to_higher" class="size5"/>
       <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_pan_joint" class="size4"/>
       <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_lift_joint" class="size4"/>
