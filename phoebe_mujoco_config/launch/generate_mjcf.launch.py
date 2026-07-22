@@ -20,6 +20,7 @@
 import os
 import tempfile
 from launch import LaunchDescription
+from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
 from launch.substitutions import (
     Command,
@@ -42,6 +43,14 @@ def generate_launch_description():
             default_value="false",
             choices=["true", "false"],
             description="Use pre-generated assets dir. This is useful if you are just modifying an existing structure",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame or run Phoebe on a magic carpet",
+            choices=["true", "false"],
         )
     )
     declared_arguments.append(
@@ -73,6 +82,7 @@ def generate_launch_description():
     phoebe_mujoco_description_file = "phoebe_mujoco_xacro.urdf"
 
     use_pregenerated_assets_dir = LaunchConfiguration("use_pregenerated_assets_dir")
+    include_world_joints = LaunchConfiguration("include_world_joints")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     left_hand_type = LaunchConfiguration("left_hand_type")
     right_hand_type = LaunchConfiguration("right_hand_type")
@@ -97,6 +107,8 @@ def generate_launch_description():
             left_hand_type,
             " right_hand_type:=",
             right_hand_type,
+            " include_world_joints:=",
+            include_world_joints,
         ]
     )
 
@@ -126,7 +138,7 @@ def generate_launch_description():
             arguments=default_arguments,
         )
 
-        post_process_mjcf = Node(
+        post_process_mjcf_wheels = Node(
             package="phoebe_mujoco_config",
             executable="post_process_mjcf.py",
             output="screen",
@@ -136,12 +148,28 @@ def generate_launch_description():
                 "--right-gripper",
                 right_hand_type,
             ],
+            condition=UnlessCondition(include_world_joints),
         )
 
         wheel_code_gen = Node(
             package="phoebe_mujoco_config",
             executable="wheel_code_gen.py",
             output="screen",
+            condition=UnlessCondition(include_world_joints),
+        )
+
+        post_process_mjcf_magic_carpet = Node(
+            package="phoebe_mujoco_config",
+            executable="post_process_mjcf.py",
+            output="screen",
+            arguments=[
+                "--left-gripper",
+                left_hand_type,
+                "--right-gripper",
+                right_hand_type,
+                "--magic-carpet"
+            ],
+            condition=IfCondition(include_world_joints),
         )
 
         # Ensure the file gets deleted
@@ -152,7 +180,12 @@ def generate_launch_description():
         return [
             generate_mjcf,
             wheel_code_gen,
-            RegisterEventHandler(OnProcessExit(target_action=generate_mjcf, on_exit=[post_process_mjcf])),
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action=generate_mjcf,
+                    on_exit=[post_process_mjcf_wheels, post_process_mjcf_magic_carpet],
+                )
+            ),
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
         ]
 

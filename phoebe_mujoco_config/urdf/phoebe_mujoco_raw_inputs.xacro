@@ -7,6 +7,7 @@
     left_hand_type:='hande'
     right_hand_type:='hande'
     defaults_prefix:=''
+    include_world_joints:=false
   ">
 
     <option integrator="implicitfast" impratio="20" cone="elliptic" noslip_iterations="5">
@@ -92,13 +93,23 @@
         <general class="size2" name="${tf_prefix}right_ur_arm_wrist_2_joint" joint="${tf_prefix}right_ur_arm_wrist_2_joint"/>
         <general class="size2" name="${tf_prefix}right_ur_arm_wrist_3_joint" joint="${tf_prefix}right_ur_arm_wrist_3_joint"/>
 
-        <velocity name="${tf_prefix}front_right_wheel_joint" joint="${tf_prefix}front_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
-        <velocity name="${tf_prefix}front_left_wheel_joint" joint="${tf_prefix}front_left_wheel_joint" ctrlrange="-15 15" kv="50"/>
-        <velocity name="${tf_prefix}rear_right_wheel_joint" joint="${tf_prefix}rear_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
-        <velocity name="${tf_prefix}rear_left_wheel_joint" joint="${tf_prefix}rear_left_wheel_joint" ctrlrange="-15 15" kv="50"/>
+        <!-- Nominally include the wheels -->
+        <xacro:unless value="${include_world_joints}">
+            <velocity name="${tf_prefix}front_right_wheel_joint" joint="${tf_prefix}front_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
+            <velocity name="${tf_prefix}front_left_wheel_joint" joint="${tf_prefix}front_left_wheel_joint" ctrlrange="-15 15" kv="50"/>
+            <velocity name="${tf_prefix}rear_right_wheel_joint" joint="${tf_prefix}rear_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
+            <velocity name="${tf_prefix}rear_left_wheel_joint" joint="${tf_prefix}rear_left_wheel_joint" ctrlrange="-15 15" kv="50"/>
+        </xacro:unless>
+
+         <!-- Otherwise it's magic carpet mode -->
+        <xacro:if value="${include_world_joints}">
+            <position joint="${tf_prefix}linear_x_joint" name="${tf_prefix}linear_x_joint" kp="5000" dampratio="1.0" ctrlrange="-10.0 10.0"/>
+            <position joint="${tf_prefix}linear_y_joint" name="${tf_prefix}linear_y_joint" kp="5000" dampratio="1.0" ctrlrange="-10.0 10.0"/>
+            <position joint="${tf_prefix}rotational_yaw_joint" name="${tf_prefix}rotational_yaw_joint" kp="5000" dampratio="1.0"/>
+        </xacro:if>
     </actuator>
 
-    <contact>
+        <contact>
         <xacro:unless value="${use_left_static_pedestal}">
             <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}left_ewellix_lift_higher_link"/>
             <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}left_ewellix_lift_middle_link"/>
@@ -106,45 +117,58 @@
         <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}right_ewellix_lift_higher_link"/>
         <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}right_ewellix_lift_middle_link"/>
 
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_0_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_1_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_2_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_3_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_4_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_5_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_6_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_7_link"/>
+        <xacro:unless value="${include_world_joints}">
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_7_link"/>
 
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_0_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_1_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_2_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_3_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_4_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_5_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_6_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_7_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_7_link"/>
 
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_0_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_1_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_2_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_3_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_4_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_5_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_6_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_7_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_7_link"/>
 
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_0_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_1_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_2_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_3_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_4_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_5_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_6_link"/>
-        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_7_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_7_link"/>
+        </xacro:unless>
+
+        <xacro:if value="${include_world_joints}">
+            <exclude body1="world" body2="${tf_prefix}base_link"/>
+            <exclude body1="world" body2="${tf_prefix}virtual_rail_link_1"/>
+            <exclude body1="world" body2="${tf_prefix}virtual_rail_link_2"/>
+            <exclude body1="world" body2="${tf_prefix}front_left_wheel_link"/>
+            <exclude body1="world" body2="${tf_prefix}front_right_wheel_link"/>
+            <exclude body1="world" body2="${tf_prefix}rear_left_wheel_link"/>
+            <exclude body1="world" body2="${tf_prefix}rear_right_wheel_link"/>
+        </xacro:if>
+
     </contact>
 
     <!-- left hand - hande or 2f85 -->

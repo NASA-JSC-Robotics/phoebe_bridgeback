@@ -53,7 +53,13 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 
-    <link name="${tf_prefix}virtual_rail_link_1"/>
+    <link name="${tf_prefix}virtual_rail_link_1">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+      </inertial>
+    </link>
 
     <!-- Connecting to odometry will enable the map -> world xform to be updated without distruption. -->
     <joint name="${tf_prefix}linear_x_joint" type="prismatic">
@@ -61,18 +67,24 @@
       <parent link="odom" />
       <child link="${tf_prefix}virtual_rail_link_1" />
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <limit effort="1000.0" lower="-20.0" upper="20.0" velocity="0.175" acceleration="10.0"/>
+      <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="0.175" acceleration="10.0"/>
       <dynamics damping="20.0" friction="500.0" />
     </joint>
 
-    <link name="${tf_prefix}virtual_rail_link_2"/>
+    <link name="${tf_prefix}virtual_rail_link_2">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+      </inertial>
+    </link>
 
     <joint name="${tf_prefix}linear_y_joint" type="prismatic">
       <axis xyz="0 1 0"/>
       <parent link="${tf_prefix}virtual_rail_link_1" />
       <child link="${tf_prefix}virtual_rail_link_2" />
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <limit effort="1000.0" lower="-5.0" upper="55.0" velocity="0.175" acceleration="10.0"/>
+      <limit effort="1000.0" lower="-100.0" upper="100.0" velocity="0.175" acceleration="10.0"/>
       <dynamics damping="20.0" friction="500.0" />
     </joint>
 
