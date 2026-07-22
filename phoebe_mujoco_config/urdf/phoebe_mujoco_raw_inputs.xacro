@@ -74,7 +74,9 @@
             <general biastype="affine" name="${tf_prefix}left_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}left_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
         </xacro:if>
 
-        <position class="size5" name="${tf_prefix}left_ewellix_lift_lower_to_higher" joint="${tf_prefix}left_ewellix_lift_lower_to_higher"/>
+        <xacro:unless value="${use_left_static_pedestal}">
+            <position class="size5" name="${tf_prefix}left_ewellix_lift_lower_to_higher" joint="${tf_prefix}left_ewellix_lift_lower_to_higher"/>
+        </xacro:unless>
         <general class="size4" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" joint="${tf_prefix}left_ur_arm_shoulder_pan_joint"/>
         <general class="size4" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" joint="${tf_prefix}left_ur_arm_shoulder_lift_joint"/>
         <general class="size3_limited" name="${tf_prefix}left_ur_arm_elbow_joint" joint="${tf_prefix}left_ur_arm_elbow_joint"/>
