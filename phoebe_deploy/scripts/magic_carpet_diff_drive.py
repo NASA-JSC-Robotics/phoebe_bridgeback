@@ -30,6 +30,7 @@ from std_msgs.msg import Float64MultiArray
 
 from phoebe_deploy.joint_state_subscriber import JointStateSubscriber
 
+
 class CmdVelToMagicCarpet(Node):
     """
     Rotates body-frame cmd_vel into odom-frame velocities and
@@ -63,9 +64,7 @@ class CmdVelToMagicCarpet(Node):
             joint_names=self.joint_names,
         )
 
-        self.cmd_vel_sub = self.create_subscription(
-            TwistStamped, cmd_vel_topic, self.cmd_vel_callback, 10
-        )
+        self.cmd_vel_sub = self.create_subscription(TwistStamped, cmd_vel_topic, self.cmd_vel_callback, 10)
 
         self.cmd_pub = self.create_publisher(
             Float64MultiArray,

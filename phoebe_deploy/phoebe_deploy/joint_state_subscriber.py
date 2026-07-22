@@ -48,7 +48,7 @@ def _spin_executor(executor):
 class JointStateSubscriber:
     """
     Subscribes to joint states on its own executor thread.
-    
+
     This helps avoid slowdowns in other node topics / timers / callbacks, as joint states
     will eat up the executor's loop rate.
 
@@ -77,15 +77,11 @@ class JointStateSubscriber:
             self.last_joint_state = msg
 
         self._js_node = Node(node_name)
-        self._js_sub = self._js_node.create_subscription(
-            JointState, topic, joint_state_cb, VOLATILE_QOS
-        )
+        self._js_sub = self._js_node.create_subscription(JointState, topic, joint_state_cb, VOLATILE_QOS)
 
         self._js_executor = SingleThreadedExecutor()
         self._js_executor.add_node(self._js_node)
-        self._js_thread = threading.Thread(
-            target=_spin_executor, daemon=True, args=(self._js_executor,)
-        )
+        self._js_thread = threading.Thread(target=_spin_executor, daemon=True, args=(self._js_executor,))
         self._js_thread.start()
 
     def shutdown(self):

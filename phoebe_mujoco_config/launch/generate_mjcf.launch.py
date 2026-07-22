@@ -162,13 +162,7 @@ def generate_launch_description():
             package="phoebe_mujoco_config",
             executable="post_process_mjcf.py",
             output="screen",
-            arguments=[
-                "--left-gripper",
-                left_hand_type,
-                "--right-gripper",
-                right_hand_type,
-                "--magic-carpet"
-            ],
+            arguments=["--left-gripper", left_hand_type, "--right-gripper", right_hand_type, "--magic-carpet"],
             condition=IfCondition(include_world_joints),
         )
 

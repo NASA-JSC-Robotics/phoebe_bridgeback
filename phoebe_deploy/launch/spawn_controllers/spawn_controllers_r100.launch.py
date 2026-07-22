@@ -92,7 +92,7 @@ def generate_launch_description():
                 condition=IfCondition(is_sim),
                 controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
             ),
-        ]
+        ],
     )
 
     magic_carpet_controllers = GroupAction(
@@ -108,11 +108,13 @@ def generate_launch_description():
                 executable="magic_carpet_diff_drive.py",
                 name="magic_carpet_diff_drive",
                 namespace=namespace,
-                parameters=[{
-                    "use_sim_time": is_sim,
-                }],
-            )
-        ]
+                parameters=[
+                    {
+                        "use_sim_time": is_sim,
+                    }
+                ],
+            ),
+        ],
     )
 
     return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controllers])
