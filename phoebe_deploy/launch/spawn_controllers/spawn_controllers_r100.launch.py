@@ -19,9 +19,10 @@
 
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition, UnlessCondition
+from launch_ros.actions import Node
 
 from phoebe_deploy.launch_helpers import spawn_controller
 
@@ -44,51 +45,74 @@ def generate_launch_description():
             description="This is some kind of simulation environment",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame and run phoebe on a magic carpet",
+            choices=["true", "false"],
+        )
+    )
 
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
+    include_world_joints = LaunchConfiguration("include_world_joints")
 
-    nodes = []
-
-    # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
-    # This should definitely be investigated further.
-    nodes.append(
-        spawn_controller(
-            "platform_velocity_controller",
-            namespace=namespace,
-            condition=IfCondition(is_sim),
-            controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
-        )
-    )
-    nodes.append(
-        spawn_controller(
-            "platform_velocity_controller",
-            namespace=namespace,
-            condition=UnlessCondition(is_sim),
-        )
-    )
-    nodes.append(
-        spawn_controller(
-            "odom_publisher",
-            namespace=namespace,
-            condition=IfCondition(is_sim),
-            controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
-        )
-    )
-    nodes.append(
-        spawn_controller(
-            "odom_publisher",
-            namespace=namespace,
-            condition=UnlessCondition(is_sim),
-        )
-    )
-    nodes.append(
-        spawn_controller(
-            "imu_broadcaster",
-            namespace=namespace,
-            condition=IfCondition(is_sim),
-            controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
-        )
+    # Use wheels if not using the magic carpet
+    wheel_controllers = GroupAction(
+        condition=UnlessCondition(include_world_joints),
+        actions=[
+            # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
+            # This should definitely be investigated further.
+            spawn_controller(
+                "platform_velocity_controller",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+                controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
+            ),
+            spawn_controller(
+                "platform_velocity_controller",
+                namespace=namespace,
+                condition=UnlessCondition(is_sim),
+            ),
+            spawn_controller(
+                "odom_publisher",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+                controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
+            ),
+            spawn_controller(
+                "odom_publisher",
+                namespace=namespace,
+                condition=UnlessCondition(is_sim),
+            ),
+            spawn_controller(
+                "imu_broadcaster",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+                controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
+            ),
+        ]
     )
 
-    return LaunchDescription(declared_arguments + nodes)
+    magic_carpet_controllers = GroupAction(
+        condition=IfCondition(include_world_joints),
+        actions=[
+            spawn_controller(
+                "phoebe_magic_carpet_controller",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+            ),
+            Node(
+                package="phoebe_deploy",
+                executable="magic_carpet_diff_drive.py",
+                name="magic_carpet_diff_drive",
+                namespace=namespace,
+                parameters=[{
+                    "use_sim_time": is_sim,
+                }],
+            )
+        ]
+    )
+
+    return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controllers])

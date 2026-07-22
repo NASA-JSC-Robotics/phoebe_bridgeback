@@ -77,12 +77,21 @@ def generate_launch_description():
             description="Replaces the left liftkit with the static pedestal",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame and run phoebe on a magic carpet",
+            choices=["true", "false"],
+        )
+    )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
     namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
     is_sim = LaunchConfiguration("is_sim")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    include_world_joints = LaunchConfiguration("include_world_joints")
 
     # common launch args passed to each of the different launch files
     common_launch_args = {
@@ -91,6 +100,7 @@ def generate_launch_description():
         "calibration_mode": calibration_mode,
         "is_sim": is_sim,
         "use_left_static_pedestal": use_left_static_pedestal,
+        "include_world_joints": include_world_joints,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

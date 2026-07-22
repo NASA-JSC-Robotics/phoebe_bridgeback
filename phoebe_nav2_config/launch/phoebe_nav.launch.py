@@ -83,6 +83,13 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
+            "magic_carpet",
+            default_value="false",
+            description="Use ground-truth odometry from virtual joints as Phoebe is on a magic carpet ride",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "nav2_config_file",
             default_value=PathJoinSubstitution([pkg_phoebe_nav2_config, "config", "clearpath_nav2_config.yaml"]),
             description="Full path for the nav2 stack config file.",
@@ -109,6 +116,7 @@ def generate_launch_description():
     rviz_config_file = LaunchConfiguration("rviz_config_file")
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_tf = LaunchConfiguration("publish_tf")
+    magic_carpet = LaunchConfiguration("magic_carpet")
     nav2_config_file = LaunchConfiguration("nav2_config_file")
     localization_config_file = LaunchConfiguration("localization_config_file")
     slam_config_file = LaunchConfiguration("slam_config_file")
@@ -119,6 +127,9 @@ def generate_launch_description():
         # Use a copied version of https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py,
         # as the upstream does not support yaml param substitutions. Added as part of namespace / tf_prefix support for
         # nav2 launches in: https://github.com/NASA-JSC-Robotics/phoebe_bridgeback/pull/43/
+        #
+        # SLAM and localization are skipped in magic carpet mode — the URDF's world joints
+        # already provide the full map -> odom -> base_link TF chain via robot_state_publisher.
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [PathJoinSubstitution([pkg_phoebe_nav2_config, "launch", "online_async_launch.py"])]
@@ -166,6 +177,7 @@ def generate_launch_description():
                 "publish_tf": publish_tf,
                 "localization_config": localization_config_file,
             }.items(),
+            condition=UnlessCondition(magic_carpet),
         ),
         Node(
             package="rviz2",
