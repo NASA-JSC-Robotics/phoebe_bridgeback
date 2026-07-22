@@ -103,9 +103,9 @@
 
          <!-- Otherwise it's magic carpet mode -->
         <xacro:if value="${include_world_joints}">
-            <position joint="${tf_prefix}linear_x_joint" name="${tf_prefix}linear_x_joint" kp="5000" dampratio="1.0" ctrlrange="-10.0 10.0"/>
-            <position joint="${tf_prefix}linear_y_joint" name="${tf_prefix}linear_y_joint" kp="5000" dampratio="1.0" ctrlrange="-10.0 10.0"/>
-            <position joint="${tf_prefix}rotational_yaw_joint" name="${tf_prefix}rotational_yaw_joint" kp="5000" dampratio="1.0"/>
+            <velocity joint="${tf_prefix}linear_x_joint" name="${tf_prefix}linear_x_joint" kv="15000" ctrlrange="-2.0 2.0"/>
+            <velocity joint="${tf_prefix}linear_y_joint" name="${tf_prefix}linear_y_joint" kv="15000" ctrlrange="-2.0 2.0"/>
+            <velocity joint="${tf_prefix}rotational_yaw_joint" name="${tf_prefix}rotational_yaw_joint" kv="10000" ctrlrange="-2.0 2.0"/>
         </xacro:if>
     </actuator>
 
