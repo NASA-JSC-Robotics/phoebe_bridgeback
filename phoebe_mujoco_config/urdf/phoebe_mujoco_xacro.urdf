@@ -66,6 +66,7 @@
           right_hand_type="$(arg right_hand_type)"
           left_hande_finger_type="$(arg left_hande_finger_type)"
           right_hande_finger_type="$(arg right_hande_finger_type)"
+          use_left_static_pedestal="$(arg use_left_static_pedestal)"
         />
     </processed_inputs>
     <xacro:phoebe_mujoco_scene/>

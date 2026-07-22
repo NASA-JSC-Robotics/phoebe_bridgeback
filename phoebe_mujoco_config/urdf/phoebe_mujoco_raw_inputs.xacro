@@ -18,12 +18,16 @@
             <joint axis="0 1 0" range="-6.28319 6.28319" armature="0.1"/>
             <position ctrlrange="-6.2831 6.2831"/>
             <general biastype="affine" ctrlrange="-6.2831 6.2831"/>
+            <default class="size5">
+                <joint actuatorfrclimited="true" actuatorfrcrange="-1000 1000"/>
+                <position ctrlrange="0.0 0.7" kp="75000" dampratio="1.0" forcerange="-1000 1000"/>
+            </default>
             <default class="size4">
-                <joint damping="10"/>
+                <joint damping="10" actuatorgravcomp="true"/>
                 <general forcerange="-330 330" gainprm="100000" biasprm="0 -100000 -10000"/>
             </default>
             <default class="size3">
-                <joint damping="5"/>
+                <joint damping="5" actuatorgravcomp="true"/>
                 <general forcerange="-150 150" gainprm="100000" biasprm="0 -100000 -5000"/>
                 <default class="size3_limited">
                     <joint range="-3.1415 3.1415"/>
@@ -31,7 +35,7 @@
                 </default>
             </default>
             <default class="size2">
-                <joint damping="2"/>
+                <joint damping="2" actuatorgravcomp="true" />
                 <general forcerange="-56 56" gainprm="10000" biasprm="0 -10000 -1000"/>
             </default>
             <default class="${defaults_prefix}visual">
@@ -56,11 +60,6 @@
     </default>
 
     <actuator>
-        <xacro:unless value="${use_left_static_pedestal}">
-            <position joint="${tf_prefix}left_ewellix_lift_lower_to_higher" name="${tf_prefix}left_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
-        </xacro:unless>
-        <position joint="${tf_prefix}right_ewellix_lift_lower_to_higher" name="${tf_prefix}right_ewellix_lift_lower_to_higher" kp="75000" dampratio="1.0" ctrlrange="0.0 0.7" />
-
         <xacro:if value="${right_hand_type == 'hande'}">
             <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
         </xacro:if>
@@ -75,6 +74,9 @@
             <general biastype="affine" name="${tf_prefix}left_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}left_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
         </xacro:if>
 
+        <xacro:unless value="${use_left_static_pedestal}">
+            <position class="size5" name="${tf_prefix}left_ewellix_lift_lower_to_higher" joint="${tf_prefix}left_ewellix_lift_lower_to_higher"/>
+        </xacro:unless>
         <general class="size4" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" joint="${tf_prefix}left_ur_arm_shoulder_pan_joint"/>
         <general class="size4" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" joint="${tf_prefix}left_ur_arm_shoulder_lift_joint"/>
         <general class="size3_limited" name="${tf_prefix}left_ur_arm_elbow_joint" joint="${tf_prefix}left_ur_arm_elbow_joint"/>
@@ -82,6 +84,7 @@
         <general class="size2" name="${tf_prefix}left_ur_arm_wrist_2_joint" joint="${tf_prefix}left_ur_arm_wrist_2_joint"/>
         <general class="size2" name="${tf_prefix}left_ur_arm_wrist_3_joint" joint="${tf_prefix}left_ur_arm_wrist_3_joint"/>
 
+        <position class="size5" name="${tf_prefix}right_ewellix_lift_lower_to_higher" joint="${tf_prefix}right_ewellix_lift_lower_to_higher"/>
         <general class="size4" name="${tf_prefix}right_ur_arm_shoulder_pan_joint" joint="${tf_prefix}right_ur_arm_shoulder_pan_joint"/>
         <general class="size4" name="${tf_prefix}right_ur_arm_shoulder_lift_joint" joint="${tf_prefix}right_ur_arm_shoulder_lift_joint"/>
         <general class="size3_limited" name="${tf_prefix}right_ur_arm_elbow_joint" joint="${tf_prefix}right_ur_arm_elbow_joint"/>
@@ -292,6 +295,7 @@
                 <config key="max_range" value="10.0"/>
                 <config key="min_range" value="0.05"/>
                 <config key="update_rate" value="4.0"/>
+                <config key="async" value="1"/>
             </instance>
         </plugin>
     </extension>
