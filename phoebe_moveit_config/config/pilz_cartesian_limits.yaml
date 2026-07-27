@@ -1,11 +1,4 @@
 # Limits for the Pilz planner
-# cartesian_limits:
-#   max_trans_vel: 1.0
-#   max_trans_acc: 2.25
-#   max_trans_dec: -5.0
-#   max_rot_vel: 1.57
-#   max_rot_acc: 1.57
-#   max_rot_dec: -1.57
 cartesian_limits:
   max_trans_vel: 0.10
   max_trans_acc: 0.10
@@ -13,10 +6,3 @@ cartesian_limits:
   max_rot_vel: 0.5
   max_rot_acc: 0.5
   max_rot_dec: -0.5
-# cartesian_limits:
-#   max_trans_vel: 0.25     # 250 mm/s TCP speed (safe, predictable)
-#   max_trans_acc: 0.25
-#   max_trans_dec: -0.25    # Keep this perfectly symmetrical!
-#   max_rot_vel: 0.5        # ~28 deg/s TCP rotation
-#   max_rot_acc: 0.5
-#   max_rot_dec: -0.5
