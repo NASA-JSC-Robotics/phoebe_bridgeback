@@ -1,8 +1,8 @@
 # Limits for the Pilz planner
 cartesian_limits:
-  max_trans_vel: 0.10
-  max_trans_acc: 0.10
-  max_trans_dec: -0.10
-  max_rot_vel: 0.5
-  max_rot_acc: 0.5
-  max_rot_dec: -0.5
+  max_trans_vel: 1.0
+  max_trans_acc: 0.18
+  max_trans_dec: -0.18
+  max_rot_vel: 3.14
+  max_rot_acc: 3.0
+  max_rot_dec: -3.0
