@@ -20,7 +20,7 @@
 import os
 import tempfile
 from launch import LaunchDescription
-from launch.conditions import IfCondition, UnlessCondition
+from launch.conditions import UnlessCondition
 from launch_ros.actions import Node
 from launch.substitutions import (
     Command,
@@ -130,6 +130,15 @@ def generate_launch_description():
                 PathJoinSubstitution([FindPackageShare(phoebe_mujoco_package_name), "description", "assets"]),
             ]
 
+        post_process_args = [
+            "--left-gripper",
+            left_hand_type,
+            "--right-gripper",
+            right_hand_type,
+        ]
+        if include_world_joints.perform(context) == "true":
+            post_process_args.append("--magic-carpet")
+
         generate_mjcf = Node(
             package="mujoco_ros2_control",
             executable="make_mjcf_from_robot_description.py",
@@ -138,17 +147,11 @@ def generate_launch_description():
             arguments=default_arguments,
         )
 
-        post_process_mjcf_wheels = Node(
+        post_process_mjcf = Node(
             package="phoebe_mujoco_config",
             executable="post_process_mjcf.py",
             output="screen",
-            arguments=[
-                "--left-gripper",
-                left_hand_type,
-                "--right-gripper",
-                right_hand_type,
-            ],
-            condition=UnlessCondition(include_world_joints),
+            arguments=post_process_args,
         )
 
         wheel_code_gen = Node(
@@ -156,14 +159,6 @@ def generate_launch_description():
             executable="wheel_code_gen.py",
             output="screen",
             condition=UnlessCondition(include_world_joints),
-        )
-
-        post_process_mjcf_magic_carpet = Node(
-            package="phoebe_mujoco_config",
-            executable="post_process_mjcf.py",
-            output="screen",
-            arguments=["--left-gripper", left_hand_type, "--right-gripper", right_hand_type, "--magic-carpet"],
-            condition=IfCondition(include_world_joints),
         )
 
         # Ensure the file gets deleted
@@ -177,7 +172,7 @@ def generate_launch_description():
             RegisterEventHandler(
                 OnProcessExit(
                     target_action=generate_mjcf,
-                    on_exit=[post_process_mjcf_wheels, post_process_mjcf_magic_carpet],
+                    on_exit=[post_process_mjcf],
                 )
             ),
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),

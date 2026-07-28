@@ -157,8 +157,7 @@ def generate_launch_description():
         ]
 
         # If phoebe is on a magic carpet
-        world_joints = include_world_joints.perform(context) == "true"
-        if world_joints:
+        if include_world_joints.perform(context) == "true":
             post_process_args.append("--magic-carpet")
 
         return [
