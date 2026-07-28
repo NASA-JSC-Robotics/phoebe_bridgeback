@@ -103,7 +103,7 @@ def generate_launch_description():
                 condition=IfCondition(is_sim),
             ),
         ],
-        # TODO: Do we need an odom republisher here?
+        # NOTE: We explicitly exclude odom since the rails provide perfect ground truth
     )
 
     return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controller])
