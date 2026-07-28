@@ -22,7 +22,6 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition, UnlessCondition
-from launch_ros.actions import Node
 
 from phoebe_deploy.launch_helpers import spawn_controller
 
@@ -95,7 +94,7 @@ def generate_launch_description():
         ],
     )
 
-    magic_carpet_controllers = GroupAction(
+    magic_carpet_controller = GroupAction(
         condition=IfCondition(include_world_joints),
         actions=[
             spawn_controller(
@@ -103,18 +102,8 @@ def generate_launch_description():
                 namespace=namespace,
                 condition=IfCondition(is_sim),
             ),
-            Node(
-                package="phoebe_deploy",
-                executable="magic_carpet_diff_drive.py",
-                name="magic_carpet_diff_drive",
-                namespace=namespace,
-                parameters=[
-                    {
-                        "use_sim_time": is_sim,
-                    }
-                ],
-            ),
         ],
+        # TODO: Do we need an odom republisher here?
     )
 
-    return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controllers])
+    return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controller])

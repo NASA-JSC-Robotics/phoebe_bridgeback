@@ -11,7 +11,7 @@
         type: imu_sensor_broadcaster/IMUSensorBroadcaster
 
       phoebe_magic_carpet_controller:
-        type: forward_command_controller/ForwardCommandController
+        type: phoebe_controllers/MagicCarpetController
 
   platform_velocity_controller:
     ros__parameters:
@@ -77,9 +77,7 @@
 
   phoebe_magic_carpet_controller:
     ros__parameters:
-      type: forward_command_controller/ForwardCommandController
-      joints:
-        - $(var tf_prefix)linear_x_joint
-        - $(var tf_prefix)linear_y_joint
-        - $(var tf_prefix)rotational_yaw_joint
-      interface_name: velocity
+      linear_x_joint: $(var tf_prefix)linear_x_joint
+      linear_y_joint: $(var tf_prefix)linear_y_joint
+      yaw_joint: $(var tf_prefix)rotational_yaw_joint
+      reference_topic: /platform_velocity_controller/reference

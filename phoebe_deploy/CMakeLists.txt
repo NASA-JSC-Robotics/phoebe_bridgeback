@@ -13,7 +13,6 @@ install(
 
 install(PROGRAMS
     scripts/keyboard_joy.py
-    scripts/magic_carpet_diff_drive.py
     scripts/odometry_joint_state_publisher.py
     scripts/prioritize_threads.sh
     scripts/world_publisher.py
