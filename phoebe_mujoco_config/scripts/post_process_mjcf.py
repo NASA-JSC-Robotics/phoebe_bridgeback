@@ -27,42 +27,43 @@ import sys
 from ament_index_python.packages import get_package_share_directory
 
 
-def main(filepath, tf_prefix, magic_carpet, left_gripper, right_gripper):
+def main(filepath, tf_prefix, magic_carpet, left_gripper, right_gripper, copy_assets):
     filepath_full = filepath + "/mujoco_description_formatted.xml"
     # Load your XML document
     dom = minidom.parse(filepath_full)
 
-    # copy the cylinder mockup into the assets directory
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_mockup_full_length.stl',
-        f"{filepath}/assets",
-    )
+    if copy_assets:
+        # copy the cylinder mockup into the assets directory
+        shutil.copy2(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_mockup_full_length.stl',
+            f"{filepath}/assets",
+        )
 
-    # copy the cylinder jig into the assets directory (folder bc it has several files bc it is decomposed)
-    os.mkdir(f"{filepath}/assets/cylinder_jig")
-    shutil.copytree(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_jig',
-        f"{filepath}/assets/cylinder_jig",
-        dirs_exist_ok=True,
-    )
+        # copy the cylinder jig into the assets directory (folder bc it has several files bc it is decomposed)
+        os.mkdir(f"{filepath}/assets/cylinder_jig")
+        shutil.copytree(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/cylinder_jig',
+            f"{filepath}/assets/cylinder_jig",
+            dirs_exist_ok=True,
+        )
 
-    # copy the april tags into the assets directory
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00000.png',
-        f"{filepath}/assets",
-    )
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00001.png',
-        f"{filepath}/assets",
-    )
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00004.png',
-        f"{filepath}/assets",
-    )
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00006.png',
-        f"{filepath}/assets",
-    )
+        # copy the april tags into the assets directory
+        shutil.copy2(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00000.png',
+            f"{filepath}/assets",
+        )
+        shutil.copy2(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00001.png',
+            f"{filepath}/assets",
+        )
+        shutil.copy2(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00004.png',
+            f"{filepath}/assets",
+        )
+        shutil.copy2(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/tag36_11_00006.png',
+            f"{filepath}/assets",
+        )
 
     # Only copy in wheel data if not on a magic carpet
     if not magic_carpet:
@@ -181,6 +182,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "--right-gripper", default="hande", help="gripper type for the right side (either hande or 2f85)"
     )
+    parser.add_argument(
+        "--copy-assets",
+        action="store_true",
+        default=False,
+        help="Whether or not to include assets (cylinders / apriltags) in the processing",
+    )
 
     # Skip ros args
     args_without_filename = sys.argv[1:]
@@ -192,7 +199,8 @@ if __name__ == "__main__":
     magic_carpet = parsed_args.magic_carpet
     left_gripper = parsed_args.left_gripper
     right_gripper = parsed_args.right_gripper
+    copy_assets = parsed_args.copy_assets
 
     filepath = "mjcf_data"
 
-    main(filepath, tf_prefix, magic_carpet, left_gripper, right_gripper)
+    main(filepath, tf_prefix, magic_carpet, left_gripper, right_gripper, copy_assets)

@@ -154,6 +154,7 @@ def generate_launch_description():
             left_hand_type,
             "--right-gripper",
             right_hand_type,
+            "--copy-assets",
         ]
 
         # If phoebe is on a magic carpet

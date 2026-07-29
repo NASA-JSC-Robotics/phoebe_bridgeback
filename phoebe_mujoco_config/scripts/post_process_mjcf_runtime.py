@@ -46,6 +46,7 @@ class StringModifierNode(Node):
         wheels_package="phoebe_mujoco_config",
         left_gripper="hande",
         right_gripper="hande",
+        copy_assets=False,
     ):
         super().__init__("string_modifier_node")
 
@@ -54,6 +55,7 @@ class StringModifierNode(Node):
         self.wheels_package = wheels_package
         self.left_gripper = left_gripper
         self.right_gripper = right_gripper
+        self.copy_assets = copy_assets
 
         # Set up robot description publisher/subscriber with the same QoS.
         qos_profile = QoSProfile(depth=1)
@@ -79,58 +81,60 @@ class StringModifierNode(Node):
         asset_dir = mesh_dir.removesuffix("/")
         base_dir = os.path.dirname(asset_dir)
 
-        # copy the cylinder mockup into the assets directory
-        shutil.copy2(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/cylinder_mockup_full_length.stl",
-            f"{asset_dir}",
-        )
+        if self.copy_assets:
+            # copy the cylinder mockup into the assets directory
+            shutil.copy2(
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/cylinder_mockup_full_length.stl",
+                f"{asset_dir}",
+            )
 
-        # copy the cylinder jig into the assets directory (folder bc it has several files bc it is decomposed)
-        os.mkdir(f"{asset_dir}/cylinder_jig")
-        shutil.copytree(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/cylinder_jig",
-            f"{asset_dir}/cylinder_jig",
-            dirs_exist_ok=True,
-        )
+            # copy the cylinder jig into the assets directory (folder bc it has several files bc it is decomposed)
+            os.mkdir(f"{asset_dir}/cylinder_jig")
+            shutil.copytree(
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/cylinder_jig",
+                f"{asset_dir}/cylinder_jig",
+                dirs_exist_ok=True,
+            )
 
-        # copy the april tags into the assets directory
-        shutil.copy2(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00000.png",
-            f"{asset_dir}",
-        )
-        shutil.copy2(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00001.png",
-            f"{asset_dir}",
-        )
-        shutil.copy2(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00004.png",
-            f"{asset_dir}",
-        )
-        shutil.copy2(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00006.png",
-            f"{asset_dir}",
-        )
-
-        # add the mesh mecanum_wheel_22.stl to the assets
-        asset_elements = dom.getElementsByTagName("asset")
-        asset_element = asset_elements[0]
-
-        mecanum_wheel_element = dom.createElement("mesh")
-        mecanum_wheel_element.setAttribute("file", "mecanum_wheel_22.stl")
-        mecanum_wheel_element.setAttribute("scale", "0.001 0.001 0.001")
-        asset_element.appendChild(mecanum_wheel_element)
-
-        # copy the mecanum wheel 22 mesh into the assets directory
-        shutil.copy2(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/mecanum_wheel_22.stl",
-            f"{asset_dir}",
-        )
+            # copy the april tags into the assets directory
+            shutil.copy2(
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00000.png",
+                f"{asset_dir}",
+            )
+            shutil.copy2(
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00001.png",
+                f"{asset_dir}",
+            )
+            shutil.copy2(
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00004.png",
+                f"{asset_dir}",
+            )
+            shutil.copy2(
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/tag36_11_00006.png",
+                f"{asset_dir}",
+            )
 
         # Get all elements with the tag name body
         body_elements = dom.getElementsByTagName("body")
 
         # Replace the wheels with the custom wheels xml if specified
         if not self.magic_carpet:
+
+            # add the mesh mecanum_wheel_22.stl to the assets
+            asset_elements = dom.getElementsByTagName("asset")
+            asset_element = asset_elements[0]
+
+            mecanum_wheel_element = dom.createElement("mesh")
+            mecanum_wheel_element.setAttribute("file", "mecanum_wheel_22.stl")
+            mecanum_wheel_element.setAttribute("scale", "0.001 0.001 0.001")
+            asset_element.appendChild(mecanum_wheel_element)
+
+            # copy the mecanum wheel 22 mesh into the assets directory
+            shutil.copy2(
+                f"{get_package_share_directory('phoebe_mujoco_config')}/resources/mecanum_wheel_22.stl",
+                f"{asset_dir}",
+            )
+
             include_element = dom.createElement("include")
             include_element.setAttribute("file", f"{base_dir}/wheels.xml")
 
@@ -252,6 +256,12 @@ def main(args=None):
         default="hande",
         help="gripper type for the right side (either hande or 2f85)",
     )
+    parser.add_argument(
+        "--copy-assets",
+        action="store_true",
+        default=False,
+        help="Whether or not to include assets (cylinders / apriltags) in the processing",
+    )
 
     # Skip ros args
     non_ros_args = rclpy.utilities.remove_ros_args(sys.argv)[1:]
@@ -262,9 +272,10 @@ def main(args=None):
     wheels_package = parsed_args.wheels_package
     left_gripper = parsed_args.left_gripper
     right_gripper = parsed_args.right_gripper
+    copy_assets = parsed_args.copy_assets
 
     rclpy.init(args=args)
-    node = StringModifierNode(tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper)
+    node = StringModifierNode(tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper, copy_assets)
     try:
         rclpy.spin(node)
     except (KeyboardInterrupt, ExternalShutdownException):
