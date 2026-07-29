@@ -10,6 +10,9 @@
       imu_broadcaster:
         type: imu_sensor_broadcaster/IMUSensorBroadcaster
 
+      phoebe_magic_carpet_controller:
+        type: phoebe_controllers/MagicCarpetController
+
   platform_velocity_controller:
     ros__parameters:
       update_rate: 50
@@ -66,9 +69,15 @@
       odom_frame_id: $(var tf_prefix)odom
       enable_odom_tf: False
 
-
   imu_broadcaster:
     ros__parameters:
       use_sim_time: False
       sensor_name: "$(var tf_prefix)imu_sensor"
       frame_id:  "$(var tf_prefix)imu_0_link"
+
+  phoebe_magic_carpet_controller:
+    ros__parameters:
+      linear_x_joint: $(var tf_prefix)linear_x_joint
+      linear_y_joint: $(var tf_prefix)linear_y_joint
+      yaw_joint: $(var tf_prefix)rotational_yaw_joint
+      reference_topic: /platform_velocity_controller/reference

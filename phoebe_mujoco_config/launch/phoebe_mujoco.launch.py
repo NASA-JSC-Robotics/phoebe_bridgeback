@@ -60,7 +60,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "include_world_joints",
             default_value="false",
-            description="Whether or not to include a root world frame",
+            description="Whether or not to include a root world frame or run Phoebe on a magic carpet",
             choices=["true", "false"],
         )
     )
@@ -132,6 +132,8 @@ def generate_launch_description():
             left_hand_type,
             " right_hand_type:=",
             right_hand_type,
+            " include_world_joints:=",
+            include_world_joints,
         ]
     )
 
@@ -146,6 +148,17 @@ def generate_launch_description():
         def cleanup(event, context):
             if os.path.exists(tmp.name):
                 os.remove(tmp.name)
+
+        post_process_args = [
+            "--left-gripper",
+            left_hand_type,
+            "--right-gripper",
+            right_hand_type,
+        ]
+
+        # If phoebe is on a magic carpet
+        if include_world_joints.perform(context) == "true":
+            post_process_args.append("--magic-carpet")
 
         return [
             # Writing to /mujoco_robot_description_preprocessed instead of /mujoco_robot_description because the
@@ -174,12 +187,7 @@ def generate_launch_description():
                 package="phoebe_mujoco_config",
                 executable="post_process_mjcf_runtime.py",
                 name="post_process_mjcf_runtime",
-                arguments=[
-                    "--left-gripper",
-                    left_hand_type,
-                    "--right-gripper",
-                    right_hand_type,
-                ],
+                arguments=post_process_args,
             ),
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
         ]

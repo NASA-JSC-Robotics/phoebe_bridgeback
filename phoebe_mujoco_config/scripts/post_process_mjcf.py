@@ -27,7 +27,7 @@ import sys
 from ament_index_python.packages import get_package_share_directory
 
 
-def main(filepath, tf_prefix, left_gripper, right_gripper):
+def main(filepath, tf_prefix, magic_carpet, left_gripper, right_gripper):
     filepath_full = filepath + "/mujoco_description_formatted.xml"
     # Load your XML document
     dom = minidom.parse(filepath_full)
@@ -64,37 +64,39 @@ def main(filepath, tf_prefix, left_gripper, right_gripper):
         f"{filepath}/assets",
     )
 
-    # add the mesh mecanum_wheel_22.stl to the assets
-    asset_elements = dom.getElementsByTagName("asset")
-    asset_element = asset_elements[0]
+    # Only copy in wheel data if not on a magic carpet
+    if not magic_carpet:
+        # add the mesh mecanum_wheel_22.stl to the assets
+        asset_elements = dom.getElementsByTagName("asset")
+        asset_element = asset_elements[0]
 
-    mecanum_wheel_element = dom.createElement("mesh")
-    mecanum_wheel_element.setAttribute("file", "mecanum_wheel_22.stl")
-    mecanum_wheel_element.setAttribute("scale", "0.001 0.001 0.001")
-    asset_element.appendChild(mecanum_wheel_element)
+        mecanum_wheel_element = dom.createElement("mesh")
+        mecanum_wheel_element.setAttribute("file", "mecanum_wheel_22.stl")
+        mecanum_wheel_element.setAttribute("scale", "0.001 0.001 0.001")
+        asset_element.appendChild(mecanum_wheel_element)
 
-    # copy the mecanum wheel 22 mesh into the assets directory
-    shutil.copy2(
-        f'{get_package_share_directory("phoebe_mujoco_config")}/resources/mecanum_wheel_22.stl',
-        f"{filepath}/assets",
-    )
+        # copy the mecanum wheel 22 mesh into the assets directory
+        shutil.copy2(
+            f'{get_package_share_directory("phoebe_mujoco_config")}/resources/mecanum_wheel_22.stl',
+            f"{filepath}/assets",
+        )
 
-    # Replace the wheels with the custom wheels xml
-    # Get all elements with the tag name body
-    body_elements = dom.getElementsByTagName("body")
+        # Replace the wheels with the custom wheels xml
+        # Get all elements with the tag name body
+        body_elements = dom.getElementsByTagName("body")
 
-    include_element = dom.createElement("include")
-    include_element.setAttribute("file", "wheels.xml")
+        include_element = dom.createElement("include")
+        include_element.setAttribute("file", "wheels.xml")
 
-    # Filter by attribute value containing a substring
-    first_time = True
-    for elem in body_elements:
-        if "wheel_link" in elem.getAttribute("name"):
-            if first_time:
-                elem.parentNode.replaceChild(include_element, elem)
-                first_time = False
-            else:
-                elem.parentNode.removeChild(elem)
+        # Filter by attribute value containing a substring
+        first_time = True
+        for elem in body_elements:
+            if "wheel_link" in elem.getAttribute("name"):
+                if first_time:
+                    elem.parentNode.replaceChild(include_element, elem)
+                    first_time = False
+                else:
+                    elem.parentNode.removeChild(elem)
 
     if right_gripper == "2f85":
         # replace the right hand with the custom modified xml that
@@ -169,6 +171,12 @@ if __name__ == "__main__":
         description="Generate wheels for PB mujoco sim",
     )
     parser.add_argument("--tf-prefix", default="", help="tf_prefix for generated wheels")
+    parser.add_argument(
+        "--magic-carpet",
+        action="store_true",
+        default=False,
+        help="Skip wheel replacement if running in magic carpet mode",
+    )
     parser.add_argument("--left-gripper", default="hande", help="gripper type for the left side (either hande or 2f85)")
     parser.add_argument(
         "--right-gripper", default="hande", help="gripper type for the right side (either hande or 2f85)"
@@ -181,9 +189,10 @@ if __name__ == "__main__":
     parsed_args = parser.parse_args(args_without_filename)
 
     tf_prefix = parsed_args.tf_prefix
+    magic_carpet = parsed_args.magic_carpet
     left_gripper = parsed_args.left_gripper
     right_gripper = parsed_args.right_gripper
 
     filepath = "mjcf_data"
 
-    main(filepath, tf_prefix, left_gripper, right_gripper)
+    main(filepath, tf_prefix, magic_carpet, left_gripper, right_gripper)

@@ -42,6 +42,7 @@ class StringModifierNode(Node):
     def __init__(
         self,
         tf_prefix="",
+        magic_carpet=False,
         wheels_package="phoebe_mujoco_config",
         left_gripper="hande",
         right_gripper="hande",
@@ -49,6 +50,7 @@ class StringModifierNode(Node):
         super().__init__("string_modifier_node")
 
         self.tf_prefix = tf_prefix
+        self.magic_carpet = magic_carpet
         self.wheels_package = wheels_package
         self.left_gripper = left_gripper
         self.right_gripper = right_gripper
@@ -124,27 +126,28 @@ class StringModifierNode(Node):
             f"{asset_dir}",
         )
 
-        # Replace the wheels with the custom wheels xml
         # Get all elements with the tag name body
         body_elements = dom.getElementsByTagName("body")
 
-        include_element = dom.createElement("include")
-        include_element.setAttribute("file", f"{base_dir}/wheels.xml")
+        # Replace the wheels with the custom wheels xml if specified
+        if not self.magic_carpet:
+            include_element = dom.createElement("include")
+            include_element.setAttribute("file", f"{base_dir}/wheels.xml")
 
-        shutil.copy2(
-            f"{get_package_share_directory(self.wheels_package)}/description/wheels.xml",
-            f"{base_dir}",
-        )
+            shutil.copy2(
+                f"{get_package_share_directory(self.wheels_package)}/description/wheels.xml",
+                f"{base_dir}",
+            )
 
-        # Filter by attribute value containing a substring
-        first_time = True
-        for elem in body_elements:
-            if "wheel_link" in elem.getAttribute("name"):
-                if first_time:
-                    elem.parentNode.replaceChild(include_element, elem)
-                    first_time = False
-                else:
-                    elem.parentNode.removeChild(elem)
+            # Filter by attribute value containing a substring
+            first_time = True
+            for elem in body_elements:
+                if "wheel_link" in elem.getAttribute("name"):
+                    if first_time:
+                        elem.parentNode.replaceChild(include_element, elem)
+                        first_time = False
+                    else:
+                        elem.parentNode.removeChild(elem)
 
         # replace the right hand with the custom modified xml that
         # has working 2f-85 mechanism
@@ -229,6 +232,12 @@ def main(args=None):
     )
     parser.add_argument("--tf-prefix", default="", help="tf_prefix for generated wheels")
     parser.add_argument(
+        "--magic-carpet",
+        action="store_true",
+        default=False,
+        help="Skip wheel replacement if running in magic carpet mode",
+    )
+    parser.add_argument(
         "--wheels-package",
         default="phoebe_mujoco_config",
         help="Package containing wheels.xml, should be the top level deploy package",
@@ -249,12 +258,13 @@ def main(args=None):
     parsed_args = parser.parse_args(non_ros_args)
 
     tf_prefix = parsed_args.tf_prefix
+    magic_carpet = parsed_args.magic_carpet
     wheels_package = parsed_args.wheels_package
     left_gripper = parsed_args.left_gripper
     right_gripper = parsed_args.right_gripper
 
     rclpy.init(args=args)
-    node = StringModifierNode(tf_prefix, wheels_package, left_gripper, right_gripper)
+    node = StringModifierNode(tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper)
     try:
         rclpy.spin(node)
     except (KeyboardInterrupt, ExternalShutdownException):

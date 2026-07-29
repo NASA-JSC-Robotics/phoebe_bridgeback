@@ -48,6 +48,7 @@
     left_hand_type:='hande'
     right_hand_type:='hande'
     use_left_static_pedestal:=false
+    include_world_joints:=false
   ">
 
     <xacro:unless value="${use_left_static_pedestal}">
@@ -210,38 +211,69 @@
       <state_interface name="effort"/>
     </joint>
 
-    <joint name="${tf_prefix}front_left_wheel_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
-    <joint name="${tf_prefix}front_right_wheel_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
-    <joint name="${tf_prefix}rear_left_wheel_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
-    <joint name="${tf_prefix}rear_right_wheel_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-      <state_interface name="effort"/>
-    </joint>
+    <!-- In normal modes we command the wheel joints directly -->
+    <xacro:unless value="${include_world_joints}">
+      <joint name="${tf_prefix}front_left_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${tf_prefix}front_right_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${tf_prefix}rear_left_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${tf_prefix}rear_right_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:unless>
+
+    <!-- Some simulation environments may use a magic carpet, and we should include those joints -->
+    <xacro:if value="${include_world_joints}">
+      <joint name="${tf_prefix}linear_x_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${tf_prefix}linear_y_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${tf_prefix}rotational_yaw_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="position">
+            <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </xacro:if>
 
   </xacro:macro>
 

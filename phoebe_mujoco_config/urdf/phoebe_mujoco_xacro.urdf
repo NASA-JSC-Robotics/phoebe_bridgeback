@@ -2,7 +2,7 @@
 <robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Args -->
   <xacro:arg name="add_grasp_push_frames" default="true"/>
-  <xacro:arg name="include_world_joints" default="false"/>
+  <xacro:arg name="include_world_joints" default="true"/>
   <xacro:arg name="sim_speed" default="1.0"/>
   <xacro:arg name="use_pregenerated_mjcf" default="false"/>
   <xacro:arg name="model_mobile_env" default="true"/>
@@ -23,10 +23,19 @@
 
   <link name="world"/>
 
-  <joint name="floating_base_joint" type="$(arg base_joint_type)">
-    <parent link="world"/>
-    <child link="base_link"/>
-  </joint>
+  <xacro:if value="$(arg include_world_joints)">
+    <joint name="floating_base_joint" type="fixed">
+      <parent link="world"/>
+      <child link="map"/>
+    </joint>
+  </xacro:if>
+
+  <xacro:unless value="$(arg include_world_joints)">
+    <joint name="floating_base_joint" type="$(arg base_joint_type)">
+      <parent link="world"/>
+      <child link="base_link"/>
+    </joint>
+  </xacro:unless>
 
   <xacro:phoebe
     generate_ros2_control_tag="false"
@@ -58,6 +67,7 @@
         use_left_static_pedestal="$(arg use_left_static_pedestal)"
         left_hand_type="$(arg left_hand_type)"
         right_hand_type="$(arg right_hand_type)"
+        include_world_joints="$(arg include_world_joints)"
       />
     </raw_inputs>
     <processed_inputs>
@@ -94,6 +104,7 @@
       use_left_static_pedestal="$(arg use_left_static_pedestal)"
       left_hand_type="$(arg left_hand_type)"
       right_hand_type="$(arg right_hand_type)"
+      include_world_joints="$(arg include_world_joints)"
     />
 
   </ros2_control>
