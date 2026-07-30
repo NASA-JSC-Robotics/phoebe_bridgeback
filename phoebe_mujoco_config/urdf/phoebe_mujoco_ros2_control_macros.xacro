@@ -211,43 +211,50 @@
       <state_interface name="effort"/>
     </joint>
 
-    <!-- In normal modes we command the wheel joints directly -->
-    <xacro:unless value="${include_world_joints}">
-      <joint name="${tf_prefix}front_left_wheel_joint">
+    <!-- In normal modes we command the wheel joints directly as joints. -->
+    <!-- When the robot is on rails, we still provide state interfaces for those joints, -->
+    <!-- for the sake of applications that require it (e.g. MoveIt). -->
+    <joint name="${tf_prefix}front_left_wheel_joint">
+      <xacro:unless value="${include_world_joints}">
         <command_interface name="velocity"/>
-        <state_interface name="position">
-          <param name="initial_value">0.0</param>
-        </state_interface>
-        <state_interface name="velocity"/>
-        <state_interface name="effort"/>
-      </joint>
-      <joint name="${tf_prefix}front_right_wheel_joint">
+      </xacro:unless>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}front_right_wheel_joint">
+      <xacro:unless value="${include_world_joints}">
         <command_interface name="velocity"/>
-        <state_interface name="position">
-          <param name="initial_value">0.0</param>
-        </state_interface>
-        <state_interface name="velocity"/>
-        <state_interface name="effort"/>
-      </joint>
-      <joint name="${tf_prefix}rear_left_wheel_joint">
+      </xacro:unless>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}rear_left_wheel_joint">
+      <xacro:unless value="${include_world_joints}">
         <command_interface name="velocity"/>
-        <state_interface name="position">
-          <param name="initial_value">0.0</param>
-        </state_interface>
-        <state_interface name="velocity"/>
-        <state_interface name="effort"/>
-      </joint>
-      <joint name="${tf_prefix}rear_right_wheel_joint">
+      </xacro:unless>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="${tf_prefix}rear_right_wheel_joint">
+      <xacro:unless value="${include_world_joints}">
         <command_interface name="velocity"/>
-        <state_interface name="position">
-          <param name="initial_value">0.0</param>
-        </state_interface>
-        <state_interface name="velocity"/>
-        <state_interface name="effort"/>
-      </joint>
-    </xacro:unless>
+      </xacro:unless>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
 
-    <!-- Some simulation environments may use a magic carpet, and we should include those joints -->
     <xacro:if value="${include_world_joints}">
       <joint name="${tf_prefix}linear_x_joint">
         <command_interface name="velocity"/>
