@@ -62,14 +62,14 @@
 
     <actuator>
         <xacro:if value="${right_hand_type == 'hande'}">
-            <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
+            <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-185 185"/>
         </xacro:if>
         <xacro:if value="${right_hand_type == '2f85'}">
             <general biastype="affine" name="${tf_prefix}right_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}right_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
         </xacro:if>
 
         <xacro:if value="${left_hand_type == 'hande'}">
-            <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-130 130"/>
+            <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_finger_1_joint" kp="10000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-185 185"/>
         </xacro:if>
         <xacro:if value="${left_hand_type == '2f85'}">
             <general biastype="affine" name="${tf_prefix}left_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}left_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
