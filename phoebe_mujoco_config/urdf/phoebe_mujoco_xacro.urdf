@@ -85,9 +85,8 @@
   <ros2_control name="MujocoSystem" type="system">
     <hardware>
       <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
-      <xacro:if value="$(arg use_pregenerated_mjcf)">
-        <!-- <param name="mujoco_model">$(find phoebe_mujoco_config)/description/scene.xml</param> -->
-      </xacro:if>
+
+      <param name="pids_config_file">$(find phoebe_mujoco_config)/config/mujoco_pid.yaml</param>
 
       <!-- uncomment to start from saved keyframe -->
       <!-- <param name="override_start_position_file">$(arg override_start_position_file)</param> -->
