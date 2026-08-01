@@ -16,29 +16,29 @@
     <default>
         <default class="phoebe">
             <material specular="0.5" shininess="0.25"/>
-            <joint axis="0 1 0" range="-6.28319 6.28319" armature="0.1"/>
+            <joint axis="0 1 0" range="-6.28319 6.28319" armature="0.1" actuatorgravcomp="true"/>
             <general ctrlrange="-6.2831 6.2831"/>
             <default class="size5">
                 <joint actuatorfrclimited="true" actuatorfrcrange="-1000 1000"/>
                 <position ctrlrange="0.0 0.7" kp="75000" dampratio="1.0" forcerange="-1000 1000"/>
             </default>
             <default class="size4">
-                <joint damping="10" actuatorgravcomp="true"/>
+                <joint damping="10"/>
                 <general forcerange="-330 330" ctrlrange="-330 330"/>
             </default>
             <default class="size3">
-                <joint damping="5" actuatorgravcomp="true"/>
+                <joint damping="5"/>
                 <general forcerange="-150 150" ctrlrange="-150 150"/>
                 <default class="size3_limited">
                     <joint range="-3.1415 3.1415"/>
                 </default>
             </default>
             <default class="size2">
-                <joint damping="2" actuatorgravcomp="true" />
+                <joint damping="2" />
                 <general forcerange="-56 56" ctrlrange="-56 56"/>
             </default>
             <default class="size1">
-                <joint damping="1" actuatorgravcomp="true" />
+                <joint damping="1" />
                 <general forcerange="-28 28" ctrlrange="-28 28"/>
             </default>
             <default class="${defaults_prefix}visual">
