@@ -135,6 +135,7 @@ def generate_launch_description():
             left_hand_type,
             "--right-gripper",
             right_hand_type,
+            "--save-only",
         ]
         if include_world_joints.perform(context) == "true":
             post_process_args.append("--magic-carpet")
