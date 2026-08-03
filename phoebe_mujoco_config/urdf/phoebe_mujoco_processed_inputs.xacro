@@ -31,6 +31,9 @@
       <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
       <camera site="${tf_prefix}right_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
 
+      <!-- Add Phoebe default parameters to entire Phoebe kinematic tree -->
+      <modify_element type="body" name="${tf_prefix}base_link" childclass="phoebe"/>
+
       <!-- Apply default classes to Phoebe joints. -->
       <xacro:unless value="${use_left_static_pedestal}">
         <modify_element type="joint" name="${tf_prefix}left_ewellix_lift_lower_to_higher" class="size5"/>
