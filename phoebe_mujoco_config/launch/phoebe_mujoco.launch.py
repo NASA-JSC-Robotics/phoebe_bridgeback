@@ -154,7 +154,6 @@ def generate_launch_description():
             left_hand_type,
             "--right-gripper",
             right_hand_type,
-            "--copy-assets",
         ]
 
         # If phoebe is on a magic carpet
@@ -186,8 +185,8 @@ def generate_launch_description():
             # special components like wheels, custom robotiq gripper mujoco representations, april tags, etc
             Node(
                 package="phoebe_mujoco_config",
-                executable="post_process_mjcf_runtime.py",
-                name="post_process_mjcf_runtime",
+                executable="post_process_mjcf.py",
+                name="post_process_mjcf",
                 arguments=post_process_args,
             ),
             RegisterEventHandler(OnShutdown(on_shutdown=cleanup)),
