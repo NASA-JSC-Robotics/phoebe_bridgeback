@@ -29,7 +29,9 @@ from xml.dom import minidom
 from ament_index_python.packages import get_package_share_directory
 
 
-def postprocess_mjcf(dom, base_dir, asset_dir, tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper, include_dir=None):
+def postprocess_mjcf(
+    dom, base_dir, asset_dir, tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper, include_dir=None
+):
     """Apply all MJCF post-processing modifications to the parsed XML DOM.
 
     Returns the modified XML as a string (without the leading <?xml ...?> declaration).
@@ -127,9 +129,7 @@ def postprocess_mjcf(dom, base_dir, asset_dir, tf_prefix, magic_carpet, wheels_p
 
         # copy in the robotiq_85 xml file into the main mujoco description directory
         # and process it through xacro to resolve the tf_prefix argument
-        left_robotiq_xacro_src = (
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/left_robotiq_85.xml"
-        )
+        left_robotiq_xacro_src = f"{get_package_share_directory('phoebe_mujoco_config')}/resources/left_robotiq_85.xml"
         left_robotiq_output = f"{base_dir}/left_robotiq_85.xml"
         subprocess.run(
             [
@@ -156,7 +156,14 @@ def run_save_only(filepath, tf_prefix, magic_carpet, wheels_package, left_grippe
 
     asset_dir = f"{filepath}/assets"
     modified_data = postprocess_mjcf(
-        dom, filepath, asset_dir, tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper,
+        dom,
+        filepath,
+        asset_dir,
+        tf_prefix,
+        magic_carpet,
+        wheels_package,
+        left_gripper,
+        right_gripper,
         include_dir="",
     )
 
