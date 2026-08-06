@@ -98,11 +98,7 @@ controller_interface::CallbackReturn MagicCarpetController::on_deactivate(
     const rclcpp_lifecycle::State & /*previous_state*/) {
   // Zero out commands on deactivation
   for (auto &cmd_if : command_interfaces_) {
-    if (!cmd_if.set_value(0.0)) {
-      RCLCPP_WARN(get_node()->get_logger(),
-                  "Failed to zero command interface '%s'",
-                  cmd_if.get_name().c_str());
-    }
+    cmd_if.set_value(0.0);
   }
   RCLCPP_INFO(get_node()->get_logger(), "Deactivated");
   return controller_interface::CallbackReturn::SUCCESS;
@@ -112,13 +108,7 @@ controller_interface::return_type
 MagicCarpetController::update(const rclcpp::Time & /*time*/,
                               const rclcpp::Duration & /*period*/) {
   // Read current yaw from state interface (the only state interface we claim)
-  const auto yaw_opt = state_interfaces_[0].get_optional();
-  if (!yaw_opt.has_value()) {
-    RCLCPP_WARN_THROTTLE(get_node()->get_logger(), *get_node()->get_clock(),
-                         1000, "Could not read yaw state interface");
-    return controller_interface::return_type::OK;
-  }
-  const double yaw = yaw_opt.value();
+  const double yaw = state_interfaces_[0].get_value();
 
   // Read latest command (realtime-safe)
   const auto &cmd = *rt_command_buf_.readFromRT();
@@ -139,12 +129,9 @@ MagicCarpetController::update(const rclcpp::Time & /*time*/,
   //   [0] linear_x_joint/velocity
   //   [1] linear_y_joint/velocity
   //   [2] rotational_yaw_joint/velocity
-  if (!command_interfaces_[0].set_value(vx_odom) ||
-      !command_interfaces_[1].set_value(vy_odom) ||
-      !command_interfaces_[2].set_value(wz)) {
-    RCLCPP_WARN_THROTTLE(get_node()->get_logger(), *get_node()->get_clock(),
-                         1000, "Failed to set one or more command interfaces");
-  }
+  command_interfaces_[0].set_value(vx_odom);
+  command_interfaces_[1].set_value(vy_odom);
+  command_interfaces_[2].set_value(wz);
 
   return controller_interface::return_type::OK;
 }
