@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="phoebe_mujoco_processed_inputs" params="
+    tf_prefix:=''
+    left_hand_type:='hande'
+    right_hand_type:='hande'
+    left_hande_finger_type:='fngr_v6'
+    right_hande_finger_type:='fngr_v6'
+    use_left_static_pedestal:=false
+  ">
+
+    <!-- Process arguments for the URDF -->
+
+      <!-- Decompose the finger meshes based on the finger types available. hw2-->
+      <xacro:if value="${left_hand_type == 'hande' or right_hand_type == 'hande'}">
+        <xacro:if value="${left_hande_finger_type == 'fngr_original' or right_hande_finger_type == 'fngr_original'}">
+          <decompose_mesh mesh_name="finger_1" threshold="0.05"/>
+        </xacro:if>
+        <xacro:if value="${left_hande_finger_type == 'fngr_nail_v2' or right_hande_finger_type == 'fngr_nail_v2'}">
+          <decompose_mesh mesh_name="hande_fngr_nail_v2" threshold="0.05"/>
+        </xacro:if>
+        <xacro:if value="${left_hande_finger_type == 'fngr_v2_m' or right_hande_finger_type == 'fngr_v2_m'}">
+          <decompose_mesh mesh_name="imetro_finger_v2_m_vis" threshold="0.05"/>
+        </xacro:if>
+        <xacro:if value="${left_hande_finger_type == 'fngr_v6' or right_hande_finger_type == 'fngr_v6'}">
+          <decompose_mesh mesh_name="finger_v6" threshold="0.05"/>
+        </xacro:if>
+      </xacro:if>
+
+      <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
+      <camera site="${tf_prefix}right_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
+
+      <!-- Add Phoebe default parameters to entire Phoebe kinematic tree -->
+      <modify_element type="body" name="${tf_prefix}base_link" childclass="phoebe"/>
+
+      <!-- Apply default classes to Phoebe joints. -->
+      <xacro:unless value="${use_left_static_pedestal}">
+        <modify_element type="joint" name="${tf_prefix}left_ewellix_lift_lower_to_higher" class="size5"/>
+      </xacro:unless>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" class="size3"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" class="size3"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_elbow_joint" class="size3_limited"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_1_joint" class="size1"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_2_joint" class="size1"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_3_joint" class="size1"/>
+
+      <modify_element type="joint" name="${tf_prefix}right_ewellix_lift_lower_to_higher" class="size5"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_pan_joint" class="size3"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_lift_joint" class="size3"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_elbow_joint" class="size3_limited"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_1_joint" class="size1"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_2_joint" class="size1"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_3_joint" class="size1"/>
+
+      <xacro:if value="${left_hand_type == 'hande'}">
+        <modify_element type="joint" name="${tf_prefix}left_finger_1_joint" armature="0.5" frictionloss="5.0" />
+        <modify_element type="joint" name="${tf_prefix}left_finger_2_joint" armature="0.5" frictionloss="5.0" />
+      </xacro:if>
+      <xacro:if value="${right_hand_type == 'hande'}">
+        <modify_element type="joint" name="${tf_prefix}right_finger_1_joint" armature="0.5" frictionloss="5.0" />
+        <modify_element type="joint" name="${tf_prefix}right_finger_2_joint" armature="0.5" frictionloss="5.0" />
+      </xacro:if>
+
+      <!-- Add gravcomp so that control will make the joints move about the desired position-->
+      <modify_element type="body" name="${tf_prefix}left_ewellix_lift_higher_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}left_ewellix_lift_middle_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}left_ur_arm_shoulder_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}left_ur_arm_upper_arm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}left_ur_arm_forearm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}left_ur_arm_wrist_1_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}left_ur_arm_wrist_2_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}left_ur_arm_wrist_3_link" gravcomp="1.0"/>
+      <xacro:if value="${left_hand_type == 'hande'}">
+        <modify_element type="body" name="${tf_prefix}left_finger_1_link" gravcomp="1.0"/>
+        <modify_element type="body" name="${tf_prefix}left_finger_2_link" gravcomp="1.0"/>
+      </xacro:if>
+      <modify_element type="body" name="${tf_prefix}right_ewellix_lift_higher_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}right_ewellix_lift_middle_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}right_ur_arm_shoulder_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}right_ur_arm_upper_arm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}right_ur_arm_forearm_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}right_ur_arm_wrist_1_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}right_ur_arm_wrist_2_link" gravcomp="1.0"/>
+      <modify_element type="body" name="${tf_prefix}right_ur_arm_wrist_3_link" gravcomp="1.0"/>
+      <xacro:if value="${left_hand_type == 'hande'}">
+        <modify_element type="body" name="${tf_prefix}right_finger_1_link" gravcomp="1.0"/>
+        <modify_element type="body" name="${tf_prefix}right_finger_2_link" gravcomp="1.0"/>
+      </xacro:if>
+  </xacro:macro>
+
+</robot>

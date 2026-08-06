@@ -1,7 +1,8 @@
 /**:
   twist_mux:
     ros__parameters:
-      use_sim_time: False
+      use_stamped: True
+      use_sim_time: $(var use_sim_time)
       topics.joy.topic: 'joy_teleop/cmd_vel'
       topics.joy.timeout: 0.5
       topics.joy.priority: 10

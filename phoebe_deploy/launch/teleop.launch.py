@@ -20,9 +20,11 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterFile
 
 
 def generate_launch_description():
@@ -30,7 +32,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the robot.",
         )
@@ -43,11 +45,28 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument("joystick_dev", default_value="/dev/input/js0", description="dev location of joystick")
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "launch_joystick",
+            choices=["true", "false"],
+            default_value="true",
+            description="Whether or not to launch the joystick device",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "reference_topic",
+            default_value="platform_velocity_controller/reference",
+            description="Command outputs from the muxer",
+        )
+    )
 
     # Launch Configurations
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     use_sim_time = LaunchConfiguration("use_sim_time")
     joystick_dev = LaunchConfiguration("joystick_dev")
+    launch_joystick = LaunchConfiguration("launch_joystick")
+    reference_topic = LaunchConfiguration("reference_topic")
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
@@ -65,7 +84,7 @@ def generate_launch_description():
     node_joy = Node(
         package="joy_linux",
         executable="joy_linux_node",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         name="joy_node",
         parameters=[
@@ -76,18 +95,19 @@ def generate_launch_description():
             },
         ],
         remappings=[
-            ("/diagnostics", "diagnostics"),
+            ("diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
             ("joy", "joy_teleop/joy"),
             ("joy/set_feedback", "joy_teleop/joy/set_feedback"),
         ],
+        condition=IfCondition(launch_joystick),
     )
 
     node_teleop_twist_joy = Node(
         package="teleop_twist_joy",
         executable="teleop_node",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         name="teleop_twist_joy_node",
         parameters=[
@@ -103,7 +123,7 @@ def generate_launch_description():
     node_interactive_marker_twist_server = Node(
         package="interactive_marker_twist_server",
         executable="marker_server",
-        namespace=ns,
+        namespace=namespace,
         name="twist_server_node",
         remappings=[
             ("cmd_vel", "twist_marker_server/cmd_vel"),
@@ -113,30 +133,30 @@ def generate_launch_description():
         parameters=[config_teleop_interactive_markers, {"use_sim_time": use_sim_time}],
         output="screen",
     )
-
     node_twist_mux = Node(
         package="twist_mux",
         executable="twist_mux",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         remappings={
-            ("cmd_vel_out", "platform_velocity_controller/cmd_vel_unstamped"),
-            ("/diagnostics", "diagnostics"),
+            ("cmd_vel_out", reference_topic),
+            ("diagnostics", "diagnostics"),
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
         },
-        parameters=[config_twist_mux, {"use_sim_time": use_sim_time}],
+        parameters=[ParameterFile(config_twist_mux, allow_substs=True), {"use_sim_time": use_sim_time}],
     )
 
     node_joystick_safing = Node(
         package="phoebe_safety",
         executable="pb_joystick_safing.py",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         name="pb_joystick_safing",
         parameters=[
             {"actions_file": config_joystick_safing},
         ],
+        condition=IfCondition(launch_joystick),
     )
 
     nodes = [

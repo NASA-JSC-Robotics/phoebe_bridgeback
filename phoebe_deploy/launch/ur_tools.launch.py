@@ -37,7 +37,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the robot.",
         )
@@ -51,14 +51,14 @@ def generate_launch_description():
         )
     )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     remote_control = LaunchConfiguration("remote_control")
 
     hande_right_comm_node = Node(
         name="right_ur_tool_communication_hande",
         package="ur_robot_driver",
         executable="tool_communication.py",
-        namespace=ns,
+        namespace=namespace,
         output="both",
         parameters=[
             {
@@ -72,7 +72,7 @@ def generate_launch_description():
         name="left_ur_tool_communication_hande",
         package="ur_robot_driver",
         executable="tool_communication.py",
-        namespace=ns,
+        namespace=namespace,
         output="both",
         parameters=[
             {

@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="new_mat_color.011" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_monitor_hinge_top" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="monitor_hinge_top.obj"/>
   </asset>
   <worldbody>
     <body name="monitor_hinge_top">
-      <geom material="new_mat_color.011" mesh="monitor_hinge_top" class="visual"/>
+      <geom material="mtl_monitor_hinge_top" mesh="monitor_hinge_top" class="visual"/>
       <geom mesh="monitor_hinge_top" class="collision"/>
     </body>
   </worldbody>

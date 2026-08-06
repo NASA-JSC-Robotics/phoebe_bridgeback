@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="DEFAULT_MTL.001" specular="0.0" shininess="0.25" rgba="0.800000 0.800000 0.800000 1.000000"/>
+    <material name="material_robotiq_hande_cb_adapter_0" specular="0.20000000000000004" shininess="1.0" rgba="0.80000000 0.80000000 0.80000000 1.0"/>
     <mesh file="robotiq_hande_cb_adapter.obj"/>
   </asset>
   <worldbody>
     <body name="robotiq_hande_cb_adapter">
-      <geom material="DEFAULT_MTL.001" mesh="robotiq_hande_cb_adapter" class="visual"/>
+      <geom material="material_robotiq_hande_cb_adapter_0" mesh="robotiq_hande_cb_adapter" class="visual"/>
       <geom mesh="robotiq_hande_cb_adapter" class="collision"/>
     </body>
   </worldbody>

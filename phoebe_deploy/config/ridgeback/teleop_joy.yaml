@@ -2,6 +2,7 @@
   teleop_twist_joy_node:
     ros__parameters:
       use_sim_time: False
+      publish_stamped_twist: True
       axis_linear.x: 1
       axis_linear.y: 0
       scale_linear.x: 0.4
