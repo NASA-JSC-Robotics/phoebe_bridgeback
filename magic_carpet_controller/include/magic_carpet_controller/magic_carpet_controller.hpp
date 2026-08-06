@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "controller_interface/controller_interface.hpp"
-#include "geometry_msgs/msg/twist_stamped.hpp"
+#include "geometry_msgs/msg/twist.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/subscription.hpp"
 #include "rclcpp_lifecycle/state.hpp"
@@ -36,7 +36,7 @@ namespace phoebe_controllers {
  * \brief Bridges platform velocity controller commands to the magic carpet
  * controller.
  *
- * Subscribes to body-frame TwistStamped commands (from the platform velocity
+ * Subscribes to body-frame Twist commands (from the platform velocity
  * controller), rotates them into the odom frame using the current yaw joint
  * state, and writes the resulting velocities directly to the magic carpet
  * joint command interfaces (linear_x, linear_y, rotational_yaw).
@@ -44,8 +44,8 @@ namespace phoebe_controllers {
  * Parameters:
  *   - tf_prefix (string, default: ""): Joint name prefix.
  *   - reference_topic (string, default:
- * "/platform_velocity_controller/reference"): TwistStamped topic to subscribe
- * to.
+ * "/platform_velocity_controller/reference_unstamped"): Twist topic to
+ * subscribe to.
  *
  * Command interfaces (velocity): linear_x_joint, linear_y_joint,
  * rotational_yaw_joint State interfaces (position): rotational_yaw_joint
@@ -85,10 +85,8 @@ private:
   std::string reference_topic_;
 
   // Realtime-safe buffer for incoming twist commands
-  realtime_tools::RealtimeBuffer<geometry_msgs::msg::TwistStamped>
-      rt_command_buf_;
-  rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr
-      cmd_vel_sub_;
+  realtime_tools::RealtimeBuffer<geometry_msgs::msg::Twist> rt_command_buf_;
+  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
 };
 
 } // namespace phoebe_controllers

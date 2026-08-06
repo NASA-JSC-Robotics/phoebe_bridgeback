@@ -56,7 +56,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "reference_topic",
-            default_value="platform_velocity_controller/reference",
+            default_value="platform_velocity_controller/reference_unstamped",
             description="Command outputs from the muxer",
         )
     )

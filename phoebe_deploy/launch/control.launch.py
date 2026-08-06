@@ -299,6 +299,13 @@ def generate_launch_description():
             ParameterFile(extra_controller_params_file, allow_substs=True),
             {"use_sim_time": use_sim_time},
         ],
+        remappings=[
+            ("~/robot_description", "/robot_description"),
+            # Necessary remap for platform velocity controller. Preferably this would be done
+            # at spawn time. This is not supported in humble, but is supported in jazzy.
+            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
+            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
+        ],
         output="both",
         arguments=["--ros-args", "--log-level", "info"],
     )

@@ -30,13 +30,11 @@ def spawn_controller(
     timeout=300,
     namespace: LaunchConfiguration = "",
     condition=None,
-    controller_ros_args=None,
 ):
     """
     Create a spawn controller node action for the specified controller and arguments.
     """
     inactive_flags = ["--inactive"] if inactive else []
-    ros_args = ["--controller-ros-args", f"{controller_ros_args}"] if controller_ros_args is not None else []
 
     return Node(
         package="controller_manager",
@@ -50,7 +48,6 @@ def spawn_controller(
             "--controller-manager-timeout",
             str(timeout),
         ]
-        + ros_args
         + inactive_flags,
         output="both",
         condition=condition,

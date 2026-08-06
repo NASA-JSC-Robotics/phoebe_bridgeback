@@ -31,8 +31,8 @@ controller_interface::CallbackReturn MagicCarpetController::on_init() {
     auto_declare<std::string>("linear_x_joint", "linear_x_joint");
     auto_declare<std::string>("linear_y_joint", "linear_y_joint");
     auto_declare<std::string>("yaw_joint", "rotational_yaw_joint");
-    auto_declare<std::string>("reference_topic",
-                              "/platform_velocity_controller/reference");
+    auto_declare<std::string>(
+        "reference_topic", "/platform_velocity_controller/reference_unstamped");
   } catch (const std::exception &e) {
     RCLCPP_ERROR(get_node()->get_logger(), "on_init failed: %s", e.what());
     return controller_interface::CallbackReturn::ERROR;
@@ -48,12 +48,11 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
   yaw_joint_ = get_node()->get_parameter("yaw_joint").as_string();
 
   // Subscribe to the platform velocity controller reference topic
-  cmd_vel_sub_ =
-      get_node()->create_subscription<geometry_msgs::msg::TwistStamped>(
-          reference_topic_, rclcpp::SystemDefaultsQoS(),
-          [this](const geometry_msgs::msg::TwistStamped::SharedPtr msg) {
-            rt_command_buf_.writeFromNonRT(*msg);
-          });
+  cmd_vel_sub_ = get_node()->create_subscription<geometry_msgs::msg::Twist>(
+      reference_topic_, rclcpp::SystemDefaultsQoS(),
+      [this](const geometry_msgs::msg::Twist::SharedPtr msg) {
+        rt_command_buf_.writeFromNonRT(*msg);
+      });
 
   RCLCPP_INFO(get_node()->get_logger(),
               "Configured: listening on '%s', commanding joints [%s, %s, %s]",
@@ -88,7 +87,7 @@ MagicCarpetController::state_interface_configuration() const {
 controller_interface::CallbackReturn MagicCarpetController::on_activate(
     const rclcpp_lifecycle::State & /*previous_state*/) {
   // Reset the command buffer so we don't act on stale data
-  rt_command_buf_.writeFromNonRT(geometry_msgs::msg::TwistStamped());
+  rt_command_buf_.writeFromNonRT(geometry_msgs::msg::Twist());
 
   RCLCPP_INFO(get_node()->get_logger(), "Activated");
   return controller_interface::CallbackReturn::SUCCESS;
@@ -117,12 +116,12 @@ MagicCarpetController::update(const rclcpp::Time & /*time*/,
   const double cos_yaw = std::cos(yaw);
   const double sin_yaw = std::sin(yaw);
 
-  const double vx_body = cmd.twist.linear.x;
-  const double vy_body = cmd.twist.linear.y;
+  const double vx_body = cmd.linear.x;
+  const double vy_body = cmd.linear.y;
 
   const double vx_odom = vx_body * cos_yaw - vy_body * sin_yaw;
   const double vy_odom = vx_body * sin_yaw + vy_body * cos_yaw;
-  const double wz = cmd.twist.angular.z;
+  const double wz = cmd.angular.z;
 
   // Write to command interfaces
   // command_interfaces_ order matches command_interface_configuration():

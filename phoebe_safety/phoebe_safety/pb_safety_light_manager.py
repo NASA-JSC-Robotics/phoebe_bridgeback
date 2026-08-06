@@ -33,6 +33,7 @@ import yaml
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 import datetime
 from enum import IntEnum
+from ament_index_python.packages import get_package_share_path
 
 
 class LightColor(IntEnum):
@@ -49,6 +50,8 @@ status_descriptions = {
 
 color_map = {LightColor.BLUE: "\033[94m", LightColor.YELLOW: "\033[93m", LightColor.RED: "\033[91m"}
 
+DEFAULT_SENSOR_CONFIG_FILE = get_package_share_path("phoebe_safety") / "config" / "current_sensors.yaml"
+
 
 class PhoebeSafetyManager(Node):
     def __init__(self, sim_arduino=False):
@@ -60,7 +63,9 @@ class PhoebeSafetyManager(Node):
             self.declare_parameter("arduino_port", "/dev/safety_light").get_parameter_value().string_value
         )
         self.sensor_config_file = (
-            self.declare_parameter("current_sensor_config_file").get_parameter_value().string_value
+            self.declare_parameter("current_sensor_config_file", DEFAULT_SENSOR_CONFIG_FILE.as_posix())
+            .get_parameter_value()
+            .string_value
         )
 
         # Assign parameters

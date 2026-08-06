@@ -141,7 +141,7 @@ class StatusDisplayNode(Node):
             Bool, "platform/emergency_stop", partial(self.update_msg_cb, "estop_status"), qos
         )
         self.cmd_vel_sub_ = self.create_subscription(
-            Twist, "/platform_velocity_controller/reference", partial(self.update_msg_cb, "cmd_vel"), qos
+            Twist, "/platform_velocity_controller/reference_unstamped", partial(self.update_msg_cb, "cmd_vel"), qos
         )
 
         # Timer used to drive the update cycle. The timing is limited by how often the subscriptions arrive

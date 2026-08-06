@@ -697,6 +697,7 @@
     safety_limits="false"
     safety_pos_margin="0.15"
     safety_k_position="20"
+    generate_ros2_control_tag="${generate_ros2_control_tag}"
     >
     <origin xyz="0 0 0" rpy="0 0 ${5*pi/4}" />
   </xacro:ur_robot>
@@ -710,8 +711,8 @@
       name="${tf_prefix}right_ur5e_ros2_control"
       tf_prefix="${tf_prefix}right_ur_arm_"
       kinematics_parameters_file="${right_ur_kinematics_file}"
-      use_mock_hardware="${use_fake_hardware}"
-      mock_sensor_commands="${use_fake_hardware}"
+      use_fake_hardware="${use_fake_hardware}"
+      fake_sensor_commands="${use_fake_hardware}"
       initial_positions="${xacro.load_yaml(initial_positions_file_right)}"
       robot_ip="${right_ur_ip_addr}"
       script_filename="$(find ur_client_library)/resources/external_control.urscript"
@@ -749,6 +750,7 @@
     safety_limits="false"
     safety_pos_margin="0.15"
     safety_k_position="20"
+    generate_ros2_control_tag="${generate_ros2_control_tag}"
     >
     <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
   </xacro:ur_robot>
@@ -758,8 +760,8 @@
       name="${tf_prefix}left_ur5e_ros2_control"
       tf_prefix="${tf_prefix}left_ur_arm_"
       kinematics_parameters_file="${left_ur_kinematics_file}"
-      use_mock_hardware="${use_fake_hardware}"
-      mock_sensor_commands="${use_fake_hardware}"
+      use_fake_hardware="${use_fake_hardware}"
+      fake_sensor_commands="${use_fake_hardware}"
       initial_positions="${xacro.load_yaml(initial_positions_file_left)}"
       robot_ip="${left_ur_ip_addr}"
       script_filename="$(find ur_client_library)/resources/external_control.urscript"

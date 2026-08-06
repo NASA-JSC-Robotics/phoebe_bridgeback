@@ -67,7 +67,6 @@ def generate_launch_description():
                 "platform_velocity_controller",
                 namespace=namespace,
                 condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
             ),
             spawn_controller(
                 "platform_velocity_controller",
@@ -78,7 +77,6 @@ def generate_launch_description():
                 "odom_publisher",
                 namespace=namespace,
                 condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
             ),
             spawn_controller(
                 "odom_publisher",
@@ -89,7 +87,6 @@ def generate_launch_description():
                 "imu_broadcaster",
                 namespace=namespace,
                 condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
             ),
         ],
     )

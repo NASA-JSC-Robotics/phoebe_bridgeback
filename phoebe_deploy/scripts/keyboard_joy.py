@@ -25,7 +25,7 @@ import time
 import tty
 
 import rclpy
-from geometry_msgs.msg import TwistStamped
+from geometry_msgs.msg import Twist
 from rclpy.node import Node
 
 LINEAR_SPEED = 0.1
@@ -46,12 +46,12 @@ class KeyboardTeleopNode(Node):
     def __init__(self):
         super().__init__("phoebe_teleop")
 
-        self.twist = TwistStamped()
+        self.twist = Twist()
         self.reset_twist()
         self.last_key_time = time.time() - KEY_TIMEOUT * 2
         self.running = True
 
-        self.publisher_ = self.create_publisher(TwistStamped, "/cmd_vel", 1)
+        self.publisher_ = self.create_publisher(Twist, "/cmd_vel", 1)
         self.timer = self.create_timer(PUBLISH_PERIOD, self.publish_twist)
 
         self.key_thread = threading.Thread(target=self.key_listener_loop, daemon=True)
@@ -75,12 +75,12 @@ class KeyboardTeleopNode(Node):
         super().destroy_node()
 
     def reset_twist(self):
-        self.twist.twist.linear.x = 0.0
-        self.twist.twist.angular.z = 0.0
+        self.twist.linear.x = 0.0
+        self.twist.angular.z = 0.0
 
     def set_twist(self, linear, angular):
-        self.twist.twist.linear.x = linear
-        self.twist.twist.angular.z = angular
+        self.twist.linear.x = linear
+        self.twist.angular.z = angular
 
     def key_listener_loop(self):
         # Configures the shell to read raw input
@@ -117,7 +117,6 @@ class KeyboardTeleopNode(Node):
         if time.time() - self.last_key_time > KEY_TIMEOUT:
             self.reset_twist()
 
-        self.twist.header.stamp = self.get_clock().now().to_msg()
         self.publisher_.publish(self.twist)
 
 

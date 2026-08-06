@@ -63,11 +63,11 @@ graph TD
     VEL_SMOOTH[velocity_smoother]
     COLL_MON[collision_monitor]
 
-    NAV2 -->|geometry_msgs/msg/TwistStamped| CMD_NAV([cmd_vel_nav])
-    CMD_NAV -->|geometry_msgs/msg/TwistStamped| VEL_SMOOTH
-    VEL_SMOOTH -->|geometry_msgs/msg/TwistStamped| CMD_SMOOTH([cmd_vel_smoothed])
-    CMD_SMOOTH -->|geometry_msgs/msg/TwistStamped| COLL_MON
-    COLL_MON -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
+    NAV2 -->|geometry_msgs/msg/Twist| CMD_NAV([cmd_vel_nav])
+    CMD_NAV -->|geometry_msgs/msg/Twist| VEL_SMOOTH
+    VEL_SMOOTH -->|geometry_msgs/msg/Twist| CMD_SMOOTH([cmd_vel_smoothed])
+    CMD_SMOOTH -->|geometry_msgs/msg/Twist| COLL_MON
+    COLL_MON -->|geometry_msgs/msg/Twist| CMD_VEL([cmd_vel])
 
     subgraph Command Muxing
         TWIST_MUX[twist_mux]
@@ -76,12 +76,12 @@ graph TD
         TWIST_SRV([twist_marker_server/cmd_vel])
     end
 
-    CMD_VEL -->|geometry_msgs/msg/TwistStamped| TWIST_MUX
-    JOY -->|geometry_msgs/msg/TwistStamped| TWIST_MUX
-    RC -->|geometry_msgs/msg/TwistStamped| TWIST_MUX
-    TWIST_SRV -->|geometry_msgs/msg/TwistStamped| TWIST_MUX
+    CMD_VEL -->|geometry_msgs/msg/Twist| TWIST_MUX
+    JOY -->|geometry_msgs/msg/Twist| TWIST_MUX
+    RC -->|geometry_msgs/msg/Twist| TWIST_MUX
+    TWIST_SRV -->|geometry_msgs/msg/Twist| TWIST_MUX
 
-    TWIST_MUX -->|geometry_msgs/msg/TwistStamped| REF_TOPIC([platform_velocity_controller/reference])
+    TWIST_MUX -->|geometry_msgs/msg/Twist| REF_TOPIC([platform_velocity_controller/reference_unstamped])
     REF_TOPIC --> PVC_INPUT
 
     subgraph Hardware / Mujoco Inputs

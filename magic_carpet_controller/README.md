@@ -29,7 +29,7 @@ magic_carpet_controller:
     linear_x_joint: linear_x_joint
     linear_y_joint: linear_y_joint
     yaw_joint: rotational_yaw_joint
-    reference_topic: /platform_velocity_controller/reference
+    reference_topic: /platform_velocity_controller/reference_unstamped
 ```
 
 ## Nav2 Integration

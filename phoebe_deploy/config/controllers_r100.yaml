@@ -15,7 +15,8 @@
 
   platform_velocity_controller:
     ros__parameters:
-      update_rate: 50
+      use_sim_time: $(var use_sim_time)
+      interface_name: 'velocity'
 
       command_joint_names: [$(var tf_prefix)front_left_wheel_joint, $(var tf_prefix)rear_left_wheel_joint, $(var tf_prefix)rear_right_wheel_joint, $(var tf_prefix)front_right_wheel_joint]
       front_left_wheel_command_joint_name: $(var tf_prefix)front_left_wheel_joint
@@ -33,7 +34,8 @@
       wheel_separation_multiplier: 1.0
       wheel_radius_multiplier: 1.0
 
-      reference_timeout: 1.0
+      publish_rate: 50.0
+      reference_timeout: 0.1
       cmd_vel_timeout: 0.5
       use_stamped_vel: False
 
@@ -46,8 +48,7 @@
 
   odom_publisher:
     ros__parameters:
-      update_rate: 50
-      use_sim_time: False
+      use_sim_time: $(var use_sim_time)
       interface_name: 'velocity'
 
       state_joint_names: [$(var tf_prefix)front_left_wheel_joint, $(var tf_prefix)rear_left_wheel_joint, $(var tf_prefix)rear_right_wheel_joint, $(var tf_prefix)front_right_wheel_joint]
@@ -71,7 +72,7 @@
 
   imu_broadcaster:
     ros__parameters:
-      use_sim_time: False
+      use_sim_time: $(var use_sim_time)
       sensor_name: "$(var tf_prefix)imu_sensor"
       frame_id:  "$(var tf_prefix)imu_0_link"
 
@@ -80,4 +81,4 @@
       linear_x_joint: $(var tf_prefix)linear_x_joint
       linear_y_joint: $(var tf_prefix)linear_y_joint
       yaw_joint: $(var tf_prefix)rotational_yaw_joint
-      reference_topic: /platform_velocity_controller/reference
+      reference_topic: /platform_velocity_controller/reference_unstamped
