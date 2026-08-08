@@ -73,7 +73,7 @@ def return_wheel_description(
 
     cylinder = f"""<body name="{link_name}_link" pos="{str(x)} {str(y)} {str(z)}">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="{str(mass)}" diaginertia="{str(ixx)} {str(iyy)} {str(izz)}" />
-    <joint name="{link_name}_joint" pos="0 0 0" axis="0 1 0" damping="5.0"/>
+    <joint name="{link_name}_joint" pos="0 0 0" axis="0 1 0" damping="5.0" limited="false"/>
     """
     # <geom size="{str(r)} {str(h/2)}" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.2 0.2 0.2 0.5" class="visual"/>
     wheel_description += cylinder + "\n"

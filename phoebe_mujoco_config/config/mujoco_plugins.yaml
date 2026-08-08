@@ -1,5 +1,9 @@
 /**:
   ros__parameters:
+    # In MuJoCo the effective mecanum rolling radius is smaller than the real robot's,
+    # which affects wheel odometry over-count. ~0.063 matches the simulated contact geometry.
+    kinematics.wheels_radius: 0.063
+
     mujoco_plugins:
       mujoco_3d_lidar_plugin:
         type: "mujoco_ros2_control_plugins/Mujoco3dLidarPlugin"
