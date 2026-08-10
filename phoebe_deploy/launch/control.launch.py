@@ -20,7 +20,7 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     Command,
@@ -29,7 +29,7 @@ from launch.substitutions import (
     PathJoinSubstitution,
 )
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import Node, PushRosNamespace
+from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterFile
 from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.substitutions import FindPackageShare
@@ -65,7 +65,7 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -101,27 +101,73 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the left arm of phoebe",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande", "2f85"],
+            description="Hand type to put on the right arm of phoebe",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "extra_xacro_args",
+            default_value="",
+            description="Extra args to add for making a robot description. "
+            "Should be in the format of 'arg1:=value1 arg2:=value2'",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "extra_controller_params_file",
+            default_value=PathJoinSubstitution([FindPackageShare("phoebe_deploy"), "config", "empty_config.yaml"]),
+            description="Path to additional parameter file to be loaded into the control node.",
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     use_sim_time = LaunchConfiguration("use_sim_time")
     tf_prefix = LaunchConfiguration("tf_prefix")
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
     include_world_joints = LaunchConfiguration("include_world_joints")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
+    extra_xacro_args = LaunchConfiguration("extra_xacro_args")
+    extra_controller_params_file = LaunchConfiguration("extra_controller_params_file")
 
     # common launch args shared across different nodes
     common_launch_args = {
         "use_fake_hardware": use_fake_hardware,
         "tf_prefix": tf_prefix,
-        "ns": ns,
+        "namespace": namespace,
         "calibration_mode": calibration_mode,
         "robot_description_package": robot_description_package,
         "robot_description_file": robot_description_file,
         "is_sim": use_fake_hardware,
         "include_world_joints": include_world_joints,
+        "use_left_static_pedestal": use_left_static_pedestal,
+        "left_hand_type": left_hand_type,
+        "right_hand_type": right_hand_type,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -187,7 +233,6 @@ def generate_launch_description():
     controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
     # This is the main robot description for Phoebe.
-    # Unfortunately, we need the robot description for the controller manager to launch admittance controllers.
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -195,7 +240,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindPackageShare(robot_description_package), "urdf", robot_description_file]),
             " ",
             "ns:=",
-            ns,
+            namespace,
             " ",
             "tf_prefix:=",
             tf_prefix,
@@ -209,6 +254,16 @@ def generate_launch_description():
             "calibration_mode:=",
             calibration_mode,
             " ",
+            "use_left_static_pedestal:=",
+            use_left_static_pedestal,
+            " ",
+            "left_hand_type:=",
+            left_hand_type,
+            " ",
+            "right_hand_type:=",
+            right_hand_type,
+            " ",
+            extra_xacro_args,  # this should always be last
         ]
     )
     robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}
@@ -220,7 +275,7 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        namespace=ns,
+        namespace=namespace,
         output="both",
         parameters=[
             robot_description,
@@ -232,7 +287,7 @@ def generate_launch_description():
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        namespace=ns,
+        namespace=namespace,
         # allow_substs allows tf_prefix to be pulled in
         parameters=[
             ParameterFile(controllers_common, allow_substs=True),
@@ -241,59 +296,30 @@ def generate_launch_description():
             ParameterFile(controllers_ur, allow_substs=True),
             ParameterFile(controllers_hande, allow_substs=True),
             ParameterFile(controllers_moveit_pro, allow_substs=True),
+            ParameterFile(extra_controller_params_file, allow_substs=True),
             {"use_sim_time": use_sim_time},
-            robot_description,
+            # In MuJoCo the effective mecanum rolling radius is smaller than the real robot's,
+            # which affects wheel odometry over-count. ~0.063 matches the simulated contact geometry.
+            # Note that in Jazzy and later, this can be set directly on the controller spawner using
+            # the --controller-ros-args argument, but this is not available on Humble.
+            {"kinematics.wheels_radius": 0.063},
         ],
         remappings=[
-            # remap to be able to use the global robot_description
-            ("~/robot_description", "robot_description"),
+            ("~/robot_description", "/robot_description"),
             # Necessary remap for platform velocity controller. Preferably this would be done
             # at spawn time. This is not supported in humble, but is supported in jazzy.
             ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
             ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
         ],
         output="both",
-        condition=UnlessCondition(use_fake_hardware),
-    )
-
-    # start the controller manager node with all of the controller config files
-    # this is the version for sim, which just sets the kinematics.wheel radius to a smaller value for mujoco
-    control_node_sim = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        namespace=ns,
-        # allow_substs allows tf_prefix to be pulled in
-        parameters=[
-            ParameterFile(controllers_common, allow_substs=True),
-            ParameterFile(controllers_r100, allow_substs=True),
-            ParameterFile(controllers_ewellix, allow_substs=True),
-            ParameterFile(controllers_ur, allow_substs=True),
-            ParameterFile(controllers_hande, allow_substs=True),
-            ParameterFile(controllers_moveit_pro, allow_substs=True),
-            robot_description,
-            # for some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically
-            {
-                "use_sim_time": use_sim_time,
-                "kinematics.wheels_radius": 0.063,
-            },
-        ],
-        remappings=[
-            # remap to be able to use the global robot_description
-            ("~/robot_description", "robot_description"),
-            # Necessary remap for platform velocity controller. Preferably this would be done
-            # at spawn time. This is not supported in humble, but is supported in jazzy.
-            ("/imu_broadcaster/imu", "/ridgeback/sensors/imu_0/data_raw"),
-            ("/lidar2d_0_laser/scan", "/ridgeback/sensors/lidar2d_0/scan"),
-        ],
-        output="both",
-        condition=IfCondition(use_fake_hardware),
+        arguments=["--ros-args", "--log-level", "info"],
     )
 
     node_puma_throttle = Node(
         name="puma_throttle",
         executable="throttle",
         package="topic_tools",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         arguments=[
             "messages",
@@ -304,10 +330,6 @@ def generate_launch_description():
         condition=UnlessCondition(use_fake_hardware),
     )
 
-    ns_action = GroupAction(
-        actions=[PushRosNamespace(ns)]
-        + launch_files
-        + [robot_state_publisher_node, control_node, control_node_sim, node_puma_throttle]
+    return LaunchDescription(
+        declared_arguments + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle]
     )
-
-    return LaunchDescription(declared_arguments + [ns_action])

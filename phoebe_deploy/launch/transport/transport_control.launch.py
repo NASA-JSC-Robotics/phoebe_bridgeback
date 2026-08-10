@@ -19,10 +19,10 @@
 
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction
+from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import Node, PushRosNamespace
+from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterFile
 
 
@@ -41,14 +41,14 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
     )
 
     # Initialize Arguments
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
 
     # helper function to make controller nodes
     def MakeControllerNode(controller_name):
@@ -62,7 +62,7 @@ def generate_launch_description():
                 "--controller-manager-timeout",
                 "300",
                 "--namespace",
-                ns,
+                namespace,
                 controller_name,
             ],
             output="screen",
@@ -91,7 +91,7 @@ def generate_launch_description():
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        namespace=ns,
+        namespace=namespace,
         # allow_substs allows tf_prefix to be pulled in
         parameters=[
             ParameterFile(controllers_common, allow_substs=True),
@@ -110,7 +110,7 @@ def generate_launch_description():
         name="puma_throttle",
         executable="throttle",
         package="topic_tools",
-        namespace=ns,
+        namespace=namespace,
         output="screen",
         arguments=["messages", "platform/puma/cmd", "50", "ridgeback/platform/puma/cmd_throttle"],
     )
@@ -120,6 +120,4 @@ def generate_launch_description():
 
     nodes = [control_node, node_puma_throttle, platform_velocity_controller, joint_state_broadcaster]
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + nodes)
-
-    return LaunchDescription(declared_arguments + [ns_action])
+    return LaunchDescription(declared_arguments + [nodes])

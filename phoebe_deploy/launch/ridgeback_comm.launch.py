@@ -33,7 +33,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the robot.",
         )
@@ -47,7 +47,7 @@ def generate_launch_description():
         have to be updated.",
         )
     )
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     default_ns = "ridgeback"
     tf_prefix = LaunchConfiguration("tf_prefix")
     tf_prefix = tf_prefix  # dummy use to get precommit to be happy
@@ -236,6 +236,6 @@ def generate_launch_description():
     ]
     processes = [process_configure_mcu]
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + launches + nodes + processes)
+    ns_action = GroupAction(actions=[PushRosNamespace(namespace)] + launches + nodes + processes)
 
     return LaunchDescription(declared_arguments + [ns_action])

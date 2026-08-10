@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="phoebe_colors">
+
+  <!-- ===================== MATERIALS/COLORS ===================== -->
+  <material name="imetro_mobile_environment_black">
+    <color rgba="0.1 0.1 0.1 1"/>
+  </material>
+
+  <material name="imetro_mobile_environment_blue">
+    <color rgba="0.1 0.1 0.3 1"/>
+  </material>
+
+  <material name="imetro_mobile_environment_brown">
+    <color rgba="0.42 0.22 0.16 1"/>
+  </material>
+
+  <material name="imetro_mobile_environment_gray">
+    <color rgba="0.7 0.7 0.7 1"/>
+  </material>
+
+  <material name="cylinder_bottle_blue">
+    <color rgba="0.1 0.4 0.9 1"/>
+  </material>
+
+</robot>

@@ -25,13 +25,14 @@ from launch.actions import (
     ExecuteProcess,
     RegisterEventHandler,
 )
-from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition, UnlessCondition
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.substitutions import FindPackagePrefix
 from launch.event_handlers import OnProcessExit
+
+from phoebe_deploy.launch_helpers import spawn_controller
 
 
 def generate_launch_description():
@@ -49,7 +50,7 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -69,17 +70,37 @@ def generate_launch_description():
             description="This is some kind of simulation environment",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame and run phoebe on a magic carpet",
+            choices=["true", "false"],
+        )
+    )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
     is_sim = LaunchConfiguration("is_sim")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    include_world_joints = LaunchConfiguration("include_world_joints")
 
     # common launch args passed to each of the different launch files
     common_launch_args = {
         "tf_prefix": tf_prefix,
-        "ns": ns,
+        "namespace": namespace,
+        "calibration_mode": calibration_mode,
         "is_sim": is_sim,
+        "use_left_static_pedestal": use_left_static_pedestal,
+        "include_world_joints": include_world_joints,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names
@@ -90,25 +111,7 @@ def generate_launch_description():
             condition=condition,
         )
 
-    # helper function to make controller nodes
-    def MakeControllerNode(controller_name):
-        return Node(
-            package="controller_manager",
-            executable="spawner",
-            name=controller_name,
-            arguments=[
-                "--controller-manager",
-                "controller_manager",
-                "--controller-manager-timeout",
-                "300",
-                "--namespace",
-                ns,
-                controller_name,
-            ],
-            output="screen",
-        )
-
-    joint_state_broadcaster = MakeControllerNode("joint_state_broadcaster")
+    joint_state_broadcaster = spawn_controller("joint_state_broadcaster", namespace=namespace)
 
     launches = []
 
@@ -139,12 +142,12 @@ def generate_launch_description():
             "spawn_controllers_ur.launch.py",
         ]
     )
-    launch_file_hande_spawner = PathJoinSubstitution(
+    launch_file_grippers_spawner = PathJoinSubstitution(
         [
             pkg_phoebe_deploy,
             "launch",
             "spawn_controllers",
-            "spawn_controllers_hande.launch.py",
+            "spawn_controllers_grippers.launch.py",
         ]
     )
 
@@ -169,11 +172,16 @@ def generate_launch_description():
     )
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))
-    launches.append(MakeLaunchDescription(launch_file_ewellix_spawner, common_launch_args))
+    launches.append(
+        MakeLaunchDescription(
+            launch_file_ewellix_spawner,
+            common_launch_args,
+        )
+    )
     launches.append(MakeLaunchDescription(launch_file_ur_spawner, common_launch_args))
     launches.append(
         MakeLaunchDescription(
-            launch_file_hande_spawner,
+            launch_file_grippers_spawner,
             common_launch_args,
             condition=UnlessCondition(calibration_mode),
         )

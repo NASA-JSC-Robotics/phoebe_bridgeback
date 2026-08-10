@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<robot name="phoebe" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Args -->
+  <xacro:arg name="add_grasp_push_frames" default="true"/>
+  <xacro:arg name="include_world_joints" default="true"/>
+  <xacro:arg name="sim_speed" default="1.0"/>
+  <xacro:arg name="use_pregenerated_mjcf" default="false"/>
+  <xacro:arg name="model_mobile_env" default="true"/>
+  <xacro:arg name="left_hand_type" default="hande" />
+  <xacro:arg name="right_hand_type" default="hande" />
+  <xacro:arg name="left_hande_finger_type" default="fngr_v6" />
+  <xacro:arg name="right_hande_finger_type" default="fngr_v6" />
+  <xacro:arg name="use_left_static_pedestal" default="false"/>
+  <xacro:arg name="base_joint_type" default="fixed"/>
+  <!-- uncomment to start from saved keyframe -->
+  <!-- <xacro:arg name="override_start_position_file" default="$(find cylinder_demo)/config/new_pre_place.xml"/> -->
+
+  <xacro:property name="model_mobile_env" value="$(arg model_mobile_env)"/>
+
+  <!-- Includes -->
+  <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
+  <xacro:include filename="$(find phoebe_description)/urdf/imetro_mobile_environment/imetro_mobile_environment_macro.xacro" />
+
+  <link name="world"/>
+
+  <xacro:if value="$(arg include_world_joints)">
+    <joint name="floating_base_joint" type="fixed">
+      <parent link="world"/>
+      <child link="map"/>
+    </joint>
+  </xacro:if>
+
+  <xacro:unless value="$(arg include_world_joints)">
+    <joint name="floating_base_joint" type="$(arg base_joint_type)">
+      <parent link="world"/>
+      <child link="base_link"/>
+    </joint>
+  </xacro:unless>
+
+  <xacro:phoebe
+    generate_ros2_control_tag="false"
+    add_grasp_push_frames="$(arg add_grasp_push_frames)"
+    use_camera_mesh="false"
+    include_world_joints="$(arg include_world_joints)"
+    left_hand_type="$(arg left_hand_type)"
+    right_hand_type="$(arg right_hand_type)"
+    left_hande_finger_type="$(arg left_hande_finger_type)"
+    right_hande_finger_type="$(arg right_hande_finger_type)"
+    use_left_static_pedestal="$(arg use_left_static_pedestal)"
+  />
+
+  <xacro:if value="${model_mobile_env}">
+    <xacro:imetro_mobile_environment parent="world">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:imetro_mobile_environment>
+  </xacro:if>
+
+  <!-- special inputs for mujoco processing-->
+  <xacro:include filename="$(find phoebe_mujoco_config)/urdf/phoebe_mujoco_raw_inputs.xacro"/>
+  <xacro:include filename="$(find phoebe_mujoco_config)/urdf/phoebe_mujoco_processed_inputs.xacro"/>
+  <xacro:include filename="$(find phoebe_mujoco_config)/urdf/phoebe_mujoco_scene.xacro"/>
+  <xacro:include filename="$(find phoebe_mujoco_config)/urdf/phoebe_mujoco_ros2_control_macros.xacro"/>
+
+  <mujoco_inputs>
+    <raw_inputs>
+      <xacro:phoebe_mujoco_raw_inputs
+        use_left_static_pedestal="$(arg use_left_static_pedestal)"
+        left_hand_type="$(arg left_hand_type)"
+        right_hand_type="$(arg right_hand_type)"
+        include_world_joints="$(arg include_world_joints)"
+      />
+    </raw_inputs>
+    <processed_inputs>
+        <xacro:phoebe_mujoco_processed_inputs
+          left_hand_type="$(arg left_hand_type)"
+          right_hand_type="$(arg right_hand_type)"
+          left_hande_finger_type="$(arg left_hande_finger_type)"
+          right_hande_finger_type="$(arg right_hande_finger_type)"
+          use_left_static_pedestal="$(arg use_left_static_pedestal)"
+        />
+    </processed_inputs>
+    <xacro:phoebe_mujoco_scene/>
+  </mujoco_inputs>
+
+  <ros2_control name="MujocoSystem" type="system">
+    <hardware>
+      <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
+
+      <param name="pids_config_file">$(find phoebe_mujoco_config)/config/mujoco_pid.yaml</param>
+
+      <!-- uncomment to start from saved keyframe -->
+      <!-- <param name="override_start_position_file">$(arg override_start_position_file)</param> -->
+
+      <!-- Increase this parameter to run the sim faster than realtime. -->
+      <param name="sim_speed_factor">$(arg sim_speed)</param>
+
+      <!-- Publish camera images at 2 hz -->
+      <param name="camera_publish_rate">2.0</param>
+    </hardware>
+
+    <xacro:phoebe_mujoco_ros2_control_sensors/>
+    <xacro:phoebe_mujoco_ros2_control_joints
+      use_left_static_pedestal="$(arg use_left_static_pedestal)"
+      left_hand_type="$(arg left_hand_type)"
+      right_hand_type="$(arg right_hand_type)"
+      include_world_joints="$(arg include_world_joints)"
+    />
+
+  </ros2_control>
+</robot>

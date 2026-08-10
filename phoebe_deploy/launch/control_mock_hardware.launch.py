@@ -20,13 +20,12 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
 )
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import PushRosNamespace
 
 
 def generate_launch_description():
@@ -35,7 +34,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -48,22 +47,50 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "left_hand_type",
+            default_value="hande",
+            choices=["hande"],
+            description="Hand type to put on the left arm of phoebe. "
+            "Only hande is supported for mock_hardware at this moment",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "right_hand_type",
+            default_value="hande",
+            choices=["hande"],
+            description="Hand type to put on the right arm of phoebe. "
+            "Only hande is supported for mock_hardware at this moment",
+        )
+    )
 
     # Initialize Arguments
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
-
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
+    left_hand_type = LaunchConfiguration("left_hand_type")
+    right_hand_type = LaunchConfiguration("right_hand_type")
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("phoebe_deploy"), "launch", "control.launch.py")
         ),
         launch_arguments={
             "use_fake_hardware": "true",
-            "ns": ns,
+            "namespace": namespace,
             "calibration_mode": calibration_mode,
+            "use_left_static_pedestal": use_left_static_pedestal,
+            "left_hand_type": left_hand_type,
+            "right_hand_type": right_hand_type,
         }.items(),
     )
 
-    ns_action = GroupAction(actions=[PushRosNamespace(ns)] + [control_launch])
-
-    return LaunchDescription(declared_arguments + [ns_action])
+    return LaunchDescription(declared_arguments + [control_launch])

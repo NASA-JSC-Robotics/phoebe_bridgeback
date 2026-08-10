@@ -1,0 +1,12 @@
+<library path="magic_carpet_controller">
+  <class
+    name="phoebe_controllers/MagicCarpetController"
+    type="phoebe_controllers::MagicCarpetController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>
+      Bridges platform_velocity_controller TwistStamped commands to magic carpet
+      joint velocity commands by rotating body-frame velocities into the odom
+      frame using the current yaw state.
+    </description>
+  </class>
+</library>

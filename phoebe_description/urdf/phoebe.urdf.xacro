@@ -8,8 +8,12 @@
     <xacro:arg name="include_world_joints" default="false"/>
     <xacro:arg name="left_ewellix_com_port" default="/dev/ewellix_left" />
     <xacro:arg name="right_ewellix_com_port" default="/dev/ewellix_right" />
+    <xacro:arg name="left_hand_type" default="hande" />
+    <xacro:arg name="right_hand_type" default="hande" />
     <xacro:arg name="left_hande_com_port" default="/tmp/hande_left" />
     <xacro:arg name="right_hande_com_port" default="/tmp/hande_right" />
+    <xacro:arg name="left_hande_finger_type" default="fngr_v6" />
+    <xacro:arg name="right_hande_finger_type" default="fngr_v6" />
     <xacro:arg name="left_ur_ip_addr" default="192.168.131.40" />
     <xacro:arg name="right_ur_ip_addr" default="192.168.131.41" />
     <xacro:arg name="left_ur_kinematics_file" default="$(find phoebe_description)/config/left_ur_calibration.yaml" />
@@ -18,6 +22,7 @@
     <xacro:arg name="right_liftkit_calibration_file" default="$(find phoebe_description)/config/right_liftkit_calibration.yaml" />
     <xacro:arg name="liftkit_mount_calibration_file" default="$(find phoebe_description)/config/liftkit_mount_calibration.yaml" />
     <xacro:arg name="generate_ros2_control_tag" default="true" />
+    <xacro:arg name="use_left_static_pedestal" default="false" />
 
     <!-- Includes -->
     <xacro:include filename="$(find phoebe_description)/urdf/phoebe_macro.xacro" />
@@ -31,8 +36,12 @@
         include_world_joints="$(arg include_world_joints)"
         left_ewellix_com_port="$(arg left_ewellix_com_port)"
         right_ewellix_com_port="$(arg right_ewellix_com_port)"
+        left_hand_type="$(arg left_hand_type)"
+        right_hand_type="$(arg right_hand_type)"
         left_hande_com_port="$(arg left_hande_com_port)"
         right_hande_com_port="$(arg right_hande_com_port)"
+        left_hande_finger_type="$(arg left_hande_finger_type)"
+        right_hande_finger_type="$(arg right_hande_finger_type)"
         left_ur_ip_addr="$(arg left_ur_ip_addr)"
         right_ur_ip_addr="$(arg right_ur_ip_addr)"
         left_ur_kinematics_file="$(arg left_ur_kinematics_file)"
@@ -40,5 +49,6 @@
         left_liftkit_calibration_file="$(arg left_liftkit_calibration_file)"
         right_liftkit_calibration_file="$(arg right_liftkit_calibration_file)"
         generate_ros2_control_tag="$(arg generate_ros2_control_tag)"
+        use_left_static_pedestal="$(arg use_left_static_pedestal)"
     />
 </robot>

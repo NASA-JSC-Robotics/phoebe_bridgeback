@@ -41,18 +41,18 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
     )
 
     tf_prefix = LaunchConfiguration("tf_prefix")
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
 
     common_launch_args = {
         "tf_prefix": tf_prefix,
-        "ns": ns,
+        "namespace": namespace,
     }.items()
 
     # Include Packages

@@ -1,0 +1,102 @@
+/**:
+  ros__parameters:
+    pid_gains:
+      position:
+        # right arm
+        right_ur_arm_shoulder_pan_joint:
+          p: 400.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 150.0
+          u_clamp_min: -150.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        right_ur_arm_shoulder_lift_joint:
+          p: 300.0
+          i: 0.0
+          d: 8.0
+          u_clamp_max: 150.0
+          u_clamp_min: -150.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        right_ur_arm_elbow_joint:
+          p: 300.0
+          i: 0.0
+          d: 8.0
+          u_clamp_max: 150.0
+          u_clamp_min: -150.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        right_ur_arm_wrist_1_joint:
+          p: 100.0
+          i: 0.0
+          d: 1.0
+          u_clamp_max: 28.0
+          u_clamp_min: -28.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        right_ur_arm_wrist_2_joint:
+          p: 50.0
+          i: 0.0
+          d: 1.0
+          u_clamp_max: 28.0
+          u_clamp_min: -28.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        right_ur_arm_wrist_3_joint:
+          p: 50.0
+          i: 0.0
+          d: 1.0
+          u_clamp_max: 28.0
+          u_clamp_min: -28.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        # left arm
+        left_ur_arm_shoulder_pan_joint:
+          p: 400.0
+          i: 0.0
+          d: 10.0
+          u_clamp_max: 150.0
+          u_clamp_min: -150.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        left_ur_arm_shoulder_lift_joint:
+          p: 300.0
+          i: 0.0
+          d: 8.0
+          u_clamp_max: 150.0
+          u_clamp_min: -150.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        left_ur_arm_elbow_joint:
+          p: 300.0
+          i: 0.0
+          d: 8.0
+          u_clamp_max: 150.0
+          u_clamp_min: -150.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        left_ur_arm_wrist_1_joint:
+          p: 100.0
+          i: 0.0
+          d: 1.0
+          u_clamp_max: 28.0
+          u_clamp_min: -28.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        left_ur_arm_wrist_2_joint:
+          p: 50.0
+          i: 0.0
+          d: 1.0
+          u_clamp_max: 28.0
+          u_clamp_min: -28.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0
+        left_ur_arm_wrist_3_joint:
+          p: 50.0
+          i: 0.0
+          d: 1.0
+          u_clamp_max: 28.0
+          u_clamp_min: -28.0
+          i_clamp_max: 1000.0
+          i_clamp_min: -1000.0

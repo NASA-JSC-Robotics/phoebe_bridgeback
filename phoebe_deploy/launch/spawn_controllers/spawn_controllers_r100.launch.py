@@ -19,12 +19,11 @@
 
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import (
-    LaunchConfiguration,
-)
-from launch_ros.actions import Node
-from launch.conditions import IfCondition
+from launch.actions import DeclareLaunchArgument, GroupAction
+from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition, UnlessCondition
+
+from phoebe_deploy.launch_helpers import spawn_controller
 
 
 def generate_launch_description():
@@ -33,7 +32,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
@@ -45,42 +44,63 @@ def generate_launch_description():
             description="This is some kind of simulation environment",
         )
     )
-
-    ns = LaunchConfiguration("ns")
-    is_sim = LaunchConfiguration("is_sim")
-
-    nodes = []
-
-    # helper function to make controller nodes
-    def MakeControllerNode(controller_name, active=True, condition=None):
-        arguments = [
-            "--controller-manager",
-            "controller_manager",
-            "--controller-manager-timeout",
-            "300",
-            "--namespace",
-            ns,
-            controller_name,
-        ]
-        if not active:
-            arguments.append("--inactive")
-
-        return Node(
-            package="controller_manager",
-            executable="spawner",
-            name=controller_name,
-            arguments=arguments,
-            output="screen",
-            condition=condition,
-        )
-
-    nodes.append(MakeControllerNode("platform_velocity_controller"))
-    nodes.append(MakeControllerNode("odom_publisher"))
-    nodes.append(
-        MakeControllerNode(
-            "imu_broadcaster",
-            condition=IfCondition(is_sim),
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_world_joints",
+            default_value="false",
+            description="Whether or not to include a root world frame and run phoebe on a magic carpet",
+            choices=["true", "false"],
         )
     )
 
-    return LaunchDescription(declared_arguments + nodes)
+    namespace = LaunchConfiguration("namespace")
+    is_sim = LaunchConfiguration("is_sim")
+    include_world_joints = LaunchConfiguration("include_world_joints")
+
+    # Use wheels if not using the magic carpet
+    wheel_controllers = GroupAction(
+        condition=UnlessCondition(include_world_joints),
+        actions=[
+            # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
+            # This should definitely be investigated further.
+            spawn_controller(
+                "platform_velocity_controller",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+            ),
+            spawn_controller(
+                "platform_velocity_controller",
+                namespace=namespace,
+                condition=UnlessCondition(is_sim),
+            ),
+            spawn_controller(
+                "odom_publisher",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+            ),
+            spawn_controller(
+                "odom_publisher",
+                namespace=namespace,
+                condition=UnlessCondition(is_sim),
+            ),
+            spawn_controller(
+                "imu_broadcaster",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+            ),
+        ],
+    )
+
+    magic_carpet_controller = GroupAction(
+        condition=IfCondition(include_world_joints),
+        actions=[
+            spawn_controller(
+                "phoebe_magic_carpet_controller",
+                namespace=namespace,
+                condition=IfCondition(is_sim),
+            ),
+        ],
+        # NOTE: We explicitly exclude odom since the rails provide perfect ground truth
+    )
+
+    return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controller])

@@ -8,18 +8,18 @@
     </default>
   </default>
   <asset>
-    <material name="Black.005" specular="0.5" shininess="0.25" rgba="0.033102 0.033102 0.033102 1.000000"/>
-    <material name="JointGrey.005" specular="0.5" shininess="0.25" rgba="0.278431 0.278431 0.278431 1.000000"/>
-    <material name="URBlue.004" specular="0.5" shininess="0.25" rgba="0.490196 0.678431 0.800000 1.000000"/>
+    <material name="material_wrist2_0" specular="0.20000000000000004" shininess="1.0" rgba="0.27843137 0.27843137 0.27843137 1.0"/>
+    <material name="material_wrist2_1" specular="0.20000000000000004" shininess="1.0" rgba="0.49019608 0.67843137 0.80000000 1.0"/>
+    <material name="material_wrist2_2" specular="0.20000000000000004" shininess="1.0" rgba="0.03137255 0.03137255 0.03137255 1.0"/>
     <mesh file="wrist2_0.obj"/>
     <mesh file="wrist2_1.obj"/>
     <mesh file="wrist2_2.obj"/>
   </asset>
   <worldbody>
     <body name="wrist2">
-      <geom mesh="wrist2_0" material="Black.005" class="visual"/>
-      <geom mesh="wrist2_1" material="URBlue.004" class="visual"/>
-      <geom mesh="wrist2_2" material="JointGrey.005" class="visual"/>
+      <geom mesh="wrist2_0" material="material_wrist2_2" class="visual"/>
+      <geom mesh="wrist2_1" material="material_wrist2_1" class="visual"/>
+      <geom mesh="wrist2_2" material="material_wrist2_0" class="visual"/>
       <geom mesh="wrist2_0" class="collision"/>
       <geom mesh="wrist2_1" class="collision"/>
       <geom mesh="wrist2_2" class="collision"/>

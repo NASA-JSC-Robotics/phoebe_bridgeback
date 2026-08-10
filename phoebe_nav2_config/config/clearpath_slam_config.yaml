@@ -12,7 +12,7 @@ slam_toolbox:
     # ROS Parameters
     odom_frame: odom
     map_frame: map
-    base_frame: base_link
+    base_frame: $(var tf_prefix)base_link
     scan_topic: ridgeback/sensors/lidar2d_0/scan
     mode: mapping
 

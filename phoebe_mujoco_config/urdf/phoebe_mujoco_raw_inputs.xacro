@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="phoebe_mujoco_raw_inputs" params="
+    use_left_static_pedestal:=false
+    tf_prefix:=''
+    left_hand_type:='hande'
+    right_hand_type:='hande'
+    defaults_prefix:=''
+    include_world_joints:=false
+  ">
+
+    <option integrator="implicitfast" impratio="20" cone="elliptic" noslip_iterations="5">
+        <flag multiccd="enable"/>
+    </option>
+    <default>
+        <default class="phoebe">
+            <material specular="0.5" shininess="0.25"/>
+            <joint axis="0 1 0" armature="0.1" actuatorgravcomp="true"/>
+            <default class="size5">
+                <joint actuatorfrclimited="true" actuatorfrcrange="-1000 1000"/>
+                <position ctrlrange="0.0 0.7" kp="75000" dampratio="1.0" forcerange="-1000 1000"/>
+            </default>
+            <default class="size4">
+                <joint damping="10"/>
+                <general forcerange="-330 330" ctrlrange="-330 330"/>
+            </default>
+            <default class="size3">
+                <joint damping="5"/>
+                <general forcerange="-150 150" ctrlrange="-150 150"/>
+                <default class="size3_limited">
+                    <joint range="-3.1415 3.1415"/>
+                </default>
+            </default>
+            <default class="size2">
+                <joint damping="2" />
+                <general forcerange="-56 56" ctrlrange="-56 56"/>
+            </default>
+            <default class="size1">
+                <joint damping="1" />
+                <general forcerange="-28 28" ctrlrange="-28 28"/>
+            </default>
+            <default class="${defaults_prefix}visual">
+                <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+            </default>
+            <default class="${defaults_prefix}collision">
+                <geom group="3" type="mesh"/>
+                <default class="wheels">
+                    <geom condim="3" friction="0.5 0.005 0.0001" solimp="0.95 0.99 0.001 0.1 6"/>
+                </default>
+                <default class="rubber">
+                    <geom condim="4" friction="5 1.0 1.0" priority="1" solimp="0.9 0.95 0.001" solref="0.002 1" conaffinity="1"/>
+                </default>
+            </default>
+            <default class="right_spring_link">
+                <joint range="-0.9 0.29670597283" armature="0.001" stiffness="0.05" springref="-2.62" damping="0.00125"/>
+            </default>
+            <default class="left_spring_link">
+                <joint range="-0.29670597283 0.9" armature="0.001" stiffness="0.05" springref="2.62" damping="0.00125"/>
+            </default>
+        </default>
+    </default>
+
+    <actuator>
+        <xacro:if value="${right_hand_type == 'hande'}">
+            <position tendon="${tf_prefix}right_split" name="${tf_prefix}right_finger_1_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-185 185"/>
+        </xacro:if>
+        <xacro:if value="${right_hand_type == '2f85'}">
+            <general biastype="affine" name="${tf_prefix}right_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}right_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
+        </xacro:if>
+
+        <xacro:if value="${left_hand_type == 'hande'}">
+            <position tendon="${tf_prefix}left_split" name="${tf_prefix}left_finger_1_joint" kp="100000" dampratio="10.0" ctrlrange="0.0 0.025" forcerange="-185 185"/>
+        </xacro:if>
+        <xacro:if value="${left_hand_type == '2f85'}">
+            <general biastype="affine" name="${tf_prefix}left_robotiq_85_left_knuckle_joint" tendon="${tf_prefix}left_split" forcerange="-10 10" ctrlrange="0 0.8" gainprm="100 0 0" biasprm="0 -100 -25"/>
+        </xacro:if>
+
+        <xacro:unless value="${use_left_static_pedestal}">
+            <position class="size5" name="${tf_prefix}left_ewellix_lift_lower_to_higher" joint="${tf_prefix}left_ewellix_lift_lower_to_higher"/>
+        </xacro:unless>
+        <motor class="size3" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" joint="${tf_prefix}left_ur_arm_shoulder_pan_joint"/>
+        <motor class="size3" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" joint="${tf_prefix}left_ur_arm_shoulder_lift_joint"/>
+        <motor class="size3_limited" name="${tf_prefix}left_ur_arm_elbow_joint" joint="${tf_prefix}left_ur_arm_elbow_joint"/>
+        <motor class="size1" name="${tf_prefix}left_ur_arm_wrist_1_joint" joint="${tf_prefix}left_ur_arm_wrist_1_joint"/>
+        <motor class="size1" name="${tf_prefix}left_ur_arm_wrist_2_joint" joint="${tf_prefix}left_ur_arm_wrist_2_joint"/>
+        <motor class="size1" name="${tf_prefix}left_ur_arm_wrist_3_joint" joint="${tf_prefix}left_ur_arm_wrist_3_joint"/>
+
+        <position class="size5" name="${tf_prefix}right_ewellix_lift_lower_to_higher" joint="${tf_prefix}right_ewellix_lift_lower_to_higher"/>
+        <motor class="size3" name="${tf_prefix}right_ur_arm_shoulder_pan_joint" joint="${tf_prefix}right_ur_arm_shoulder_pan_joint"/>
+        <motor class="size3" name="${tf_prefix}right_ur_arm_shoulder_lift_joint" joint="${tf_prefix}right_ur_arm_shoulder_lift_joint"/>
+        <motor class="size3_limited" name="${tf_prefix}right_ur_arm_elbow_joint" joint="${tf_prefix}right_ur_arm_elbow_joint"/>
+        <motor class="size1" name="${tf_prefix}right_ur_arm_wrist_1_joint" joint="${tf_prefix}right_ur_arm_wrist_1_joint"/>
+        <motor class="size1" name="${tf_prefix}right_ur_arm_wrist_2_joint" joint="${tf_prefix}right_ur_arm_wrist_2_joint"/>
+        <motor class="size1" name="${tf_prefix}right_ur_arm_wrist_3_joint" joint="${tf_prefix}right_ur_arm_wrist_3_joint"/>
+
+        <!-- Nominally include the wheels -->
+        <xacro:unless value="${include_world_joints}">
+            <velocity name="${tf_prefix}front_right_wheel_joint" joint="${tf_prefix}front_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
+            <velocity name="${tf_prefix}front_left_wheel_joint" joint="${tf_prefix}front_left_wheel_joint" ctrlrange="-15 15" kv="50"/>
+            <velocity name="${tf_prefix}rear_right_wheel_joint" joint="${tf_prefix}rear_right_wheel_joint" ctrlrange="-15 15" kv="50"/>
+            <velocity name="${tf_prefix}rear_left_wheel_joint" joint="${tf_prefix}rear_left_wheel_joint" ctrlrange="-15 15" kv="50"/>
+        </xacro:unless>
+
+         <!-- Otherwise it's magic carpet mode -->
+        <xacro:if value="${include_world_joints}">
+            <velocity joint="${tf_prefix}linear_x_joint" name="${tf_prefix}linear_x_joint" kv="15000" ctrlrange="-2.0 2.0"/>
+            <velocity joint="${tf_prefix}linear_y_joint" name="${tf_prefix}linear_y_joint" kv="15000" ctrlrange="-2.0 2.0"/>
+            <velocity joint="${tf_prefix}rotational_yaw_joint" name="${tf_prefix}rotational_yaw_joint" kv="10000" ctrlrange="-2.0 2.0"/>
+        </xacro:if>
+    </actuator>
+
+        <contact>
+        <xacro:unless value="${use_left_static_pedestal}">
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}left_ewellix_lift_higher_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}left_ewellix_lift_middle_link"/>
+        </xacro:unless>
+        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}right_ewellix_lift_higher_link"/>
+        <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}right_ewellix_lift_middle_link"/>
+
+        <xacro:unless value="${include_world_joints}">
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_left_wheel_roller_7_link"/>
+
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}rear_right_wheel_roller_7_link"/>
+
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_left_wheel_roller_7_link"/>
+
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_0_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_1_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_2_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_3_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_4_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_5_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_6_link"/>
+            <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_7_link"/>
+        </xacro:unless>
+
+        <xacro:if value="${include_world_joints}">
+            <exclude body1="world" body2="${tf_prefix}base_link"/>
+            <exclude body1="world" body2="${tf_prefix}virtual_rail_link_1"/>
+            <exclude body1="world" body2="${tf_prefix}virtual_rail_link_2"/>
+            <exclude body1="world" body2="${tf_prefix}front_left_wheel_link"/>
+            <exclude body1="world" body2="${tf_prefix}front_right_wheel_link"/>
+            <exclude body1="world" body2="${tf_prefix}rear_left_wheel_link"/>
+            <exclude body1="world" body2="${tf_prefix}rear_right_wheel_link"/>
+        </xacro:if>
+
+    </contact>
+
+    <!-- left hand - hande or 2f85 -->
+    <xacro:if value="${left_hand_type == 'hande'}">
+        <tendon>
+            <fixed name="${tf_prefix}left_split">
+            <joint joint="${tf_prefix}left_finger_1_joint" coef="0.5"/>
+            <joint joint="${tf_prefix}left_finger_2_joint" coef="0.5"/>
+            </fixed>
+        </tendon>
+        <equality>
+            <joint joint1="${tf_prefix}left_finger_1_joint" joint2="${tf_prefix}left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+        </equality>
+    </xacro:if>
+    <xacro:if value="${left_hand_type == '2f85'}">
+        <tendon>
+            <fixed name="${tf_prefix}left_split">
+            <joint joint="${tf_prefix}left_robotiq_85_left_knuckle_joint" coef="0.485"/>
+            <joint joint="${tf_prefix}left_robotiq_85_right_knuckle_joint" coef="-0.485"/>
+            </fixed>
+        </tendon>
+
+        <equality>
+            <connect anchor="-0.0371575 0.0 0.043422" body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <connect anchor="0.0371575 0.0 0.043422" body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <joint joint1="${tf_prefix}left_robotiq_85_left_knuckle_joint" joint2="${tf_prefix}left_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
+            solref="0.005 1"/>
+        </equality>
+
+        <contact>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_right_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_left_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_ur_arm_wrist_3_link" body2="${tf_prefix}left_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_finger_tip_link" body2="${tf_prefix}left_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_finger_tip_link" body2="${tf_prefix}left_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_finger_tip_link" body2="${tf_prefix}left_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_finger_tip_link" body2="${tf_prefix}left_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}left_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}left_robotiq_85_left_knuckle_link"/>
+        </contact>
+    </xacro:if>
+
+    <!-- right hand - hande or 2f85 -->
+    <xacro:if value="${right_hand_type == 'hande'}">
+        <tendon>
+            <fixed name="${tf_prefix}right_split">
+            <joint joint="${tf_prefix}right_finger_1_joint" coef="0.5"/>
+            <joint joint="${tf_prefix}right_finger_2_joint" coef="0.5"/>
+            </fixed>
+        </tendon>
+        <equality>
+            <joint joint1="${tf_prefix}right_finger_1_joint" joint2="${tf_prefix}right_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+        </equality>
+    </xacro:if>
+    <xacro:if value="${right_hand_type == '2f85'}">
+        <tendon>
+            <fixed name="${tf_prefix}right_split">
+            <joint joint="${tf_prefix}right_robotiq_85_left_knuckle_joint" coef="0.485"/>
+            <joint joint="${tf_prefix}right_robotiq_85_right_knuckle_joint" coef="-0.485"/>
+            </fixed>
+        </tendon>
+
+        <equality>
+            <connect anchor="-0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <connect anchor="0.0371575 0.0 0.043422" body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
+            <joint joint1="${tf_prefix}right_robotiq_85_left_knuckle_joint" joint2="${tf_prefix}right_robotiq_85_right_knuckle_joint" polycoef="0 -1 0 0 0" solimp="0.95 0.99 0.001"
+            solref="0.005 1"/>
+        </equality>
+
+        <contact>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_inner_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_ur_arm_wrist_3_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_finger_tip_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_finger_tip_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_finger_tip_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_finger_tip_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_tip_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_finger_coupler_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_right_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_right_knuckle_link"/>
+            <exclude body1="${tf_prefix}right_robotiq_85_left_inner_knuckle_link" body2="${tf_prefix}right_robotiq_85_left_knuckle_link"/>
+        </contact>
+    </xacro:if>
+
+    <!-- Same logic as above... but for liftkits -->
+    <xacro:unless value="${use_left_static_pedestal}">
+        <tendon>
+            <fixed name="${tf_prefix}left_lift_middle_mimic_higher">
+            <joint joint="${tf_prefix}left_ewellix_lift_lower_to_higher" coef="0.5"/>
+            <joint joint="${tf_prefix}left_middle_mimic_higher" coef="0.5"/>
+            </fixed>
+        </tendon>
+    </xacro:unless>
+    <tendon>
+        <fixed name="${tf_prefix}right_lift_middle_mimic_higher">
+        <joint joint="${tf_prefix}right_ewellix_lift_lower_to_higher" coef="0.5"/>
+        <joint joint="${tf_prefix}right_middle_mimic_higher" coef="0.5"/>
+        </fixed>
+    </tendon>
+
+    <!-- The mimic joint is scaled by 50% in the URDF -->
+    <xacro:unless value="${use_left_static_pedestal}">
+        <equality>
+            <joint name="${tf_prefix}left_upper_mimic_lower" joint1="${tf_prefix}left_ewellix_lift_lower_to_higher" joint2="${tf_prefix}left_middle_mimic_higher" polycoef="0 2 0 0 0"/>
+        </equality>
+    </xacro:unless>
+    <equality>
+        <joint name="${tf_prefix}right_upper_mimic_lower" joint1="${tf_prefix}right_ewellix_lift_lower_to_higher" joint2="${tf_prefix}right_middle_mimic_higher" polycoef="0 2 0 0 0"/>
+    </equality>
+
+    <sensor>
+        <force name="${tf_prefix}left_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}left_ur_arm_ft_frame"/>
+        <torque name="${tf_prefix}left_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}left_ur_arm_ft_frame"/>
+    </sensor>
+    <sensor>
+        <force name="${tf_prefix}right_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}right_ur_arm_ft_frame"/>
+        <torque name="${tf_prefix}right_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}right_ur_arm_ft_frame"/>
+    </sensor>
+
+    <sensor>
+        <framequat name="${tf_prefix}imu_sensor_quat" objtype="site" objname="${tf_prefix}imu_0_link" />
+        <gyro name="${tf_prefix}imu_sensor_gyro" site="${tf_prefix}imu_0_link" />
+        <accelerometer name="${tf_prefix}imu_sensor_accel" site="${tf_prefix}imu_0_link" />
+    </sensor>
+
+    <extension>
+        <plugin plugin="mujoco.plugin.lidar">
+            <instance name="${tf_prefix}lidar2d_0">
+                <config key="resolution" value="1080 1"/>
+                <config key="azimuth_range" value="-2.35 2.35"/>
+                <config key="elevation_range" value="0.0"/>
+                <config key="max_range" value="10.0"/>
+                <config key="min_range" value="0.05"/>
+                <config key="update_rate" value="4.0"/>
+                <config key="async" value="1"/>
+            </instance>
+        </plugin>
+    </extension>
+    <sensor>
+        <plugin name="${tf_prefix}lidar2d_0" instance="${tf_prefix}lidar2d_0" objtype="site" objname="${tf_prefix}lidar2d_0_laser"/>
+    </sensor>
+
+  </xacro:macro>
+
+</robot>

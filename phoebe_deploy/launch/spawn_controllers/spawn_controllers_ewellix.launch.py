@@ -23,7 +23,9 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import (
     LaunchConfiguration,
 )
-from launch_ros.actions import Node
+from launch.conditions import UnlessCondition
+
+from phoebe_deploy.launch_helpers import spawn_controller
 
 
 def generate_launch_description():
@@ -32,35 +34,30 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "ns",
+            "namespace",
             default_value="",
             description="Namespace for the hardware robot",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_left_static_pedestal",
+            default_value="false",
+            description="Replaces the left liftkit with the static pedestal",
+        )
+    )
 
-    ns = LaunchConfiguration("ns")
+    namespace = LaunchConfiguration("namespace")
+    use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
     nodes = []
-
-    # helper function to make controller nodes
-    def MakeControllerNode(controller_name):
-        return Node(
-            package="controller_manager",
-            executable="spawner",
-            name=controller_name,
-            arguments=[
-                "--controller-manager",
-                "controller_manager",
-                "--controller-manager-timeout",
-                "300",
-                "--namespace",
-                ns,
-                controller_name,
-            ],
-            output="screen",
+    nodes.append(
+        spawn_controller(
+            "left_lift_joint_trajectory_controller",
+            namespace=namespace,
+            condition=UnlessCondition(use_left_static_pedestal),
         )
-
-    nodes.append(MakeControllerNode("left_lift_joint_trajectory_controller"))
-    nodes.append(MakeControllerNode("right_lift_joint_trajectory_controller"))
+    )
+    nodes.append(spawn_controller("right_lift_joint_trajectory_controller", namespace=namespace))
 
     return LaunchDescription(declared_arguments + nodes)

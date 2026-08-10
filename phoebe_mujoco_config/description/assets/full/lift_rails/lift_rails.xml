@@ -8,12 +8,12 @@
     </default>
   </default>
   <asset>
-    <material name="new_mat_color.008" specular="0.5" shininess="0.36" rgba="0.150000 0.150000 0.150000 1.000000"/>
+    <material name="mtl_lift_rails" specular="0.20000000000000004" shininess="1.0" rgba="0.14901961 0.14901961 0.14901961 1.0"/>
     <mesh file="lift_rails.obj"/>
   </asset>
   <worldbody>
     <body name="lift_rails">
-      <geom material="new_mat_color.008" mesh="lift_rails" class="visual"/>
+      <geom material="mtl_lift_rails" mesh="lift_rails" class="visual"/>
       <geom mesh="lift_rails" class="collision"/>
     </body>
   </worldbody>
