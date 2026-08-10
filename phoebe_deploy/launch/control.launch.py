@@ -298,6 +298,11 @@ def generate_launch_description():
             ParameterFile(controllers_moveit_pro, allow_substs=True),
             ParameterFile(extra_controller_params_file, allow_substs=True),
             {"use_sim_time": use_sim_time},
+            # In MuJoCo the effective mecanum rolling radius is smaller than the real robot's,
+            # which affects wheel odometry over-count. ~0.063 matches the simulated contact geometry.
+            # Note that in Jazzy and later, this can be set directly on the controller spawner using
+            # the --controller-ros-args argument, but this is not available on Humble.
+            {"kinematics.wheels_radius": 0.063},
         ],
         remappings=[
             ("~/robot_description", "/robot_description"),
