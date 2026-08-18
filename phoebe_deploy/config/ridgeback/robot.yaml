@@ -1,5 +1,9 @@
 serial_number: r100-0564
 version: 0
+
+platform:
+  mcu:
+    protocol: proton
 system:
   hosts:
     - hostname: cpr-r100-0564
