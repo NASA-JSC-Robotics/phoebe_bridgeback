@@ -31,6 +31,7 @@ from launch_ros.parameter_descriptions import ParameterFile
 
 def generate_launch_description():
 
+    # Launch arguments
     declared_arguments = []
 
     declared_arguments.append(
@@ -49,12 +50,14 @@ def generate_launch_description():
         have to be updated.",
         )
     )
+
+    # Definitions
     namespace = LaunchConfiguration("namespace")
     default_ns = "ridgeback"
     tf_prefix = LaunchConfiguration("tf_prefix")
     tf_prefix = tf_prefix  # dummy use to get precommit to be happy
 
-    # Include Packages
+    # Package paths
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
     pkg_phoebe_safety = FindPackageShare("phoebe_safety")
     pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
@@ -63,35 +66,20 @@ def generate_launch_description():
     pkg_clearpath_firmware = FindPackageShare("clearpath_firmware")
     pkg_proton = FindPackageShare("proton_ros2")
 
-    # config files
+    # Config files
     config_can = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "can_config.yaml"])
+    config_diagnostic_updater=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_updater.yaml"])
+    config_diagnostic_aggregator=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_aggregator.yaml"])
     setup_path = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback"])
 
-    # Declare launch files
-    launch_arg_diagnostic_updater_params = DeclareLaunchArgument(
-        'diagnostic_updater_params',
-        default_value=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_updater.yaml"]),
-        description='')
-
-    diagnostic_updater_params = LaunchConfiguration('diagnostic_updater_params')
-
-    launch_arg_diagnostic_aggregator_params = DeclareLaunchArgument(
-        'diagnostic_aggregator_params',
-        default_value=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_aggregator.yaml"]),
-        description='')
-
-    diagnostic_aggregator_params = LaunchConfiguration('diagnostic_aggregator_params')
-
-
-    launch_file_receiver = PathJoinSubstitution(
-        [pkg_clearpath_ros2_socketcan_interface, "launch", "receiver.launch.py"]
-    )
+    # Launch files
+    launch_file_receiver = PathJoinSubstitution([pkg_clearpath_ros2_socketcan_interface, "launch", "receiver.launch.py"])
     launch_file_sender = PathJoinSubstitution([pkg_clearpath_ros2_socketcan_interface, "launch", "sender.launch.py"])
     launch_file_phoebe_safety = PathJoinSubstitution([pkg_phoebe_safety, "launch", "phoebe_safety_manager.launch.py"])
     launch_file_proton = PathJoinSubstitution([pkg_proton, "launch", "proton_ros2.launch.py"])
     launch_file_diagnostics = PathJoinSubstitution([pkg_clearpath_diagnostics, 'launch', 'diagnostics.launch.py'])
 
-
+    # Included launch files
     launch_receiver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_receiver]),
         launch_arguments={
@@ -100,6 +88,7 @@ def generate_launch_description():
             "from_can_bus_topic": "vcan0/rx",
         }.items(),
     )
+
     launch_sender = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_sender]),
         launch_arguments={
@@ -108,9 +97,11 @@ def generate_launch_description():
             "to_can_bus_topic": "vcan0/tx",
         }.items(),
     )
+
     launch_phoebe_safety = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_phoebe_safety]),
     )
+
     launch_proton = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_proton]),
         launch_arguments={
@@ -120,14 +111,14 @@ def generate_launch_description():
         }.items(),
     )
 
-    # launch_diagnostics = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([launch_file_diagnostics]),
-    #     launch_arguments={
-    #             'namespace': default_ns,
-    #             'updater_parameters': diagnostic_updater_params,
-    #             'aggregator_parameters': diagnostic_aggregator_params,
-    #     }
-    # )
+    launch_diagnostics = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([launch_file_diagnostics]),
+        launch_arguments={
+                'namespace': default_ns,
+                'updater_parameters': config_diagnostic_updater,
+                'aggregator_parameters': config_diagnostic_aggregator,
+        }.items(),
+    )
 
     # Nodes
     node_wireless_watcher = Node(
@@ -200,43 +191,13 @@ def generate_launch_description():
         ],
     )
 
-    # node_aggregator_node = Node(
-    #     package="diagnostic_aggregator",
-    #     executable="aggregator_node",
-    #     namespace=default_ns,
-    #     output="screen",
-    #     parameters=[analyzer_params],
-    #     remappings=[
-    #         ("/diagnostics", "diagnostics"),
-    #         ("/diagnostics_agg", "diagnostics_agg"),
-    #         ("/diagnostics_toplevel_state", "diagnostics_toplevel_state"),
-    #     ],
-    # )
-
-    # node_diagnostics_updater = Node(
-    #     package="clearpath_diagnostics",
-    #     executable="diagnostics_updater",
-    #     namespace=default_ns,
-    #     output="screen",
-    #     remappings=[
-    #         ("/diagnostics", "diagnostics"),
-    #         ("/diagnostics_agg", "diagnostics_agg"),
-    #         ("/diagnostics_toplevel_state", "diagnostics_toplevel_state"),
-    #     ],
-    #     arguments=["-s", setup_path],
-    # )
-
-    # launch_args = [
-    #     launch_arg_diagnostic_aggregator_params,
-    #     launch_arg_diagnostic_updater_params
-    # ]
-
+    # Aggregations
     launches = [
         launch_receiver,
         launch_sender,
         launch_phoebe_safety,
         launch_proton,
-        # launch_diagnostics
+        launch_diagnostics
     ]
     nodes = [
         node_wireless_watcher,
@@ -249,6 +210,5 @@ def generate_launch_description():
     processes = []
 
     ns_action = GroupAction(actions=[PushRosNamespace(namespace)] + launches + nodes + processes)
-    # ns_action = GroupAction(actions=[PushRosNamespace(namespace)] + launch_args + launches + nodes + processes)
 
     return LaunchDescription(declared_arguments + [ns_action])
