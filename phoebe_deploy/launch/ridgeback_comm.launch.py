@@ -73,8 +73,8 @@ def generate_launch_description():
     setup_path = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback"])
 
     # Launch files
-    launch_file_receiver = PathJoinSubstitution([pkg_clearpath_ros2_socketcan_interface, "launch", "receiver.launch.py"])
-    launch_file_sender = PathJoinSubstitution([pkg_clearpath_ros2_socketcan_interface, "launch", "sender.launch.py"])
+    launch_file_receiver = PathJoinSubstitution([pkg_phoebe_deploy, "launch", "receiver.launch.py"])
+    launch_file_sender = PathJoinSubstitution([pkg_phoebe_deploy, "launch", "sender.launch.py"])
     launch_file_phoebe_safety = PathJoinSubstitution([pkg_phoebe_safety, "launch", "phoebe_safety_manager.launch.py"])
     launch_file_proton = PathJoinSubstitution([pkg_proton, "launch", "proton_ros2.launch.py"])
     launch_file_diagnostics = PathJoinSubstitution([pkg_clearpath_diagnostics, 'launch', 'diagnostics.launch.py'])
