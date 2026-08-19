@@ -202,8 +202,8 @@ def generate_launch_description():
     nodes = [
         node_wireless_watcher,
         # Comment out pending addressing the $(var stuff) in robot.yaml.
-        # node_battery_state_estimator,
-        # node_battery_state_control,
+        node_battery_state_estimator,
+        node_battery_state_control,
         node_lighting_node,
         node_puma_control,
     ]
