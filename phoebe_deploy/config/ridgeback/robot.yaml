@@ -1,6 +1,87 @@
+# This file was originally used as part of Clearpath configuration generation.
+# For that purposes, it is replaced by the various fixed configuration files (URDF,
+# yaml configs etc.). Nevertheless, there are still some Clearpath nodes that depend
+# on it existing and containing enough content to satisfy the config parser.
+# We are therefore keeping this file available with the old structure in place but
+# commented out as a guide in case we ever need to recreate from the live config.
 serial_number: r100-0000
 version: 0
 
 platform:
   mcu:
     protocol: proton
+# For our Ridgeback, the vendor battery is not in the list of supported battery 
+# models, so we do not include a battery configuration here. If you are using 
+# the stock 8A31DTM lead acid battery, it may be useful to add this as part of the
+# minimal platform configuration (but we can't test this).
+#  battery:
+#    model: 8A31DTM
+#    configuration: S1P2
+
+
+# Original configuration content follows:
+#
+# system:
+#   hosts:
+#     - hostname: cpr-r100-0564
+#       ip: 192.168.131.1
+#   ros2:
+#     namespace: r100_0564
+# manipulators:
+#   lifts:
+#     - model: ewellix
+#       parent: $(var tf_prefix)default_mount
+#     - model: ewellix
+#       parent: $(var tf_prefix)default_mount
+#   arms:
+#     - model: universal_robots
+#       parent: $(var tf_prefix)default_mount
+#       xyz: [0.0, 0.0, 0.0]
+#       rpy: [0.0, 0.0, 0.0]
+#       ur_type: ur5e
+#       robbot_ip: 192.168.131.42
+#       headless_mode: false
+#       kinematics_parameters_file: "$(find ur_description)/config/ur5e/default_kinematics.yaml"
+#       poses:
+#         - name: custom
+#           joints: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+#       gripper:
+#         model: robotiq_2f_140
+#         xyz: [0.0, 0.0, 0.0]
+#         rpy: [0.0, 0.0, 0.0]
+#         poses:
+#           - name: custom
+#             joints: [0.0]
+#     - model: universal_robots
+#       parent: $(var tf_prefix)default_mount
+#       xyz: [0.0, 0.0, 0.0]
+#       rpy: [0.0, 0.0, 0.0]
+#       ur_type: ur5e
+#       robbot_ip: 192.168.131.43
+#       headless_mode: false
+#       kinematics_parameters_file: "$(find ur_description)/config/ur5e/default_kinematics.yaml"
+#       poses:
+#         - name: custom
+#           joints: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+#       gripper:
+#         model: robotiq_2f_140
+#         xyz: [0.0, 0.0, 0.0]
+#         rpy: [0.0, 0.0, 0.0]
+#         poses:
+#           - name: custom
+#             joints: [0.0]
+# sensors:
+#   lidar2d:
+#     - model: hokuyo_ust
+#       urdf_enabled: true
+#       launch_enabled: true
+#       parent: $(var tf_prefix)base_link
+#       xyz: [0.0, 0.0, 0.0]
+#       rpy: [0.0, 0.0, 0.0]
+#       ros_parameters:
+#         urg_node:
+#           laser_frame_id: lidar2d_0_laser
+#           ip_address: 192.168.131.20
+#           ip_port: 10940
+#           angle_min: -2.356
+#           angle_max: 2.356
