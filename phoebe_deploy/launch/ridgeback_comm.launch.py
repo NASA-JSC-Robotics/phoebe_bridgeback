@@ -60,8 +60,6 @@ def generate_launch_description():
     # Package paths
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
     pkg_phoebe_safety = FindPackageShare("phoebe_safety")
-    pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
-    pkg_clearpath_ros2_socketcan_interface = FindPackageShare("clearpath_ros2_socketcan_interface")
     pkg_clearpath_diagnostics = FindPackageShare("clearpath_diagnostics")
     pkg_clearpath_firmware = FindPackageShare("clearpath_firmware")
     pkg_proton = FindPackageShare("proton_ros2")
