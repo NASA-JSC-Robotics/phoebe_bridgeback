@@ -120,4 +120,4 @@ def generate_launch_description():
 
     nodes = [control_node, node_puma_throttle, platform_velocity_controller, joint_state_broadcaster]
 
-    return LaunchDescription(declared_arguments + [nodes])
+    return LaunchDescription(declared_arguments + nodes)
