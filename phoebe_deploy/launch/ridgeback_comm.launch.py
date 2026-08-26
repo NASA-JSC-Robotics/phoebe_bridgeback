@@ -184,8 +184,14 @@ def generate_launch_description():
             ParameterFile(config_can, allow_substs=True),
         ],
         remappings=[
-            ("platform/puma/cmd", "platform/puma/cmd_throttle"),
-            ("platform/puma/feedback", "/platform/puma/feedback"),
+            # Cmd comes from the non-namespaced control side
+            ("platform/motors/cmd", "/platform/motors/cmd_throttle"),
+            # Feedback goes to /puma_hardware_interface which is not namespaced
+            ("platform/motors/feedback", "/platform/motors/feedback"),
+            # This does not seem to be used at present, but perhaps it makes
+            # sense to redirect it as well. If not, this is documentation that it
+            # exists as a thing.
+            ("platform/motors/status", "/platform/motors/status"),            
         ],
     )
 

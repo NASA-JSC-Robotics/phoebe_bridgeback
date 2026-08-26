@@ -313,7 +313,7 @@ def generate_launch_description():
             "messages",
             "platform/motors/cmd",
             "50",
-            "ridgeback/platform/motors/cmd",
+            "platform/motors/cmd_throttle",
         ],
         condition=UnlessCondition(use_fake_hardware),
     )
