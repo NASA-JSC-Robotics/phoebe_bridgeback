@@ -311,9 +311,9 @@ def generate_launch_description():
         output="screen",
         arguments=[
             "messages",
-            "platform/puma/cmd",
+            "platform/motors/cmd",
             "50",
-            "ridgeback/platform/puma/cmd_throttle",
+            "ridgeback/platform/motors/cmd",
         ],
         condition=UnlessCondition(use_fake_hardware),
     )

@@ -112,9 +112,14 @@ def generate_launch_description():
         package="topic_tools",
         namespace=namespace,
         output="screen",
-        arguments=["messages", "platform/puma/cmd", "50", "ridgeback/platform/puma/cmd_throttle"],
+        arguments=[
+            "messages",
+            "platform/motors/cmd",
+            "50",
+            "ridgeback/platform/motors/cmd",
+        ],
     )
-
+    
     platform_velocity_controller = MakeControllerNode("platform_velocity_controller")
     joint_state_broadcaster = MakeControllerNode("joint_state_broadcaster")
 
