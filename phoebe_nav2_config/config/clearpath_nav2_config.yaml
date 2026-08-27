@@ -141,7 +141,7 @@
           enabled: true
           observation_sources: scan
           scan:
-            topic: /$(var tf_prefix)lidar2d_0_laser/scan
+            topic: /ridgeback/sensors/lidar2d_0/scan
             max_obstacle_height: 2.0
             clearing: true
             marking: true

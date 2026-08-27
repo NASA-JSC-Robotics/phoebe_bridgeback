@@ -127,37 +127,29 @@ def generate_launch_description():
         # Use a copied version of https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py,
         # as the upstream does not support yaml param substitutions. Added as part of namespace / tf_prefix support for
         # nav2 launches in: https://github.com/NASA-JSC-Robotics/phoebe_bridgeback/pull/43/
-        #
-        # SLAM and localization are skipped in magic carpet mode — the URDF's world joints
-        # already provide the full map -> odom -> base_link TF chain via robot_state_publisher.
-        GroupAction(
-            condition=UnlessCondition(magic_carpet),
-            actions=[
-                IncludeLaunchDescription(
-                    PythonLaunchDescriptionSource(
-                        [PathJoinSubstitution([pkg_phoebe_nav2_config, "launch", "online_async_launch.py"])]
-                    ),
-                    launch_arguments={
-                        "tf_prefix": tf_prefix,
-                        "slam_params_file": slam_config_file,
-                        "use_sim_time": use_sim_time,
-                    }.items(),
-                    condition=IfCondition(publish_tf),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([pkg_phoebe_nav2_config, "launch", "online_async_launch.py"])]
+            ),
+            launch_arguments={
+                "tf_prefix": tf_prefix,
+                "slam_params_file": slam_config_file,
+                "use_sim_time": use_sim_time,
+            }.items(),
+            condition=IfCondition(publish_tf),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "online_async_launch.py"])]
+            ),
+            launch_arguments={
+                "tf_prefix": tf_prefix,
+                "slam_params_file": PathJoinSubstitution(
+                    [pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"]
                 ),
-                IncludeLaunchDescription(
-                    PythonLaunchDescriptionSource(
-                        [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "online_async_launch.py"])]
-                    ),
-                    launch_arguments={
-                        "tf_prefix": tf_prefix,
-                        "slam_params_file": PathJoinSubstitution(
-                            [pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"]
-                        ),
-                        "use_sim_time": use_sim_time,
-                    }.items(),
-                    condition=UnlessCondition(publish_tf),
-                ),
-            ],
+                "use_sim_time": use_sim_time,
+            }.items(),
+            condition=UnlessCondition(publish_tf),
         ),
         # Use custom nav launch file for tf prefixing fix
         IncludeLaunchDescription(
