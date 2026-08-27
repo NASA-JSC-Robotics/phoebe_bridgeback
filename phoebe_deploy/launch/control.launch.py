@@ -303,21 +303,6 @@ def generate_launch_description():
         arguments=["--ros-args", "--log-level", "info"],
     )
 
-    node_puma_throttle = Node(
-        name="puma_throttle",
-        executable="throttle",
-        package="topic_tools",
-        namespace=namespace,
-        output="screen",
-        arguments=[
-            "messages",
-            "platform/motors/cmd",
-            "50",
-            "platform/motors/cmd_throttle",
-        ],
-        condition=UnlessCondition(use_fake_hardware),
-    )
-
     return LaunchDescription(
-        declared_arguments + launch_files + [robot_state_publisher_node, control_node, node_puma_throttle]
+        declared_arguments + launch_files + [robot_state_publisher_node, control_node]
     )

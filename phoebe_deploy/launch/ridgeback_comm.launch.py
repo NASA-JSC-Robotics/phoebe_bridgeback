@@ -185,7 +185,7 @@ def generate_launch_description():
         ],
         remappings=[
             # Cmd comes from the non-namespaced control side
-            ("platform/motors/cmd", "/platform/motors/cmd_throttle"),
+            ("platform/motors/cmd", "/platform/motors/cmd"),
             # Feedback goes to /puma_hardware_interface which is not namespaced
             ("platform/motors/feedback", "/platform/motors/feedback"),
             # This does not seem to be used at present, but perhaps it makes
