@@ -81,3 +81,9 @@
       linear_y_joint: $(var tf_prefix)linear_y_joint
       yaw_joint: $(var tf_prefix)rotational_yaw_joint
       reference_topic: /platform_velocity_controller/reference
+
+      # We publish "perfect" odom from the magic carpet to enable localization
+      # pipelines, even with the magic base.
+      odom_publish_rate: 50.0
+      odom_frame_id: odom
+      base_frame_id: $(var tf_prefix)base_link
