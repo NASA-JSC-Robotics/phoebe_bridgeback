@@ -33,6 +33,9 @@ controller_interface::CallbackReturn MagicCarpetController::on_init() {
     auto_declare<std::string>("yaw_joint", "rotational_yaw_joint");
     auto_declare<std::string>("reference_topic",
                               "/platform_velocity_controller/reference");
+    auto_declare<double>("odom_publish_rate", 50.0);
+    auto_declare<std::string>("odom_frame_id", "odom");
+    auto_declare<std::string>("base_frame_id", "base_link");
   } catch (const std::exception &e) {
     RCLCPP_ERROR(get_node()->get_logger(), "on_init failed: %s", e.what());
     return controller_interface::CallbackReturn::ERROR;
@@ -47,6 +50,17 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
   linear_y_joint_ = get_node()->get_parameter("linear_y_joint").as_string();
   yaw_joint_ = get_node()->get_parameter("yaw_joint").as_string();
 
+  odom_frame_id_ = get_node()->get_parameter("odom_frame_id").as_string();
+  base_frame_id_ = get_node()->get_parameter("base_frame_id").as_string();
+
+  const double odom_publish_rate =
+      get_node()->get_parameter("odom_publish_rate").as_double();
+  if (odom_publish_rate > 0.0) {
+    odom_publish_period_ = rclcpp::Duration::from_seconds(1.0 / odom_publish_rate);
+  } else {
+    odom_publish_period_ = rclcpp::Duration::from_seconds(0.0);
+  }
+
   // Subscribe to the platform velocity controller reference topic
   cmd_vel_sub_ =
       get_node()->create_subscription<geometry_msgs::msg::TwistStamped>(
@@ -55,10 +69,24 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
             rt_command_buf_.writeFromNonRT(*msg);
           });
 
+  // Set up the odometry publisher with a realtime wrapper
+  odom_pub_ = get_node()->create_publisher<nav_msgs::msg::Odometry>(
+      "~/odom", rclcpp::SystemDefaultsQoS());
+  rt_odom_pub_ =
+      std::make_unique<realtime_tools::RealtimePublisher<nav_msgs::msg::Odometry>>(
+          odom_pub_);
+
+  // These won't change
+  auto &odom_msg = rt_odom_pub_->msg_;
+  odom_msg.header.frame_id = odom_frame_id_;
+  odom_msg.child_frame_id = base_frame_id_;
+
   RCLCPP_INFO(get_node()->get_logger(),
-              "Configured: listening on '%s', commanding joints [%s, %s, %s]",
+              "Configured: listening on '%s', commanding joints [%s, %s, %s], "
+              "odom rate %.1f Hz, frames [%s -> %s]",
               reference_topic_.c_str(), linear_x_joint_.c_str(),
-              linear_y_joint_.c_str(), yaw_joint_.c_str());
+              linear_y_joint_.c_str(), yaw_joint_.c_str(), odom_publish_rate,
+              odom_frame_id_.c_str(), base_frame_id_.c_str());
 
   return controller_interface::CallbackReturn::SUCCESS;
 }
@@ -80,6 +108,8 @@ MagicCarpetController::state_interface_configuration() const {
   controller_interface::InterfaceConfiguration config;
   config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
   config.names = {
+      linear_x_joint_ + "/" + hardware_interface::HW_IF_POSITION,
+      linear_y_joint_ + "/" + hardware_interface::HW_IF_POSITION,
       yaw_joint_ + "/" + hardware_interface::HW_IF_POSITION,
   };
   return config;
@@ -89,6 +119,8 @@ controller_interface::CallbackReturn MagicCarpetController::on_activate(
     const rclcpp_lifecycle::State & /*previous_state*/) {
   // Reset the command buffer so we don't act on stale data
   rt_command_buf_.writeFromNonRT(geometry_msgs::msg::TwistStamped());
+
+  last_odom_publish_time_ = get_node()->get_clock()->now();
 
   RCLCPP_INFO(get_node()->get_logger(), "Activated");
   return controller_interface::CallbackReturn::SUCCESS;
@@ -109,15 +141,25 @@ controller_interface::CallbackReturn MagicCarpetController::on_deactivate(
 }
 
 controller_interface::return_type
-MagicCarpetController::update(const rclcpp::Time & /*time*/,
+MagicCarpetController::update(const rclcpp::Time &time,
                               const rclcpp::Duration & /*period*/) {
-  // Read current yaw from state interface (the only state interface we claim)
-  const auto yaw_opt = state_interfaces_[0].get_optional();
-  if (!yaw_opt.has_value()) {
+  // Read current positions from state interfaces, needed for odom.
+  // state_interfaces_ order matches state_interface_configuration():
+  //   [0] linear_x_joint/position
+  //   [1] linear_y_joint/position
+  //   [2] yaw_joint/position
+  const auto x_opt = state_interfaces_[0].get_optional();
+  const auto y_opt = state_interfaces_[1].get_optional();
+  const auto yaw_opt = state_interfaces_[2].get_optional();
+
+  if (!x_opt.has_value() || !y_opt.has_value() || !yaw_opt.has_value()) {
     RCLCPP_WARN_THROTTLE(get_node()->get_logger(), *get_node()->get_clock(),
-                         1000, "Could not read yaw state interface");
+                         1000, "Could not read one or more state interfaces");
     return controller_interface::return_type::OK;
   }
+
+  const double x = x_opt.value();
+  const double y = y_opt.value();
   const double yaw = yaw_opt.value();
 
   // Read latest command (realtime-safe)
@@ -144,6 +186,32 @@ MagicCarpetController::update(const rclcpp::Time & /*time*/,
       !command_interfaces_[2].set_value(wz)) {
     RCLCPP_WARN_THROTTLE(get_node()->get_logger(), *get_node()->get_clock(),
                          1000, "Failed to set one or more command interfaces");
+  }
+
+  // Publish odometry at the configured rate
+  if (odom_publish_period_.seconds() > 0.0 &&
+      (time - last_odom_publish_time_) >= odom_publish_period_) {
+    last_odom_publish_time_ = time;
+
+    if (rt_odom_pub_->trylock()) {
+      auto &odom_msg = rt_odom_pub_->msg_;
+      odom_msg.header.stamp = time;
+
+      odom_msg.pose.pose.position.x = x;
+      odom_msg.pose.pose.position.y = y;
+      odom_msg.pose.pose.position.z = 0.0;
+
+      odom_msg.pose.pose.orientation.x = 0.0;
+      odom_msg.pose.pose.orientation.y = 0.0;
+      odom_msg.pose.pose.orientation.z = std::sin(yaw * 0.5);
+      odom_msg.pose.pose.orientation.w = std::cos(yaw * 0.5);
+
+      odom_msg.twist.twist.linear.x = vx_body;
+      odom_msg.twist.twist.linear.y = vy_body;
+      odom_msg.twist.twist.angular.z = wz;
+
+      rt_odom_pub_->unlockAndPublish();
+    }
   }
 
   return controller_interface::return_type::OK;

@@ -24,6 +24,8 @@
 #include <vector>
 
 #include "controller_interface/controller_interface.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+#include "realtime_tools/realtime_publisher.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/subscription.hpp"
@@ -89,6 +91,14 @@ private:
       rt_command_buf_;
   rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr
       cmd_vel_sub_;
+
+  // Odometry publisher
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+  std::unique_ptr<realtime_tools::RealtimePublisher<nav_msgs::msg::Odometry>>
+      rt_odom_pub_;
+  rclcpp::Duration odom_publish_period_{0, 0};
+  rclcpp::Time last_odom_publish_time_{0, 0, RCL_CLOCK_UNINITIALIZED};
+
 };
 
 } // namespace phoebe_controllers
