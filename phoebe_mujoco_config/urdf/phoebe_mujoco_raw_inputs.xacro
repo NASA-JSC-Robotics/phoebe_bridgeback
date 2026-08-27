@@ -16,7 +16,7 @@
     <default>
         <default class="phoebe">
             <material specular="0.5" shininess="0.25"/>
-            <joint axis="0 1 0" armature="0.1" actuatorgravcomp="true"/>
+            <joint armature="0.1" actuatorgravcomp="true"/>
             <default class="size5">
                 <joint actuatorfrclimited="true" actuatorfrcrange="-1000 1000"/>
                 <position ctrlrange="0.0 0.7" kp="75000" dampratio="1.0" forcerange="-1000 1000"/>
