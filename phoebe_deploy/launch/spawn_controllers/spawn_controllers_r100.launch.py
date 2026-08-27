@@ -85,13 +85,15 @@ def generate_launch_description():
                 namespace=namespace,
                 condition=UnlessCondition(is_sim),
             ),
-            spawn_controller(
-                "imu_broadcaster",
-                namespace=namespace,
-                condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
-            ),
         ],
+    )
+
+    # Always spawn an IMU broadcaster
+    imu_broadcaster = spawn_controller(
+        "imu_broadcaster",
+        namespace=namespace,
+        condition=IfCondition(is_sim),
+        controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=sensors/imu_0/data_raw",
     )
 
     magic_carpet_controller = GroupAction(
@@ -101,9 +103,9 @@ def generate_launch_description():
                 "phoebe_magic_carpet_controller",
                 namespace=namespace,
                 condition=IfCondition(is_sim),
+                controller_ros_args="--ros-args --remap /phoebe_magic_carpet_controller/odom:=odom_publisher/odom",
             ),
         ],
-        # NOTE: We explicitly exclude odom since the rails provide perfect ground truth
     )
 
-    return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controller])
+    return LaunchDescription(declared_arguments + [wheel_controllers, imu_broadcaster, magic_carpet_controller])
