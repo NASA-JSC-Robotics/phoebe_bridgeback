@@ -35,6 +35,7 @@ from launch.substitutions import (
 )
 from launch_ros.substitutions import FindPackageShare
 from launch.conditions import UnlessCondition
+from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -137,6 +138,34 @@ def generate_launch_description():
         ]
     )
 
+    # Full ros2_control URDF with world joints, which MUST be passed to the mujoco_ros2_control
+    # controller manager to enable running the robot on a "magic carpet", if specified.
+    control_robot_description_content = Command(
+        [
+            PathJoinSubstitution([FindExecutable(name="xacro")]),
+            " ",
+            PathJoinSubstitution(
+                [FindPackageShare(phoebe_mujoco_package_name), "urdf", phoebe_mujoco_description_file]
+            ),
+            " ",
+            "use_fake_hardware:=true",
+            " ",
+            "include_world_joints:=",
+            include_world_joints,
+            " ",
+            "use_left_static_pedestal:=",
+            use_left_static_pedestal,
+            " ",
+            "left_hand_type:=",
+            left_hand_type,
+            " ",
+            "right_hand_type:=",
+            right_hand_type,
+            " ",
+            "model_mobile_env:=false",
+        ]
+    )
+
     # Using an inline opaque function to write the URDF for mujoco to a tempfile...
     # This prevents it from being dumped into the console on conversion errors.
     def launch_mjcf_node(context):
@@ -206,7 +235,12 @@ def generate_launch_description():
         [FindPackageShare(phoebe_mujoco_package_name), "config", "mujoco_plugins.yaml"]
     )
 
-    # Include the control launch file with relevant configuration
+    # For passing through an alternative description to the controller manager
+    CONTROL_ROBOT_DESCRIPTION_TOPIC = "/control_robot_description"
+
+    # Include the control launch file with relevant configuration.
+    # When world joints are included, the controller manager reads its URDF
+    # from a separate topic so RSP can publish a stripped version.
     control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -217,8 +251,8 @@ def generate_launch_description():
         ),
         launch_arguments={
             "use_fake_hardware": "true",
-            "robot_description_package": "phoebe_mujoco_config",
-            "robot_description_file": "phoebe_mujoco_xacro.urdf",
+            "robot_description_package": phoebe_mujoco_package_name,
+            "robot_description_file": phoebe_mujoco_description_file,
             "use_sim_time": "true",
             "include_world_joints": include_world_joints,
             "use_left_static_pedestal": use_left_static_pedestal,
@@ -226,6 +260,7 @@ def generate_launch_description():
             "left_hand_type": left_hand_type,
             "right_hand_type": right_hand_type,
             "extra_controller_params_file": extra_controller_params_file,
+            "control_robot_description_topic": CONTROL_ROBOT_DESCRIPTION_TOPIC,
         }.items(),
     )
 
@@ -244,6 +279,21 @@ def generate_launch_description():
     )
 
     nodes = []
+
+    nodes.append(
+        Node(
+            package="phoebe_deploy",
+            executable="string_publisher.py",
+            name="control_description_publisher",
+            output="log",
+            parameters=[
+                {"content": ParameterValue(value=control_robot_description_content, value_type=str)},
+                {"topic": CONTROL_ROBOT_DESCRIPTION_TOPIC},
+                {"use_sim_time": True},
+            ],
+            condition=IfCondition(include_world_joints),
+        )
+    )
 
     nodes.append(
         Node(

@@ -139,6 +139,15 @@ def generate_launch_description():
             description="Path to additional parameter file to be loaded into the control node.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "control_robot_description_topic",
+            default_value="robot_description",
+            description="Topic for the controller manager to read robot_description from. "
+            "Defaults to robot_description, but can be overridden by callers for a number of reasons. "
+            "e.g., running on a magic carpet."
+        )
+    )
 
     # Initialize Arguments
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -154,6 +163,7 @@ def generate_launch_description():
     right_hand_type = LaunchConfiguration("right_hand_type")
     extra_xacro_args = LaunchConfiguration("extra_xacro_args")
     extra_controller_params_file = LaunchConfiguration("extra_controller_params_file")
+    control_robot_description_topic = LaunchConfiguration("control_robot_description_topic")
 
     # common launch args shared across different nodes
     common_launch_args = {
@@ -233,7 +243,9 @@ def generate_launch_description():
     controllers_moveit_pro = GetControllersFile("controllers_moveit_pro.yaml")
 
     # This is the main robot description for Phoebe.
-    robot_description_content = Command(
+    # However, we note that we NEVER include the rail joints for the top level RSP, as the
+    # consequences for /tf are painful.
+    rsp_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
@@ -248,9 +260,6 @@ def generate_launch_description():
             "use_fake_hardware:=",
             use_fake_hardware,
             " ",
-            "include_world_joints:=",
-            include_world_joints,
-            " ",
             "calibration_mode:=",
             calibration_mode,
             " ",
@@ -263,27 +272,28 @@ def generate_launch_description():
             "right_hand_type:=",
             right_hand_type,
             " ",
-            extra_xacro_args,  # this should always be last
+            "include_world_joints:=",
+            "false",
+            " ",
+            extra_xacro_args,
         ]
     )
-    robot_description = {"robot_description": ParameterValue(value=robot_description_content, value_type=str)}
 
     # This is the "definitive" robot state publisher.
-    # This should be launched on whatever machine has the most resources, which
-    # along with whichever controller manager we think should com up first.
-    # Note that this is distinct from when running in transport only mode!
+    # Uses the RSP description (without world joints) so it doesn't compete with the mcc.
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         namespace=namespace,
         output="both",
         parameters=[
-            robot_description,
+            {"robot_description": ParameterValue(value=rsp_description_content, value_type=str)},
             {"use_sim_time": use_sim_time},
         ],
     )
 
-    # start the controller manager node with all of the controller config files
+    # start the controller manager node with all of the controller config files.
+    # Optionally remaps robot_description to a configurable topic.
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -298,6 +308,9 @@ def generate_launch_description():
             ParameterFile(controllers_moveit_pro, allow_substs=True),
             ParameterFile(extra_controller_params_file, allow_substs=True),
             {"use_sim_time": use_sim_time},
+        ],
+        remappings=[
+            ("robot_description", control_robot_description_topic),
         ],
         output="both",
         arguments=["--ros-args", "--log-level", "info"],
