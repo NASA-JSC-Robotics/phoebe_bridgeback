@@ -127,29 +127,44 @@ def generate_launch_description():
         # Use a copied version of https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py,
         # as the upstream does not support yaml param substitutions. Added as part of namespace / tf_prefix support for
         # nav2 launches in: https://github.com/NASA-JSC-Robotics/phoebe_bridgeback/pull/43/
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([pkg_phoebe_nav2_config, "launch", "online_async_launch.py"])]
-            ),
-            launch_arguments={
-                "tf_prefix": tf_prefix,
-                "slam_params_file": slam_config_file,
-                "use_sim_time": use_sim_time,
-            }.items(),
-            condition=IfCondition(publish_tf),
-        ),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "online_async_launch.py"])]
-            ),
-            launch_arguments={
-                "tf_prefix": tf_prefix,
-                "slam_params_file": PathJoinSubstitution(
-                    [pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"]
+        # SLAM and localization are skipped in magic carpet mode. Instead we rely on the magic carpet controller
+        # to connect odom -> base_link, and a static transform publisher in place of slam.
+        GroupAction(
+            condition=UnlessCondition(magic_carpet),
+            actions=[
+                IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource(
+                        [PathJoinSubstitution([pkg_phoebe_nav2_config, "launch", "online_async_launch.py"])]
+                    ),
+                    launch_arguments={
+                        "tf_prefix": tf_prefix,
+                        "slam_params_file": slam_config_file,
+                        "use_sim_time": use_sim_time,
+                    }.items(),
+                    condition=IfCondition(publish_tf),
                 ),
-                "use_sim_time": use_sim_time,
-            }.items(),
-            condition=UnlessCondition(publish_tf),
+                IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource(
+                        [PathJoinSubstitution([(pkg_phoebe_nav2_config), "launch", "online_async_launch.py"])]
+                    ),
+                    launch_arguments={
+                        "tf_prefix": tf_prefix,
+                        "slam_params_file": PathJoinSubstitution(
+                            [pkg_phoebe_nav2_config, "config/clearpath_slam_config_no_tf.yaml"]
+                        ),
+                        "use_sim_time": use_sim_time,
+                    }.items(),
+                    condition=UnlessCondition(publish_tf),
+                ),
+            ],
+        ),
+        Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="map_to_odom_identity",
+            arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
+            parameters=[{"use_sim_time": use_sim_time}],
+            condition=IfCondition(magic_carpet),
         ),
         # Use custom nav launch file for tf prefixing fix
         IncludeLaunchDescription(
