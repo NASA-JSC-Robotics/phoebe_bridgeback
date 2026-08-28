@@ -36,6 +36,7 @@ controller_interface::CallbackReturn MagicCarpetController::on_init() {
     auto_declare<double>("odom_publish_rate", 50.0);
     auto_declare<std::string>("odom_frame_id", "odom");
     auto_declare<std::string>("base_frame_id", "base_link");
+    auto_declare<bool>("publish_tf", true);
   } catch (const std::exception &e) {
     RCLCPP_ERROR(get_node()->get_logger(), "on_init failed: %s", e.what());
     return controller_interface::CallbackReturn::ERROR;
@@ -49,8 +50,14 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
   linear_x_joint_ = get_node()->get_parameter("linear_x_joint").as_string();
   linear_y_joint_ = get_node()->get_parameter("linear_y_joint").as_string();
   yaw_joint_ = get_node()->get_parameter("yaw_joint").as_string();
+
   odom_frame_id_ = get_node()->get_parameter("odom_frame_id").as_string();
   base_frame_id_ = get_node()->get_parameter("base_frame_id").as_string();
+  publish_tf_ = get_node()->get_parameter("publish_tf").as_bool();
+
+  if (publish_tf_) {
+    tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(get_node());
+  }
 
   const double odom_publish_rate =
       get_node()->get_parameter("odom_publish_rate").as_double();
@@ -75,7 +82,7 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
       std::make_unique<realtime_tools::RealtimePublisher<nav_msgs::msg::Odometry>>(
           odom_pub_);
 
-  // These won't change
+  // Pre-fill static fields
   auto &odom_msg = rt_odom_pub_->msg_;
   odom_msg.header.frame_id = odom_frame_id_;
   odom_msg.child_frame_id = base_frame_id_;
@@ -142,7 +149,7 @@ controller_interface::CallbackReturn MagicCarpetController::on_deactivate(
 controller_interface::return_type
 MagicCarpetController::update(const rclcpp::Time &time,
                               const rclcpp::Duration & /*period*/) {
-  // Read current positions from state interfaces, needed for odom.
+  // Read current positions from state interfaces
   // state_interfaces_ order matches state_interface_configuration():
   //   [0] linear_x_joint/position
   //   [1] linear_y_joint/position
@@ -196,20 +203,39 @@ MagicCarpetController::update(const rclcpp::Time &time,
       auto &odom_msg = rt_odom_pub_->msg_;
       odom_msg.header.stamp = time;
 
+      // Position from joint state interfaces (these are odom-frame positions)
       odom_msg.pose.pose.position.x = x;
       odom_msg.pose.pose.position.y = y;
       odom_msg.pose.pose.position.z = 0.0;
 
+      // Quaternion from yaw
       odom_msg.pose.pose.orientation.x = 0.0;
       odom_msg.pose.pose.orientation.y = 0.0;
       odom_msg.pose.pose.orientation.z = std::sin(yaw * 0.5);
       odom_msg.pose.pose.orientation.w = std::cos(yaw * 0.5);
 
+      // Velocities in body frame
       odom_msg.twist.twist.linear.x = vx_body;
       odom_msg.twist.twist.linear.y = vy_body;
       odom_msg.twist.twist.angular.z = wz;
 
       rt_odom_pub_->unlockAndPublish();
+    }
+
+    // Broadcast odom to the base link base_link TF, if requested
+    if (publish_tf_ && tf_broadcaster_) {
+      geometry_msgs::msg::TransformStamped tf;
+      tf.header.stamp = time;
+      tf.header.frame_id = odom_frame_id_;
+      tf.child_frame_id = base_frame_id_;
+      tf.transform.translation.x = x;
+      tf.transform.translation.y = y;
+      tf.transform.translation.z = 0.0;
+      tf.transform.rotation.x = 0.0;
+      tf.transform.rotation.y = 0.0;
+      tf.transform.rotation.z = std::sin(yaw * 0.5);
+      tf.transform.rotation.w = std::cos(yaw * 0.5);
+      tf_broadcaster_->sendTransform(tf);
     }
   }
 

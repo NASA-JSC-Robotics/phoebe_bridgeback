@@ -14,6 +14,7 @@ find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(realtime_tools REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED
   src/magic_carpet_controller.cpp
@@ -31,6 +32,7 @@ ament_target_dependencies(${PROJECT_NAME} PUBLIC
   rclcpp
   rclcpp_lifecycle
   realtime_tools
+  tf2_ros
 )
 
 install(
