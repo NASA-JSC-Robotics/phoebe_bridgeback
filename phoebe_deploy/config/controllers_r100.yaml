@@ -87,3 +87,4 @@
       odom_publish_rate: 50.0
       odom_frame_id: odom
       base_frame_id: $(var tf_prefix)base_link
+      publish_tf: True

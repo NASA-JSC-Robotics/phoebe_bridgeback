@@ -96,6 +96,8 @@ def generate_launch_description():
         controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=sensors/imu_0/data_raw",
     )
 
+    # Magic carpet replaces both the wheel controllers and filters on odom, so publish directly
+    # and have it connect tf.
     magic_carpet_controller = GroupAction(
         condition=IfCondition(include_world_joints),
         actions=[
@@ -103,7 +105,8 @@ def generate_launch_description():
                 "phoebe_magic_carpet_controller",
                 namespace=namespace,
                 condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args --remap /phoebe_magic_carpet_controller/odom:=odom_publisher/odom",
+                controller_ros_args="--ros-args"
+                " --remap /phoebe_magic_carpet_controller/odom:=/ridgeback/odometry/filtered",
             ),
         ],
     )
