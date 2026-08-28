@@ -49,7 +49,6 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
   linear_x_joint_ = get_node()->get_parameter("linear_x_joint").as_string();
   linear_y_joint_ = get_node()->get_parameter("linear_y_joint").as_string();
   yaw_joint_ = get_node()->get_parameter("yaw_joint").as_string();
-
   odom_frame_id_ = get_node()->get_parameter("odom_frame_id").as_string();
   base_frame_id_ = get_node()->get_parameter("base_frame_id").as_string();
 

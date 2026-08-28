@@ -96,6 +96,8 @@ private:
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
   std::unique_ptr<realtime_tools::RealtimePublisher<nav_msgs::msg::Odometry>>
       rt_odom_pub_;
+  std::string odom_frame_id_;
+  std::string base_frame_id_;
   rclcpp::Duration odom_publish_period_{0, 0};
   rclcpp::Time last_odom_publish_time_{0, 0, RCL_CLOCK_UNINITIALIZED};
 
