@@ -50,24 +50,15 @@ graph TD
     SLAM_TB -->|"TF: map → odom"| TF_TREE
     SLAM_TB -->|nav_msgs/msg/OccupancyGrid| MAP_TOPIC([map])
 
-    subgraph Nav2 Planning
-        NAV2[bt_navigator \n planner_server \n controller_server \n global_costmap \n local_costmap \n etc]
-        NOTE[This is a bit of a block box\nconfigured in the nav2 yaml]
+    subgraph Nav2 Stack
+        NAV["Nav2 Stack! \n (see below for more info)"]
     end
 
-    MAP_TOPIC -->|nav_msgs/msg/OccupancyGrid| NAV2
-    LIDAR_TOPIC -->|sensor_msgs/msg/LaserScan| NAV2
-    TF_TREE --> NAV2
-    FILTERED_ODOM -->|nav_msgs/msg/Odometry| NAV2
+    LIDAR_TOPIC -->|sensor_msgs/msg/LaserScan| NAV
+    TF_TREE --> NAV
+    FILTERED_ODOM -->|nav_msgs/msg/Odometry| NAV
 
-    VEL_SMOOTH[velocity_smoother]
-    COLL_MON[collision_monitor]
-
-    NAV2 -->|geometry_msgs/msg/TwistStamped| CMD_NAV([cmd_vel_nav])
-    CMD_NAV -->|geometry_msgs/msg/TwistStamped| VEL_SMOOTH
-    VEL_SMOOTH -->|geometry_msgs/msg/TwistStamped| CMD_SMOOTH([cmd_vel_smoothed])
-    CMD_SMOOTH -->|geometry_msgs/msg/TwistStamped| COLL_MON
-    COLL_MON -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
+    NAV -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
 
     subgraph Command Muxing
         TWIST_MUX[twist_mux]
@@ -87,4 +78,50 @@ graph TD
     subgraph Hardware / Mujoco Inputs
         PVC_INPUT[Mecanum Drive]
     end
+```
+
+A closer look at the Nav2 stack:
+
+```mermaid
+graph TD
+
+NOTE[Not launched from Nav2 stack: \n docking_server \n route_server \n smoother_server]
+
+LIFECYCLE["lifecycle_manager \n (manages all Nav2 nodes)"]
+
+NAVIGATE{{navigate_to_pose}}
+BT[bt_navigator]
+NAVIGATOR[bt_navigator_navigate_to_pose]
+RECOVERY{{"backup, spin, wait \n (recovery behaviors)"}}
+PLAN{{compute_path_to_pose}}
+CONTROL{{follow_path}}
+BEHAVIOR[behavior_server]
+PLANNER[planner_server]
+CONTROLLER[controller_server]
+GLOBAL[global_costmap]
+LOCAL[local_costmap]
+VEL_SMOOTH[velocity_smoother]
+CMD_NAV([cmd_vel_nav])
+COLL_MON[collision_monitor]
+CMD_SMOOTH([cmd_vel_smoothed])
+
+WAYPOINT["application \n (or Nav2 waypoint_follower)"]
+
+BT -->|navigator| NAVIGATOR
+NAVIGATOR -->|"nav2_msgs/action/[Backup/Spin/Wait]"| RECOVERY
+RECOVERY --> BEHAVIOR
+NAVIGATOR -->|nav2_msgs/action/ComputePathToPose| PLAN
+PLAN --> PLANNER
+PLANNER -->|manages| GLOBAL
+NAVIGATOR -->|nav2_msgs/action/FollowPath| CONTROL
+CONTROL --> CONTROLLER
+CONTROLLER -->|manages| LOCAL
+WAYPOINT -->|nav2_msgs/action/NavigateToPose| NAVIGATE
+NAVIGATE --> BT
+
+CONTROLLER -->|geometry_msgs/msg/TwistStamped| CMD_NAV
+CMD_NAV -->|geometry_msgs/msg/TwistStamped| VEL_SMOOTH
+VEL_SMOOTH -->|geometry_msgs/msg/TwistStamped| CMD_SMOOTH
+CMD_SMOOTH -->|geometry_msgs/msg/TwistStamped| COLL_MON
+COLL_MON -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
 ```
