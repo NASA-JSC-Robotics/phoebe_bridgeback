@@ -55,7 +55,7 @@ When running in magic carpet mode, we should disable localization.
 The magic carpet controller publishes both the odom topic and the `odom -> base_link` TF directly from ground truth.
 Running an EKF on top of perfect odometry only introduces drift!
 
-SLAM can remain enabled.
-It will add small scan-matching noise to the `map -> odom` correction, but with perfect underlying odometry this stays bounded and exercises the same pipeline as hardware.
+SLAM can remain enabled, if desired.
+By default, however, Phoebe's Nav2 config _disables_ SLAM in magic carpet mode, instead publishing a static TF from `map -> odom` to prevent noise.
 
 Ensure the world joints (linear x, linear y, yaw) are **not** published by `joint_state_broadcaster`, so `robot_state_publisher` doesn't produce a competing `odom -> base_link` chain from the URDF.
