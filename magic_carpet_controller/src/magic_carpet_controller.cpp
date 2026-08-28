@@ -56,13 +56,15 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
   publish_tf_ = get_node()->get_parameter("publish_tf").as_bool();
 
   if (publish_tf_) {
-    tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(get_node());
+    tf_broadcaster_ =
+        std::make_unique<tf2_ros::TransformBroadcaster>(get_node());
   }
 
   const double odom_publish_rate =
       get_node()->get_parameter("odom_publish_rate").as_double();
   if (odom_publish_rate > 0.0) {
-    odom_publish_period_ = rclcpp::Duration::from_seconds(1.0 / odom_publish_rate);
+    odom_publish_period_ =
+        rclcpp::Duration::from_seconds(1.0 / odom_publish_rate);
   } else {
     odom_publish_period_ = rclcpp::Duration::from_seconds(0.0);
   }
@@ -78,9 +80,8 @@ controller_interface::CallbackReturn MagicCarpetController::on_configure(
   // Set up the odometry publisher with a realtime wrapper
   odom_pub_ = get_node()->create_publisher<nav_msgs::msg::Odometry>(
       "~/odom", rclcpp::SystemDefaultsQoS());
-  rt_odom_pub_ =
-      std::make_unique<realtime_tools::RealtimePublisher<nav_msgs::msg::Odometry>>(
-          odom_pub_);
+  rt_odom_pub_ = std::make_unique<
+      realtime_tools::RealtimePublisher<nav_msgs::msg::Odometry>>(odom_pub_);
 
   // Pre-fill static fields
   auto &odom_msg = rt_odom_pub_->msg_;

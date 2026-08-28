@@ -145,7 +145,7 @@ def generate_launch_description():
             default_value="robot_description",
             description="Topic for the controller manager to read robot_description from. "
             "Defaults to robot_description, but can be overridden by callers for a number of reasons. "
-            "e.g., running on a magic carpet."
+            "e.g., running on a magic carpet.",
         )
     )
 

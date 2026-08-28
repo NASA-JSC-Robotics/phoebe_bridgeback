@@ -31,6 +31,7 @@ class StringPublisher(Node):
     nodes like ros2_control_node can subscribe to a different description than
     the one published by robot_state_publisher.
     """
+
     def __init__(self):
         super().__init__("string_publisher")
 
@@ -49,9 +50,7 @@ class StringPublisher(Node):
         pub = self.create_publisher(String, topic, qos)
         pub.publish(String(data=content))
 
-        self.get_logger().info(
-            f"Published {len(content)} bytes on '{topic}' (transient local)"
-        )
+        self.get_logger().info(f"Published {len(content)} bytes on '{topic}' (transient local)")
 
 
 def main(args=None):
