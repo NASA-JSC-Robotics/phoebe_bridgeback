@@ -10,8 +10,8 @@ version: 0
 platform:
   mcu:
     protocol: proton
-# For our Ridgeback, the vendor battery is not in the list of supported battery 
-# models, so we do not include a battery configuration here. If you are using 
+# For our Ridgeback, the vendor battery is not in the list of supported battery
+# models, so we do not include a battery configuration here. If you are using
 # the stock 8A31DTM lead acid battery, it may be useful to add this as part of the
 # minimal platform configuration (but we can't test this).
 #  battery:

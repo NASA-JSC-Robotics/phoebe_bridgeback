@@ -71,7 +71,7 @@ def generate_launch_description():
         multi-robot setup. If changed, also joint names in the controllers' configuration \
         have to be updated.",
         )
-    )   
+    )
 
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
@@ -86,16 +86,14 @@ def generate_launch_description():
 
     # Launch Hokuyo with our modified params file
     node_lidar_urg = Node(
-        package='urg_node',
+        package="urg_node",
         namespace=f"{default_ns}/sensors/lidar2d_0",
-        executable='urg_node_driver',
+        executable="urg_node_driver",
         parameters=[ParameterFile(config_lidar2d, allow_substs=True)],
-        output='screen',
-        remappings=[
-          ('/diagnostics', 'diagnostics')
-        ],
-        condition=UnlessCondition(is_sim),        
-    )    
+        output="screen",
+        remappings=[("/diagnostics", "diagnostics")],
+        condition=UnlessCondition(is_sim),
+    )
 
     node_imu_filter_madgwick = Node(
         name="imu_filter_madgwick",

@@ -25,6 +25,7 @@ from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterFile
+
 # import logging
 # logging.root.setLevel(logging.DEBUG)
 
@@ -66,8 +67,12 @@ def generate_launch_description():
 
     # Config files
     config_can = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "can_config.yaml"])
-    config_diagnostic_updater=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_updater.yaml"])
-    config_diagnostic_aggregator=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_aggregator.yaml"])
+    config_diagnostic_updater = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_updater.yaml"]
+    )
+    config_diagnostic_aggregator = PathJoinSubstitution(
+        [pkg_phoebe_deploy, "config", "ridgeback", "diagnostic_aggregator.yaml"]
+    )
     setup_path = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback"])
 
     # Launch files
@@ -75,7 +80,7 @@ def generate_launch_description():
     launch_file_sender = PathJoinSubstitution([pkg_phoebe_deploy, "launch", "sender.launch.py"])
     launch_file_phoebe_safety = PathJoinSubstitution([pkg_phoebe_safety, "launch", "phoebe_safety_manager.launch.py"])
     launch_file_proton = PathJoinSubstitution([pkg_proton, "launch", "proton_ros2.launch.py"])
-    launch_file_diagnostics = PathJoinSubstitution([pkg_clearpath_diagnostics, 'launch', 'diagnostics.launch.py'])
+    launch_file_diagnostics = PathJoinSubstitution([pkg_clearpath_diagnostics, "launch", "diagnostics.launch.py"])
 
     # Included launch files
     launch_receiver = IncludeLaunchDescription(
@@ -105,16 +110,16 @@ def generate_launch_description():
         launch_arguments={
             "config_file": PathJoinSubstitution([pkg_clearpath_firmware, "proton", "r100.yaml"]),
             "target": "pc",
-            "namespace": default_ns
+            "namespace": default_ns,
         }.items(),
     )
 
     launch_diagnostics = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([launch_file_diagnostics]),
         launch_arguments={
-                'namespace': default_ns,
-                'updater_parameters': config_diagnostic_updater,
-                'aggregator_parameters': config_diagnostic_aggregator,
+            "namespace": default_ns,
+            "updater_parameters": config_diagnostic_updater,
+            "aggregator_parameters": config_diagnostic_aggregator,
         }.items(),
     )
 
@@ -141,7 +146,7 @@ def generate_launch_description():
         package="clearpath_hardware_interfaces",
         namespace=default_ns,
         output="screen",
-        parameters=[{ 'tf_prefix': tf_prefix }],
+        parameters=[{"tf_prefix": tf_prefix}],
         arguments=[
             "-s",
             setup_path,
@@ -154,7 +159,7 @@ def generate_launch_description():
         package="clearpath_hardware_interfaces",
         namespace=default_ns,
         output="screen",
-        parameters=[{ 'tf_prefix': tf_prefix }],        
+        parameters=[{"tf_prefix": tf_prefix}],
         arguments=[
             "-s",
             setup_path,
@@ -191,18 +196,12 @@ def generate_launch_description():
             # This does not seem to be used at present, but perhaps it makes
             # sense to redirect it as well. If not, this is documentation that it
             # exists as a thing.
-            ("platform/motors/status", "/platform/motors/status"),            
+            ("platform/motors/status", "/platform/motors/status"),
         ],
     )
 
     # Aggregations
-    launches = [
-        launch_receiver,
-        launch_sender,
-        launch_phoebe_safety,
-        launch_proton,
-        launch_diagnostics
-    ]
+    launches = [launch_receiver, launch_sender, launch_phoebe_safety, launch_proton, launch_diagnostics]
     nodes = [
         node_wireless_watcher,
         # Comment out pending addressing the $(var stuff) in robot.yaml.

@@ -27,11 +27,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from launch import LaunchDescription
-from launch.actions import (
-    DeclareLaunchArgument,
-    ExecuteProcess,
-    OpaqueFunction,
-    RegisterEventHandler)
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, OpaqueFunction, RegisterEventHandler
 from launch.event_handlers import OnProcessExit, OnProcessStart
 from launch.substitutions import FindExecutable, LaunchConfiguration
 from launch_ros.actions import LifecycleNode, Node
@@ -39,87 +35,94 @@ from launch_ros.actions import LifecycleNode, Node
 
 def launch_setup(context, *args, **kwargs):
     # Apply context and type cast all LaunchConfiguration
-    namespace = str(
-        LaunchConfiguration('namespace').perform(context))
+    namespace = str(LaunchConfiguration("namespace").perform(context))
 
-    interface = str(
-        LaunchConfiguration('interface').perform(context))
+    interface = str(LaunchConfiguration("interface").perform(context))
 
-    enable_can_fd = bool(
-        LaunchConfiguration('enable_can_fd').perform(context) == 'true')
+    enable_can_fd = bool(LaunchConfiguration("enable_can_fd").perform(context) == "true")
 
-    timeout_sec = float(
-        LaunchConfiguration('timeout_sec').perform(context))
+    timeout_sec = float(LaunchConfiguration("timeout_sec").perform(context))
 
-    to_can_bus_topic = str(
-        LaunchConfiguration('to_can_bus_topic').perform(context))
+    to_can_bus_topic = str(LaunchConfiguration("to_can_bus_topic").perform(context))
 
-    auto_configure = bool(
-        LaunchConfiguration('auto_configure').perform(context) == 'true')
+    auto_configure = bool(LaunchConfiguration("auto_configure").perform(context) == "true")
 
-    auto_activate = bool(
-        LaunchConfiguration('auto_activate').perform(context) == 'true')
+    auto_activate = bool(LaunchConfiguration("auto_activate").perform(context) == "true")
 
-    timeout = float(
-        LaunchConfiguration('timeout').perform(context))
+    timeout = float(LaunchConfiguration("timeout").perform(context))
 
-    transition_attempts = int(
-        LaunchConfiguration('transition_attempts').perform(context))
+    transition_attempts = int(LaunchConfiguration("transition_attempts").perform(context))
 
-    name = f'{interface}_socket_can_sender'
+    name = f"{interface}_socket_can_sender"
 
     # SocketCAN sender node
     node = LifecycleNode(
-        package='ros2_socketcan',
-        executable='socket_can_sender_node_exe',
+        package="ros2_socketcan",
+        executable="socket_can_sender_node_exe",
         name=name,
         namespace=namespace,
-        parameters=[{
-            'interface': interface,
-            'enable_can_fd': enable_can_fd == 'true',
-            'timeout_sec': float(timeout_sec),
-        }],
-        remappings=[('to_can_bus', to_can_bus_topic)],
-        output='screen')
+        parameters=[
+            {
+                "interface": interface,
+                "enable_can_fd": enable_can_fd == "true",
+                "timeout_sec": float(timeout_sec),
+            }
+        ],
+        remappings=[("to_can_bus", to_can_bus_topic)],
+        output="screen",
+    )
 
     # Wait for interface to be active
-    # We allow the expected state of the virtual CAN device to be 
-    # UNKNOWN as well as UP to support the behavior of the Ubuntu 22 kernel. 
-    # Clearpath added exactly this fix to the humble branch of 
+    # We allow the expected state of the virtual CAN device to be
+    # UNKNOWN as well as UP to support the behavior of the Ubuntu 22 kernel.
+    # Clearpath added exactly this fix to the humble branch of
     # clearpath_ros2_socketcan_interface but not to jazzy presumably because
-    # the Ubuntu 24.04 kernel does not need it. We do need the fix since in 
+    # the Ubuntu 24.04 kernel does not need it. We do need the fix since in
     # some cases we run jazzy dockers on top of Ubuntu 22.
     # See the original Clearpath discussion at
     # https://github.com/clearpathrobotics/clearpath_ros2_socketcan_interface/pull/17
     wait_for_can_interface_proc = ExecuteProcess(
         name="CAN sender startup",
-        cmd=[['until ', FindExecutable(name='ip'), ' link show ', interface,
-              ' | ', FindExecutable(name='grep'), ' -e \"state UNKNOWN\" -e \"state UP\"', '; do sleep 1; echo "CAN Sender waiting on device"; done']],
-        shell=True
+        cmd=[
+            [
+                "until ",
+                FindExecutable(name="ip"),
+                " link show ",
+                interface,
+                " | ",
+                FindExecutable(name="grep"),
+                ' -e "state UNKNOWN" -e "state UP"',
+                '; do sleep 1; echo "CAN Sender waiting on device"; done',
+            ]
+        ],
+        shell=True,
     )
 
     # Event to launch node once interface is up
     launch_node = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=wait_for_can_interface_proc,
-            on_exit=node
-        )
+        event_handler=OnProcessExit(target_action=wait_for_can_interface_proc, on_exit=node)
     )
 
     # Activate launch
     activate_lifecycle_node = Node(
-        name=f'activate_{name}',
-        package='clearpath_ros2_socketcan_interface',
-        executable='activate_lifecycle',
+        name=f"activate_{name}",
+        package="clearpath_ros2_socketcan_interface",
+        executable="activate_lifecycle",
         namespace=namespace,
         arguments=[
-            '--namespace', str(namespace),
-            '--node', str(name),
-            '--auto_configure', str(auto_configure),
-            '--auto_activate', str(auto_activate),
-            '--timeout', str(timeout),
-            '--transition_attempts', str(transition_attempts)
-        ]
+            "--namespace",
+            str(namespace),
+            "--node",
+            str(name),
+            "--auto_configure",
+            str(auto_configure),
+            "--auto_activate",
+            str(auto_activate),
+            "--timeout",
+            str(timeout),
+            "--transition_attempts",
+            str(transition_attempts),
+        ],
     )
 
     # Event to configure and activate node once node is up
@@ -138,41 +141,23 @@ def launch_setup(context, *args, **kwargs):
 
 
 def generate_launch_description():
-    arg_namespace = DeclareLaunchArgument(
-      'namespace',
-      default_value='')
+    arg_namespace = DeclareLaunchArgument("namespace", default_value="")
 
-    arg_interface = DeclareLaunchArgument(
-      'interface',
-      default_value='can0')
+    arg_interface = DeclareLaunchArgument("interface", default_value="can0")
 
-    arg_enable_can_fd = DeclareLaunchArgument(
-      'enable_can_fd',
-      default_value='false')
+    arg_enable_can_fd = DeclareLaunchArgument("enable_can_fd", default_value="false")
 
-    arg_timeout_sec = DeclareLaunchArgument(
-      'timeout_sec',
-      default_value='1.0')
+    arg_timeout_sec = DeclareLaunchArgument("timeout_sec", default_value="1.0")
 
-    arg_auto_configure = DeclareLaunchArgument(
-      'auto_configure',
-      default_value='true')
+    arg_auto_configure = DeclareLaunchArgument("auto_configure", default_value="true")
 
-    arg_auto_activate = DeclareLaunchArgument(
-      'auto_activate',
-      default_value='true')
+    arg_auto_activate = DeclareLaunchArgument("auto_activate", default_value="true")
 
-    arg_to_can_bus_topic = DeclareLaunchArgument(
-      'to_can_bus_topic',
-      default_value='tx')
+    arg_to_can_bus_topic = DeclareLaunchArgument("to_can_bus_topic", default_value="tx")
 
-    arg_timeout = DeclareLaunchArgument(
-      'timeout',
-      default_value='5.0')
+    arg_timeout = DeclareLaunchArgument("timeout", default_value="5.0")
 
-    arg_transition_attempts = DeclareLaunchArgument(
-      'transition_attempts',
-      default_value='3')
+    arg_transition_attempts = DeclareLaunchArgument("transition_attempts", default_value="3")
 
     ld = LaunchDescription()
     ld.add_action(arg_namespace)

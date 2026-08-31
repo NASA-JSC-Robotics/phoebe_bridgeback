@@ -31,7 +31,7 @@ from launch.substitutions import (
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterFile
-from launch.conditions import IfCondition, UnlessCondition
+from launch.conditions import IfCondition
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
 
@@ -303,6 +303,4 @@ def generate_launch_description():
         arguments=["--ros-args", "--log-level", "info"],
     )
 
-    return LaunchDescription(
-        declared_arguments + launch_files + [robot_state_publisher_node, control_node]
-    )
+    return LaunchDescription(declared_arguments + launch_files + [robot_state_publisher_node, control_node])
