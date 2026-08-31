@@ -59,9 +59,11 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "include_world_joints",
+            "magic_carpet",
             default_value="false",
-            description="Whether or not to include a root world frame or run Phoebe on a magic carpet",
+            description="Whether or not to run Phoebe on a magic carpet. "
+            "This will add linear rails to the mujoco simulation for the controller, but note the top level "
+            "RSP will NOT include the rails.",
             choices=["true", "false"],
         )
     )
@@ -105,7 +107,7 @@ def generate_launch_description():
     )
 
     point_clouds = LaunchConfiguration("point_clouds")
-    include_world_joints = LaunchConfiguration("include_world_joints")
+    magic_carpet = LaunchConfiguration("magic_carpet")
     use_pregenerated_mjcf = LaunchConfiguration("use_pregenerated_mjcf")
     sim_speed = LaunchConfiguration("sim_speed")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
@@ -122,19 +124,28 @@ def generate_launch_description():
             PathJoinSubstitution(
                 [FindPackageShare(phoebe_mujoco_package_name), "urdf", phoebe_mujoco_description_file]
             ),
+            " ",
             # Grasp frames should not be converted to MJCF objects
-            " add_grasp_push_frames:=false",
-            " model_mobile_env:=true",
-            " include_scene_objects:=true",
-            " base_joint_type:=floating",
-            " use_left_static_pedestal:=",
+            "add_grasp_push_frames:=false",
+            " ",
+            "model_mobile_env:=true",
+            " ",
+            "include_scene_objects:=true",
+            " ",
+            "base_joint_type:=floating",
+            " ",
+            "use_left_static_pedestal:=",
             use_left_static_pedestal,
-            " left_hand_type:=",
+            " ",
+            "left_hand_type:=",
             left_hand_type,
-            " right_hand_type:=",
+            " ",
+            "right_hand_type:=",
             right_hand_type,
-            " include_world_joints:=",
-            include_world_joints,
+            " ",
+            "include_world_joints:=",
+            magic_carpet,
+            " ",
         ]
     )
 
@@ -148,10 +159,7 @@ def generate_launch_description():
                 [FindPackageShare(phoebe_mujoco_package_name), "urdf", phoebe_mujoco_description_file]
             ),
             " ",
-            "use_fake_hardware:=true",
-            " ",
-            "include_world_joints:=",
-            include_world_joints,
+            "model_mobile_env:=false",
             " ",
             "use_left_static_pedestal:=",
             use_left_static_pedestal,
@@ -162,7 +170,9 @@ def generate_launch_description():
             "right_hand_type:=",
             right_hand_type,
             " ",
-            "model_mobile_env:=false",
+            "include_world_joints:=",
+            magic_carpet,
+            " ",
         ]
     )
 
@@ -186,7 +196,7 @@ def generate_launch_description():
         ]
 
         # If phoebe is on a magic carpet
-        if include_world_joints.perform(context) == "true":
+        if magic_carpet.perform(context) == "true":
             post_process_args.append("--magic-carpet")
 
         return [
@@ -254,7 +264,7 @@ def generate_launch_description():
             "robot_description_package": phoebe_mujoco_package_name,
             "robot_description_file": phoebe_mujoco_description_file,
             "use_sim_time": "true",
-            "include_world_joints": include_world_joints,
+            "magic_carpet": magic_carpet,
             "use_left_static_pedestal": use_left_static_pedestal,
             "extra_xacro_args": extra_xacro_args,
             "left_hand_type": left_hand_type,
@@ -291,7 +301,7 @@ def generate_launch_description():
                 {"topic": CONTROL_ROBOT_DESCRIPTION_TOPIC},
                 {"use_sim_time": True},
             ],
-            condition=IfCondition(include_world_joints),
+            condition=IfCondition(magic_carpet),
         )
     )
 

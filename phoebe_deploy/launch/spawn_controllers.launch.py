@@ -79,9 +79,9 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "include_world_joints",
+            "magic_carpet",
             default_value="false",
-            description="Whether or not to include a root world frame and run phoebe on a magic carpet",
+            description="Whether or not Phoebe is on a magic carpet, affects controller spawning.",
             choices=["true", "false"],
         )
     )
@@ -91,7 +91,7 @@ def generate_launch_description():
     calibration_mode = LaunchConfiguration("calibration_mode")
     is_sim = LaunchConfiguration("is_sim")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
-    include_world_joints = LaunchConfiguration("include_world_joints")
+    magic_carpet = LaunchConfiguration("magic_carpet")
 
     # common launch args passed to each of the different launch files
     common_launch_args = {
@@ -100,7 +100,7 @@ def generate_launch_description():
         "calibration_mode": calibration_mode,
         "is_sim": is_sim,
         "use_left_static_pedestal": use_left_static_pedestal,
-        "include_world_joints": include_world_joints,
+        "magic_carpet": magic_carpet,
     }.items()
 
     # helper function to organize launch description objects with the same launch args and package names

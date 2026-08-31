@@ -46,20 +46,20 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "include_world_joints",
+            "magic_carpet",
             default_value="false",
-            description="Whether or not to include a root world frame and run phoebe on a magic carpet",
+            description="Whether or not Phoebe is on a magic carpet, affects controller spawning.",
             choices=["true", "false"],
         )
     )
 
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
-    include_world_joints = LaunchConfiguration("include_world_joints")
+    magic_carpet = LaunchConfiguration("magic_carpet")
 
     # Use wheels if not using the magic carpet
     wheel_controllers = GroupAction(
-        condition=UnlessCondition(include_world_joints),
+        condition=UnlessCondition(magic_carpet),
         actions=[
             # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
             # This should definitely be investigated further.
@@ -99,7 +99,7 @@ def generate_launch_description():
     # Magic carpet replaces both the wheel controllers and filters on odom, so publish directly
     # and have it connect tf.
     magic_carpet_controller = GroupAction(
-        condition=IfCondition(include_world_joints),
+        condition=IfCondition(magic_carpet),
         actions=[
             spawn_controller(
                 "phoebe_magic_carpet_controller",

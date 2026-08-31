@@ -95,9 +95,11 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "include_world_joints",
+            "magic_carpet",
             default_value="false",
-            description="Whether or not to include a root world frame",
+            description="Whether or not Phoebe is running on a magic carpet (rails. "
+            "This will add linear rails to the mujoco simulation for the controller, but note the top level "
+            "RSP will NOT include the rails.",
             choices=["true", "false"],
         )
     )
@@ -157,7 +159,7 @@ def generate_launch_description():
     calibration_mode = LaunchConfiguration("calibration_mode")
     robot_description_package = LaunchConfiguration("robot_description_package")
     robot_description_file = LaunchConfiguration("robot_description_file")
-    include_world_joints = LaunchConfiguration("include_world_joints")
+    magic_carpet = LaunchConfiguration("magic_carpet")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     left_hand_type = LaunchConfiguration("left_hand_type")
     right_hand_type = LaunchConfiguration("right_hand_type")
@@ -174,7 +176,7 @@ def generate_launch_description():
         "robot_description_package": robot_description_package,
         "robot_description_file": robot_description_file,
         "is_sim": use_fake_hardware,
-        "include_world_joints": include_world_joints,
+        "magic_carpet": magic_carpet,
         "use_left_static_pedestal": use_left_static_pedestal,
         "left_hand_type": left_hand_type,
         "right_hand_type": right_hand_type,
@@ -202,13 +204,9 @@ def generate_launch_description():
 
     # lists to keep track of launch file names to start
     launch_file_names = []
-    hardware_launch_file_names = []
 
     # add controller spawners for each component
     launch_file_names.append("spawn_controllers.launch.py")
-
-    # add launch file for handling tool communication for gripper through the URs
-    hardware_launch_file_names.append("hande_tool_comm.launch.py")
 
     # generate the launch files based on launch_file_names which has been configured
     launch_files = AddLaunchDescriptions(
@@ -272,8 +270,8 @@ def generate_launch_description():
             "right_hand_type:=",
             right_hand_type,
             " ",
-            "include_world_joints:=",
-            "false",
+            # See comment above, we DO NOT include world joints at the top level
+            "include_world_joints:=false",
             " ",
             extra_xacro_args,
         ]
