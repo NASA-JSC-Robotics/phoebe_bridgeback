@@ -211,8 +211,7 @@ def generate_launch_description():
         node_lighting_node,
         node_puma_control,
     ]
-    processes = []
 
-    ns_action = GroupAction(actions=[PushRosNamespace(namespace)] + launches + nodes + processes)
+    ns_action = GroupAction(actions=[PushRosNamespace(namespace)] + launches + nodes)
 
     return LaunchDescription(declared_arguments + [ns_action])
