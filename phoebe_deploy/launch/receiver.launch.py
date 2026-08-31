@@ -90,7 +90,15 @@ def launch_setup(context, *args, **kwargs):
         remappings=[('from_can_bus', from_can_bus_topic)],
         output='screen')
 
-    # Wait for interface to be up
+    # Wait for interface to be active
+    # We allow the expected state of the virtual CAN device to be 
+    # UNKNOWN as well as UP to support the behavior of the Ubuntu 22 kernel. 
+    # Clearpath added exactly this fix to the humble branch of 
+    # clearpath_ros2_socketcan_interface but not to jazzy presumably because
+    # the Ubuntu 24.04 kernel does not need it. We do need the fix since in 
+    # some cases we run jazzy dockers on top of Ubuntu 22.
+    # See the original Clearpath discussion at
+    # https://github.com/clearpathrobotics/clearpath_ros2_socketcan_interface/pull/17
     wait_for_can_interface_proc = ExecuteProcess(
         name="CAN receiver startup",
         cmd=[['until ', FindExecutable(name='ip'), ' link show ', interface,
