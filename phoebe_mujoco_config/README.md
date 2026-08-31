@@ -24,6 +24,7 @@ ros2 launch phoebe_mujoco_config phoebe_mujoco.launch.py magic_carpet:=true
 # Be sure to let nav2 know, as odomety and slam will be adjusted
 ros2 launch phoebe_nav2_config phoebe_nav.launch.py use_sim_time:=true magic_carpet:=true
 ```
+
 In both magic carpet mode and wheel mode, the controller manager receives the full URDF (with world joints) on a separate topic than the robot state publisher (RSP) via `string_publisher.py`.
 In wheel mode, the description passed to the RSP and controller manager match.
 
@@ -38,4 +39,3 @@ The magic carpet publishes odom directly on `ridgeback/odometry/filtered`.
 Instead, a static identity `map -> odom` transform is published.
 - **Robot State Publisher** — RSP receives a URDF without world joints (different from the URDF with world joints passed to the controller manager) so it doesn't publish `odom -> base_link` through the URDF joint chain.
 The magic carpet controller owns that transform directly.
-The controller manager receives the full URDF (with world joints) on a separate topic via `string_publisher.py`.
