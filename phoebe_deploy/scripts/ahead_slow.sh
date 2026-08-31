@@ -1,5 +1,5 @@
 #!/bin/bash
-ros2 topic pub /cmd_vel geometry_msgs/msg/TwistStamped 'header:
+ros2 topic pub /cmd_vel geometry_msgs/msg/TwistStamped "header:
   stamp: now
   frame_id: ''
 twist:
@@ -11,4 +11,4 @@ twist:
     x: 0.0
     y: 0.0
     z: 0.0
-'
+"
