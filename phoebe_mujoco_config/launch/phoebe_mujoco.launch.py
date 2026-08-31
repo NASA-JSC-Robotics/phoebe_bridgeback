@@ -245,7 +245,8 @@ def generate_launch_description():
         [FindPackageShare(phoebe_mujoco_package_name), "config", "mujoco_plugins.yaml"]
     )
 
-    # For passing through an alternative description to the controller manager
+    # For passing through an alternative description to the controller manager. We ALWAYS
+    # use this for running with mujoco.
     CONTROL_ROBOT_DESCRIPTION_TOPIC = "/control_robot_description"
 
     # Include the control launch file with relevant configuration.
@@ -301,7 +302,6 @@ def generate_launch_description():
                 {"topic": CONTROL_ROBOT_DESCRIPTION_TOPIC},
                 {"use_sim_time": True},
             ],
-            condition=IfCondition(magic_carpet),
         )
     )
 
