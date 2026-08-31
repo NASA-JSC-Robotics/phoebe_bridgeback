@@ -26,9 +26,12 @@
 #include "controller_interface/controller_interface.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
+#include "nav_msgs/msg/odometry.hpp"
 #include "rclcpp/subscription.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "realtime_tools/realtime_buffer.hpp"
+#include "realtime_tools/realtime_publisher.hpp"
+#include "tf2_ros/transform_broadcaster.hpp"
 
 namespace phoebe_controllers {
 
@@ -89,6 +92,21 @@ private:
       rt_command_buf_;
   rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr
       cmd_vel_sub_;
+
+  // Odometry frame IDs
+  std::string odom_frame_id_;
+  std::string base_frame_id_;
+
+  // Odometry publisher
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+  std::unique_ptr<realtime_tools::RealtimePublisher<nav_msgs::msg::Odometry>>
+      rt_odom_pub_;
+  rclcpp::Duration odom_publish_period_{0, 0};
+  rclcpp::Time last_odom_publish_time_{0, 0, RCL_CLOCK_UNINITIALIZED};
+
+  // TF broadcaster
+  bool publish_tf_{true};
+  std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 };
 
 } // namespace phoebe_controllers

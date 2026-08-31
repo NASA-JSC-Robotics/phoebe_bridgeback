@@ -49,14 +49,6 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "include_world_joints",
-            default_value="false",
-            description="Whether or not to include a root world frame",
-            choices=["true", "false"],
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "use_left_static_pedestal",
             default_value="false",
             description="Replaces the left liftkit with the static pedestal",
@@ -82,7 +74,6 @@ def generate_launch_description():
     # Initialize Arguments
     namespace = LaunchConfiguration("namespace")
     calibration_mode = LaunchConfiguration("calibration_mode")
-    include_world_joints = LaunchConfiguration("include_world_joints")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     left_hand_type = LaunchConfiguration("left_hand_type")
     right_hand_type = LaunchConfiguration("right_hand_type")
@@ -95,7 +86,6 @@ def generate_launch_description():
             "use_fake_hardware": "false",
             "namespace": namespace,
             "calibration_mode": calibration_mode,
-            "include_world_joints": include_world_joints,
             "use_left_static_pedestal": use_left_static_pedestal,
             "left_hand_type": left_hand_type,
             "right_hand_type": right_hand_type,

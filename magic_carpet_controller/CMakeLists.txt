@@ -9,10 +9,12 @@ find_package(ament_cmake REQUIRED)
 find_package(controller_interface REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(hardware_interface REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(realtime_tools REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED
   src/magic_carpet_controller.cpp
@@ -25,10 +27,12 @@ ament_target_dependencies(${PROJECT_NAME} PUBLIC
   controller_interface
   geometry_msgs
   hardware_interface
+  nav_msgs
   pluginlib
   rclcpp
   rclcpp_lifecycle
   realtime_tools
+  tf2_ros
 )
 
 install(

@@ -46,20 +46,20 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "include_world_joints",
+            "magic_carpet",
             default_value="false",
-            description="Whether or not to include a root world frame and run phoebe on a magic carpet",
+            description="Whether or not Phoebe is on a magic carpet, affects controller spawning.",
             choices=["true", "false"],
         )
     )
 
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
-    include_world_joints = LaunchConfiguration("include_world_joints")
+    magic_carpet = LaunchConfiguration("magic_carpet")
 
     # Use wheels if not using the magic carpet
     wheel_controllers = GroupAction(
-        condition=UnlessCondition(include_world_joints),
+        condition=UnlessCondition(magic_carpet),
         actions=[
             # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
             # This should definitely be investigated further.
@@ -85,25 +85,30 @@ def generate_launch_description():
                 namespace=namespace,
                 condition=UnlessCondition(is_sim),
             ),
-            spawn_controller(
-                "imu_broadcaster",
-                namespace=namespace,
-                condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=/ridgeback/sensors/imu_0/data_raw",
-            ),
         ],
     )
 
+    # Always spawn an IMU broadcaster
+    imu_broadcaster = spawn_controller(
+        "imu_broadcaster",
+        namespace=namespace,
+        condition=IfCondition(is_sim),
+        controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=sensors/imu_0/data_raw",
+    )
+
+    # Magic carpet replaces both the wheel controllers and filters on odom, so publish directly
+    # and have it connect tf.
     magic_carpet_controller = GroupAction(
-        condition=IfCondition(include_world_joints),
+        condition=IfCondition(magic_carpet),
         actions=[
             spawn_controller(
                 "phoebe_magic_carpet_controller",
                 namespace=namespace,
                 condition=IfCondition(is_sim),
+                controller_ros_args="--ros-args"
+                " --remap /phoebe_magic_carpet_controller/odom:=/ridgeback/odometry/filtered",
             ),
         ],
-        # NOTE: We explicitly exclude odom since the rails provide perfect ground truth
     )
 
-    return LaunchDescription(declared_arguments + [wheel_controllers, magic_carpet_controller])
+    return LaunchDescription(declared_arguments + [wheel_controllers, imu_broadcaster, magic_carpet_controller])

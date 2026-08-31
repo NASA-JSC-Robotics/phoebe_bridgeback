@@ -15,6 +15,7 @@ install(PROGRAMS
     scripts/keyboard_joy.py
     scripts/odometry_joint_state_publisher.py
     scripts/prioritize_threads.sh
+    scripts/string_publisher.py
     scripts/world_publisher.py
   DESTINATION lib/${PROJECT_NAME}
 )

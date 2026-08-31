@@ -127,9 +127,8 @@ def generate_launch_description():
         # Use a copied version of https://github.com/SteveMacenski/slam_toolbox/blob/ros2/launch/online_async_launch.py,
         # as the upstream does not support yaml param substitutions. Added as part of namespace / tf_prefix support for
         # nav2 launches in: https://github.com/NASA-JSC-Robotics/phoebe_bridgeback/pull/43/
-        #
-        # SLAM and localization are skipped in magic carpet mode — the URDF's world joints
-        # already provide the full map -> odom -> base_link TF chain via robot_state_publisher.
+        # SLAM and localization are skipped in magic carpet mode. Instead we rely on the magic carpet controller
+        # to connect odom -> base_link, and a static transform publisher in place of slam.
         GroupAction(
             condition=UnlessCondition(magic_carpet),
             actions=[
@@ -158,6 +157,14 @@ def generate_launch_description():
                     condition=UnlessCondition(publish_tf),
                 ),
             ],
+        ),
+        Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="map_to_odom_identity",
+            arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
+            parameters=[{"use_sim_time": use_sim_time}],
+            condition=IfCondition(magic_carpet),
         ),
         # Use custom nav launch file for tf prefixing fix
         IncludeLaunchDescription(
@@ -199,7 +206,7 @@ def generate_launch_description():
             name="world_publisher",
             parameters=[{"use_sim_time": use_sim_time}],
         ),
-        # Launch the odom to joint state publisher if not using tf from sensors/slam
+        # Launch the odom to joint state publisher if needed for other planning applications.
         Node(
             package="phoebe_deploy",
             executable="odometry_joint_state_publisher.py",
