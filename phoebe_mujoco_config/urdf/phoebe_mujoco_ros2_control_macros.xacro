@@ -112,6 +112,8 @@
     </xacro:if>
     <joint name="${tf_prefix}left_ur_arm_shoulder_pan_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <xacro:if value="${use_left_static_pedestal}">
           <param name="initial_value">${initial_positions.get('left_ur_arm_shoulder_pan_joint', radians(8))}</param>
@@ -125,6 +127,8 @@
     </joint>
     <joint name="${tf_prefix}left_ur_arm_shoulder_lift_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('left_ur_arm_shoulder_lift_joint', radians(11))}</param>
       </state_interface>
@@ -133,6 +137,8 @@
     </joint>
     <joint name="${tf_prefix}left_ur_arm_elbow_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('left_ur_arm_elbow_joint', radians(-137))}</param>
       </state_interface>
@@ -141,6 +147,8 @@
     </joint>
     <joint name="${tf_prefix}left_ur_arm_wrist_1_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('left_ur_arm_wrist_1_joint', radians(15))}</param>
       </state_interface>
@@ -149,6 +157,8 @@
     </joint>
     <joint name="${tf_prefix}left_ur_arm_wrist_2_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('left_ur_arm_wrist_2_joint', radians(91))}</param>
       </state_interface>
@@ -157,6 +167,8 @@
     </joint>
     <joint name="${tf_prefix}left_ur_arm_wrist_3_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('left_ur_arm_wrist_3_joint', radians(-197))}</param>
       </state_interface>
@@ -165,6 +177,8 @@
     </joint>
     <joint name="${tf_prefix}right_ur_arm_shoulder_pan_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('right_ur_arm_shoulder_pan_joint', radians(-123))}</param>
       </state_interface>
@@ -173,6 +187,8 @@
     </joint>
     <joint name="${tf_prefix}right_ur_arm_shoulder_lift_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('right_ur_arm_shoulder_lift_joint', radians(11))}</param>
       </state_interface>
@@ -181,6 +197,8 @@
     </joint>
     <joint name="${tf_prefix}right_ur_arm_elbow_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('right_ur_arm_elbow_joint', radians(-137))}</param>
       </state_interface>
@@ -189,6 +207,8 @@
     </joint>
     <joint name="${tf_prefix}right_ur_arm_wrist_1_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('right_ur_arm_wrist_1_joint', radians(25))}</param>
       </state_interface>
@@ -197,6 +217,8 @@
     </joint>
     <joint name="${tf_prefix}right_ur_arm_wrist_2_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('right_ur_arm_wrist_2_joint', radians(91))}</param>
       </state_interface>
@@ -205,6 +227,8 @@
     </joint>
     <joint name="${tf_prefix}right_ur_arm_wrist_3_joint">
       <command_interface name="position"/>
+      <command_interface name="velocity"/>
+      <command_interface name="effort"/>
       <state_interface name="position">
         <param name="initial_value">${initial_positions.get('right_ur_arm_wrist_3_joint', radians(163))}</param>
       </state_interface>

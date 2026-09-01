@@ -35,23 +35,25 @@
       <modify_element type="body" name="${tf_prefix}base_link" childclass="phoebe"/>
 
       <!-- Apply default classes to Phoebe joints. -->
+      <!-- TODO: Update the actual parameters with values from hardware these values were based on the UR10e's -->
+      <!-- elbow params, at least for the shoulder + elbow. The wrist joints are guess. -->
       <xacro:unless value="${use_left_static_pedestal}">
         <modify_element type="joint" name="${tf_prefix}left_ewellix_lift_lower_to_higher" class="size5"/>
       </xacro:unless>
-      <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" class="size3"/>
-      <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" class="size3"/>
-      <modify_element type="joint" name="${tf_prefix}left_ur_arm_elbow_joint" class="size3_limited"/>
-      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_1_joint" class="size1"/>
-      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_2_joint" class="size1"/>
-      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_3_joint" class="size1"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_pan_joint" class="size3" damping="10.6" frictionloss="4.67" armature="1.44"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_shoulder_lift_joint" class="size3" damping="10.6" frictionloss="4.67" armature="1.44"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_elbow_joint" class="size3_limited" damping="10.6" frictionloss="4.67" armature="1.44"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_1_joint" class="size1" damping="2.75" frictionloss="1.9" armature="0.21"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_2_joint" class="size1" damping="2.1" frictionloss="1.85" armature="0.19"/>
+      <modify_element type="joint" name="${tf_prefix}left_ur_arm_wrist_3_joint" class="size1" damping="2.1" frictionloss="2.0" armature="0.17"/>
 
       <modify_element type="joint" name="${tf_prefix}right_ewellix_lift_lower_to_higher" class="size5"/>
-      <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_pan_joint" class="size3"/>
-      <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_lift_joint" class="size3"/>
-      <modify_element type="joint" name="${tf_prefix}right_ur_arm_elbow_joint" class="size3_limited"/>
-      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_1_joint" class="size1"/>
-      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_2_joint" class="size1"/>
-      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_3_joint" class="size1"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_pan_joint" class="size3" damping="10.6" frictionloss="4.67" armature="1.44"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_shoulder_lift_joint" class="size3" damping="10.6" frictionloss="4.67" armature="1.44"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_elbow_joint" class="size3_limited" damping="10.6" frictionloss="4.67" armature="1.44"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_1_joint" class="size1" damping="2.75" frictionloss="1.9" armature="0.21"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_2_joint" class="size1" damping="2.1" frictionloss="1.85" armature="0.19"/>
+      <modify_element type="joint" name="${tf_prefix}right_ur_arm_wrist_3_joint" class="size1" damping="2.1" frictionloss="2.0" armature="0.17"/>
 
       <xacro:if value="${left_hand_type == 'hande'}">
         <modify_element type="joint" name="${tf_prefix}left_finger_1_joint" armature="0.5" frictionloss="5.0" />

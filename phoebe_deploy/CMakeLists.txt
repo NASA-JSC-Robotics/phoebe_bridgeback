@@ -16,6 +16,7 @@ install(PROGRAMS
     scripts/odometry_joint_state_publisher.py
     scripts/prioritize_threads.sh
     scripts/ahead_slow.sh
+    scripts/string_publisher.py
     scripts/world_publisher.py
   DESTINATION lib/${PROJECT_NAME}
 )
