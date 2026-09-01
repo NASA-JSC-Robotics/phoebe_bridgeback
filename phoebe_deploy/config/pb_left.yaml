@@ -7,4 +7,10 @@ left_drt_ur_gui:
     arm.name: "Left Arm"
     program: "ext_ctrl.urp"
     logo_file_name: 'iMETRO_full.png'
+    # The freedrive mode controller name has to match the controller
+    # name specified in ros control (controllers_ur.yaml).
+    # By default, the UR GUI defaults the name to "freedrive_mode_controller",
+    # but for Phoebe we have both a left and a right controller.
+    # This parameter allows us to specify a prefix that will be prepended to
+    # the default.
     freedrive_mode_controller_name: 'left_'
