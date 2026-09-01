@@ -125,3 +125,19 @@ VEL_SMOOTH -->|geometry_msgs/msg/TwistStamped| CMD_SMOOTH
 CMD_SMOOTH -->|geometry_msgs/msg/TwistStamped| COLL_MON
 COLL_MON -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
 ```
+
+## Debugging
+
+Since Nav2 involves so many nodes working together, it can be difficult to debug or diagnose what the problem may be when navigation behaviors do not perform as expected.
+A few things we have found helpful:
+
+- **Planned Paths**: Check the planned path from the `planner_server` seems reasonable.
+In RViz, inspect the path (`nav_msgs/msg/Path`) on topic `plan`.
+- **Controller Commands**: Check the velocity command topics from the Nav2 stack:
+  - `cmd_vel_nav`: output from `controller_server`
+  - `cmd_vel_smoothed`: output from `velocity_smother`
+  - `cmd_vel`: output from `collision_monitor`, which is sent to the platform's `twist_mux` to command the robot
+- **Robot Footprint**: Check the robot's footprint against the obstacles.
+In RViz, inspect the footprint polygon (`geometry_msgs/msg/PolygonStamped`) on topic `local_costmap/published_footprint` and local and global costmaps (`nav_msgs/msg/OccupancyGrid`) on topics `local_costmap/costmap` and `global_costmap/costmap` respectively.
+- **Collisions**: The `collision_monitor` node is configured to clip velocity commands to prevent collisions based on the robot's configured polygons.
+If one of the monitor's polygons triggers an event to clip the commands, the responsible polygon will be published as a `nav2_msgs/msg/CollisionMonitorState` to topic `collision_monitor_state`.
