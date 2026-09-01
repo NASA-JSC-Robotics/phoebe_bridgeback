@@ -14,7 +14,7 @@ graph TD
     subgraph Hardware / Mujoco Outputs
         WHEELS[Mecanum Drive]
         IMU_HW[IMU Sensor]
-        LIDAR_HW[Clearpath Hokuyo Lidar\nOr Mujoco Lidar]
+        LIDAR_HW[Clearpath Hokuyo Lidar<br>Or Mujoco Lidar]
     end
 
     subgraph ros2_control
@@ -50,24 +50,15 @@ graph TD
     SLAM_TB -->|"TF: map → odom"| TF_TREE
     SLAM_TB -->|nav_msgs/msg/OccupancyGrid| MAP_TOPIC([map])
 
-    subgraph Nav2 Planning
-        NAV2[bt_navigator \n planner_server \n controller_server \n global_costmap \n local_costmap \n etc]
-        NOTE[This is a bit of a block box\nconfigured in the nav2 yaml]
+    subgraph Nav2 Stack
+        NAV["Nav2 Stack! <br> (see below for more info)"]
     end
 
-    MAP_TOPIC -->|nav_msgs/msg/OccupancyGrid| NAV2
-    LIDAR_TOPIC -->|sensor_msgs/msg/LaserScan| NAV2
-    TF_TREE --> NAV2
-    FILTERED_ODOM -->|nav_msgs/msg/Odometry| NAV2
+    LIDAR_TOPIC -->|sensor_msgs/msg/LaserScan| NAV
+    TF_TREE --> NAV
+    FILTERED_ODOM -->|nav_msgs/msg/Odometry| NAV
 
-    VEL_SMOOTH[velocity_smoother]
-    COLL_MON[collision_monitor]
-
-    NAV2 -->|geometry_msgs/msg/TwistStamped| CMD_NAV([cmd_vel_nav])
-    CMD_NAV -->|geometry_msgs/msg/TwistStamped| VEL_SMOOTH
-    VEL_SMOOTH -->|geometry_msgs/msg/TwistStamped| CMD_SMOOTH([cmd_vel_smoothed])
-    CMD_SMOOTH -->|geometry_msgs/msg/TwistStamped| COLL_MON
-    COLL_MON -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
+    NAV -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
 
     subgraph Command Muxing
         TWIST_MUX[twist_mux]
@@ -88,3 +79,65 @@ graph TD
         PVC_INPUT[Mecanum Drive]
     end
 ```
+
+A closer look at the Nav2 stack:
+
+```mermaid
+graph TD
+
+NOTE[Not launched from Nav2 stack: <br> docking_server <br> route_server <br> smoother_server]
+
+LIFECYCLE["lifecycle_manager <br> (manages all Nav2 nodes)"]
+
+NAVIGATE{{navigate_to_pose}}
+BT[bt_navigator]
+NAVIGATOR[bt_navigator_navigate_to_pose]
+RECOVERY{{"backup, spin, wait <br> (recovery behaviors)"}}
+PLAN{{compute_path_to_pose}}
+CONTROL{{follow_path}}
+BEHAVIOR[behavior_server]
+PLANNER[planner_server]
+CONTROLLER[controller_server]
+GLOBAL[global_costmap]
+LOCAL[local_costmap]
+VEL_SMOOTH[velocity_smoother]
+CMD_NAV([cmd_vel_nav])
+COLL_MON[collision_monitor]
+CMD_SMOOTH([cmd_vel_smoothed])
+
+WAYPOINT["application <br> (or Nav2 waypoint_follower)"]
+
+BT -->|navigator| NAVIGATOR
+NAVIGATOR -->|"nav2_msgs/action/[Backup/Spin/Wait]"| RECOVERY
+RECOVERY --> BEHAVIOR
+NAVIGATOR -->|nav2_msgs/action/ComputePathToPose| PLAN
+PLAN --> PLANNER
+PLANNER -->|manages| GLOBAL
+NAVIGATOR -->|nav2_msgs/action/FollowPath| CONTROL
+CONTROL --> CONTROLLER
+CONTROLLER -->|manages| LOCAL
+WAYPOINT -->|nav2_msgs/action/NavigateToPose| NAVIGATE
+NAVIGATE --> BT
+
+CONTROLLER -->|geometry_msgs/msg/TwistStamped| CMD_NAV
+CMD_NAV -->|geometry_msgs/msg/TwistStamped| VEL_SMOOTH
+VEL_SMOOTH -->|geometry_msgs/msg/TwistStamped| CMD_SMOOTH
+CMD_SMOOTH -->|geometry_msgs/msg/TwistStamped| COLL_MON
+COLL_MON -->|geometry_msgs/msg/TwistStamped| CMD_VEL([cmd_vel])
+```
+
+## Debugging
+
+Since Nav2 involves so many nodes working together, it can be difficult to debug or diagnose what the problem may be when navigation behaviors do not perform as expected.
+A few things we have found helpful:
+
+- **Planned Paths**: Check the planned path from the `planner_server` seems reasonable.
+In RViz, inspect the path (`nav_msgs/msg/Path`) on topic `plan`.
+- **Controller Commands**: Check the velocity command topics from the Nav2 stack:
+  - `cmd_vel_nav`: output from `controller_server`
+  - `cmd_vel_smoothed`: output from `velocity_smother`
+  - `cmd_vel`: output from `collision_monitor`, which is sent to the platform's `twist_mux` to command the robot
+- **Robot Footprint**: Check the robot's footprint against the obstacles.
+In RViz, inspect the footprint polygon (`geometry_msgs/msg/PolygonStamped`) on topic `local_costmap/published_footprint` and local and global costmaps (`nav_msgs/msg/OccupancyGrid`) on topics `local_costmap/costmap` and `global_costmap/costmap` respectively.
+- **Collisions**: The `collision_monitor` node is configured to clip velocity commands to prevent collisions based on the robot's configured polygons.
+If one of the monitor's polygons triggers an event to clip the commands, the responsible polygon will be published as a `nav2_msgs/msg/CollisionMonitorState` to topic `collision_monitor_state`.
