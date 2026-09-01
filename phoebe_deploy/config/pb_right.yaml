@@ -7,3 +7,4 @@ right_drt_ur_gui:
     arm.name: "Right Arm"
     program: "ext_ctrl.urp"
     logo_file_name: 'iMETRO_full.png'
+    freedrive_mode_controller_name: 'right_'
