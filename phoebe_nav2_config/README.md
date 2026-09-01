@@ -14,7 +14,7 @@ graph TD
     subgraph Hardware / Mujoco Outputs
         WHEELS[Mecanum Drive]
         IMU_HW[IMU Sensor]
-        LIDAR_HW[Clearpath Hokuyo Lidar\nOr Mujoco Lidar]
+        LIDAR_HW[Clearpath Hokuyo Lidar<br>Or Mujoco Lidar]
     end
 
     subgraph ros2_control
@@ -51,7 +51,7 @@ graph TD
     SLAM_TB -->|nav_msgs/msg/OccupancyGrid| MAP_TOPIC([map])
 
     subgraph Nav2 Stack
-        NAV["Nav2 Stack! \n (see below for more info)"]
+        NAV["Nav2 Stack! <br> (see below for more info)"]
     end
 
     LIDAR_TOPIC -->|sensor_msgs/msg/LaserScan| NAV
@@ -85,14 +85,14 @@ A closer look at the Nav2 stack:
 ```mermaid
 graph TD
 
-NOTE[Not launched from Nav2 stack: \n docking_server \n route_server \n smoother_server]
+NOTE[Not launched from Nav2 stack: <br> docking_server <br> route_server <br> smoother_server]
 
-LIFECYCLE["lifecycle_manager \n (manages all Nav2 nodes)"]
+LIFECYCLE["lifecycle_manager <br> (manages all Nav2 nodes)"]
 
 NAVIGATE{{navigate_to_pose}}
 BT[bt_navigator]
 NAVIGATOR[bt_navigator_navigate_to_pose]
-RECOVERY{{"backup, spin, wait \n (recovery behaviors)"}}
+RECOVERY{{"backup, spin, wait <br> (recovery behaviors)"}}
 PLAN{{compute_path_to_pose}}
 CONTROL{{follow_path}}
 BEHAVIOR[behavior_server]
@@ -105,7 +105,7 @@ CMD_NAV([cmd_vel_nav])
 COLL_MON[collision_monitor]
 CMD_SMOOTH([cmd_vel_smoothed])
 
-WAYPOINT["application \n (or Nav2 waypoint_follower)"]
+WAYPOINT["application <br> (or Nav2 waypoint_follower)"]
 
 BT -->|navigator| NAVIGATOR
 NAVIGATOR -->|"nav2_msgs/action/[Backup/Spin/Wait]"| RECOVERY
