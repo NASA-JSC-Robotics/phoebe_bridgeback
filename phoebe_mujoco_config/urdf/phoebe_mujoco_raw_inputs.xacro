@@ -297,12 +297,12 @@
     </equality>
 
     <sensor>
-        <force name="${tf_prefix}left_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}left_ur_arm_ft_frame"/>
-        <torque name="${tf_prefix}left_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}left_ur_arm_ft_frame"/>
+        <force name="${tf_prefix}left_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}left_ur_arm_tool0"/>
+        <torque name="${tf_prefix}left_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}left_ur_arm_tool0"/>
     </sensor>
     <sensor>
-        <force name="${tf_prefix}right_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}right_ur_arm_ft_frame"/>
-        <torque name="${tf_prefix}right_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}right_ur_arm_ft_frame"/>
+        <force name="${tf_prefix}right_ur_arm_tcp_fts_sensor_force" site="${tf_prefix}right_ur_arm_tool0"/>
+        <torque name="${tf_prefix}right_ur_arm_tcp_fts_sensor_torque" site="${tf_prefix}right_ur_arm_tool0"/>
     </sensor>
 
     <sensor>
