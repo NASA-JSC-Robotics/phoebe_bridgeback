@@ -22,7 +22,7 @@ from std_msgs.msg import Bool
 from rclpy.node import Node
 from clearpath_platform_msgs.msg import Status, Power, StopStatus
 from sensor_msgs.msg import BatteryState
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import TwistStamped
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from phoebe_status_handler_py.status_state import StatusState
 from functools import partial
@@ -111,7 +111,7 @@ class StatusDisplayNode(Node):
                 "stop_status": SavedMsg(StopStatus),
                 "battery_status": SavedMsg(BatteryState),
                 "estop_status": SavedMsg(Bool),
-                "cmd_vel": SavedMsg(Twist),
+                "cmd_vel": SavedMsg(TwistStamped),
             }
         )
 
@@ -141,7 +141,7 @@ class StatusDisplayNode(Node):
             Bool, "platform/emergency_stop", partial(self.update_msg_cb, "estop_status"), qos
         )
         self.cmd_vel_sub_ = self.create_subscription(
-            Twist, "/platform_velocity_controller/reference", partial(self.update_msg_cb, "cmd_vel"), qos
+            TwistStamped, "/platform_velocity_controller/reference", partial(self.update_msg_cb, "cmd_vel"), qos
         )
 
         # Timer used to drive the update cycle. The timing is limited by how often the subscriptions arrive
@@ -252,8 +252,8 @@ class StatusDisplayNode(Node):
         if not curr.msgs["cmd_vel"].updated:
             self.status_.driving_state = StatusState.DRIVING_STATE_NO_COMM
         else:
-            linear = curr.msgs["cmd_vel"].msg.linear
-            angular = curr.msgs["cmd_vel"].msg.angular
+            linear = curr.msgs["cmd_vel"].msg.twist.linear
+            angular = curr.msgs["cmd_vel"].msg.twist.angular
             components = [linear.x, linear.y, linear.z, angular.x, angular.y, angular.z]
             if all([c == 0.0 for c in components]):
                 self.status_.driving_state = StatusState.DRIVING_STATE_OFF
