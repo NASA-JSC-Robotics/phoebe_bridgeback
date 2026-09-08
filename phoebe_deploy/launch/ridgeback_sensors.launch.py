@@ -19,8 +19,7 @@
 
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, GroupAction
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace
 from launch.conditions import UnlessCondition
@@ -32,7 +31,6 @@ def generate_launch_description():
 
     # Include Packages
     pkg_phoebe_deploy = FindPackageShare("phoebe_deploy")
-    pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
 
     declared_arguments = []
 
@@ -65,28 +63,35 @@ def generate_launch_description():
             description="Full path to the localization config file",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="tf_prefix of the joint names, useful for \
+        multi-robot setup. If changed, also joint names in the controllers' configuration \
+        have to be updated.",
+        )
+    )
 
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
     publish_tf = LaunchConfiguration("publish_tf")
     localization_config = LaunchConfiguration("localization_config")
+    tf_prefix = LaunchConfiguration("tf_prefix")
+    tf_prefix = tf_prefix
     default_ns = "ridgeback"
 
     config_imu_filter = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "imu_filter.yaml"])
     config_lidar2d = PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "lidar2d_0.yaml"])
 
-    launch_file_hokuyo_ust = PathJoinSubstitution([pkg_clearpath_sensors, "launch", "hokuyo_ust.launch.py"])
-
-    # Include Packages
-    pkg_clearpath_sensors = FindPackageShare("clearpath_sensors")
-
-    # Include launch files
-    launch_hokuyo_ust = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([launch_file_hokuyo_ust]),
-        launch_arguments={
-            "parameters": config_lidar2d,
-            "namespace": f"{default_ns}/sensors/lidar2d_0",
-        }.items(),
+    # Launch Hokuyo with our modified params file
+    node_lidar_urg = Node(
+        package="urg_node",
+        namespace=f"{default_ns}/sensors/lidar2d_0",
+        executable="urg_node_driver",
+        parameters=[ParameterFile(config_lidar2d, allow_substs=True)],
+        output="screen",
+        remappings=[("/diagnostics", "diagnostics")],
         condition=UnlessCondition(is_sim),
     )
 
@@ -129,10 +134,9 @@ def generate_launch_description():
         ],
     )
 
-    launches = [
-        launch_hokuyo_ust,
-    ]
+    launches = []
     nodes = [
+        node_lidar_urg,
         node_imu_filter_madgwick,
         node_localization,
     ]

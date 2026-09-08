@@ -106,18 +106,9 @@ def generate_launch_description():
         output="both",
     )
 
-    node_puma_throttle = Node(
-        name="puma_throttle",
-        executable="throttle",
-        package="topic_tools",
-        namespace=namespace,
-        output="screen",
-        arguments=["messages", "platform/puma/cmd", "50", "ridgeback/platform/puma/cmd_throttle"],
-    )
-
     platform_velocity_controller = MakeControllerNode("platform_velocity_controller")
     joint_state_broadcaster = MakeControllerNode("joint_state_broadcaster")
 
-    nodes = [control_node, node_puma_throttle, platform_velocity_controller, joint_state_broadcaster]
+    nodes = [control_node, platform_velocity_controller, joint_state_broadcaster]
 
-    return LaunchDescription(declared_arguments + [nodes])
+    return LaunchDescription(declared_arguments + nodes)

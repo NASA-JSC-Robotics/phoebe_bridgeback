@@ -7,7 +7,8 @@
     tf_prefix
   ">
 
-    <ros2_control name="${name}" type="system">
+    <!-- vendor rate for the Puma on Ridgeback is 20Hz -->
+    <ros2_control name="${name}" type="system" rw_rate="20">
       <hardware>
         <xacro:if value="${sim_ignition}">
           <plugin>ign_ros2_control/IgnitionSystem</plugin>
