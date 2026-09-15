@@ -96,6 +96,11 @@ def generate_launch_description():
         controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=sensors/imu_0/data_raw",
     )
 
+    wheels_joint_state_broadcaster = spawn_controller(
+        "wheels_joint_state_broadcaster",
+        namespace=namespace,
+    )
+
     # Magic carpet replaces both the wheel controllers and filters on odom, so publish directly
     # and have it connect tf.
     magic_carpet_controller = GroupAction(
@@ -111,4 +116,7 @@ def generate_launch_description():
         ],
     )
 
-    return LaunchDescription(declared_arguments + [wheel_controllers, imu_broadcaster, magic_carpet_controller])
+    return LaunchDescription(
+        declared_arguments
+        + [wheel_controllers, imu_broadcaster, wheels_joint_state_broadcaster, magic_carpet_controller]
+    )
