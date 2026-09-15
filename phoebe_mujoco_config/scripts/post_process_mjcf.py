@@ -192,7 +192,7 @@ def run_ros_node(tf_prefix, magic_carpet, wheels_package, left_gripper, right_gr
             qos_profile = QoSProfile(depth=1)
             qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
             qos_profile.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
-            qos_profile.durability = QoSHistoryPolicy.KEEP_LAST
+            qos_profile.history = QoSHistoryPolicy.KEEP_LAST
 
             self.subscription = self.create_subscription(
                 String,
