@@ -73,10 +73,10 @@ def generate_launch_description():
     nodes.append(spawn_controller("left_forward_position_controller", inactive=True))
     nodes.append(spawn_controller("left_forward_velocity_controller", inactive=True))
     nodes.append(spawn_controller("left_forward_effort_controller", inactive=True))
-    nodes.append(spawn_controller("left_friction_model_controller", inactive=True))
+    nodes.append(spawn_controller("left_friction_model_controller", inactive=True, condition=UnlessCondition(is_sim)))
     nodes.append(spawn_controller("right_forward_position_controller", inactive=True))
     nodes.append(spawn_controller("right_forward_velocity_controller", inactive=True))
     nodes.append(spawn_controller("right_forward_effort_controller", inactive=True))
-    nodes.append(spawn_controller("right_friction_model_controller", inactive=True))
+    nodes.append(spawn_controller("right_friction_model_controller", inactive=True, condition=UnlessCondition(is_sim)))
 
     return LaunchDescription(declared_arguments + nodes)
