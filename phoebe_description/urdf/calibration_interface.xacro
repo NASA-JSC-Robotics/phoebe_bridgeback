@@ -20,7 +20,7 @@
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/calibration/calibration_plate_robot_side.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
-        <material name="clearpath_aluminum"/>
+        <material name="phoebe_aluminum"/>
       </visual>
       <!-- collision -->
       <collision>

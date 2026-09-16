@@ -10,7 +10,7 @@
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/rocker.stl" />
         </geometry>
-        <material name="clearpath_black" />
+        <material name="phoebe_black" />
       </visual>
       <inertial>
         <origin xyz="0 0 0" rpy="${math.pi/2} 0 ${math.pi/2}" />
