@@ -112,7 +112,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/lift_rails.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="0.000 -0.000 0.020"/>
@@ -135,7 +135,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/shelf.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="-0.289 0.000 0.113"/>
@@ -158,7 +158,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/shelf.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="-0.289 0.000 0.113"/>
@@ -181,7 +181,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor_hinge_base.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="0.000 0.000 -0.003"/>
@@ -204,7 +204,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor_hinge_top.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="-0.013 0.000 0.000"/>
@@ -227,7 +227,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="-0.015 0.000 -0.008"/>
@@ -250,7 +250,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/monitor.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="-0.015 0.000 -0.008"/>
@@ -273,7 +273,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
       </geometry>
-      <material name="clearpath_aluminum" />
+      <material name="phoebe_aluminum" />
     </visual>
     <collision>
       <origin xyz="0.090 -0.107 0.098"/>
@@ -295,7 +295,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/ur_control_box.STL"/>
       </geometry>
-      <material name="clearpath_aluminum" />
+      <material name="phoebe_aluminum" />
     </visual>
     <collision>
       <origin xyz="0.090 -0.107 0.098"/>
@@ -317,7 +317,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/scu.STL"/>
       </geometry>
-      <material name="clearpath_aluminum" />
+      <material name="phoebe_aluminum" />
     </visual>
     <collision>
       <origin xyz="0.000 0.002 0.043"/>
@@ -340,7 +340,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/scu.STL"/>
       </geometry>
-      <material name="clearpath_aluminum" />
+      <material name="phoebe_aluminum" />
     </visual>
     <collision>
       <origin xyz="0.000 0.002 0.043"/>
@@ -363,7 +363,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/autec_receiver.STL"/>
       </geometry>
-      <material name="clearpath_yellow" />
+      <material name="phoebe_yellow" />
     </visual>
     <collision>
       <origin xyz="0.008 0.000 0.031"/>
@@ -386,7 +386,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/wifi_antenna.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="-0.003 0.000 0.089"/>
@@ -409,7 +409,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/wifi_antenna.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="-0.003 0.000 0.089"/>
@@ -432,7 +432,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/autec_antenna.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <origin xyz="0.002 0.000 0.049"/>
@@ -462,7 +462,7 @@
         <geometry>
           <box size="0.2 0.2 0.015"/>
         </geometry>
-        <material name="clearpath_aluminum"/>
+        <material name="phoebe_aluminum"/>
         <origin rpy="0 0 0" xyz="0 0 0.0075"/>
       </visual>
       <collision>
@@ -485,7 +485,7 @@
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/static_pedestal_with_mount.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
-        <material name="clearpath_aluminum"/>
+        <material name="phoebe_aluminum"/>
       </visual>
       <collision>
         <geometry>
@@ -506,7 +506,7 @@
       <geometry>
         <box size="0.2 0.2 0.015"/>
       </geometry>
-      <material name="clearpath_aluminum"/>
+      <material name="phoebe_aluminum"/>
       <origin rpy="0 0 0" xyz="0 0 0.0075"/>
     </visual>
     <collision>
@@ -555,7 +555,7 @@
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
         </geometry>
-        <material name="clearpath_black" />
+        <material name="phoebe_black" />
       </visual>
       <collision>
         <geometry>
@@ -588,7 +588,7 @@
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount_swivellink_new.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
-        <material name="clearpath_black" />
+        <material name="phoebe_black" />
       </visual>
       <collision>
         <geometry>
@@ -626,7 +626,7 @@
       <geometry>
         <mesh filename="package://phoebe_description/meshes/visual/jaco01_meshes/arm_mount.STL"/>
       </geometry>
-      <material name="clearpath_black" />
+      <material name="phoebe_black" />
     </visual>
     <collision>
       <geometry>
@@ -835,7 +835,8 @@
         tf_prefix="${tf_prefix}right_"
         parent="${tf_prefix}right_ur_realsense_mount"
         generate_ros2_control_tag="${generate_ros2_control_tag}"
-        add_grasp_push_frames="${add_grasp_push_frames}">
+        add_grasp_push_frames="${add_grasp_push_frames}"
+        sim_ignition="${sim_ignition}">
         <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
       </xacro:robotiq_2f_85>
     </xacro:if>
@@ -863,7 +864,8 @@
         tf_prefix="${tf_prefix}left_"
         parent="${tf_prefix}left_ur_realsense_mount"
         generate_ros2_control_tag="${generate_ros2_control_tag}"
-        add_grasp_push_frames="${add_grasp_push_frames}">
+        add_grasp_push_frames="${add_grasp_push_frames}"
+        sim_ignition="${sim_ignition}">
         <origin xyz="0 0 0.003" rpy="0 0 ${pi/2}"/>
       </xacro:robotiq_2f_85>
     </xacro:if>
@@ -892,7 +894,7 @@
         <geometry>
           <mesh filename="package://phoebe_description/meshes/visual/calibration/calibration_plate_target_side.stl" scale="0.0254 0.0254 0.0254"/>
         </geometry>
-        <material name="clearpath_aluminum"/>
+        <material name="phoebe_aluminum"/>
       </visual>
       <collision>
         <geometry>

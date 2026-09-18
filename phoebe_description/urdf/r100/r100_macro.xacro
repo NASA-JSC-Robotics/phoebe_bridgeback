@@ -73,7 +73,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/body.stl" />
                 </geometry>
-                <material name="clearpath_black" />
+                <material name="phoebe_black" />
             </visual>
             <collision>
                 <origin xyz="0 0 0" />
@@ -109,7 +109,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/side-cover.stl" />
                 </geometry>
-                <material name="clearpath_yellow" />
+                <material name="phoebe_yellow" />
             </visual>
         </link>
         <link name="${tf_prefix}right_side_cover_link">
@@ -118,7 +118,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/side-cover.stl" />
                 </geometry>
-                <material name="clearpath_yellow" />
+                <material name="phoebe_yellow" />
             </visual>
         </link>
 
@@ -134,7 +134,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/end-cover.stl" />
                 </geometry>
-                <material name="clearpath_black" />
+                <material name="phoebe_black" />
             </visual>
         </link>
 
@@ -150,7 +150,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/end-cover.stl" />
                 </geometry>
-                <material name="clearpath_black" />
+                <material name="phoebe_black" />
             </visual>
         </link>
 
@@ -172,7 +172,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/lights.stl" />
                 </geometry>
-                <material name="clearpath_white" />
+                <material name="phoebe_white" />
             </visual>
         </link>
         <link name="${tf_prefix}rear_lights_link">
@@ -181,7 +181,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/lights.stl" />
                 </geometry>
-                <material name="clearpath_black" />
+                <material name="phoebe_black" />
             </visual>
         </link>
 
@@ -198,7 +198,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/axle.stl" />
                 </geometry>
-                <material name="clearpath_black" />
+                <material name="phoebe_black" />
             </visual>
         </link>
 
@@ -214,7 +214,7 @@
                 <geometry>
                     <box size="0.493 0.493 ${riser_height}" />
                 </geometry>
-                <material name="clearpath_light_grey" />
+                <material name="phoebe_light_grey" />
             </visual>
             <collision>
                 <origin xyz="0 0 ${riser_height/2}" rpy="0 0 ${pi/4}" />
@@ -237,7 +237,7 @@
                 <geometry>
                     <mesh filename="package://phoebe_description/meshes/visual/top.stl" />
                 </geometry>
-                <material name="clearpath_black" />
+                <material name="phoebe_black" />
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0" />

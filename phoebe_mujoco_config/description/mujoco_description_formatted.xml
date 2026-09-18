@@ -137,7 +137,7 @@
       <include file="wheels.xml"/>
       <body name="left_ewellix_lift_higher_link" pos="0 0.201 0.61" gravcomp="1.0">
         <inertial pos="0.00425385 0.00482427 0.148669" quat="0.688597 0.000675762 0.0144587 0.725" mass="9.32488" diaginertia="0.40624 0.404973 0.03061"/>
-        <joint name="left_ewellix_lift_lower_to_higher" type="slide" range="0 0.5" actuatorfrcrange="-1000 1000" class="size5"/>
+        <joint name="left_ewellix_lift_lower_to_higher" type="slide" range="0 0.5" actuatorfrcrange="-1000 1000" class="phoebe_size5"/>
         <body name="left_ewellix_lift_middle_link" pos="0 0 -0.0303" gravcomp="1.0">
           <inertial pos="0 0 0" mass="5.4116" diaginertia="0.11963 0.11963 0.0330997"/>
           <joint name="left_middle_mimic_higher" type="slide" range="0 0.25" actuatorfrcrange="-1000 1000" axis="0 0 -1"/>
@@ -147,22 +147,22 @@
         </body>
         <body name="left_ur_arm_shoulder_link" pos="0.0126802 0.124615 0.463459" quat="0.353086 -0.134633 0.350748 0.856843" gravcomp="1.0">
           <inertial pos="0 -0.00193 -0.02561" quat="0.560239 0.250606 -0.316559 0.72327" mass="3.761" diaginertia="0.00703079 0.0070003 0.00602478"/>
-          <joint name="left_ur_arm_shoulder_pan_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="size3" damping="10.6" frictionloss="4.67"/>
+          <joint name="left_ur_arm_shoulder_pan_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="phoebe_size3" damping="10.6" frictionloss="4.67"/>
           <body name="left_ur_arm_upper_arm_link" pos="0.000226782 0 0" quat="0.707115 0.707098 -9.55133e-07 -9.55157e-07" gravcomp="1.0">
             <inertial pos="-0.2125 0 0.11336" quat="0.500275 0.499641 0.500368 0.499716" mass="8.058" diaginertia="0.333881 0.332472 0.0150588"/>
-            <joint name="left_ur_arm_shoulder_lift_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="size3" damping="10.6" frictionloss="4.67"/>
+            <joint name="left_ur_arm_shoulder_lift_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="phoebe_size3" damping="10.6" frictionloss="4.67"/>
             <body name="left_ur_arm_forearm_link" pos="-0.425505 0 0" quat="1 2.07226e-05 -0.000262987 -7.61405e-08" gravcomp="1.0">
               <inertial pos="-0.2422 0 0.0265" quat="0.501301 0.498381 0.510711 0.489375" mass="2.846" diaginertia="0.0787927 0.0785102 0.00397103"/>
-              <joint name="left_ur_arm_elbow_joint" range="-3.14159 3.14159" actuatorfrcrange="-150 150" armature="1.44" class="size3_limited" damping="10.6" frictionloss="4.67"/>
+              <joint name="left_ur_arm_elbow_joint" range="-3.14159 3.14159" actuatorfrcrange="-150 150" armature="1.44" class="phoebe_size3_limited" damping="10.6" frictionloss="4.67"/>
               <body name="left_ur_arm_wrist_1_link" pos="-0.392582 -4.63122e-05 0.133721" quat="1 0.000173166 0.000544517 1.77883e-06" gravcomp="1.0">
                 <inertial pos="0 -0.01634 -0.0018" quat="0.960609 0.277707 0.00515042 -0.00913626" mass="1.37" diaginertia="0.00165502 0.00142363 0.00119868"/>
-                <joint name="left_ur_arm_wrist_1_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.21" class="size1" damping="2.75" frictionloss="1.9"/>
+                <joint name="left_ur_arm_wrist_1_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.21" class="phoebe_size1" damping="2.75" frictionloss="1.9"/>
                 <body name="left_ur_arm_wrist_2_link" pos="1.36989e-05 -0.0999777 8.48591e-05" quat="0.707407 0.706807 -4.64337e-08 -4.64731e-08" gravcomp="1.0">
                   <inertial pos="0 0.01634 -0.0018" quat="0.996652 -0.0779336 -0.00684629 -0.0237381" mass="1.3" diaginertia="0.00135637 0.00128607 0.00095814"/>
-                  <joint name="left_ur_arm_wrist_2_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.19" class="size1" damping="2.1" frictionloss="1.85"/>
+                  <joint name="left_ur_arm_wrist_2_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.19" class="phoebe_size1" damping="2.1" frictionloss="1.85"/>
                   <body name="left_ur_arm_wrist_3_link" pos="0.000106733 0.0996158 1.94962e-05" quat="-0.707176 0.707038 1.93623e-08 -1.93661e-08" gravcomp="1.0">
                     <inertial pos="0.000970921 0.00417774 0.0644535" quat="0.466586 0.513183 0.525932 0.492276" mass="1.31087" diaginertia="0.00743954 0.00507371 0.00442336"/>
-                    <joint name="left_ur_arm_wrist_3_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.17" class="size1" damping="2.1" frictionloss="2.0"/>
+                    <joint name="left_ur_arm_wrist_3_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.17" class="phoebe_size1" damping="2.1" frictionloss="2.0"/>
                     <body name="left_finger_1_link" pos="0.00201401 -0.00325 0.1475" quat="-1 0 0 0" gravcomp="1.0">
                       <inertial pos="0 0 0" quat="0.501643 0.0653163 0.068404 0.859889" mass="0.0500198" diaginertia="6.28755e-05 6.17965e-05 5.99521e-06"/>
                       <joint name="left_finger_1_joint" type="slide" range="0 0.025" actuatorfrcrange="-130 130" axis="1 0 0" armature="0.5" frictionloss="5.0"/>
@@ -316,7 +316,7 @@
       </body>
       <body name="right_ewellix_lift_higher_link" pos="0 -0.201 0.61" gravcomp="1.0">
         <inertial pos="0.0049205 -0.00637989 0.148041" quat="0.735325 0.018397 -0.000489109 0.677465" mass="9.32488" diaginertia="0.404155 0.402926 0.0306994"/>
-        <joint name="right_ewellix_lift_lower_to_higher" type="slide" range="0 0.5" actuatorfrcrange="-1000 1000" class="size5"/>
+        <joint name="right_ewellix_lift_lower_to_higher" type="slide" range="0 0.5" actuatorfrcrange="-1000 1000" class="phoebe_size5"/>
         <body name="right_ewellix_lift_middle_link" pos="0 0 -0.0303" gravcomp="1.0">
           <inertial pos="0 0 0" mass="5.4116" diaginertia="0.11963 0.11963 0.0330997"/>
           <joint name="right_middle_mimic_higher" type="slide" range="0 0.25" actuatorfrcrange="-1000 1000" axis="0 0 -1"/>
@@ -326,22 +326,22 @@
         </body>
         <body name="right_ur_arm_shoulder_link" pos="0.0147855 -0.128643 0.461404" quat="0.857772 0.353915 -0.131976 0.348645" gravcomp="1.0">
           <inertial pos="0 -0.00193 -0.02561" quat="0.560239 0.250606 -0.316559 0.72327" mass="3.761" diaginertia="0.00703079 0.0070003 0.00602478"/>
-          <joint name="right_ur_arm_shoulder_pan_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="size3" damping="10.6" frictionloss="4.67"/>
+          <joint name="right_ur_arm_shoulder_pan_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="phoebe_size3" damping="10.6" frictionloss="4.67"/>
           <body name="right_ur_arm_upper_arm_link" pos="7.08681e-05 0 0" quat="0.707305 0.706908 1.4235e-06 1.4243e-06" gravcomp="1.0">
             <inertial pos="-0.2125 0 0.11336" quat="0.500275 0.499641 0.500368 0.499716" mass="8.058" diaginertia="0.333881 0.332472 0.0150588"/>
-            <joint name="right_ur_arm_shoulder_lift_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="size3" damping="10.6" frictionloss="4.67"/>
+            <joint name="right_ur_arm_shoulder_lift_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" armature="1.44" class="phoebe_size3" damping="10.6" frictionloss="4.67"/>
             <body name="right_ur_arm_forearm_link" pos="-0.425304 0 0" quat="1 9.70614e-05 0.000269354 4.69205e-07" gravcomp="1.0">
               <inertial pos="-0.2422 0 0.0265" quat="0.501301 0.498381 0.510711 0.489375" mass="2.846" diaginertia="0.0787927 0.0785102 0.00397103"/>
-              <joint name="right_ur_arm_elbow_joint" range="-3.14159 3.14159" actuatorfrcrange="-150 150" armature="1.44" class="size3_limited" damping="10.6" frictionloss="4.67"/>
+              <joint name="right_ur_arm_elbow_joint" range="-3.14159 3.14159" actuatorfrcrange="-150 150" armature="1.44" class="phoebe_size3_limited" damping="10.6" frictionloss="4.67"/>
               <body name="right_ur_arm_wrist_1_link" pos="-0.392184 8.85386e-05 0.134008" quat="1 -0.000330347 0.000508859 -1.44648e-06" gravcomp="1.0">
                 <inertial pos="0 -0.01634 -0.0018" quat="0.960609 0.277707 0.00515042 -0.00913626" mass="1.37" diaginertia="0.00165502 0.00142363 0.00119868"/>
-                <joint name="right_ur_arm_wrist_1_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.21" class="size1" damping="2.75" frictionloss="1.9"/>
+                <joint name="right_ur_arm_wrist_1_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.21" class="phoebe_size1" damping="2.75" frictionloss="1.9"/>
                 <body name="right_ur_arm_wrist_2_link" pos="3.88504e-05 -0.0998073 8.22332e-05" quat="0.707398 0.706815 2.04332e-07 2.045e-07" gravcomp="1.0">
                   <inertial pos="0 0.01634 -0.0018" quat="0.996652 -0.0779336 -0.00684629 -0.0237381" mass="1.3" diaginertia="0.00135637 0.00128607 0.00095814"/>
-                  <joint name="right_ur_arm_wrist_2_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.19" class="size1" damping="2.1" frictionloss="1.85"/>
+                  <joint name="right_ur_arm_wrist_2_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.19" class="phoebe_size1" damping="2.1" frictionloss="1.85"/>
                   <body name="right_ur_arm_wrist_3_link" pos="7.98405e-05 0.0996341 1.16486e-05" quat="-0.707148 0.707065 4.07248e-09 -4.07295e-09" gravcomp="1.0">
                     <inertial pos="0.00081243 0.00402455 0.0644192" quat="0.478817 0.497317 0.513336 0.5098" mass="1.31087" diaginertia="0.00743494 0.00503553 0.00439798"/>
-                    <joint name="right_ur_arm_wrist_3_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.17" class="size1" damping="2.1" frictionloss="2.0"/>
+                    <joint name="right_ur_arm_wrist_3_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" armature="0.17" class="phoebe_size1" damping="2.1" frictionloss="2.0"/>
                     <body name="right_finger_1_link" pos="0.00201401 -0.00325 0.1475" quat="-1 0 0 0" gravcomp="1.0">
                       <inertial pos="0 0 0" quat="0.501643 0.0653163 0.068404 0.859889" mass="0.0500198" diaginertia="6.28755e-05 6.17965e-05 5.99521e-06"/>
                       <joint name="right_finger_1_joint" type="slide" range="0 0.025" actuatorfrcrange="-130 130" axis="1 0 0" armature="0.5" frictionloss="5.0"/>
@@ -628,26 +628,26 @@
     <default class="phoebe">
       <material shininess="0.25" specular="0.5"/>
       <joint actuatorgravcomp="true" armature="0.1"/>
-      <default class="size5">
+      <default class="phoebe_size5">
         <joint actuatorfrclimited="true" actuatorfrcrange="-1000 1000"/>
         <position ctrlrange="0.0 0.7" dampratio="1.0" forcerange="-1000 1000" kp="75000"/>
       </default>
-      <default class="size4">
+      <default class="phoebe_size4">
         <joint damping="10"/>
         <general ctrlrange="-330 330" forcerange="-330 330"/>
       </default>
-      <default class="size3">
+      <default class="phoebe_size3">
         <joint damping="5"/>
         <general ctrlrange="-150 150" forcerange="-150 150"/>
-        <default class="size3_limited">
+        <default class="phoebe_size3_limited">
           <joint range="-3.1415 3.1415"/>
         </default>
       </default>
-      <default class="size2">
+      <default class="phoebe_size2">
         <joint damping="2"/>
         <general ctrlrange="-56 56" forcerange="-56 56"/>
       </default>
-      <default class="size1">
+      <default class="phoebe_size1">
         <joint damping="1"/>
         <general ctrlrange="-28 28" forcerange="-28 28"/>
       </default>
@@ -674,20 +674,20 @@
   <actuator>
     <position ctrlrange="0.0 0.025" dampratio="10.0" forcerange="-185 185" kp="100000" name="right_finger_1_joint" tendon="right_split"/>
     <position ctrlrange="0.0 0.025" dampratio="10.0" forcerange="-185 185" kp="100000" name="left_finger_1_joint" tendon="left_split"/>
-    <position class="size5" joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher"/>
-    <motor class="size3" joint="left_ur_arm_shoulder_pan_joint" name="left_ur_arm_shoulder_pan_joint"/>
-    <motor class="size3" joint="left_ur_arm_shoulder_lift_joint" name="left_ur_arm_shoulder_lift_joint"/>
-    <motor class="size3_limited" joint="left_ur_arm_elbow_joint" name="left_ur_arm_elbow_joint"/>
-    <motor class="size1" joint="left_ur_arm_wrist_1_joint" name="left_ur_arm_wrist_1_joint"/>
-    <motor class="size1" joint="left_ur_arm_wrist_2_joint" name="left_ur_arm_wrist_2_joint"/>
-    <motor class="size1" joint="left_ur_arm_wrist_3_joint" name="left_ur_arm_wrist_3_joint"/>
-    <position class="size5" joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher"/>
-    <motor class="size3" joint="right_ur_arm_shoulder_pan_joint" name="right_ur_arm_shoulder_pan_joint"/>
-    <motor class="size3" joint="right_ur_arm_shoulder_lift_joint" name="right_ur_arm_shoulder_lift_joint"/>
-    <motor class="size3_limited" joint="right_ur_arm_elbow_joint" name="right_ur_arm_elbow_joint"/>
-    <motor class="size1" joint="right_ur_arm_wrist_1_joint" name="right_ur_arm_wrist_1_joint"/>
-    <motor class="size1" joint="right_ur_arm_wrist_2_joint" name="right_ur_arm_wrist_2_joint"/>
-    <motor class="size1" joint="right_ur_arm_wrist_3_joint" name="right_ur_arm_wrist_3_joint"/>
+    <position class="phoebe_size5" joint="left_ewellix_lift_lower_to_higher" name="left_ewellix_lift_lower_to_higher"/>
+    <motor class="phoebe_size3" joint="left_ur_arm_shoulder_pan_joint" name="left_ur_arm_shoulder_pan_joint"/>
+    <motor class="phoebe_size3" joint="left_ur_arm_shoulder_lift_joint" name="left_ur_arm_shoulder_lift_joint"/>
+    <motor class="phoebe_size3_limited" joint="left_ur_arm_elbow_joint" name="left_ur_arm_elbow_joint"/>
+    <motor class="phoebe_size1" joint="left_ur_arm_wrist_1_joint" name="left_ur_arm_wrist_1_joint"/>
+    <motor class="phoebe_size1" joint="left_ur_arm_wrist_2_joint" name="left_ur_arm_wrist_2_joint"/>
+    <motor class="phoebe_size1" joint="left_ur_arm_wrist_3_joint" name="left_ur_arm_wrist_3_joint"/>
+    <position class="phoebe_size5" joint="right_ewellix_lift_lower_to_higher" name="right_ewellix_lift_lower_to_higher"/>
+    <motor class="phoebe_size3" joint="right_ur_arm_shoulder_pan_joint" name="right_ur_arm_shoulder_pan_joint"/>
+    <motor class="phoebe_size3" joint="right_ur_arm_shoulder_lift_joint" name="right_ur_arm_shoulder_lift_joint"/>
+    <motor class="phoebe_size3_limited" joint="right_ur_arm_elbow_joint" name="right_ur_arm_elbow_joint"/>
+    <motor class="phoebe_size1" joint="right_ur_arm_wrist_1_joint" name="right_ur_arm_wrist_1_joint"/>
+    <motor class="phoebe_size1" joint="right_ur_arm_wrist_2_joint" name="right_ur_arm_wrist_2_joint"/>
+    <motor class="phoebe_size1" joint="right_ur_arm_wrist_3_joint" name="right_ur_arm_wrist_3_joint"/>
     <velocity ctrlrange="-15 15" joint="front_right_wheel_joint" kv="50" name="front_right_wheel_joint"/>
     <velocity ctrlrange="-15 15" joint="front_left_wheel_joint" kv="50" name="front_left_wheel_joint"/>
     <velocity ctrlrange="-15 15" joint="rear_right_wheel_joint" kv="50" name="rear_right_wheel_joint"/>

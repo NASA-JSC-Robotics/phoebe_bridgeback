@@ -11,7 +11,8 @@
     fake_sensor_commands:=false
     com_port:=/dev/ttyUSB1
     add_grasp_push_frames:=true
-    generate_ros2_control_tag:=true">
+    generate_ros2_control_tag:=true
+    sim_ignition:=false">
 
     <material name="${tf_prefix}black">
       <color rgba="0 0 0 1"/>
