@@ -23,7 +23,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import UnlessCondition
 
-from phoebe_deploy.launch_helpers import spawn_controller
+from phoebe_deploy.launch_helpers import spawn_controllers
 
 
 def generate_launch_description():
@@ -50,33 +50,39 @@ def generate_launch_description():
 
     nodes = []
 
-    nodes.append(
-        spawn_controller("right_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim))
-    )
-    nodes.append(spawn_controller("right_force_torque_sensor_broadcaster", namespace=namespace))
-    nodes.append(spawn_controller("right_ur_joint_trajectory_controller", namespace=namespace))
-    nodes.append(
-        spawn_controller(
-            "right_freedrive_mode_controller", namespace=namespace, inactive=True, condition=UnlessCondition(is_sim)
-        )
-    )
-    nodes.append(
-        spawn_controller("left_io_and_status_controller", namespace=namespace, condition=UnlessCondition(is_sim))
-    )
-    nodes.append(spawn_controller("left_force_torque_sensor_broadcaster", namespace=namespace))
-    nodes.append(spawn_controller("left_ur_joint_trajectory_controller", namespace=namespace))
-    nodes.append(
-        spawn_controller(
-            "left_freedrive_mode_controller", namespace=namespace, inactive=True, condition=UnlessCondition(is_sim)
-        )
-    )
-    nodes.append(spawn_controller("left_forward_position_controller", inactive=True))
-    nodes.append(spawn_controller("left_forward_velocity_controller", inactive=True))
-    nodes.append(spawn_controller("left_forward_effort_controller", inactive=True))
-    nodes.append(spawn_controller("left_friction_model_controller", inactive=True, condition=UnlessCondition(is_sim)))
-    nodes.append(spawn_controller("right_forward_position_controller", inactive=True))
-    nodes.append(spawn_controller("right_forward_velocity_controller", inactive=True))
-    nodes.append(spawn_controller("right_forward_effort_controller", inactive=True))
-    nodes.append(spawn_controller("right_friction_model_controller", inactive=True, condition=UnlessCondition(is_sim)))
+    # Grouped by (condition, namespace) since both are set per spawner process, not per
+    # controller. NOTE: the forward_*/friction_model controllers already didn't pass
+    # namespace=namespace before this change. Preserved as-is rather than silently fixing it.
+    unconditional_controllers = [
+        {"name": "right_force_torque_sensor_broadcaster"},
+        {"name": "right_ur_joint_trajectory_controller"},
+        {"name": "left_force_torque_sensor_broadcaster"},
+        {"name": "left_ur_joint_trajectory_controller"},
+    ]
+    nodes.append(spawn_controllers(unconditional_controllers, namespace=namespace))
+
+    unconditional_no_namespace_controllers = [
+        {"name": "left_forward_position_controller", "inactive": True},
+        {"name": "left_forward_velocity_controller", "inactive": True},
+        {"name": "left_forward_effort_controller", "inactive": True},
+        {"name": "right_forward_position_controller", "inactive": True},
+        {"name": "right_forward_velocity_controller", "inactive": True},
+        {"name": "right_forward_effort_controller", "inactive": True},
+    ]
+    nodes.append(spawn_controllers(unconditional_no_namespace_controllers))
+
+    hardware_only_controllers = [
+        {"name": "right_io_and_status_controller"},
+        {"name": "right_freedrive_mode_controller", "inactive": True},
+        {"name": "left_io_and_status_controller"},
+        {"name": "left_freedrive_mode_controller", "inactive": True},
+    ]
+    nodes.append(spawn_controllers(hardware_only_controllers, namespace=namespace, condition=UnlessCondition(is_sim)))
+
+    hardware_only_no_namespace_controllers = [
+        {"name": "left_friction_model_controller", "inactive": True},
+        {"name": "right_friction_model_controller", "inactive": True},
+    ]
+    nodes.append(spawn_controllers(hardware_only_no_namespace_controllers, condition=UnlessCondition(is_sim)))
 
     return LaunchDescription(declared_arguments + nodes)

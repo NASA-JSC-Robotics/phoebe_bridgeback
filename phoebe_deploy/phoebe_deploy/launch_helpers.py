@@ -23,35 +23,43 @@ from launch.substitutions import (
 from launch_ros.actions import Node
 
 
-def spawn_controller(
-    controller_name,
-    inactive=False,
+def spawn_controllers(
+    controllers,
     controller_manager_name="controller_manager",
     timeout=300,
     namespace: LaunchConfiguration = "",
     condition=None,
-    controller_ros_args=None,
 ):
     """
-    Create a spawn controller node action for the specified controller and arguments.
+    Create a single spawner node action that loads every controller in `controllers`.
+
+    Each entry in `controllers` is either a controller name (str) or a dict with keys
+    "name" (required), "inactive" (bool, default False), and "controller_ros_args"
+    (str, optional). Uses the spawner's "--controller <name> [opts]" advanced mode so each
+    controller keeps its own inactive/ros-args settings within the one spawner process.
+    `condition` applies to the whole node, so controllers that must be spawned under different
+    conditions belong in separate spawn_controllers() calls.
     """
-    inactive_flags = ["--inactive"] if inactive else []
-    ros_args = ["--controller-ros-args", f"{controller_ros_args}"] if controller_ros_args is not None else []
+    arguments = [
+        "--controller-manager",
+        controller_manager_name,
+        "--controller-manager-timeout",
+        str(timeout),
+    ]
+    for controller in controllers:
+        if isinstance(controller, str):
+            controller = {"name": controller}
+        arguments += ["--controller", controller["name"]]
+        if controller.get("inactive"):
+            arguments.append("--inactive")
+        if controller.get("controller_ros_args") is not None:
+            arguments += ["--controller-ros-args", controller["controller_ros_args"]]
 
     return Node(
         package="controller_manager",
         executable="spawner",
-        name=controller_name,
         namespace=namespace,
-        arguments=[
-            controller_name,
-            "--controller-manager",
-            controller_manager_name,
-            "--controller-manager-timeout",
-            str(timeout),
-        ]
-        + ros_args
-        + inactive_flags,
+        arguments=arguments,
         output="both",
         condition=condition,
     )

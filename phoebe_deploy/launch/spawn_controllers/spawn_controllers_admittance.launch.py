@@ -22,7 +22,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 
-from phoebe_deploy.launch_helpers import spawn_controller
+from phoebe_deploy.launch_helpers import spawn_controllers
 
 
 def generate_launch_description():
@@ -39,16 +39,14 @@ def generate_launch_description():
 
     namespace = LaunchConfiguration("namespace")
 
-    nodes = []
-    nodes.append(spawn_controller("left_admittance_controller", inactive=True, namespace=namespace))
-    nodes.append(spawn_controller("left_admittance_jtc", inactive=True, namespace=namespace))
-    nodes.append(
-        spawn_controller("left_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace)
-    )
-    nodes.append(spawn_controller("right_admittance_controller", inactive=True, namespace=namespace))
-    nodes.append(spawn_controller("right_admittance_jtc", inactive=True, namespace=namespace))
-    nodes.append(
-        spawn_controller("right_force_torque_sensor_broadcaster_admittance", inactive=True, namespace=namespace)
-    )
+    controllers = [
+        {"name": "left_admittance_controller", "inactive": True},
+        {"name": "left_admittance_jtc", "inactive": True},
+        {"name": "left_force_torque_sensor_broadcaster_admittance", "inactive": True},
+        {"name": "right_admittance_controller", "inactive": True},
+        {"name": "right_admittance_jtc", "inactive": True},
+        {"name": "right_force_torque_sensor_broadcaster_admittance", "inactive": True},
+    ]
+    nodes = [spawn_controllers(controllers, namespace=namespace)]
 
     return LaunchDescription(declared_arguments + nodes)
