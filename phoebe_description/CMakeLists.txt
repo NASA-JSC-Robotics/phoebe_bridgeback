@@ -6,8 +6,13 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 
 install(
-  DIRECTORY launch meshes rviz urdf config
+  DIRECTORY launch meshes rviz urdf config maps
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(PROGRAMS
+  scripts/generate_environment_map.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
