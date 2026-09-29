@@ -25,7 +25,7 @@ from launch.substitutions import (
 )
 from launch.conditions import UnlessCondition
 
-from phoebe_deploy.launch_helpers import spawn_controller
+from phoebe_deploy.launch_helpers import spawn_controllers
 
 
 def generate_launch_description():
@@ -50,14 +50,16 @@ def generate_launch_description():
     namespace = LaunchConfiguration("namespace")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
 
+    # Left and right are spawned separately since only the left controller is conditional
+    # on the static pedestal arg.
     nodes = []
     nodes.append(
-        spawn_controller(
-            "left_lift_joint_trajectory_controller",
+        spawn_controllers(
+            [{"name": "left_lift_joint_trajectory_controller"}],
             namespace=namespace,
             condition=UnlessCondition(use_left_static_pedestal),
         )
     )
-    nodes.append(spawn_controller("right_lift_joint_trajectory_controller", namespace=namespace))
+    nodes.append(spawn_controllers([{"name": "right_lift_joint_trajectory_controller"}], namespace=namespace))
 
     return LaunchDescription(declared_arguments + nodes)

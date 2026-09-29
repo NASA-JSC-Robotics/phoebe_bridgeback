@@ -23,7 +23,7 @@ from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition, UnlessCondition
 
-from phoebe_deploy.launch_helpers import spawn_controller
+from phoebe_deploy.launch_helpers import spawn_controllers
 
 
 def generate_launch_description():
@@ -57,31 +57,29 @@ def generate_launch_description():
     is_sim = LaunchConfiguration("is_sim")
     magic_carpet = LaunchConfiguration("magic_carpet")
 
-    # Use wheels if not using the magic carpet
+    # Use wheels if not using the magic carpet. platform_velocity_controller and odom_publisher
+    # share the same is_sim condition in each branch, so each branch is spawned together.
     wheel_controllers = GroupAction(
         condition=UnlessCondition(magic_carpet),
         actions=[
             # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
             # This should definitely be investigated further.
-            spawn_controller(
-                "platform_velocity_controller",
+            spawn_controllers(
+                [
+                    {
+                        "name": "platform_velocity_controller",
+                        "controller_ros_args": "--ros-args -p kinematics.wheels_radius:=0.063",
+                    },
+                    {
+                        "name": "odom_publisher",
+                        "controller_ros_args": "--ros-args -p kinematics.wheels_radius:=0.063",
+                    },
+                ],
                 namespace=namespace,
                 condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
             ),
-            spawn_controller(
-                "platform_velocity_controller",
-                namespace=namespace,
-                condition=UnlessCondition(is_sim),
-            ),
-            spawn_controller(
-                "odom_publisher",
-                namespace=namespace,
-                condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args -p kinematics.wheels_radius:=0.063",
-            ),
-            spawn_controller(
-                "odom_publisher",
+            spawn_controllers(
+                [{"name": "platform_velocity_controller"}, {"name": "odom_publisher"}],
                 namespace=namespace,
                 condition=UnlessCondition(is_sim),
             ),
@@ -89,15 +87,19 @@ def generate_launch_description():
     )
 
     # Always spawn an IMU broadcaster
-    imu_broadcaster = spawn_controller(
-        "imu_broadcaster",
+    imu_broadcaster = spawn_controllers(
+        [
+            {
+                "name": "imu_broadcaster",
+                "controller_ros_args": "--ros-args --remap /imu_broadcaster/imu:=sensors/imu_0/data_raw",
+            }
+        ],
         namespace=namespace,
         condition=IfCondition(is_sim),
-        controller_ros_args="--ros-args --remap /imu_broadcaster/imu:=sensors/imu_0/data_raw",
     )
 
-    wheels_joint_state_broadcaster = spawn_controller(
-        "wheels_joint_state_broadcaster",
+    wheels_joint_state_broadcaster = spawn_controllers(
+        [{"name": "wheels_joint_state_broadcaster"}],
         namespace=namespace,
     )
 
@@ -106,12 +108,16 @@ def generate_launch_description():
     magic_carpet_controller = GroupAction(
         condition=IfCondition(magic_carpet),
         actions=[
-            spawn_controller(
-                "phoebe_magic_carpet_controller",
+            spawn_controllers(
+                [
+                    {
+                        "name": "phoebe_magic_carpet_controller",
+                        "controller_ros_args": "--ros-args"
+                        " --remap /phoebe_magic_carpet_controller/odom:=/ridgeback/odometry/filtered",
+                    }
+                ],
                 namespace=namespace,
                 condition=IfCondition(is_sim),
-                controller_ros_args="--ros-args"
-                " --remap /phoebe_magic_carpet_controller/odom:=/ridgeback/odometry/filtered",
             ),
         ],
     )

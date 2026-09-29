@@ -32,7 +32,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch_ros.substitutions import FindPackagePrefix
 from launch.event_handlers import OnProcessExit
 
-from phoebe_deploy.launch_helpers import spawn_controller
+from phoebe_deploy.launch_helpers import spawn_controllers
 
 
 def generate_launch_description():
@@ -111,7 +111,7 @@ def generate_launch_description():
             condition=condition,
         )
 
-    joint_state_broadcaster = spawn_controller("joint_state_broadcaster", namespace=namespace)
+    joint_state_broadcaster = spawn_controllers([{"name": "joint_state_broadcaster"}], namespace=namespace)
 
     launches = []
 
@@ -168,7 +168,7 @@ def generate_launch_description():
                 ]
             )
         ],
-        # condition=UnlessCondition(is_sim),
+        condition=UnlessCondition(is_sim),
     )
 
     launches.append(MakeLaunchDescription(launch_file_r100_spawner, common_launch_args))

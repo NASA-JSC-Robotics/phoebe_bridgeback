@@ -23,7 +23,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.conditions import IfCondition, UnlessCondition
 
-from phoebe_deploy.launch_helpers import spawn_controller
+from phoebe_deploy.launch_helpers import spawn_controllers
 
 
 def generate_launch_description():
@@ -64,41 +64,45 @@ def generate_launch_description():
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
 
+    # Each hand-type controller has its own mutually exclusive condition, so those stay as
+    # separate spawners. The two activation controllers share a condition and can be spawned
+    # together.
     nodes = []
 
     nodes.append(
-        spawn_controller(
-            "right_robotiq_gripper_2f85_controller",
+        spawn_controllers(
+            [{"name": "right_robotiq_gripper_2f85_controller"}],
             namespace=namespace,
             condition=IfCondition(PythonExpression(["'", LaunchConfiguration("right_hand_type"), "' == '2f85'"])),
         )
     )
     nodes.append(
-        spawn_controller(
-            "right_robotiq_gripper_hande_controller",
+        spawn_controllers(
+            [{"name": "right_robotiq_gripper_hande_controller"}],
             namespace=namespace,
             condition=IfCondition(PythonExpression(["'", LaunchConfiguration("right_hand_type"), "' == 'hande'"])),
         )
     )
     nodes.append(
-        spawn_controller(
-            "left_robotiq_gripper_2f85_controller",
+        spawn_controllers(
+            [{"name": "left_robotiq_gripper_2f85_controller"}],
             namespace=namespace,
             condition=IfCondition(PythonExpression(["'", LaunchConfiguration("left_hand_type"), "' == '2f85'"])),
         )
     )
     nodes.append(
-        spawn_controller(
-            "left_robotiq_gripper_hande_controller",
+        spawn_controllers(
+            [{"name": "left_robotiq_gripper_hande_controller"}],
             namespace=namespace,
             condition=IfCondition(PythonExpression(["'", LaunchConfiguration("left_hand_type"), "' == 'hande'"])),
         )
     )
     nodes.append(
-        spawn_controller("right_robotiq_activation_controller", namespace=namespace, condition=UnlessCondition(is_sim))
-    )
-    nodes.append(
-        spawn_controller("left_robotiq_activation_controller", namespace=namespace, condition=UnlessCondition(is_sim))
+        spawn_controllers(
+            [{"name": "right_robotiq_activation_controller"}, {"name": "left_robotiq_activation_controller"}],
+            namespace=namespace,
+            condition=UnlessCondition(is_sim),
+        )
     )
 
     return LaunchDescription(declared_arguments + nodes)
