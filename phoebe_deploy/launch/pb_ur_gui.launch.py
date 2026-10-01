@@ -17,7 +17,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument("use_one_window", default_value="true", description="Use the same window or nah?")
     )
-        
+
     namespace = LaunchConfiguration("namespace")
     use_one_window = LaunchConfiguration("use_one_window")
 
@@ -30,7 +30,7 @@ def generate_launch_description():
         output="screen",
         namespace=namespace,
         parameters=[config_left, config_right],
-        condition=IfCondition(use_one_window)
+        condition=IfCondition(use_one_window),
     )
 
     right_gui_node = Node(
@@ -40,7 +40,7 @@ def generate_launch_description():
         output="screen",
         namespace=namespace,
         parameters=[config_right],
-        condition=UnlessCondition(use_one_window)
+        condition=UnlessCondition(use_one_window),
     )
     left_gui_node = Node(
         package="drt_ur_gui",
@@ -49,7 +49,7 @@ def generate_launch_description():
         output="screen",
         namespace=namespace,
         parameters=[config_left],
-        condition=UnlessCondition(use_one_window)
+        condition=UnlessCondition(use_one_window),
     )
 
     nodes = [right_gui_node, left_gui_node, gui_node]

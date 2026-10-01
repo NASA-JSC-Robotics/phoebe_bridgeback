@@ -53,7 +53,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument("use_one_window", default_value="true", description="Use the same window or nah?")
     )
-        
+
     namespace = LaunchConfiguration("namespace")
     remote_control = LaunchConfiguration("remote_control")
     use_one_window = LaunchConfiguration("use_one_window")
