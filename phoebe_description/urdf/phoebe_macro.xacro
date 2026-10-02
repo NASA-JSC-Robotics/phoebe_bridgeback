@@ -92,7 +92,8 @@
       <axis xyz="0 0 1"/>
       <parent link="${tf_prefix}virtual_rail_link_2"/>
       <child link="${tf_prefix}base_link"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <!-- Wheel axle is 0.05 above base_link with a 0.0759 radius, lift so the wheels "rest" on the floor. -->
+      <origin rpy="0 0 0" xyz="0 0 0.0259"/>
       <limit effort="150.0" velocity="0.5235987755982988"/>
       <dynamics damping="0" friction="0"/>
     </joint>

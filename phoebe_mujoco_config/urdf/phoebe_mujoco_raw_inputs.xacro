@@ -160,6 +160,7 @@
             <exclude body1="${tf_prefix}base_link" body2="${tf_prefix}front_right_wheel_roller_7_link"/>
         </xacro:unless>
 
+        <!-- If phoebe is on a carpet, the wheels will not interact with anything -->
         <xacro:if value="${include_world_joints}">
             <exclude body1="world" body2="${tf_prefix}base_link"/>
             <exclude body1="world" body2="${tf_prefix}virtual_rail_link_1"/>
