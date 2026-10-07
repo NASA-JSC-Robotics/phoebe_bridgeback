@@ -184,6 +184,9 @@
         <equality>
             <joint joint1="${tf_prefix}left_finger_1_joint" joint2="${tf_prefix}left_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
         </equality>
+        <contact>
+            <exclude body1="${tf_prefix}left_finger_1_link" body2="${tf_prefix}left_finger_2_link"/>
+        </contact>
     </xacro:if>
     <xacro:if value="${left_hand_type == '2f85'}">
         <tendon>
@@ -233,6 +236,9 @@
         <equality>
             <joint joint1="${tf_prefix}right_finger_1_joint" joint2="${tf_prefix}right_finger_2_joint" polycoef="0 1 0 0 0" solimp="0.95 0.99 0.001" solref="0.005 1"/>
         </equality>
+        <contact>
+            <exclude body1="${tf_prefix}right_finger_1_link" body2="${tf_prefix}right_finger_2_link"/>
+        </contact>
     </xacro:if>
     <xacro:if value="${right_hand_type == '2f85'}">
         <tendon>
