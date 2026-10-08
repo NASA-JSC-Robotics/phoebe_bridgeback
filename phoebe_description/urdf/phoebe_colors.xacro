@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="phoebe_colors">
+
+  <!-- ===================== MATERIALS/COLORS ===================== -->
+  <material name="phoebe_dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+  <material name="phoebe_medium_grey"><color rgba="0.6 0.6 0.6 1.0" /></material>
+  <material name="phoebe_light_grey"><color rgba="0.8 0.8 0.8 1.0" /></material>
+  <material name="phoebe_yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+  <material name="phoebe_black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+  <material name="phoebe_white"><color rgba="1.0 1.0 1.0 1.0" /></material>
+  <material name="phoebe_red"><color rgba="1.0 0.0 0.0 1.0" /></material>
+
+</robot>

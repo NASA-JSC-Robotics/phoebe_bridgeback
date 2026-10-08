@@ -34,6 +34,7 @@
     "
   >
   <xacro:include filename="$(find clearpath_platform_description)/urdf/common.urdf.xacro" />
+  <xacro:include filename="$(find phoebe_description)/urdf/phoebe_colors.xacro" />
   <xacro:include filename="$(find phoebe_description)/urdf/r100/r100_macro.xacro" />
 
   <!-- Conditionally attach the world to the base_link with a x, y, and yaw joints. -->
