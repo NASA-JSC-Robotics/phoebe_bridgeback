@@ -50,9 +50,13 @@ def generate_launch_description():
             choices=["true", "false"],
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument("use_one_window", default_value="true", description="Use the same window or nah?")
+    )
 
     namespace = LaunchConfiguration("namespace")
     remote_control = LaunchConfiguration("remote_control")
+    use_one_window = LaunchConfiguration("use_one_window")
 
     hande_right_comm_node = Node(
         name="right_ur_tool_communication_hande",
@@ -105,6 +109,9 @@ def generate_launch_description():
             os.path.join(get_package_share_directory("phoebe_deploy"), "launch", "pb_ur_gui.launch.py")
         ),
         condition=IfCondition(remote_control),
+        launch_arguments={
+            "use_one_window": use_one_window,
+        }.items(),
     )
 
     nodes = [
