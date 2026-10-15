@@ -26,6 +26,9 @@
         <xacro:if value="${left_hande_finger_type == 'fngr_v6' or right_hande_finger_type == 'fngr_v6'}">
           <decompose_mesh mesh_name="finger_v6" threshold="0.05"/>
         </xacro:if>
+        <xacro:if value="${left_hande_finger_type == 'fngr_v7' or right_hande_finger_type == 'fngr_v7'}">
+          <decompose_mesh mesh_name="v7_finger" threshold="0.05"/>
+        </xacro:if>
       </xacro:if>
 
       <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
