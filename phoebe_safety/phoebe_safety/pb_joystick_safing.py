@@ -240,7 +240,7 @@ class PhoebeJoystickSafing(Node):
         super().__init__("phoebe_joystick_safing")
 
         # Subscribe to the joystick topic
-        self.subscription = self.create_subscription(Joy, "/joy_teleop/joy", self.joy_callback, 10)
+        self.subscription = self.create_subscription(Joy, "joy_teleop/joy", self.joy_callback, 10)
 
         # Grab parameter values
         self.declare_parameter("actions_file", "", ParameterDescriptor(description="Path to the actions file."))

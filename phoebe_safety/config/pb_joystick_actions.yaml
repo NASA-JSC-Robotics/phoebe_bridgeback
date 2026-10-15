@@ -8,11 +8,11 @@
 #  input_index: which button or axis, where indices are as reported in the joystick message
 actions:
   - action_type: service
-    action: /phoebe_estop_manager/request_freedrive_mode
+    action: phoebe_estop_manager/request_freedrive_mode
     input_type: button
     input_index: 0
 
   - action_type: service
-    action: /phoebe_estop_manager/request_restart
+    action: phoebe_estop_manager/request_restart
     input_type: button
     input_index: 2
