@@ -85,8 +85,9 @@ repos:
         exclude: \.(svg|stl|dae)
         args: ["--ignore-words-list", "hande, Hart"]
 
-# Exclude generated assests
+# Exclude generated assets
 exclude: |
   (?x)^(
-    phoebe_mujoco_config/description/.*
+    phoebe_mujoco_config/description/.*|
+    .*\.pgm
   )$
