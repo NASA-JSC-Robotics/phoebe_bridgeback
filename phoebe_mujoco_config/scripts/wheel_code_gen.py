@@ -69,7 +69,10 @@ def return_wheel_description(
     izz = diag_inertia[2]
 
     r = size[0]
-    h = size[1]
+    # Roller ends sit on the wheel circle, so the roller centers are on the chord midpoints. Push the ends
+    # out so the centers sit on the (r - roller_r) circle, and size the roller span for a 45 degree axis.
+    ring_r = (r - roller_r) / cos(pi / n_roller)
+    h = 2 * ring_r * sin(pi / n_roller)
 
     cylinder = f"""<body name="{link_name}_link" pos="{str(x)} {str(y)} {str(z)}">
     <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="{str(mass)}" diaginertia="{str(ixx)} {str(iyy)} {str(izz)}" />
@@ -86,9 +89,9 @@ def return_wheel_description(
 
         pin_1 = np.array(
             [
-                (r - roller_r) * cos(step * i),
+                ring_r * cos(step * i),
                 -h / 2,
-                (r - roller_r) * sin(step * i),
+                ring_r * sin(step * i),
             ]
         )
 
@@ -96,34 +99,34 @@ def return_wheel_description(
             if i == n_roller - 1:
                 pin_2 = np.array(
                     [
-                        (r - roller_r) * cos(step * 0),
+                        ring_r * cos(step * 0),
                         h / 2,
-                        (r - roller_r) * sin(step * 0),
+                        ring_r * sin(step * 0),
                     ]
                 )
             else:
                 pin_2 = np.array(
                     [
-                        (r - roller_r) * cos(step * (i + 1)),
+                        ring_r * cos(step * (i + 1)),
                         h / 2,
-                        (r - roller_r) * sin(step * (i + 1)),
+                        ring_r * sin(step * (i + 1)),
                     ]
                 )
         else:
             if i == 0:
                 pin_2 = np.array(
                     [
-                        (r - roller_r) * cos(step * (n_roller - 1)),
+                        ring_r * cos(step * (n_roller - 1)),
                         h / 2,
-                        (r - roller_r) * sin(step * (n_roller - 1)),
+                        ring_r * sin(step * (n_roller - 1)),
                     ]
                 )
             else:
                 pin_2 = np.array(
                     [
-                        (r - roller_r) * cos(step * (i - 1)),
+                        ring_r * cos(step * (i - 1)),
                         h / 2,
-                        (r - roller_r) * sin(step * (i - 1)),
+                        ring_r * sin(step * (i - 1)),
                     ]
                 )
 
