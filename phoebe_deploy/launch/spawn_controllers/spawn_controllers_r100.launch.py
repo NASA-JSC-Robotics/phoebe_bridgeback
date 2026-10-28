@@ -62,17 +62,16 @@ def generate_launch_description():
     wheel_controllers = GroupAction(
         condition=UnlessCondition(magic_carpet),
         actions=[
-            # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
-            # This should definitely be investigated further.
+            # The sim wheels have a slightly larger effective track than the hardware value.
             spawn_controllers(
                 [
                     {
                         "name": "platform_velocity_controller",
-                        "controller_ros_args": "--ros-args -p kinematics.wheels_radius:=0.063",
+                        "controller_ros_args": "--ros-args -p kinematics.sum_of_robot_center_projection_on_X_Y_axis:=0.604",
                     },
                     {
                         "name": "odom_publisher",
-                        "controller_ros_args": "--ros-args -p kinematics.wheels_radius:=0.063",
+                        "controller_ros_args": "--ros-args -p kinematics.sum_of_robot_center_projection_on_X_Y_axis:=0.604",
                     },
                 ],
                 namespace=namespace,
