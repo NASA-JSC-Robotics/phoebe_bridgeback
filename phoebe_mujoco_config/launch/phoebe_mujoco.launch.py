@@ -83,6 +83,14 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
+            "headless",
+            default_value="false",
+            description="Run MuJoCo without the UI.",
+            choices=["true", "false"],
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "use_left_static_pedestal",
             default_value="false",
             description="Whether to use the left static pedestal instead of the left lift",
@@ -110,6 +118,7 @@ def generate_launch_description():
     magic_carpet = LaunchConfiguration("magic_carpet")
     use_pregenerated_mjcf = LaunchConfiguration("use_pregenerated_mjcf")
     sim_speed = LaunchConfiguration("sim_speed")
+    headless = LaunchConfiguration("headless")
     use_left_static_pedestal = LaunchConfiguration("use_left_static_pedestal")
     left_hand_type = LaunchConfiguration("left_hand_type")
     right_hand_type = LaunchConfiguration("right_hand_type")
@@ -172,6 +181,12 @@ def generate_launch_description():
             " ",
             "include_world_joints:=",
             magic_carpet,
+            " ",
+            "sim_speed:=",
+            sim_speed,
+            " ",
+            "headless:=",
+            headless,
             " ",
         ]
     )
@@ -238,6 +253,8 @@ def generate_launch_description():
         use_pregenerated_mjcf,
         " sim_speed:=",
         sim_speed,
+        " headless:=",
+        headless,
         " model_mobile_env:=false",
     ]
 
