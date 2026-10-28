@@ -66,9 +66,7 @@ def postprocess_mjcf(
         include_element = dom.createElement("include")
         include_element.setAttribute("file", f"{include_prefix}wheels.xml")
 
-        # Process wheels.xml through xacro to resolve tf_prefix, same as the grippers below -
-        # otherwise the wheel bodies/joints don't match the tf_prefix used everywhere else
-        # (contact excludes, ros2_control joints), which MuJoCo then fails to compile.
+        # Process wheels.xml through xacro to resolve tf_prefix
         wheels_xacro_src = f"{get_package_share_directory(wheels_package)}/description/wheels.xml"
         wheels_output = f"{base_dir}/wheels.xml"
         subprocess.run(
