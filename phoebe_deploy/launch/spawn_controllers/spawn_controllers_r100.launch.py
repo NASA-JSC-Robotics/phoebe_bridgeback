@@ -58,7 +58,8 @@ def generate_launch_description():
     magic_carpet = LaunchConfiguration("magic_carpet")
 
     # The sim wheels have a slightly larger effective track than the hardware value, but this is
-    # reasonable accurate for our purposes.
+    # reasonable accurate for our purposes. This was tested and verified to provide more accuracy on
+    # yaw motions.
     sim_wheel_ros_args = "--ros-args -p kinematics.sum_of_robot_center_projection_on_X_Y_axis:=0.604"
 
     # Use wheels if not using the magic carpet. platform_velocity_controller and odom_publisher
