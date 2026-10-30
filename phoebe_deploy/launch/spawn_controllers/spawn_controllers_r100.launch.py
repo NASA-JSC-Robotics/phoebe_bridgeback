@@ -57,22 +57,25 @@ def generate_launch_description():
     is_sim = LaunchConfiguration("is_sim")
     magic_carpet = LaunchConfiguration("magic_carpet")
 
+    # The sim wheels have a slightly larger effective track than the hardware value, but this is
+    # reasonable accurate for our purposes. This was tested and verified to provide more accuracy on
+    # yaw motions.
+    sim_wheel_ros_args = "--ros-args -p kinematics.sum_of_robot_center_projection_on_X_Y_axis:=0.604"
+
     # Use wheels if not using the magic carpet. platform_velocity_controller and odom_publisher
     # share the same is_sim condition in each branch, so each branch is spawned together.
     wheel_controllers = GroupAction(
         condition=UnlessCondition(magic_carpet),
         actions=[
-            # For some reason, in sim, we have to set the wheel radius to ~0.063 for it to behave realistically.
-            # This should definitely be investigated further.
             spawn_controllers(
                 [
                     {
                         "name": "platform_velocity_controller",
-                        "controller_ros_args": "--ros-args -p kinematics.wheels_radius:=0.063",
+                        "controller_ros_args": sim_wheel_ros_args,
                     },
                     {
                         "name": "odom_publisher",
-                        "controller_ros_args": "--ros-args -p kinematics.wheels_radius:=0.063",
+                        "controller_ros_args": sim_wheel_ros_args,
                     },
                 ],
                 namespace=namespace,

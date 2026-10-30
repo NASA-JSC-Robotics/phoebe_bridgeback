@@ -50,21 +50,6 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "publish_tf",
-            default_value="True",
-            description="Whether or not to publish tf from slam, defaults to False."
-            "If False, users must manually handle map -> odom -> base_link transforms.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "localization_config",
-            default_value=PathJoinSubstitution([pkg_phoebe_deploy, "config", "ridgeback", "localization.yaml"]),
-            description="Full path to the localization config file",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "tf_prefix",
             default_value="",
             description="tf_prefix of the joint names, useful for \
@@ -75,8 +60,6 @@ def generate_launch_description():
 
     namespace = LaunchConfiguration("namespace")
     is_sim = LaunchConfiguration("is_sim")
-    publish_tf = LaunchConfiguration("publish_tf")
-    localization_config = LaunchConfiguration("localization_config")
     tf_prefix = LaunchConfiguration("tf_prefix")
     tf_prefix = tf_prefix
     default_ns = "ridgeback"
@@ -113,32 +96,10 @@ def generate_launch_description():
         condition=UnlessCondition(is_sim),
     )
 
-    node_localization = Node(
-        package="robot_localization",
-        executable="ekf_node",
-        name="ekf_node",
-        namespace=default_ns,
-        output="screen",
-        parameters=[
-            ParameterFile(localization_config, allow_substs=True),
-            {
-                "use_sim_time": is_sim,
-                "publish_tf": publish_tf,
-            },
-        ],
-        remappings=[
-            ("~/odometry/filtered", "platform/odom/filtered"),
-            ("~/diagnostics", "diagnostics"),
-            ("~/tf", "tf"),
-            ("~/tf_static", "tf_static"),
-        ],
-    )
-
     launches = []
     nodes = [
         node_lidar_urg,
         node_imu_filter_madgwick,
-        node_localization,
     ]
 
     ns_action = GroupAction(actions=[PushRosNamespace(namespace)] + launches + nodes)

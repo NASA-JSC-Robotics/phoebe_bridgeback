@@ -18,15 +18,22 @@
 # under the License.
 
 import argparse
-import os
 import shutil
-import subprocess
 import sys
 import rclpy
+import xacro
 
+from pathlib import Path
 from xml.dom import minidom
 
 from ament_index_python.packages import get_package_share_directory
+
+
+def run_xacro(source, destination, tf_prefix):
+    """Runs xacro and writes the source to the destination, with the provided mappings etc"""
+    Path(destination).write_text(
+        xacro.process_file(str(source), mappings={"tf_prefix": tf_prefix}).toprettyxml(indent="  ")
+    )
 
 
 def postprocess_mjcf(
@@ -39,9 +46,12 @@ def postprocess_mjcf(
 
     # include_dir is the path prefix written into the MJCF's include file= attributes, this is
     # necessary for saving to ensure relative paths work with our launch files.
+    base_dir = Path(base_dir)
+    asset_dir = Path(asset_dir)
     if include_dir is None:
         include_dir = base_dir
-    include_prefix = f"{include_dir}/" if include_dir else ""
+    include_dir = Path(include_dir)
+    share_dir = Path(get_package_share_directory("phoebe_mujoco_config"))
 
     # Just grab all body elements at the start
     body_elements = dom.getElementsByTagName("body")
@@ -59,16 +69,18 @@ def postprocess_mjcf(
 
         # copy the mecanum wheel 22 mesh into the assets directory
         shutil.copy2(
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/mecanum_wheel_22.stl",
-            f"{asset_dir}",
+            share_dir / "resources" / "mecanum_wheel_22.stl",
+            asset_dir,
         )
 
         include_element = dom.createElement("include")
-        include_element.setAttribute("file", f"{include_prefix}wheels.xml")
+        include_element.setAttribute("file", str(include_dir / "wheels.xml"))
 
-        shutil.copy2(
-            f"{get_package_share_directory(wheels_package)}/description/wheels.xml",
-            f"{base_dir}",
+        # Process wheels.xml through xacro to resolve tf_prefix
+        run_xacro(
+            Path(get_package_share_directory(wheels_package)) / "description" / "wheels.xml",
+            base_dir / "wheels.xml",
+            tf_prefix,
         )
 
         # Filter by attribute value containing a substring
@@ -85,7 +97,7 @@ def postprocess_mjcf(
     # has working 2f-85 mechanism
     if right_gripper == "2f85":
         right_include_element = dom.createElement("include")
-        right_include_element.setAttribute("file", f"{include_prefix}right_robotiq_85.xml")
+        right_include_element.setAttribute("file", str(include_dir / "right_robotiq_85.xml"))
 
         # Filter by attribute value containing a substring
         first_time_right = True
@@ -99,23 +111,11 @@ def postprocess_mjcf(
 
         # copy in the robotiq_85 xml file into the main mujoco description directory
         # and process it through xacro to resolve the tf_prefix argument
-        right_robotiq_xacro_src = (
-            f"{get_package_share_directory('phoebe_mujoco_config')}/resources/right_robotiq_85.xml"
-        )
-        right_robotiq_output = f"{base_dir}/right_robotiq_85.xml"
-        subprocess.run(
-            [
-                "xacro",
-                right_robotiq_xacro_src,
-                f"tf_prefix:={tf_prefix}",
-            ],
-            stdout=open(right_robotiq_output, "w"),
-            check=True,
-        )
+        run_xacro(share_dir / "resources" / "right_robotiq_85.xml", base_dir / "right_robotiq_85.xml", tf_prefix)
 
     if left_gripper == "2f85":
         left_include_element = dom.createElement("include")
-        left_include_element.setAttribute("file", f"{include_prefix}left_robotiq_85.xml")
+        left_include_element.setAttribute("file", str(include_dir / "left_robotiq_85.xml"))
 
         # Filter by attribute value containing a substring
         first_time_left = True
@@ -129,17 +129,7 @@ def postprocess_mjcf(
 
         # copy in the robotiq_85 xml file into the main mujoco description directory
         # and process it through xacro to resolve the tf_prefix argument
-        left_robotiq_xacro_src = f"{get_package_share_directory('phoebe_mujoco_config')}/resources/left_robotiq_85.xml"
-        left_robotiq_output = f"{base_dir}/left_robotiq_85.xml"
-        subprocess.run(
-            [
-                "xacro",
-                left_robotiq_xacro_src,
-                f"tf_prefix:={tf_prefix}",
-            ],
-            stdout=open(left_robotiq_output, "w"),
-            check=True,
-        )
+        run_xacro(share_dir / "resources" / "left_robotiq_85.xml", base_dir / "left_robotiq_85.xml", tf_prefix)
 
     xml_data = "\n".join([line for line in dom.toprettyxml(indent="  ").splitlines() if line.strip()])
 
@@ -151,10 +141,11 @@ def postprocess_mjcf(
 
 def run_save_only(filepath, tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper):
     """The method reads the MJCF from file, post-processs, and writes the result to disk."""
-    filepath_full = filepath + "/mujoco_description_formatted.xml"
-    dom = minidom.parse(filepath_full)
+    filepath = Path(filepath)
+    filepath_full = filepath / "mujoco_description_formatted.xml"
+    dom = minidom.parse(str(filepath_full))
 
-    asset_dir = f"{filepath}/assets"
+    asset_dir = filepath / "assets"
     modified_data = postprocess_mjcf(
         dom,
         filepath,
@@ -164,12 +155,11 @@ def run_save_only(filepath, tf_prefix, magic_carpet, wheels_package, left_grippe
         wheels_package,
         left_gripper,
         right_gripper,
-        include_dir="",
+        include_dir=Path(),
     )
 
     print(f"Writing to {filepath_full}")
-    with open(filepath_full, "w") as f:
-        f.write(modified_data)
+    filepath_full.write_text(modified_data)
 
 
 def run_ros_node(tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper, ros_args):
@@ -209,8 +199,8 @@ def run_ros_node(tf_prefix, magic_carpet, wheels_package, left_gripper, right_gr
 
             compiler_element = dom.getElementsByTagName("compiler")[0]
             mesh_dir = compiler_element.getAttribute("meshdir")
-            asset_dir = mesh_dir.removesuffix("/")
-            base_dir = os.path.dirname(asset_dir)
+            asset_dir = Path(mesh_dir)
+            base_dir = asset_dir.parent
 
             modified_data = postprocess_mjcf(
                 dom, base_dir, asset_dir, tf_prefix, magic_carpet, wheels_package, left_gripper, right_gripper
