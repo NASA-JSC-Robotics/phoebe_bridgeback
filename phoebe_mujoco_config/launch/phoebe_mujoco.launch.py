@@ -158,6 +158,11 @@ def generate_launch_description():
         ]
     )
 
+    # We split the RSP for the mujoco_ros2_control node and the "normal" robot state publisher
+    # to handle different configurations. These are the common args between them, can add more
+    # as needed.
+    extra_xacro_args = [" model_mobile_env:=false"]
+
     # Full ros2_control URDF with world joints, which MUST be passed to the mujoco_ros2_control
     # controller manager to enable running the robot on a "magic carpet", if specified.
     control_robot_description_content = Command(
@@ -167,8 +172,6 @@ def generate_launch_description():
             PathJoinSubstitution(
                 [FindPackageShare(phoebe_mujoco_package_name), "urdf", phoebe_mujoco_description_file]
             ),
-            " ",
-            "model_mobile_env:=false",
             " ",
             "use_left_static_pedestal:=",
             use_left_static_pedestal,
@@ -181,12 +184,11 @@ def generate_launch_description():
             " ",
             "include_world_joints:=",
             magic_carpet,
-            " ",
-            "sim_speed:=",
+            " sim_speed:=",
             sim_speed,
-            " ",
-            "headless:=",
+            " headless:=",
             headless,
+            *extra_xacro_args,
             " ",
         ]
     )
@@ -247,16 +249,6 @@ def generate_launch_description():
         ]
 
     generate_mjcf = OpaqueFunction(function=launch_mjcf_node)
-
-    extra_xacro_args = [
-        " use_pregenerated_mjcf:=",
-        use_pregenerated_mjcf,
-        " sim_speed:=",
-        sim_speed,
-        " headless:=",
-        headless,
-        " model_mobile_env:=false",
-    ]
 
     extra_controller_params_file = PathJoinSubstitution(
         [FindPackageShare(phoebe_mujoco_package_name), "config", "mujoco_plugins.yaml"]
