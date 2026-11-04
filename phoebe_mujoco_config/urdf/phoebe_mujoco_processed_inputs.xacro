@@ -36,8 +36,8 @@
         </xacro:if>
       </xacro:if>
 
-      <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
-      <camera site="${tf_prefix}right_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}right_wrist_mounted_camera" fovy="58" mode="fixed" resolution="1280 720"/>
+      <camera site="${tf_prefix}left_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}left_wrist_mounted_camera" fovy="42" mode="fixed" resolution="1920 1080"/>
+      <camera site="${tf_prefix}right_wrist_mounted_camera_color_optical_frame" name="${tf_prefix}right_wrist_mounted_camera" fovy="42" mode="fixed" resolution="1920 1080"/>
 
       <!-- Add Phoebe default parameters to entire Phoebe kinematic tree -->
       <modify_element type="body" name="${tf_prefix}base_link" childclass="phoebe"/>
