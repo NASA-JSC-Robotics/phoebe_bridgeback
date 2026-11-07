@@ -42,9 +42,16 @@
         <xacro:property name="imu_offset_z" value="0.1681" />
 
         <!-- these values are not actually correct, but they are close enough to be useful -->
-        <xacro:property name="lidar_offset_x" value="0.4" />
+        <!-- <xacro:property name="lidar_offset_x" value="0.4" />
         <xacro:property name="lidar_offset_y" value="0.0" />
-        <xacro:property name="lidar_offset_z" value="-0.03" />
+        <xacro:property name="lidar_offset_z" value="-0.03" /> -->
+
+
+        <!-- these values are hand measured off of our PB hardware,
+                so they're not perfect but better than above -->
+        <xacro:property name="lidar_offset_x" value="0.394249" />
+        <xacro:property name="lidar_offset_y" value="0.0" />
+        <xacro:property name="lidar_offset_z" value="-0.04295" />
 
         <xacro:property name="dummy_inertia" value="1e-09" />
 
@@ -308,6 +315,11 @@
                 <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0"
                     izz="${dummy_inertia}" />
             </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="package://phoebe_description/meshes/visual/ust-10lx.stl"/>
+                </geometry>
+            </visual>
         </link>
         <joint name="${tf_prefix}lidar_2d_0_joint" type="fixed">
             <parent link="${tf_prefix}default_mount" />
