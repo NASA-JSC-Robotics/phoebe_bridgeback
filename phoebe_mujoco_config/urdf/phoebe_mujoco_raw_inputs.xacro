@@ -72,7 +72,8 @@
                         <config key="ki" value="0"/>
                         <config key="kd" value="750"/>
                         <config key="imax" value="185"/>
-                        <config key="slewmax" value="0.1"/>
+                        <!-- on hw, the recorded velocity is roughly this at a 0.5 velocity scale -->
+                        <config key="slewmax" value="0.042"/>
                     </instance>
                 </xacro:if>
                 <xacro:if value="${right_hand_type == 'hande'}">
@@ -81,7 +82,8 @@
                         <config key="ki" value="0"/>
                         <config key="kd" value="750"/>
                         <config key="imax" value="185"/>
-                        <config key="slewmax" value="0.1"/>
+                        <!-- on hw, the recorded velocity is roughly this at a 0.5 velocity scale -->
+                        <config key="slewmax" value="0.042"/>
                     </instance>
                 </xacro:if>
             </plugin>
