@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="phoebe_colors">
 
   <!-- ===================== MATERIALS/COLORS ===================== -->
+  <material name="phoebe_aluminum"><color rgba="0.6627 0.6745 0.7137 1.0" /></material>
   <material name="phoebe_dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
   <material name="phoebe_medium_grey"><color rgba="0.6 0.6 0.6 1.0" /></material>
   <material name="phoebe_light_grey"><color rgba="0.8 0.8 0.8 1.0" /></material>
