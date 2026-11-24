@@ -722,6 +722,7 @@
       trajectory_port="60003"
       script_command_port="60004"
       ur_type="ur5e"
+      use_currents_as_efforts="false"
     />
   </xacro:if>
 
@@ -771,6 +772,7 @@
       script_command_port="50004"
       trajectory_port="50003"
       ur_type="ur5e"
+      use_currents_as_efforts="false"
     />
   </xacro:if>
 
